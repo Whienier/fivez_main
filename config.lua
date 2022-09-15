@@ -55,9 +55,161 @@ Config.DefaultVehicleFuelRates = {
     [150] = 2,
     [180] = 2.5
 }
+--[[ 
+Main LS Customs X:-365.425 Y:-131.809 Z:37.873
 
+Yacht X:-2023.661 Y:-1038.038 Z:5.577 IPL needed
+
+Carrier (MP Only) X:3069.330 Y:-4704.220 Z:15.043 IPL needed
+
+Fort Zankudo UFO X:2052.000 Y:3237.000 Z:1456.973 IPL needed
+
+Very High Up X:-129.964 Y:8130.873 Z:6705.307
+
+IAA Roof X:134.085 Y:-637.859 Z:262.851
+
+FIB Roof X:150.126 Y:-754.591 Z:262.865
+
+Maze Bank Roof X:-75.015 Y:-818.215 Z:326.176
+
+Top of the Mt Chilad X:450.718 Y:5566.614 Z:806.183
+
+Most Northerly Point X:24.775 Y:7644.102 Z:19.055
+
+Vinewood Bowl Stage X:686.245 Y:577.950 Z:130.461
+
+Sisyphus Theater Stage X:205.316 Y:1167.378 Z:227.005
+
+Director Mod Trailer X:-20.004 Y:-10.889 Z:500.602 Might Not Work
+
+Galileo Observatory Roof X:-438.804 Y:1076.097 Z:352.411
+
+Kortz Center X:-2243.810 Y:264.048 Z:174.615
+
+Chumash Historic Family Pier X:-3426.683 Y:967.738 Z:8.347
+
+Paleto Bay Pier X:-275.522 Y:6635.835 Z:7.425
+
+God’s thumb X:-1006.402 Y:6272.383 Z:1.503
+
+Calafia Train Bridge X:-517.869 Y:4425.284 Z:89.795
+
+Altruist Cult Camp X:-1170.841 Y:4926.646 Z:224.295
+
+Maze Bank Arena Roof X:-324.300 Y:-1968.545 Z:67.002
+
+Marlowe Vineyards X:-1868.971 Y:2095.674 Z:139.115
+
+Hippy Camp X:2476.712 Y:3789.645 Z:41.226
+
+Devin Weston’s House X:-2639.872 Y:1866.812 Z:160.135
+
+Abandon Mine X:-595.342 Y: 2086.008 Z:131.412
+
+Weed Farm X:2208.777 Y:5578.235 Z:53.735
+
+Stab City X: 126.975 Y:3714.419 Z:46.827
+
+Airplane Graveyard Airplane Tail X:2395.096 Y:3049.616 Z:60.053 MISSED
+
+Satellite Dish Antenna X:2034.988 Y:2953.105 Z:74.602
+
+Satellite Dishes X: 2062.123 Y:2942.055 Z:47.431
+
+Windmill Top X:2026.677 Y:1842.684 Z:133.313 MISSED
+
+Sandy Shores Building Site Crane X:1051.209 Y:2280.452 Z:89.727 MISSED
+
+Rebel Radio X:736.153 Y:2583.143 Z:79.634 MISSED
+
+Quarry X:2954.196 Y:2783.410 Z:41.004
+
+Palmer-Taylor Power Station Chimney X: 2732.931 Y: 1577.540 Z:83.671
+
+Merryweather Dock X: 486.417 Y:-3339.692 Z:6.070
+
+Cargo Ship X:899.678 Y:-2882.191 Z:19.013
+
+Del Perro Pier X:-1850.127 Y:-1231.751 Z:13.017
+
+Play Boy Mansion X:-1475.234 Y:167.088Z:55.841
+
+Jolene Cranley-Evans Ghost X:3059.620 Y:5564.246 Z:197.091
+
+NOOSE Headquarters X:2535.243 Y:-383.799 Z:92.993
+
+Snowman X: 971.245 Y:-1620.993 Z:30.111
+
+Oriental Theater X:293.089 Y:180.466 Z:104.301
+
+Beach Skatepark X:-1374.881 Y:-1398.835 Z:6.141
+
+Underpass Skatepark X:718.341 Y:-1218.714 Z: 26.014
+
+Casino X:925.329 Y:46.152 Z:80.908
+
+University of San Andreas X:-1696.866 Y:142.747 Z:64.372
+
+La Puerta Freeway Bridge X: -543.932 Y:-2225.543 Z:122.366
+
+Land Act Dam X: 1660.369 Y:-12.013 Z:170.020
+
+Mount Gordo X: 2877.633 Y:5911.078 Z:369.624
+
+Little Seoul X:-889.655 Y:-853.499 Z:20.566
+
+Epsilon Building X:-695.025 Y:82.955 Z:55.855 Z:55.855
+
+The Richman Hotel X:-1330.911 Y:340.871 Z:64.078
+
+Vinewood sign X:711.362 Y:1198.134 Z:348.526
+
+Los Santos Golf Club X:-1336.715 Y:59.051 Z:55.246
+
+Chicken X:-31.010 Y:6316.830 Z:40.083
+
+Little Portola X:-635.463 Y:-242.402 Z:38.175
+
+Pacific Bluffs Country Club X:-3022.222 Y:39.968 Z:13.611
+
+Vinewood Cemetery X:-1659993 Y:-128.399 Z:59.954
+
+Paleto Forest Sawmill Chimney X:-549.467 Y:5308.221 Z:114.146
+
+Mirror Park X:1070.206 Y:-711.958 Z:58.483
+
+Rocket X:1608.698 Y:6438.096 Z:37.637
+
+El Gordo Lighthouse X:3430.155 Y:5174.196 Z:41.280
+
+Mile High Club X:-144.274 Y:-946.813 Z:269.135
+ ]]
 Config.PlayerSpawns = {
-    vector3(0,0, 71.0)
+    vector3(-365.425, -131.809, 37.873),
+    vector3(134.085, -637.859, 262.851),
+    vector3(150.126, -754.591, 262.865),
+    vector3(-75.015, -818.215, 326.176),
+    vector3(450.718, 5566.614, 806.183),
+    vector3(24.775, 7644.102, 19.055),
+    vector3(686.245, 577.950, 130.461),
+    vector3(205.316, 1167.378, 227.005),
+    vector3(-438.804, 1076.097, 352.411),
+    vector3(-2243.810, 264.048, 174.615),
+    vector3(-3426.683, 967.738, 8.347),
+    vector3(-275.522, 6635.835, 7.425),
+    vector3(-1006.402, 6272.383, 1.503),
+    vector3(-517.869, 4425.284, 89.795),
+    vector3(-1170.841, 4926.646, 224.295),
+    vector3(-324.300, -1968.545, 67.002),
+    vector3(-1868.971, 2095.674, 139.115),
+    vector3(2476.712, 3789.645, 41.226),
+    vector3(-2639.872, 1866.812, 160.135),
+    vector3(-595.342, 2086.008, 131.412),
+    vector3(2208.777, 5578.235, 53.735),
+    vector3(126.975, 3714.419, 46.827),
+    vector3(2034.988, 2953.105, 74.602),
+    vector3(2062.123, 2942.055, 47.431),
+    vector3(2954.196, 2783.410, 41.004)
 }
 
 --New character customization position

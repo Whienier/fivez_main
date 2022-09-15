@@ -1,0 +1,15 @@
+<link rel="stylesheet" href="./pages/notifs.css">
+<!-- Notifications App -->
+<v-app id="FIVEZ_Notifs" v-show="ShowMenu">
+    <v-main>
+        <v-flex style="max-width: 100%" xs4 v-for="(element, elementIndex) in anouncements" :key="elementIndex">
+            <br/>
+            <div id="FIVEZ_Notifs_Anouncements" style="color:white;background-color:blue;border-color:black;border-style:solid;font-family:Arial, Helvetica, sans-serif;font-weight:900;font-size:18px;">{{element}}</div>
+        </v-flex>
+
+        <v-flex xs4 v-for="(element, elementIndex) in notifications" :key="elementIndex">
+            <br/>
+            <div id="FIVEZ_Notifs_Notifications" style="color:white;background-color:blue;border-color:black;border-style:solid;font-family:Arial, Helvetica, sans-serif;font-weight:900;font-size:18px;">{{element}}</div>
+        </v-flex>
+    </v-main>
+</v-app>

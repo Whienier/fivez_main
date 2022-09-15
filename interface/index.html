@@ -1,0 +1,64 @@
+<html>
+	<head>
+		<title>CnR UI</title>
+		<!-- Style Assets -->
+		<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+		<link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+		<link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+		<!--
+		<link rel="stylesheet" href="./assets/libraries/vuetify.min.css"> 
+		Old version for vuetify 1.x-->
+		
+		<!-- Base Transparency / Font -->
+		<style>
+			html {
+				background-color: transparent !important;
+				overflow-x: hidden;
+				overflow-y: hidden;
+				font-family: Verdana, Tahoma, sans-serif;
+			}
+		</style>
+		<!-- <script>
+			//Check if 'I' was pressed
+			function checkKey(event){
+				var x = event.which || event.charCode;
+				if (x != 105){
+					return;
+				}
+				var val = document.getElementById("keyPressed").textContent;
+				switch(val){
+					case "true":
+						document.getElementById("keyPressed").innerText = "false";
+						break;
+					case "false":
+						document.getElementById("keyPressed").innerText = "true";
+						break;
+					case "":
+						document.getElementById("keyPressed").innerText = "true";
+						break;
+				}
+			}
+		</script> -->
+	</head>
+	<!-- <body onkeypress="checkKey(event)"> -->
+    <body>
+		<div id="HUD_Container"></div>
+		<!-- Append Container -->
+		<div id="UI_Container"></div>
+		<div id="keyPressed" style="visibility: hidden;">false</div>
+		<!-- Script Assets -->
+		<!-- <script src="./assets/libraries/vue.min.js"></script>
+		<script src="./assets/libraries/vuetify.min.js"></script> 
+		Old version of vuetify 1.x-->
+		
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.7.0/Sortable.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.16.0/vuedraggable.min.js"></script>
+		<script src="./assets/libraries/axios.min.js"></script>
+		<!-- Scripts -->
+		<script src="loader.js"></script>
+	</body>
+</html>

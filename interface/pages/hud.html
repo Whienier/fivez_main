@@ -1,0 +1,34 @@
+<link rel="stylesheet" href="./pages/hud.css">
+<!-- HUD App -->
+<v-app id="FIVEZ_HUD" v-show="ShowHUD">
+    <v-main>
+        <div id="FIVEZ_HUD_Base">
+            <div id="FIVEZ_HUD_Elements">
+                <v-progress-circular color="blue" :value="micvalue">
+                    <v-icon v-show="ShowMic">mic</v-icon>
+                </v-progress-circular>
+                <v-progress-circular color="green" :value="info.health">{{info.health}}</v-progress-circular>
+                <v-progress-circular color="blue darken-4" :value="info.armor">{{info.armor}}</v-progress-circular>
+                <v-progress-circular color="yellow" :value="info.hunger">{{info.hunger}}</v-progress-circular>
+                <v-progress-circular color="blue" :value="info.thirst">{{info.thirst}}</v-progress-circular>
+                <v-progress-circular color="red" :value="info.stress">{{info.stress}}</v-progress-circular>
+                <v-spacer></v-spacer>
+                <div v-show="ShowCar">
+                    <v-progress-circular color="orange" :value="carInfo.fuel">{{carInfo.fuel}}</v-progress-circular>
+                    <v-progress-circular color="orange" :value="carInfo.body">{{carInfo.body}}</v-progress-circular>
+                    <v-progress-circular color="orange" :vallue="carInfo.eng">{{carInfo.eng}}</v-progress-circular>
+                </div>
+            </div>
+        </div>
+        <div id="FIVEZ_HUD_Skillcheck" v-show="ShowSkillcheck">
+            <div id="mainBar">
+                <div id="reactionBar">
+                    <div id="randomBar">
+                        <div id="keytopress">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </v-main>
+</v-app>

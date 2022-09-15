@@ -1,0 +1,15 @@
+#FIVEZ_Notifs {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0);
+}
+
+#FIVEZ_Notifs_Anouncements{
+    text-align:center;
+    transform: translate(50%, 0%);
+}
+
+#FIVEZ_Notifs_Notifications {
+    text-align:center;
+    transform: translate(85%, 0%);
+}

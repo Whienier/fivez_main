@@ -1,0 +1,62 @@
+<link rel="stylesheet" href="./pages/character.css">
+<!-- Character App -->
+<v-app id="CNR_Character" v-show="ShowMenu">
+	<v-main>
+		<div id="CNR_Character_Base">
+			<div id="CNR_Character_Header">
+				Characters
+				<br />
+				<v-tooltip left>
+					<template v-slot:activator="{on}">
+						<v-btn v-on="on" color="orange" dark rounded small @click="ShowCreator = !ShowCreator"><v-icon>add</v-icon></v-btn>
+					</template>
+				</v-tooltip>
+				<v-tooltip right>
+					<template v-slot:activator="{on}">
+						<v-btn v-on="on" color="red" dark rounded small @click="Disconnect()"><v-icon>exit_to_app</v-icon></v-btn>
+					</template>
+				</v-tooltip>
+			</div>
+			<div id="CNR_Character_Body">
+				<v-container grid-list-xs>
+					<v-layout row wrap>
+						<v-flex xs4 v-for="(character, charIndex) in Characters" :key="charIndex">
+							<v-card dark>
+								<v-card-title primary-title>
+									{{ character.character_fname }} {{ character.character_lname }}
+								</v-card-title>
+								<v-card-text>
+									<span>Gender: {{ Genders[character.character_gender] }} | Wallet: {{ character.character_wallet }} | Bank: {{ character.character_bank }}</span>
+								</v-card-text>
+								<v-card-actions>
+									<v-btn color="green" :loading="Updating" @click="SelectCharacter(character.character_dataid)"><v-icon>check</v-icon></v-btn>
+									<v-btn color="red" :loading="Updating" @click="DeleteCharacter(character.character_dataid)"><v-icon>delete</v-icon></v-btn>
+								</v-card-actions>
+							</v-card>
+						</v-flex>
+					</v-layout>
+				</v-container>
+				<v-card v-show="ShowCreator">
+                    <v-card-title style="background-color: #636e72; color: white;">New Character</v-card-title>
+                    <v-card-text>
+                        <v-form>
+                            <v-text-field v-model="NewCharacterData.FirstName" label="First Name" :rules="NewCharacterFormRules.NameRules" :counter="20"></v-text-field>
+                            <v-text-field v-model="NewCharacterData.LastName" label="Last Name" :rules="NewCharacterFormRules.NameRules" :counter="20"></v-text-field>
+                            <v-radio-group v-model="NewCharacterData.Gender" :rules="NewCharacterFormRules.GenderRules">
+                                <v-radio label="Male" value="0"></v-radio>
+                                <v-radio label="Female" value="1"></v-radio>
+                            </v-radio-group>
+                        </v-form>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-btn color="red" dark @click="Creator()"><v-icon>cancel</v-icon></v-btn>
+                        <v-spacer></v-spacer>
+                        <v-btn color="green" dark @click="CreateCharacter()"><v-icon>check</v-icon></v-btn>
+                    </v-card-actions>
+                </v-card>
+			</div>
+		</div>
+		<!-- TOO MANY CHARACTERS ERROR -->
+		<!--<v-snackbar v-model="ShowMaxCharacters" :bottom="true" :multi-line="true" :timeout="6000">TESTING SNACKS</v-snackbar>-->
+	</v-main>
+</v-app>

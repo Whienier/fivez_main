@@ -1,0 +1,51 @@
+#FIVEZ_HUD {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#FIVEZ_HUD_Base {
+    position: absolute;
+    width: 100%;
+    height: 10%;
+    left: 61%;
+    top: 80%;
+    transform: translate(-45%, 55%);
+}
+
+#FIVEZ_HUD_Elements {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+#FIVEZ_HUD_Skillcheck {
+    width: 50%;
+    height: 50%;
+    transform: translate(50%, 50%);
+}
+
+#mainBar {
+    width: 25%;
+    background-color: rgba(255,0,0,128);
+    transform: translate(125%);
+}
+
+#reactionBar {
+    width: 0%;
+    height: 30px;
+    background-color: rgba(0,0,255,128);
+}
+
+#randomBar{
+    position: fixed;
+    background-color:rgba(0,255,0,128);
+    width:36%;
+    height:30px;
+    transform: translate(64%);
+}
+#keytopress{
+    font-family: Times New Roman;
+    font-size: 30px;
+    font-weight:bold;
+    transform:translate(40%, 0%);
+}

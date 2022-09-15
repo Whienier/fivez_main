@@ -1,0 +1,48 @@
+/* #CNR_Inventory {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#CNR_Inventory_Base {
+    position: absolute;
+    width: 45%;
+    height: 80%;
+    transform: translate(10%, 10%);
+    background-color: rgba(255, 255, 255, 128);
+}
+
+#CNR_Inventory_Header {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    color: black;
+}
+
+#CNR_Inventory_Body {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#CNR_GroundInventory {
+    width: 45%;
+    height: 80%;
+    transform: translate(110%, 10%);
+    background-color: rgba(128, 128, 128, 129);
+}
+
+#CNR_GroundInventory_Base {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#CNR_GroundInventory_Header {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    color: black;
+}
+
+#CNR_GroundInventory_Body {
+
+} */

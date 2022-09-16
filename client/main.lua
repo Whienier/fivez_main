@@ -112,6 +112,7 @@ function ResetCharacterData()
     characterData.thirst = 100
     characterData.stress = 0
     characterData.humanity = 0
+    characterData.skills = {}
 end
 
 function GetCharacterData()

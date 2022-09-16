@@ -4,9 +4,9 @@ Config = {}
 Config.RespawnTimer = 30000
 
 --When player respawns clears character inventory from database and memory
-Config.LoseItemsOnDeath = false
+Config.LoseItemsOnDeath = true
 --When player respawns adds a registered inventory with the characters items where they died
-Config.DropItemsOnDeath = false
+Config.DropItemsOnDeath = true
 
 Config.MaxStress = 100
 --Time between stress ticks
@@ -1308,10 +1308,10 @@ Config.Items = {
         containerspawn = true,
         zombiespawn = true,
         serverfunction = function(source)
-            --TODO: Add stress or something
             local plyData = GetJoinedPlayer(source)
             if plyData then
                 plyData.characterData.stress = plyData.characterData.stress - 15
+                if plyData.characterData.stress < 0 then plyData.characterData.stress = 0 end
                 TriggerClientEvent("fivez:CharacterStressed", source, plyData.characterData.stress)
                 return true
             end

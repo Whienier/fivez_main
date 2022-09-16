@@ -40,6 +40,8 @@ RegisterNetEvent("baseevents:onPlayerDied", function(killedBy, pos)
             killerData.humanity = killerData.humanity - Config.HumanityRates["killplayer"]
         end
     end
+    local playerData = GetJoinedPlayer(source)
+    
     table.insert(deadPlayers, {ply = source, died = GetGameTimer() + Config.RespawnTimer})
 end)
 --Thread to respawn player after certain time
@@ -57,6 +59,7 @@ Citizen.CreateThread(function()
                         for k,v in pairs(playerData.characterData.inventory.items) do
                             v = EmptySlot()
                         end
+                        TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v.ply, json.encode(playerData.characterData.inventory.items), nil)
                     end
                     print("Respawning player", v.ply)
                     TriggerClientEvent("fivez:RespawnPlayer", v.ply)
@@ -66,6 +69,7 @@ Citizen.CreateThread(function()
                     playerData.characterData.thirst = 100
                     playerData.characterData.stress = 0
                     playerData.characterData.humanity = 0
+                    playerData.characterData.skills = {}
                     
                     table.remove(deadPlayers, k)
                 end

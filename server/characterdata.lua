@@ -201,7 +201,7 @@ end
 function SQL_ClearCharacterInventoryItems(charId)
     local clearedData = nil
     MySQL.ready(function()
-        MySQL.Async.execute("DELETE * FROM inventory_items WHERE character_player_dataid = @charId",{
+        MySQL.Async.execute("DELETE FROM inventory_items WHERE character_player_dataid = @charId",{
             ["charId"] = charId
         }, function(result)
             clearedData = result

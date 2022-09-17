@@ -34,7 +34,7 @@ RegisterNetEvent("baseevents:onPlayerDied", function(killedBy, pos)
     end
     --If the dead player is already dead or the killer is dead?
     if alreadyDead then return end
-    if killedBy > 0 then
+    if killedBy ~= source and killedBy > 0 then
         local killerData = GetJoinedPlayer(killedBy)
         if killerData then
             killerData.humanity = killerData.humanity - Config.HumanityRates["killplayer"]
@@ -293,3 +293,7 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
     end
 end)
+
+RegisterCommand("suicide", function(source)
+    TriggerEvent("baseevents:onPlayerDied", source, GetEntityCoords(GetPlayerPed(source)))
+end, false)

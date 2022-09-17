@@ -2502,6 +2502,9 @@ Config.DeleteDeadZombiesAfter = 300000
 --How close zombies can spawn to players
 Config.ZombieSpawnDistanceFromPlayer = 150
 
+--How close zombies can spawn to other zombies
+Config.ZombieSpawnDistanceFromZombie = 15
+
 --How long between zombie spawns
 Config.ZombieSpawnTime = 30000
 
@@ -2513,6 +2516,11 @@ Config.ZombieDeagroDistance = 61
 
 --How many zombies will be spawned per spawn
 Config.MaxZombieSpawn = 5
+
+--Zombie night spawn enabled will spawn more zombies at night (requires weathertimesync)
+Config.ZombieNightSpawn = true
+--Multiplier of zombie spawns when night 
+Config.ZombieNightSpawnMultiplier = 2
 
 Config.ZombieModels = {
 	"U_M_Y_Zombie_01"

@@ -210,7 +210,16 @@ Citizen.CreateThread(function()
                         zombieSpawn = vector3(gotGround.x, gotGround.y, gotGround.z)
                     end
 
-                    local numZombies = math.random(1, Config.MaxZombieSpawn)
+                    local zombieAmount = Config.MaxZombieSpawn
+                    if Config.ZombieNightSpawn then
+                        local time = exports["weathertimesync"]:getTime()
+                        if time.hour then
+                            if time.hour >= 16 or time.hour <= 4 then
+                                zombieAmount = Config.MaxZombieSpawn * Config.ZombieNightSpawnMultiplier
+                            end
+                        end
+                    end
+                    local numZombies = math.random(1, zombieAmount)
                     print("Spawning ", numZombies, " zombies")
                     for i=1, numZombies do
                         CreateZombie(zombieSpawn)

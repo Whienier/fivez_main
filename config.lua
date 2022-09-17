@@ -360,7 +360,8 @@ Config.LootableContainers = {
         items = {
             [1] = 90,
             [8] = 75,
-            [33] = 35
+            [33] = 35,
+            [75] = 45
         },
         spawnall = true
     },
@@ -368,9 +369,30 @@ Config.LootableContainers = {
         maxslots = 25,
         maxweight = 50,
         items = {
-            [52] = 10
+            [14] = 10, --Medium armor
+            [15] = 5, -- Heavy armor
+            [16] = 1, -- Shotgun
+            [17] = 1, --Assault Rifle
+            [18] = 5, --Shotgun ammo
+            [19] = 5, --Assault Rifle ammo
+            [20] = 15, --Cuffs
+            [21] = 15, --Cuff keys
+            [26] = 1, --SMG
+            [27] = 5, --SMG ammo
+            [46] = 1, --AP Pistol
+            [47] = 1, --Mini SMG
+            [48] = 1, --Pistol 50.
+            [49] = 5, --AP Pistol ammo
+            [50] = 5, --Mini SMG ammo
+            [51] = 5, --Pistol 50. ammo
+            [52] = 10 --Petrol tank
+            [64] = 1, --Taser
+            [65] = 2, --Taser ammo
+            [69] = 1, --DB Shotgun
+            [70] = 5, --DB Shotgun ammo
+            [72] = 15
         },
-        spawnall = true
+        spawnall = false
     }
 }
 
@@ -1310,7 +1332,7 @@ Config.Items = {
         serverfunction = function(source)
             local plyData = GetJoinedPlayer(source)
             if plyData then
-                plyData.characterData.stress = plyData.characterData.stress - 15
+                plyData.characterData.stress = plyData.characterData.stress - 5
                 if plyData.characterData.stress < 0 then plyData.characterData.stress = 0 end
                 TriggerClientEvent("fivez:CharacterStressed", source, plyData.characterData.stress)
                 return true
@@ -1700,7 +1722,16 @@ Config.Items = {
         quality = 100,
         spawnchance = 15,
         attachments = {},
-        zombiespawn = true
+        zombiespawn = true,
+        serverfunction = function(source)
+            local plyData = GetJoinedPlayer(source)
+            if plyData then
+                plyData.characterData.stress = plyData.characterData.stress - 5
+                if plyData.characterData.stress < 0 then plyData.characterData.stress = 0 end
+                TriggerClientEvent("fivez:CharacterStressed", source, plyData.characterData.stress)
+                return true
+            end
+        end
     },
     [74] = {
         itemId = 74,
@@ -1725,6 +1756,26 @@ Config.Items = {
         quality = 100,
         spawnchance = 1,
         attachments = {}
+    },
+    [76] = {
+        itemId = 76,
+        label = "Beer",
+        model = "beer",
+        weight = 1,
+        maxcount = 5,
+        count = 0,
+        quality = 100,
+        spawnchance = 5,
+        attachments = {},
+        serverfunction = function(source)
+            local plyData = GetJoinedPlayer(source)
+            if plyData then
+                plyData.characterData.stress = plyData.characterData.stress - 10
+                if plyData.characterData.stress < 0 then plyData.characterData.stess = 0 end
+                TriggerClientEvent("fivez:CharacterStressed", source, plyData.characterData.stress)
+                return true
+            end
+        end
     }
 }
 
@@ -1911,6 +1962,16 @@ Config.Recipes = {
             Config.CreateNewItemWithCountQual(Config.Items[13], 2, 40), --Small armor
             Config.CreateNewItemWithCountQual(Config.Items[14], 3, 40), --Medium armor
             Config.CreateNewItemWithCountQual(Config.Items[54], 0, 1)
+        }
+    },
+    {
+        label = "Craft Molotov",
+        model = "molotov",
+        count = 1,
+        weight = 3,
+        required = {
+            Config.CreateNewItemWithCountQual(Config.Items[55], 1, 20), --Cloth
+            Config.CreateNewItemWithCountQual(Config.Items[76], 1, 20) --Beer
         }
     }
 }

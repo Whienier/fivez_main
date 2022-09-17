@@ -109,7 +109,7 @@ function CreateTempGroundInventory(pedCoords)
 end
 
 function RegisterNewInventory(id, type, label, weight, maxweight, maxslots, items, position)
-    if RegisteredInventories[id] then return end
+    if RegisteredInventories[id] then return RegisteredInventories[id] end
     RegisteredInventories[id] = {
         type = type or "inventory",
         identifier = id,
@@ -505,7 +505,7 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                         plyChar.inventory.items[transferData.fromSlot] = EmptySlot()
                         --Remove item from character inventory database
                         SQL_RemoveItemFromCharacterInventory(plyChar.Id, transferData.fromSlot)
-                    elseif plyChar.inventory.items[transferData.fromSlot].count > transfertData.count then
+                    elseif plyChar.inventory.items[transferData.fromSlot].count > transferData.count then
                         --If player is moving less than the amount in the from slot
                         --
                         plyChar.inventory.items[transferData.fromSlot].count = plyChar.inventory.items[transferData.fromSlot].count - transferData.count

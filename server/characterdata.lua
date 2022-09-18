@@ -13,7 +13,7 @@ function SQL_InsertItemToCharacterInventory(playerId, slotId, itemData)
         MySQL.Async.insert("INSERT INTO inventory_items (character_player_dataid, item_slotid, item_id, item_count, item_quality, item_attachments) VALUES (@playerId, @slotId, @itemId, @count, @quality, @attachments)", {
             ["playerId"] = playerId,
             ["slotId"] = slotId,
-            ["itemId"] = itemData.id,
+            ["itemId"] = itemData.id or itemData.itemId,
             ["count"] = itemData.count,
             ["quality"] = itemData.quality,
             ["attachments"] = json.encode(itemData.attachments)

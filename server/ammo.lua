@@ -9,7 +9,7 @@ function SQL_GetWeaponAmmoCount(characterId, weaponHash)
                 ammoCount = result[1].character_ammo_count
             else
                 --If we don't have a DB record for the weapon hash add one
-                MySQL.Async.insert("INSERT INTO character_ammo_count(character_player_dataid, character_ammo_weaponhash, character_ammo_count) VALUES (@characterid, @weaponHash, 0)", {
+                MySQL.Async.insert("INSERT INTO character_ammo(character_player_dataid, character_ammo_weaponhash, character_ammo_count) VALUES (@characterid, @weaponHash, 0)", {
                     ["characterid"] = characterId,
                     ["weaponHash"] = weaponHash
                 }, function(result)

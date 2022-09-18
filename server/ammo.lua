@@ -8,7 +8,7 @@ function SQL_GetWeaponAmmoCount(characterId, weaponHash)
             if result[1] then
                 ammoCount = result[1].character_ammo_count
             else
-                ammoCount = false
+                ammoCount = 0
             end
         end)
     end)

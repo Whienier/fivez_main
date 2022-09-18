@@ -57,10 +57,13 @@ Citizen.CreateThread(function()
                         end
                         SQL_ClearCharacterInventoryItems(playerData.characterData.Id)
                         for k,v in pairs(playerData.characterData.inventory.items) do
-                            v = EmptySlot()
+                            if v.itemId then
+                                playerData.characterData.inventory.items[k] = EmptySlot()
+                            end
                         end
                         for k,v in pairs(Config.StartingItems) do
                             playerData.characterData.inventory.items[v.slot] = v.item
+                            SQL_InsertItemToCharacterInventory(playerData.characterData.Id, v.slot, v.item)
                         end
                         TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v.ply, json.encode(playerData.characterData.inventory.items), nil)
                     end

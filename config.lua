@@ -777,6 +777,7 @@ Config.Items = {
                 local plyPed = GetPlayerPed(source)
                 local curAmmoCount = SQL_GetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_pumpshotgun"))
                 SQL_SetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_pumpshotgun"), curAmmoCount + 25)
+                GiveAmmoToPlayer(source, GetHashKey("weapon_pumpshotgun"), curAmmoCount + 25)
                 return true
             end
         end
@@ -799,6 +800,7 @@ Config.Items = {
                 local plyPed = GetPlayerPed(source)
                 local curAmmoCount = SQL_GetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_assaultrifle"))
                 SQL_SetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_assaultrifle"), curAmmoCount + 25)
+                GiveAmmoToPlayer(source, GetHashKey("weapon_assaultrifle"), curAmmoCount + 25)
                 return true
             end
         end
@@ -978,6 +980,7 @@ Config.Items = {
                 local plyPed = GetPlayerPed(source)
                 local curAmmoCount = SQL_GetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_smg"))
                 SQL_SetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_smg"), curAmmoCount + 25)
+                GiveAmmoToPlayer(source, GetHashKey("weapon_smg"), curAmmoCount + 25)
                 return true
             end
         end
@@ -1390,6 +1393,7 @@ Config.Items = {
                 local plyPed = GetPlayerPed(source)
                 local curAmmoCount = SQL_GetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_appistol"))
                 SQL_SetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_appistol"), curAmmoCount + 25)
+                GiveAmmoToPlayer(source, GetHashKey("weapon_appistol"), curAmmoCount + 25)
                 return true
             end
         end
@@ -1411,6 +1415,7 @@ Config.Items = {
                 local plyPed = GetPlayerPed(source)
                 local curAmmoCount = SQL_GetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_minismg"))
                 SQL_SetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_minismg"), curAmmoCount + 25)
+                GiveAmmoToPlayer(source, GetHashKey("weapon_minismg"), curAmmoCount + 25)
                 return true
             end
         end
@@ -1432,6 +1437,7 @@ Config.Items = {
                 local plyPed = GetPlayerPed(source)
                 local curAmmoCount = SQL_GetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_pistol50"))
                 SQL_SetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_pistol50"), curAmmoCount + 25)
+                GiveAmmoToPlayer(source, GetHashKey("weapon_pistol50"), curAmmoCount + 25)
                 return true
             end
         end

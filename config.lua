@@ -8,6 +8,14 @@ Config.LoseItemsOnDeath = true
 --When player respawns adds a registered inventory with the characters items where they died
 Config.DropItemsOnDeath = true
 
+--Items players will respawn with
+Config.StartingItems = {
+    {
+        slot = 1, --The slot the item should be spawned in
+        item = Config.CreateNewItemWithCountQual(Config.Items[43], 1, 100) --Bike kit
+    }
+}
+
 Config.MaxStress = 100
 --Time between stress ticks
 Config.TimeBetweenStress = 15000
@@ -188,8 +196,6 @@ Config.PlayerSpawns = {
     vector3(-365.425, -131.809, 37.873),
     vector3(134.085, -637.859, 262.851),
     vector3(150.126, -754.591, 262.865),
-    vector3(-75.015, -818.215, 326.176),
-    vector3(450.718, 5566.614, 806.183),
     vector3(24.775, 7644.102, 19.055),
     vector3(686.245, 577.950, 130.461),
     vector3(205.316, 1167.378, 227.005),
@@ -542,7 +548,7 @@ Config.Items = {
     [7] = {
         itemId = 7,
         label = "Pistol Ammo",
-        model = "ammo_pistol",
+        model = "ammunition_pistol",
         weight = 1,
         maxcount = 5,
         count = 0,
@@ -555,7 +561,7 @@ Config.Items = {
                 local plyPed = GetPlayerPed(source)
                 local curAmmoCount = SQL_GetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_pistol"))
                 SQL_SetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_pistol"), curAmmoCount + 25)
-                --GiveAmmoToPlayer(source, GetHashKey("weapon_pistol"), 25)
+                GiveAmmoToPlayer(source, GetHashKey("weapon_pistol"), 25)
                 return true
             end
         end,

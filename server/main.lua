@@ -59,6 +59,9 @@ Citizen.CreateThread(function()
                         for k,v in pairs(playerData.characterData.inventory.items) do
                             v = EmptySlot()
                         end
+                        for k,v in pairs(Config.StartingItems) do
+                            playerData.characterData.inventory.items[v.slot] = v.item
+                        end
                         TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v.ply, json.encode(playerData.characterData.inventory.items), nil)
                     end
                     print("Respawning player", v.ply)

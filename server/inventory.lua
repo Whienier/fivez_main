@@ -30,7 +30,8 @@ RegisteredInventories["itemmenu:1"] = {
     items = Config.ItemsWithoutFunctions()
 }
 for k,v in pairs(RegisteredInventories["itemmenu:1"].items) do
-    v.count = 15
+    v.count = v.maxcount
+    v.weight = v.weight * v.count
 end
 
 RegisterCommand("oim", function(source)

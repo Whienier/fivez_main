@@ -8,7 +8,13 @@ function SQL_GetWeaponAmmoCount(characterId, weaponHash)
             if result[1] then
                 ammoCount = result[1].character_ammo_count
             else
-                ammoCount = 0
+                --If we don't have a DB record for the weapon hash add one
+                MySQL.Async.insert("INSERT INTO character_ammo_count(character_player_dataid, character_ammo_weaponhash, character_ammo_count) VALUES (@characterid, @weaponHash, 0)", {
+                    ["characterid"] = characterId,
+                    ["weaponHash"] = weaponHash
+                }, function(result)
+                    ammoCount = 0
+                end)
             end
         end)
     end)
@@ -34,23 +40,6 @@ function SQL_SetWeaponAmmoCount(characterId, weaponHash, ammoCount)
         Citizen.Wait(0)
     end
     return setData
-end
-
-function SQL_InsertWeaponAmmo(characterId, weaponHash, ammoCount)
-    local insertedData = nil
-    MySQL.ready(function()
-        MySQL.Async.insert("INSERT INTO character_ammo(character_player_dataid, character_ammo_weaponhash, character_ammo_count) VALUES(@characterId, @weaponHash, @ammoCount)", {
-            ["characterId"] = characterId,
-            ["weaponHash"] = weaponHash,
-            ["ammoCount"] = ammoCount
-        }, function(result)
-            insertedData = result
-        end)
-    end)
-    while insertedData == nil do
-        Citizen.Wait(0)
-    end
-    return insertedData
 end
 
 local ammoCountCB = nil

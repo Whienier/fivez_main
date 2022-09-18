@@ -433,13 +433,8 @@ Citizen.CreateThread(function()
     end
 end)
 
-RegisterCommand("engine", function()
-    print("Engine")
-    local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
-    if vehicle > 0 then
-        local engineHealth = GetVehicleEngineHealth(vehicle)
-        AddNotification("Car Engine: "..tostring(engineHealth))
-    end
+RegisterCommand("pos", function()
+    print(GetEntityCoords(GetPlayerPed(-1)))
 end, false)
 
 RegisterNetEvent("fivez:RefuelVehicle", function(vehicleNetId, fuel)

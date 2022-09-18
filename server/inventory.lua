@@ -366,11 +366,8 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                 --Has no weapon equip
                 if hands == GetHashKey("weapon_unarmed") then
                     local amountCount = nil
-                    if not itemData.melee then
+                    if itemData.melee == nil then
                         ammoCount = SQL_GetWeaponAmmoCount(plyChar.Id, GetHashKey(itemData.model))
-                        if not ammoCount then
-                            SQL_InsertWeaponAmmo(plyChar.Id, GetHashKey(itemData.model), 0)
-                        end
                     end
                     GiveWeaponToPed(plyPed, GetHashKey(itemData.model), ammoCount or 0, false, true)
                 elseif hands == GetHashKey(itemData.model) then
@@ -378,18 +375,15 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                     RemoveWeaponFromPed(plyPed, GetHashKey(itemData.model))
                     holstered = true
                 else
-                    gotAmmoCountCB = nil
-                    TriggerClientEvent("fivez:GetSelectedWepAmmoCount", source)
-                    while gotAmmoCountCB == nil do
-                        Citizen.Wait(0)
-                    end
-                    SQL_SetWeaponAmmoCount(plyChar.Id, hands, gotAmmoCountCB)
                     local ammoCount = nil
-                    if not itemData.melee then
-                        ammoCount = SQL_GetWeaponAmmoCount(plyChar.Id, GetHashKey(itemData.model))
-                        if not ammoCount then
-                            SQL_InsertWeaponAmmo(plyChar.Id, GetHashKey(itemData.model), 0)
+                    if itemData.melee == nil then
+                        gotAmmoCountCB = nil
+                        TriggerClientEvent("fivez:GetSelectedWepAmmoCount", source)
+                        while gotAmmoCountCB == nil do
+                            Citizen.Wait(0)
                         end
+                        SQL_SetWeaponAmmoCount(plyChar.Id, hands, gotAmmoCountCB)
+                        ammoCount = SQL_GetWeaponAmmoCount(plyChar.Id, GetHashKey(itemData.model))
                     end
                     SetPedAmmo(plyPed, hands, 0.0)
                     GiveWeaponToPed(plyPed, GetHashKey(itemData.model), ammoCount or 0, false, true)

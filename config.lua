@@ -8,14 +8,6 @@ Config.LoseItemsOnDeath = true
 --When player respawns adds a registered inventory with the characters items where they died
 Config.DropItemsOnDeath = true
 
---Items players will respawn with
-Config.StartingItems = {
-    {
-        slot = 1, --The slot the item should be spawned in
-        item = Config.CreateNewItemWithCountQual(Config.Items[43], 1, 100) --Bike kit
-    }
-}
-
 Config.MaxStress = 100
 --Time between stress ticks
 Config.TimeBetweenStress = 15000
@@ -1875,6 +1867,14 @@ Config.GetItemWithModel = function(itemModel)
         end
     end
 end
+
+--Items players will respawn with
+Config.StartingItems = {
+    {
+        slot = 1, --The slot the item should be spawned in
+        item = Config.CreateNewItemWithCountQual(Config.Items[43], 1, 100) --Bike kit
+    }
+}
 
 --Amount of quality removed from items that are used for crafting
 Config.CraftQualityDecay = 5

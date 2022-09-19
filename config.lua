@@ -2302,7 +2302,8 @@ Config.PotentialBikeSpawns = {
 Config.DefaultSkills = true
 --Time between level ticks
 Config.LevelTicks = 10000
-
+--How often client effect function of skills are run on a player
+Config.ClientEffectSkillsDelay = 1000
 --Custom skills that 
 Config.CustomSkills = {
     [1] = {

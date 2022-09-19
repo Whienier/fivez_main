@@ -180,6 +180,7 @@ end)
 --Triggered when a new character is created
 RegisterNetEvent("fivez:NewCharacterCreated", function()
     local source = source
+    --Set player back to main routing bucket
     SetPlayerRoutingBucket(source, 0)
     local playerData = GetJoinedPlayer(source)
     if playerData then
@@ -193,6 +194,8 @@ RegisterNetEvent("fivez:PlayerPedSpawned", function()
     local playerData = GetJoinedPlayer(source)
 
     if playerData then
+        SetPedHeadBlendData(GetPlayerPed(source), 0, 0, 0, 0, 0, 0, 0, 0, 0, false)
+        SetPedDefaultComponentVariation(GetPlayerPed(source))
         if not playerData.isNew then
             playerData.playerSpawned = true
             local charAppearance = playerData.characterData.appearance

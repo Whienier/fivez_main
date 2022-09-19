@@ -25,7 +25,7 @@ Citizen.CreateThread(function()
                 v.clienteffect(source, charSkills[v.Id].Level)
             end
         end
-        Citizen.Wait(1000)
+        Citizen.Wait(Config.ClientEffectSkillsDelay)
     end
 end)
 

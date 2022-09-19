@@ -951,12 +951,16 @@ function SQL_CreateCharacterData(playerId)
             ["gender"] = gender
         }, function(result)
             if result then
+                local health = 100
+                if gender == 1 then
+                    health = 200
+                end
                 local tempcreatedChar = {
                     Id = playerId,
                     gender = gender,
                     appearance = nil,
                     inventory = nil,
-                    health = 100,
+                    health = health,
                     armor = 0,
                     hunger = 100,
                     thirst = 100,

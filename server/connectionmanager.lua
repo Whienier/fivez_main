@@ -68,22 +68,24 @@ RegisterNetEvent("playerDropped", function(reason)
     end
 
     local joinedPlayer = GetJoinedPlayer(source)
-    local playerPed = GetPlayerPed(source)
-    local charHealth = GetEntityHealth(playerPed)
-    local charArmor = GetPedArmour(playerPed)
-    local charCoords = GetEntityCoords(playerPed)
-    SQL_UpdateCharacterPosition(joinedPlayer.Id, charCoords)
-    SQL_UpdateCharacterHealth(joinedPlayer.Id, charHealth)
-    SQL_UpdateCharacterArmor(joinedPlayer.Id, charArmor)
-    SQL_UpdateCharacterHunger(joinedPlayer.Id, joinedPlayer.characterData.hunger)
-    SQL_UpdateCharacterThirst(joinedPlayer.Id, joinedPlayer.characterData.thirst)
-    SQL_UpdateCharacterStress(joinedPlayer.Id, joinedPlayer.characterData.stress)
-    
+    if joinedPlayer then
+        local playerPed = GetPlayerPed(source)
+        local charHealth = GetEntityHealth(playerPed)
+        local charArmor = GetPedArmour(playerPed)
+        local charCoords = GetEntityCoords(playerPed)
+        SQL_UpdateCharacterPosition(joinedPlayer.Id, charCoords)
+        SQL_UpdateCharacterHealth(joinedPlayer.Id, charHealth)
+        SQL_UpdateCharacterArmor(joinedPlayer.Id, charArmor)
+        SQL_UpdateCharacterHunger(joinedPlayer.Id, joinedPlayer.characterData.hunger)
+        SQL_UpdateCharacterThirst(joinedPlayer.Id, joinedPlayer.characterData.thirst)
+        SQL_UpdateCharacterStress(joinedPlayer.Id, joinedPlayer.characterData.stress)
+        
 
-    for k,v in pairs(joinedPlayers) do
-        if v.source == source then
-            print("Player removed from joined players")
-            table.remove(joinedPlayers, k)
+        for k,v in pairs(joinedPlayers) do
+            if v.source == source then
+                print("Player removed from joined players")
+                table.remove(joinedPlayers, k)
+            end
         end
     end
 end)

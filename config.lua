@@ -2322,8 +2322,8 @@ Config.CustomSkills = {
                         local xpToNextLvl = Config.CustomSkills[1].expperlevel * playerData.characterData.skills[1].Level
                         playerData.characterData.skills[1].Xp = playerData.characterData.skills[1].Xp + 1
                         if playerData.characterData.skills[1].Xp >= xpToNextLvl then
-                            --Hard cap at level 100
-                            if playerData.characterData.skills[1].Level + 1 < 100 then
+                            --Players level plus one is lower than skills max level
+                            if playerData.characterData.skills[1].Level + 1 < Config.CustomSkills[1].maxlevel then
                                 playerData.characterData.skills[1].Level = playerData.characterData.skills[1].Level + 1
                                 local remXp = playerData.characterData.skills[1].Xp - xpToNextLvl
                                 playerData.characterData.skills[1].Xp = remXp

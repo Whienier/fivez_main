@@ -200,7 +200,7 @@ Citizen.CreateThread(function()
                     --Zombie spawn should be far enough away from player now
                     local closestDistance, closestZombie = CheckCoordForZombies(zombieSpawn)
                     --If another zombie is too close to where we are trying to spawn
-                    if closestDistance ~= -1 and closestDistance <= 15 then break end
+                    if closestDistance ~= -1 and closestDistance <= 15 then goto skip end
                     gotGround = nil
                     TriggerClientEvent("fivez:GetGroundForZombie", v, json.encode(zombieSpawn))
                     while gotGround == nil do

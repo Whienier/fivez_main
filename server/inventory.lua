@@ -2,6 +2,11 @@ local RegisteredInventories = {}
 local openInventories = {}
 local inventoryMarkers = {}
 
+function AddInventoryMarker(coords)
+    table.insert(inventoryMarkers, {position = coords, created = GetGameTimer()})
+    TriggerClientEvent("fivez:AddGroundMarker", -1, json.encode(coords))
+end
+
 function GetAllInventoryMarkers()
     return inventoryMarkers
 end

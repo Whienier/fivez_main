@@ -53,7 +53,10 @@ Citizen.CreateThread(function()
                     local playerData = GetJoinedPlayer(v.ply)
                     if Config.LoseItemsOnDeath then
                         if Config.DropItemsOnDeath then
-                            RegisterNewInventory("deadbody:"..v.ply, "inventory", "Dead Player", playerData.characterData.inventory.weight, playerData.characterData.inventory.maxweight, playerData.characterData.inventory.maxslots, playerData.characterData.inventory.items, GetEntityCoords(GetPlayerPed(v.ply)))
+                            local newInv = RegisterNewInventory("deadbody:"..v.ply, "inventory", "Dead Player", playerData.characterData.inventory.weight, playerData.characterData.inventory.maxweight, playerData.characterData.inventory.maxslots, playerData.characterData.inventory.items, GetEntityCoords(GetPlayerPed(v.ply)))
+                            if newInv ~= nil then
+                                AddInventoryMarker(GetEntityCoords(GetPlayerPed(v.ply)))
+                            end
                         end
                         SQL_ClearCharacterInventoryItems(playerData.characterData.Id)
                         for k,v in pairs(playerData.characterData.inventory.items) do

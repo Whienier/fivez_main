@@ -16,9 +16,7 @@ ECM:Register(function(screenPos, hitSomething, worldPos, hitEntity, normalDirect
             if hitEntity == PlayerPedId() then
                 local humanityItem = ECM:AddItem(0, "Humanity: "..GetCharacterHumanity())
                 local skillSubmenu, skillSubmenuItem = ECM:AddSubmenu(pedSubmenu, "Skills")
-
-                --TODO: SWAP these out for something like GetCharacterSkills() which
-                --returns characterData.skills
+                
                 local charSkills = GetCharacterSkills()
                 for k,plySkill in pairs(charSkills) do
                     for k,v in pairs(Config.CustomSkills) do

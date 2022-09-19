@@ -79,7 +79,7 @@ Citizen.CreateThread(function()
                     playerData.characterData.stress = 0
                     playerData.characterData.humanity = 0
                     playerData.characterData.skills = {}
-                    
+                    SQL_ResetCharacterStats(playerData.characterData.Id, playerData.characterData.gender)
                     table.remove(deadPlayers, k)
                 end
             end
@@ -304,5 +304,5 @@ Citizen.CreateThread(function()
 end)
 
 RegisterCommand("suicide", function(source)
-    TriggerEvent("baseevents:onPlayerDied", source, GetEntityCoords(GetPlayerPed(source)))
+    TriggerEvent("baseevents:onPlayerDied", -1, GetEntityCoords(GetPlayerPed(source)))
 end, false)

@@ -254,6 +254,40 @@ function SQL_UpdateCharacterGender(playerId, newGender)
     end)
 end
 
+function SQL_ResetCharacterStats(playerId, gender)
+    local health = 100
+    if gender == 1 then
+        health = 200
+    end
+    MySQL.ready(function()
+        MySQL.Async.execute("UPDATE character_data SET character_health = @health, character_armor = 0, character_hunger = 100, character_thirst = 100, character_stress = 0, character_humanity = 0 WHERE character_player_dataid = @playerId", {
+            ["playerId"] = playerId,
+            ["health"] = health
+        })
+
+        MySQL.Async.execute("DELETE FROM character_skills WHERE character_data_player_dataid = @playerId", {
+            ["playerId"] = playerId
+        })
+
+        MySQL.Async.execute("DELETE FROM character_ammo WHERE character_player_dataid = @playerId", {
+            ["playerId"] = playerId
+        })
+
+        MySQL.Async.execute("UPDATE character_props SET character_hat = -1, character_glasses = -1, character_ears = -1, character_bracelet = -1 WHERE character_data_player_dataid = @playerId", {
+            ["playerId"] = playerId
+        })
+        MySQL.Async.execute("UPDATE character_props_textures SET character_hat = -1, character_glasses = -1, character_ears = -1, character_bracelet = -1 WHERE character_data_player_dataid = @playerId", {
+            ["playerId"] = playerId
+        })
+        MySQL.Async.execute("UPDATE character_components SET character_face = 0, character_mask = 0, character_hair = 0, character_torso = 0, character_leg = 0, character_bag = 0, character_shoes = 0, character_accessory = 0, character_undershirt = 0, character_kevlar = 0, character_badge = 0, character_torso2 = 0 WHERE character_data_player_dataid = @playerId", {
+            ["playerId"] = playerId
+        })
+        MySQL.Async.execute("UPDATE character_components_textures SET character_face = 0, character_mask = 0, character_hair = 0, character_torso = 0, character_leg = 0, character_bag = 0, character_shoes = 0, character_accessory = 0, character_undershirt = 0, character_kevlar = 0, character_badge = 0, character_torso2 = 0 WHERE character_data_player_dataid = @playerId", {
+            ["playerId"] = playerId
+        })
+    end)
+end
+
 function SQL_UpdateCharacterHealth(playerId, newHealth)
     MySQL.ready(function()
         MySQL.Async.execute("UPDATE character_data SET character_health = @newHealth WHERE player_dataid = @playerId", {

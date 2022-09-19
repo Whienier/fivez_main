@@ -8,7 +8,7 @@ RegisterNetEvent("fivez:AddExp", function(skillId, xp)
     else
         charSkills[skillId] = {
             Id = skillId,
-            level = 1,
+            Level = 1,
             Xp = 0
         }
     end

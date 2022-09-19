@@ -871,6 +871,14 @@ RegisterNetEvent("fivez:AttemptCraft", function(recipeId)
                             if v.count >= reqItem.count and v.quality >= reqItem.quality then
                                 table.insert(foundItems, {id = reqItem.itemId, slot = k, count = reqItem.count})
                             end
+                        elseif reqItem[1] then
+                            for i=0,#reqItem do
+                                if reqItem[i].itemId == v.itemId then
+                                    if v.count >= reqItem[i].count and v.quality >= reqItem[i].quality then
+                                        table.insert(foundItems, {id = reqItem[i].itemId, slot = k, count = reqItem[i].count})
+                                    end
+                                end
+                            end
                         end
                     end
                 end

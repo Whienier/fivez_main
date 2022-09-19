@@ -1912,7 +1912,8 @@ Config.Recipes = {
         weight = 10,
         required = {
             Config.CreateNewItemWithCountQual(Config.Items[63], 2, 40), --Metal pole
-            Config.CreateNewItemWithCountQual(Config.Items[62], 1, 40) --Wire mesh
+            Config.CreateNewItemWithCountQual(Config.Items[62], 1, 40), --Wire mesh
+            Config.CreateNewItemWithCountQual(Config.Items[54], 0, 1) --Hammer
         }
     },
     {
@@ -1922,7 +1923,8 @@ Config.Recipes = {
         weight = 10,
         required = {
             Config.CreateNewItemWithCountQual(Config.Items[63], 4, 40),
-            Config.CreateNewItemWithCountQual(Config.Items[62], 3, 40)
+            Config.CreateNewItemWithCountQual(Config.Items[62], 3, 40),
+            Config.CreateNewItemWithCountQual(Config.Items[54], 0, 1)
         }
     },
     {
@@ -1950,9 +1952,8 @@ Config.Recipes = {
         count = 1,
         weight = 10,
         required = {
-            Config.CreateNewItemWithCountQual(Config.Items[1], 15, 50), --Bandage
+            {Config.CreateNewItemWithCountQual(Config.Items[1], 5, 50), Config.CreateNewItemWithCountQual(Config.Items[55], 10, 50) }, --Bandage or cloth
             Config.CreateNewItemWithCountQual(Config.Items[8], 5, 50),  --First aid kit
-            Config.CreateNewItemWithCountQual(Config.Items[55], 10, 50) --Cloth
         }
     },
     {

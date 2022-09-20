@@ -309,17 +309,11 @@ RegisterCommand("gender", function(source, args)
     local source = source
     local playerData = GetJoinedPlayer(source)
     if playerData then
-        print("Changing gender", args[1])
         if args[1] then
             local newGender = tonumber(args[1])
             if newGender ~= 0 and newGender ~= 1 then return end
             playerData.characterData.gender = args[1]
             SQL_UpdateCharacterGender(playerData.characterData.Id, playerData.characterData.gender)
-            if newGender == 0 then
-                SetPlayerModel(GetPlayerFromServerId(source), GetHashKey("mp_f_freemode_01"))
-            elseif newGender == 1 then
-                SetPlayerModel(GetPlayerFromServerId(source), GetHashKey("mp_m_freemode_01"))
-            end
         end
     end
 end, true)

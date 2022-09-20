@@ -437,6 +437,14 @@ RegisterCommand("suicide", function()
     SetEntityHealth(GetPlayerPed(-1), 0)
 end, false)
 
+RegisterCommand("help", function()
+    TriggerEvent("chat:addMessage", {
+        color = {0,0,0},
+        multiline = true,
+        args = { "ServerHelp", "Use the discord invite code (wuhCdjv8) to join discord first!"}
+    })
+end, false)
+
 RegisterNetEvent("fivez:RefuelVehicle", function(vehicleNetId, fuel)
     local plyPed = GetPlayerPed(-1)
     local vehicle = NetworkGetEntityFromNetworkId(vehicleNetId)

@@ -240,11 +240,11 @@ function Inventory(type,identifier,label,data) {
 
         for (var i=0;i<recipe.required.length;i++) {
             var item = recipe.required[i];
-
             var image = document.createElement('DIV');
             image.className = "image";
             image.style.backgroundImage = `url(assets/inventory/${item.model}.png)`;
 
+            
             var label = item.label;
             if (label.length >= 12) {
             label = label.substr(0,12) + "..";

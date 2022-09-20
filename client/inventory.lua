@@ -457,6 +457,7 @@ RegisterCommand("combine", function()
             label = "Inventory Combining"
         }
     })
+    SetNuiFocus(true, true)
 end)
 
 RegisterNUICallback("combine", function(data, cb)

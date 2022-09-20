@@ -1979,7 +1979,7 @@ Config.Recipes = {
         count = 1,
         weight = 10,
         required = {
-            {Config.CreateNewItemWithCountQual(Config.Items[1], 5, 50), Config.CreateNewItemWithCountQual(Config.Items[55], 10, 50) }, --Bandage or cloth
+            Config.CreateNewItemWithCountQual(Config.Items[1], 5, 50), --Bandage or cloth
             Config.CreateNewItemWithCountQual(Config.Items[8], 5, 50),  --First aid kit
         }
     },

@@ -497,7 +497,7 @@ RegisterCommand("+voicerangeincrease", function()
     drawRange = true
 end, false)
 RegisterCommand("-voicerangeincrease", function() end, false)
-RegisterKeyMapping("+voicerangeincrease", "Increases the range of your VOIP", "keyboard", "f3")
+RegisterKeyMapping("+voicerangeincrease", "Increases the range of your VOIP", "keyboard", "]")
 
 RegisterCommand("+voicerangedecrease", function()
     voiceRange = voiceRange - 1.0
@@ -506,7 +506,7 @@ RegisterCommand("+voicerangedecrease", function()
     drawRange = true
 end, false)
 RegisterCommand("-voicerangedecrease", function() end, false)
-RegisterKeyMapping("+voicerangedecrease", "Decrease the range of your VOIP", "keyboard", "f2")
+RegisterKeyMapping("+voicerangedecrease", "Decrease the range of your VOIP", "keyboard", "[")
 
 local drawTimestamp = nil
 Citizen.CreateThread(function()

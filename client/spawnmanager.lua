@@ -7,11 +7,9 @@ function IsPlayerPedCreated()
 end
 
 function RespawnPlayer(onSpot)
-    print("respawn player")
     local playerPed = GetPlayerPed(-1)
     local pedHealth = GetEntityHealth(playerPed)
     if pedHealth <= 0 then
-        print("Player is dead")
         local respawnPos = nil
         if onSpot == false then
             respawnPos = Config.PlayerSpawns[math.random(#Config.PlayerSpawns)]
@@ -28,6 +26,8 @@ function RespawnPlayer(onSpot)
         if charData.gender == 1 then
             newHealth = 200
         end
+        ClearFocus()
+        --SetFocusArea(respawnPos.x, respawnPos.y, respawnPos.z, 0.0, 0.0, 0.0)
         SetEntityCoords(playerPed, respawnPos.x, respawnPos.y, respawnPos.z, false, false, false, false)
         NetworkResurrectLocalPlayer(respawnPos.x, respawnPos.y, respawnPos.z, 0.0, true, false)
         DoScreenFadeIn(500)
@@ -39,6 +39,7 @@ function RespawnPlayer(onSpot)
         ClearPedBloodDamage(PlayerPedId())
         ResetCharacterData()
         SetEntityHealth(playerPed, newHealth)
+        SetFocusEntity(GetPlayerPed(-1))
         TriggerServerEvent("fivez:PlayerPedRespawned")
         playerDied = false
     end

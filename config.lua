@@ -232,6 +232,38 @@ Config.WeaponNoise = {
     [GetHashKey("weapon_pistol")] = {
         silenced = 5,
         unsilenced = 15
+    },
+    [GetHashKey("weapon_assaultrifle")] = {
+        silenced = 20,
+        unsilenced = 50
+    },
+    [GetHashKey("weapon_pumpshotgun")] = {
+        silenced = 20,
+        unsilenced = 50
+    },
+    [GetHashKey("weapon_minismg")] = {
+        silenced = 15,
+        unsilenced = 30
+    },
+    [GetHashKey("weapon_smg")] = {
+        silenced = 15,
+        unsilenced = 30
+    },
+    [GetHashKey("weapon_appistol")] = {
+        silenced = 10,
+        unsilenced = 25
+    },
+    [GetHashKey("weapon_pistol50")] = {
+        silenced = 25,
+        unsilenced = 50
+    },
+    [GetHashKey("weapon_dbshotgun")] = {
+        silenced = 25,
+        unsilenced = 50
+    },
+    [GetHashKey("weapon_taser")] = {
+        silenced = 0,
+        unsilenced = 0
     }
 }
 

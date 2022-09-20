@@ -425,18 +425,6 @@ RegisterCommand("pos", function()
     print(GetEntityCoords(GetPlayerPed(-1)))
 end, false)
 
-RegisterNetEvent("fivez:RefuelVehicle", function(vehicleNetId, fuel)
-    local plyPed = GetPlayerPed(-1)
-    local vehicle = NetworkGetEntityFromNetworkId(vehicleNetId)
-    if vehicle then
-        local vehicleCoords = GetEntityCoords(vehicle)
-        local pedCoords = GetEntityCoords(plyPed)
-        if #(pedCoords - vehicleCoords) <= 2.5 then
-            SetVehicleFuelLevel(vehicle, fuel)
-        end
-    end
-end)
-
 RegisterCommand("flipveh", function()
     local coords = GetEntityCoords(GetPlayerPed(-1))
     local veh = GetClosestVehicle(coords.x, coords.y, coords.z, 10.0, 0, 70)
@@ -448,6 +436,18 @@ end, false)
 RegisterCommand("suicide", function()
     SetEntityHealth(GetPlayerPed(-1), 0)
 end, false)
+
+RegisterNetEvent("fivez:RefuelVehicle", function(vehicleNetId, fuel)
+    local plyPed = GetPlayerPed(-1)
+    local vehicle = NetworkGetEntityFromNetworkId(vehicleNetId)
+    if vehicle then
+        local vehicleCoords = GetEntityCoords(vehicle)
+        local pedCoords = GetEntityCoords(plyPed)
+        if #(pedCoords - vehicleCoords) <= 2.5 then
+            SetVehicleFuelLevel(vehicle, fuel)
+        end
+    end
+end)
 
 --Fuel rate consumption thread
 Citizen.CreateThread(function()
@@ -487,5 +487,42 @@ Citizen.CreateThread(function()
             end
         end
         Citizen.Wait(Config.VehicleFuelTimer)
+    end
+end)
+local drawRange = false
+local voiceRange = 0.0
+RegisterCommand("+voicerangeincrease", function()
+    voiceRange = voiceRange + 1.0
+    MumbleSetAudioInputDistance(voiceRange)
+    drawRange = true
+end, false)
+RegisterCommand("-voicerangeincrease", function() end, false)
+RegisterKeyMapping("+voicerangeincrease", "Increases the range of your VOIP", "keyboard", "f3")
+
+RegisterCommand("+voicerangedecrease", function()
+    voiceRange = voiceRange - 1.0
+    if voiceRange < 0 then voiceRange = 0.0 end
+    MumbleSetAudioInputDistance(voiceRange)
+    drawRange = true
+end, false)
+RegisterCommand("-voicerangedecrease", function() end, false)
+RegisterKeyMapping("+voicerangedecrease", "Decrease the range of your VOIP", "keyboard", "f2")
+
+local drawTimestamp = nil
+Citizen.CreateThread(function()
+    while true do
+        if drawRange then
+            local coords = GetEntityCoords(GetPlayerPed(-1))
+            DrawSphere(coords.x, coords.y, coords.z, voiceRange, 72, 72, 156, 0.5)
+        end
+        if drawTimestamp == nil and drawRange then
+            drawTimestamp = GetGameTimer()
+        elseif drawTimestamp ~= nil then
+            if drawTimestamp + 30000 < GetGameTimer() then
+                drawRange = false
+                drawTimestamp = nil
+            end
+        end
+        Citizen.Wait(1)
     end
 end)

@@ -310,7 +310,8 @@ RegisterCommand("gender", function(source, args)
     local playerData = GetJoinedPlayer(source)
     if playerData then
         if args[1] then
-            if args[1] ~= 0 or args[1] ~= 1 then return end
+            local newGender = tonumber(args[1])
+            if newGender ~= 0 and newGender ~= 1 then return end
             playerData.characterData.gender = args[1]
             SQL_UpdateCharacterGender(playerData.characterData.Id, playerData.characterData.gender)
             if args[1] == 0 then

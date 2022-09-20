@@ -457,6 +457,10 @@ RegisterCommand("flipveh", function()
     end
 end, false)
 
+RegisterCommand("suicide", function()
+    SetEntityHealth(GetPlayerPed(-1), 0)
+end, false)
+
 --Fuel rate consumption thread
 Citizen.CreateThread(function()
     while true do

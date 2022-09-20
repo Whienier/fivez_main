@@ -204,8 +204,7 @@ Config.PlayerSpawns = {
     vector3(2208.777, 5578.235, 53.735),
     vector3(126.975, 3714.419, 46.827),
     vector3(2034.988, 2953.105, 74.602),
-    vector3(2062.123, 2942.055, 47.431),
-    vector3(2954.196, 2783.410, 41.004)
+    vector3(2062.123, 2942.055, 47.431)
 }
 
 --New character customization position

@@ -260,7 +260,7 @@ function SQL_ResetCharacterStats(playerId, gender)
         health = 200
     end
     MySQL.ready(function()
-        MySQL.Async.execute("UPDATE character_data SET character_health = @health, character_armor = 0, character_hunger = 100, character_thirst = 100, character_stress = 0, character_humanity = 0 WHERE character_player_dataid = @playerId", {
+        MySQL.Async.execute("UPDATE character_data SET character_health = @health, character_armor = 0, character_hunger = 100, character_thirst = 100, character_stress = 0, character_humanity = 0 WHERE player_dataid = @playerId", {
             ["playerId"] = playerId,
             ["health"] = health
         })

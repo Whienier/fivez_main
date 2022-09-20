@@ -305,7 +305,3 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
     end
 end)
-
-RegisterCommand("suicide", function(source)
-    TriggerEvent("baseevents:onPlayerDied", -1, GetEntityCoords(GetPlayerPed(source)))
-end, false)

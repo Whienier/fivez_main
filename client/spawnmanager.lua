@@ -23,7 +23,7 @@ function RespawnPlayer(onSpot)
         while IsScreenFadingOut() do
             Citizen.Wait(0)
         end
-        
+        print("Player ped max health:", GetPedMaxHealth(GetPlayerPed(-1)))
         SetEntityCoords(playerPed, respawnPos.x, respawnPos.y, respawnPos.z, false, false, false, false)
         SetEntityHealth(playerPed, GetEntityMaxHealth(playerPed))
         NetworkResurrectLocalPlayer(respawnPos.x, respawnPos.y, respawnPos.z, 0.0, true, false)

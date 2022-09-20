@@ -201,6 +201,7 @@ RegisterNetEvent("fivez:PlayerPedSpawned", function()
             local charAppearance = playerData.characterData.appearance
             SetPedHeadBlendData(GetPlayerPed(source), charAppearance.parents.fatherShape, charAppearance.parents.motherShape, 0, charAppearance.parents.fatherSkin, charAppearance.parents.motherSkin, 0, charAppearance.parents.shapeMix, charAppearance.parents.skinMix, 0, false)
             LoadCharacterAppearanceData(source, charAppearance)
+            TriggerClientEvent("fivez:LoadCharacterData", source, json.encode(playerData.characterData))
         end
         SyncZombieStates(source)
         TriggerClientEvent("fivez:LoadInventoryMarkers", source, json.encode(GetAllInventoryMarkers()))
@@ -253,9 +254,7 @@ RegisterNetEvent("fivez:NUILoaded", function()
         --Disable population so we don't get spam for entity created
         SetRoutingBucketPopulationEnabled(#joinedPlayers+1, false)
     elseif not playerData.isNew then
-        
         TriggerClientEvent("fivez:SpawnAtLastLoc", source, playerData.characterData.gender, json.encode(playerData.characterData.lastposition))
-        TriggerClientEvent("fivez:LoadCharacterData", source, json.encode(playerData.characterData))
     end
 end)
 
@@ -305,3 +304,20 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
     end
 end)
+
+RegisterCommand("gender", function(source, args)
+    local source = source
+    local playerData = GetJoinedPlayer(source)
+    if playerData then
+        if args[1] then
+            if args[1] ~= 0 or args[1] ~= 1 then return end
+            playerData.characterData.gender = args[1]
+            SQL_UpdateCharacterGender(playerData.characterData.Id, playerData.characterData.gender)
+            if args[1] == 0 then
+                SetPlayerModel(GetPlayerFromServerId(source), GetHashKey("mp_f_freemode_01"))
+            elseif args[1] == 1 then
+                SetPlayerModel(GetPlayerFromServerId(source), GetHashKey("mp_m_freemode_01"))
+            end
+        end
+    end
+end, true)

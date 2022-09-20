@@ -15,16 +15,9 @@ RegisterNUICallback("nui_loaded", function(data, cb)
     cb('ok')
 end)
 
-RegisterNetEvent("fivez:LoadCharacterAppearance", function(charData)
-    print("Loading character appearance data", charData, DoesEntityExist(PlayerPedId()))
-    
-    characterData.appearance = json.decode(charData)
-    LoadCharacterAppearanceData(characterData.appearance)
-end)
-
 RegisterNetEvent("fivez:LoadCharacterData", function(charData)
     characterData = json.decode(charData)
-
+    
     print("Loaded character data", characterData.health)
     print("Player ped health", GetEntityHealth(GetPlayerPed(-1)))
     --Enable PvP
@@ -34,11 +27,7 @@ RegisterNetEvent("fivez:LoadCharacterData", function(charData)
     --Turn blackout mode on
     SetArtificialLightsState(true)
     SetArtificialLightsStateAffectsVehicles(false)
-    --Set players health to their last health
     SetEntityHealth(GetPlayerPed(-1), characterData.health)
-    
-    print("Set player ped health", GetEntityHealth(GetPlayerPed(-1)))
-
     SendNUIMessage({
         type = "message",
         message = "init",
@@ -55,11 +44,11 @@ RegisterNetEvent("fivez:LoadCharacterData", function(charData)
         name = "EnableHUD",
         data = json.encode(characterData)
     })
-    startThreads = true
     --Allow players to stand ontop of vehicles
     OverridePedsCanStandOnTopFlag(true)
     --Disable radar mini map
     DisplayRadar(false)
+    startThreads = true
 end)
 
 RegisterNetEvent('fivez:CharacterStressed', function(newStress)
@@ -95,9 +84,7 @@ function AteFood(eatAmount)
 end
 
 function DrankWater(drinkAmount)
-    print("Drinking water", characterData.thirst)
     characterData.thirst = characterData.thirst + drinkAmount
-    print("Drank water", characterData.thirst)
     SendNUIMessage({
         type = "fivez_hud",
         name = "UpdateThirst",
@@ -388,12 +375,13 @@ Citizen.CreateThread(function()
         while not startThreads do Citizen.Wait(0) end
         if characterData then
             --Remove 100 hp if male model
-            if GetEntityModel(GetPlayerPed(-1)) == GetHashKey("mp_m_freemode_01") then
+            if characterData.gender == 1 then
                 characterData.health = GetEntityHealth(GetPlayerPed(-1)) - 100
             else
                 characterData.health = GetEntityHealth(GetPlayerPed(-1))
             end
             characterData.armor = GetPedArmour(GetPlayerPed(-1))
+            characterData.stamina = GetPlayerStamina(PlayerId())
         end
         Citizen.Wait(450)
     end

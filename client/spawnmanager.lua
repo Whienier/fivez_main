@@ -23,9 +23,12 @@ function RespawnPlayer(onSpot)
         while IsScreenFadingOut() do
             Citizen.Wait(0)
         end
-        print("Player ped max health:", GetPedMaxHealth(GetPlayerPed(-1)))
+        local newHealth = 100
+        local charData = GetCharacterData()
+        if charData.gender == 1 then
+            newHealth = 200
+        end
         SetEntityCoords(playerPed, respawnPos.x, respawnPos.y, respawnPos.z, false, false, false, false)
-        SetEntityHealth(playerPed, GetEntityMaxHealth(playerPed))
         NetworkResurrectLocalPlayer(respawnPos.x, respawnPos.y, respawnPos.z, 0.0, true, false)
         DoScreenFadeIn(500)
         while IsScreenFadingIn() do
@@ -35,6 +38,7 @@ function RespawnPlayer(onSpot)
         ClearPedWetness(PlayerPedId())
         ClearPedBloodDamage(PlayerPedId())
         ResetCharacterData()
+        SetEntityHealth(playerPed, newHealth)
         TriggerServerEvent("fivez:PlayerPedRespawned")
         playerDied = false
     end
@@ -81,7 +85,11 @@ function InitialSpawn(gender, lastLocation)
         SetEntityCoordsNoOffset(playerPed, spawnLocation.x, spawnLocation.y, spawnLocation.z, true, false, false)
 
         NetworkResurrectLocalPlayer(spawnLocation.x, spawnLocation.y, spawnLocation.z, 0.0, true, true, false)
-
+        local charData = GetCharacterData()
+        if charData then
+            SetEntityHealth(playerPed, charData.health)
+            print("Set player ped health", charData.health)
+        end
         ClearPedTasksImmediately(playerPed)
         
         local time = GetGameTimer()

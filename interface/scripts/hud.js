@@ -27,6 +27,7 @@ const FIVEZ_HUD = new Vue({
 
         UpdateHUD(hudInfo) {
             this.info = JSON.parse(hudInfo);
+            this.info.stamina = Math.trunc(this.info.stamina);
         },
 
         UpdateCarHUD(carInfo){

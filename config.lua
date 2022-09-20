@@ -186,8 +186,6 @@ Mile High Club X:-144.274 Y:-946.813 Z:269.135
  ]]
 Config.PlayerSpawns = {
     vector3(-365.425, -131.809, 37.873),
-    vector3(134.085, -637.859, 262.851),
-    vector3(150.126, -754.591, 262.865),
     vector3(686.245, 577.950, 130.461),
     vector3(205.316, 1167.378, 227.005),
     vector3(-2243.810, 264.048, 174.615),
@@ -2409,7 +2407,7 @@ Config.CustomSkills = {
         label = "Lung Capacity",
         stat = "MP0_LUNG_CAPACITY",
         expperlevel = 500,
-        gainexp = function()
+        gainexp = function(source)
             local playerData = GetJoinedPlayer(source)
 
             if playerData then
@@ -2463,7 +2461,7 @@ Config.CustomSkills = {
         label = "Shooting Skill",
         stat = "MP0_SHOOTING_ABILITY",
         expperlevel = 500,
-        gainexp = function()
+        gainexp = function(source)
             local playerData = GetJoinedPlayer(source)
 
             if playerData then
@@ -2507,7 +2505,7 @@ Config.CustomSkills = {
         label = "Stealth",
         stat = "MP0_STEALTH_ABILITY",
         expperlevel = 500,
-        gainexp = function()
+        gainexp = function(source)
             local playerData = GetJoinedPlayer(source)
 
             if playerData then

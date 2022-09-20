@@ -88,8 +88,7 @@ end)
 
 RegisterNetEvent("fivez:GetGroundForZombie", function(zombieCoords)
     local coords = json.decode(zombieCoords)
-    local ground, groundPos = GetSafeCoordForPed(coords.x, coords.y, coords.z, true, 16)
-    print("Got safe coords", groundPos)
+    local ground, groundPos = GetSafeCoordForPed(tonumber(coords.x), tonumber(coords.y), tonumber(coords.z), false, 16)
     if ground then
         TriggerServerEvent("fivez:GetGroundForZombieCB", json.encode(groundPos))
         return

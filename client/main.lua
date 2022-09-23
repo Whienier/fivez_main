@@ -441,7 +441,15 @@ RegisterCommand("help", function()
     TriggerEvent("chat:addMessage", {
         color = {0,0,0},
         multiline = true,
-        args = { "ServerHelp", "Use the discord invite code (wuhCdjv8) to join discord first!"}
+        args = { "ServerHelp", "Use the discord invite code (wuhCdjv8) to join discord! Or if you want to look at the forum again type /webhelp"}
+    })
+end, false)
+
+RegisterCommand("webhelp", function()
+    TriggerEvent("chat:addMessage", {
+        color = {0,0,0},
+        multiline = true,
+        args = {"ServerHelp", "For the forum type 51.161.197.99:80 into your web browser!"}
     })
 end, false)
 

@@ -1,7 +1,7 @@
 Config = {}
 
 --How long before the server will respawn a player
-Config.RespawnTimer = 30000
+Config.RespawnTimer = 15000
 
 --When player respawns clears character inventory from database and memory
 Config.LoseItemsOnDeath = true
@@ -58,24 +58,6 @@ Config.DefaultVehicleFuelRates = {
 --[[ 
 Main LS Customs X:-365.425 Y:-131.809 Z:37.873
 
-Yacht X:-2023.661 Y:-1038.038 Z:5.577 IPL needed
-
-Carrier (MP Only) X:3069.330 Y:-4704.220 Z:15.043 IPL needed
-
-Fort Zankudo UFO X:2052.000 Y:3237.000 Z:1456.973 IPL needed
-
-Very High Up X:-129.964 Y:8130.873 Z:6705.307
-
-IAA Roof X:134.085 Y:-637.859 Z:262.851
-
-FIB Roof X:150.126 Y:-754.591 Z:262.865
-
-Maze Bank Roof X:-75.015 Y:-818.215 Z:326.176
-
-Top of the Mt Chilad X:450.718 Y:5566.614 Z:806.183
-
-Most Northerly Point X:24.775 Y:7644.102 Z:19.055
-
 Vinewood Bowl Stage X:686.245 Y:577.950 Z:130.461
 
 Sisyphus Theater Stage X:205.316 Y:1167.378 Z:227.005
@@ -110,17 +92,9 @@ Weed Farm X:2208.777 Y:5578.235 Z:53.735
 
 Stab City X: 126.975 Y:3714.419 Z:46.827
 
-Airplane Graveyard Airplane Tail X:2395.096 Y:3049.616 Z:60.053 MISSED
-
 Satellite Dish Antenna X:2034.988 Y:2953.105 Z:74.602
 
 Satellite Dishes X: 2062.123 Y:2942.055 Z:47.431
-
-Windmill Top X:2026.677 Y:1842.684 Z:133.313 MISSED
-
-Sandy Shores Building Site Crane X:1051.209 Y:2280.452 Z:89.727 MISSED
-
-Rebel Radio X:736.153 Y:2583.143 Z:79.634 MISSED
 
 Quarry X:2954.196 Y:2783.410 Z:41.004
 

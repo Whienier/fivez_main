@@ -24,7 +24,6 @@ const FIVEZ_HUD = new Vue({
             OpenPage("hud");
             console.log(this.ShowHUD);
         },
-
         UpdateHUD(hudInfo) {
             this.info = JSON.parse(hudInfo);
             this.info.stamina = Math.trunc(this.info.stamina);

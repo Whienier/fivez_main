@@ -485,7 +485,7 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                     local tempItem = plyChar.inventory.items[transferData.toSlot]
                     plyChar.inventory.items[transferData.toSlot] = Config.CreateNewItemWithData(plyChar.inventory.items[transferData.fromSlot])
                     plyChar.inventory.items[transferData.fromSlot] = Config.CreateNewItemWithData(tempItem)
-                else
+                elseif plyChar.inventory.items[transferData.toSlot].quality == plyChar.inventory.items[transferData.fromSlot].quality then
                     --Set newCount to, to slot count plus amount transferring
                     local newCount = plyChar.inventory.items[transferData.toSlot].count + transferData.count
                     --If the new count is greater than the item max count

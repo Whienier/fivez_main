@@ -305,11 +305,15 @@ RegisterNetEvent("fivez:InventoryUseCB", function(identifier, itemId, slot)
             if result then
                 TriggerServerEvent("fivez:ItemUsed", itemId, slot)
             end
+        else
+            print("DEBUG: Item doesn't have client function")
         end
     elseif charInventory.items[slot].model == "empty" then
         AddNotification("Slot you're trying to use is empty!")
     elseif charInventory.items[slot].itemId ~= itemId then
         AddNotification("Item you are trying to use doesn't exist in that slot")
+    else
+        AddNotification("Something went wrong")
     end
 end)
 

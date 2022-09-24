@@ -51,7 +51,21 @@ function CreateZombie(coords)
     Citizen.Wait(250)
     SetPedArmour(createdZombie, 100.0)
     SetEntityCoords(createdZombie, coords.x-0.0, coords.y-0.0, coords.z-0.0, true, false, false, false)
-   
+    
+    SetPedConfigFlag(createdZombie, 424, true) --Falls like aircraft
+    SetPedConfigFlag(createdZombie, 430, true) --Ignore being on fire
+    SetPedConfigFlag(createdZombie, 140, false) --Can attack friendlies
+
+    SetPedConfigFlag(createdZombie, 281, false) --Write mode
+    SetPedConfigFlag(createdZombie, 100, true) --Is drunk
+    SetPedConfigFlag(createdZombie, 33, false) --Dies when ragdoll
+    SetPedConfigFlag(createdZombie, 128, false) --Can be agitated
+    SetPedConfigFlag(createdZombie, 188, true) --Disable hurt
+    --SetPedConfigFlag(zomPed, 223, true) --Shrink
+
+    SetPedConfigFlag(createdZombie, 294, true) --Disable shocking events
+    SetPedConfigFlag(createdZombie, 329, true) --Disable talk to
+    SetPedConfigFlag(createdZombie, 421, true) --Flaming footprints
 
     table.insert(zombies, {zombie = createdZombie, spawned = GetGameTimer(), position = coords})
 

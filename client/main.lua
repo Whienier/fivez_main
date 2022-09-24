@@ -449,7 +449,7 @@ RegisterCommand("webhelp", function()
     TriggerEvent("chat:addMessage", {
         color = {0,0,0},
         multiline = true,
-        args = {"ServerHelp", "For the forum type 51.161.197.99:80 into your web browser!"}
+        args = {"ServerHelp", "For the forum type 51.161.197.99 into your web browser!"}
     })
 end, false)
 
@@ -509,6 +509,7 @@ local drawRange = false
 local voiceRange = 0.0
 RegisterCommand("+voicerangeincrease", function()
     voiceRange = voiceRange + 1.0
+    if voiceRange > 15 then voiceRange = 15 end
     MumbleSetAudioInputDistance(voiceRange)
     drawRange = true
 end, false)

@@ -172,7 +172,7 @@ Config.PlayerSpawns = {
     vector3(-1868.971, 2095.674, 139.115),
     vector3(2476.712, 3789.645, 41.226),
     vector3(-2639.872, 1866.812, 160.135),
-    vector3(-595.342, 2086.008, 131.412),
+    --vector3(-595.342, 2086.008, 131.412), Mine spawn
     vector3(2208.777, 5578.235, 53.735),
     vector3(126.975, 3714.419, 46.827),
     vector3(2034.988, 2953.105, 74.602),
@@ -396,7 +396,7 @@ Config.LootableContainers = {
 }
 
 --Distance player is away from a lootable container to draw a marker
-Config.ContainerMarkerDrawDistance = 15
+Config.ContainerMarkerDrawDistance = 5
 
 --Delete inventory markers every 2 minutes
 Config.DeleteInventoryMarkerTime = 120000
@@ -416,7 +416,7 @@ Config.RunningDecayIncrease = 5
 --How much hunger is decayed each time
 Config.HungerDecay = 1
 --How much thirst is decayed each time
-Config.ThirstDecay = 1
+Config.ThirstDecay = 4
 --How much items will decay in a characters inventory
 Config.InventoryDecay = 5
 --Minimum quality spawned items can be
@@ -1089,7 +1089,8 @@ Config.Items = {
             end
         end,
         clientfunction = function()
-            AteFood(10)
+            local charData = GetCharacterData()
+            charData.hunger = charData.hunger + 10
         end
     },
     [33] = {
@@ -2548,6 +2549,18 @@ Config.CustomSkills = {
             local baseStealth = 0
             local newStealth = baseStealth + (1 * level)
             SetPlayerStealthPerceptionModifier(PlayerId(), newStealth)
+        end
+    }.
+    [7] = {
+        label = "Crafting",
+        stat = "MP0_CRAFTING",
+        expperlevel = 500,
+        gainexp = function(source)
+            local playerData = GetJoinedPlayer(source)
+
+            if playerData then
+
+            end
         end
     }
 }

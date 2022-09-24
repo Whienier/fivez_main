@@ -194,22 +194,6 @@ function SetupZombie(zomPed)
             --Stop zombies from being pushed around
             SetPedCanRagdollFromPlayerImpact(zomPed, false)
 
-            SetPedConfigFlag(zomPed, 424, true) --Falls like aircraft
-            
-            SetPedConfigFlag(zomPed, 430, true) --Ignore being on fire
-            SetPedConfigFlag(zomPed, 140, false) --Can attack friendlies
-
-            SetPedConfigFlag(zomPed, 281, false) --Write mode
-            SetPedConfigFlag(zomPed, 100, true) --Is drunk
-            SetPedConfigFlag(zomPed, 33, false) --Dies when ragdoll
-            SetPedConfigFlag(zomPed, 128, false) --Can be agitated
-            SetPedConfigFlag(zomPed, 188, true) --Disable hurt
-            --SetPedConfigFlag(zomPed, 223, true) --Shrink
-
-            SetPedConfigFlag(zomPed, 294, true) --Disable shocking events
-            SetPedConfigFlag(zomPed, 329, true) --Disable talk to
-            SetPedConfigFlag(zomPed, 421, true) --Flaming footprints
-
             RequestAnimSet("move_m@drunk@verydrunk")
             while not HasAnimSetLoaded("move_m@drunk@verydrunk") do
                 Citizen.Wait(0)

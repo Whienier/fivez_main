@@ -2550,7 +2550,7 @@ Config.CustomSkills = {
             local newStealth = baseStealth + (1 * level)
             SetPlayerStealthPerceptionModifier(PlayerId(), newStealth)
         end
-    }.
+    },
     [7] = {
         label = "Crafting",
         stat = "MP0_CRAFTING",

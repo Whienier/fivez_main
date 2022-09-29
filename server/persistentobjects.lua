@@ -81,17 +81,26 @@ RegisterNetEvent("fivez:FinishBuildingPlacement", function(netId)
     if DoesEntityExist(object) then
         --FreezeEntityPosition(object, false)
         local model = GetEntityModel(object)
-        local isDoor = false
-        
-        for k,v in pairs(Config.DoorModels) do
+        local isStash = false
+        local label = ""
+        local stashSlots = 0
+        local stashWeight = 0
+        for k,v in pairs(Config.StashContainers) do
             if v == model then
-                isDoor = true
+                isStash = true
+                label = v.label
+                stashSlots = v.maxslots
+                stashWeight = v.maxweight
             end
         end
         local coords = GetEntityCoords(object)
         local heading = GetEntityHeading(object)
         local health = GetEntityHealth(object)
-        SQL_InsertObject(model, coords, heading, health, isdoor)
+        if not isStash then
+            SQL_InsertObject(model, coords, heading, health, isdoor)
+        else
+            SQL_CreatePersistentCrate(label, model, coords, health, stashSlots, stashWeight)
+        end
     end
 end)
 

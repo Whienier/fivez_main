@@ -16,17 +16,19 @@ MySQL.ready(function()
                         maxSlots = v.crate_maxslots,
                         maxWeight = v.crate_maxweight,
                         weight = 0,
-                        items = InventoryFillEmpty(v.crate_maxslots)
+                        items = {}
                     }
                 }
 
                 persistentCrates[v.persistent_cratesid].inventory.items = SQL_GetPersistentInventoryItems(v.persistent_cratesid, persistentCrates[v.persistent_cratesid].items)
+                local persistentCrateInv = persistentCrates[v.persistent_cratesid].inventory
+                RegisterNewInventory(persistentCrateInv.identifier, "inventory", persistentCrateInv.label, persistentCrateInv.maxWeight, persistentCrateInv.maxSlots, persistentCrateInv.items, persistentCrates[v.persistent_cratesid].position)
             end
         end
     end)
 end)
 
-function SQL_CreatePersistentCrate()
+function SQL_CreatePersistentCrate(label, model, position, health, maxslots, maxweight)
     local createdCrate = nil
     MySQL.ready(function()
         MySQL.Async.insert("INSERT INTO persistent_crates (crate_label, crate_model, crate_position, crate_health, crate_maxslots, crate_maxweight) VALUES (@label, @model, @position, @health, @maxslots, @maxweight)", {
@@ -39,6 +41,24 @@ function SQL_CreatePersistentCrate()
         }, function(result)
             if result > 0 then
                 createdCrate = true
+                --Register the crate into memory
+                persistentCrates[result] = {
+                    id = result,
+                    label = label,
+                    model = model,
+                    position = position,
+                    health = health,
+                    inventory = {
+                        label = label,
+                        identifier = model..":"..result,
+                        maxSlots = maxslots,
+                        maxWeight = maxweight,
+                        weight = 0,
+                        items = InventoryFillEmpty(maxSlots)
+                    }
+                }
+                --After it's created in DB, register an inventory for it
+                RegisterNewInventory(model..":"..result, "inventory", label, maxweight, maxslots, InventoryFillEmpty(maxslots), position)
             else
                 createdCrate = false
             end

@@ -9,7 +9,7 @@
 
         <v-flex xs4 v-for="(element, elementIndex) in notifications" :key="elementIndex">
             <br/>
-            <div id="FIVEZ_Notifs_Notifications" style="color:white;background-color:blue;border-color:black;border-style:solid;font-family:Arial, Helvetica, sans-serif;font-weight:900;font-size:18px;">{{element}}</div>
+            <div id="FIVEZ_Notifs_Notifications" style="color:white;background-color:blue;border-color:black;border-style:solid;font-family:Arial, Helvetica, sans-serif;font-weight:900;font-size:18px;">{{notifications[elementIndex]}}</div>
         </v-flex>
     </v-main>
 </v-app>

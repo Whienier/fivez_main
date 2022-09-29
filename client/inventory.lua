@@ -1,4 +1,6 @@
 local inventories = {}
+inventoryOpen = false
+
 RegisterNetEvent("fivez:LoadInventoryMarkers", function(markers)
     inventories = json.decode(markers)
 end)
@@ -110,6 +112,7 @@ end)
 RegisterNUICallback("close_inventory", function(data, cb)
     SetNuiFocus(false, false)
     TriggerServerEvent("fivez:CloseInventory")
+    inventoryOpen = false
     cb('ok')
 end)
 
@@ -249,6 +252,7 @@ RegisterCommand("+inventory", function()
         }
     })
     SetNuiFocus(true, true)
+    inventoryOpen = true
 end, false)
 RegisterCommand("-inventory", function() end, false)
 

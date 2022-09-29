@@ -135,6 +135,7 @@ RegisterNetEvent("fivez:SyncZombieState", function(syncZombiesData)
                 
                 --If the zombie is not already synced
                 if not alreadySynced then
+                    SetupZombie(syncZomEnt)
                     table.insert(zombies, syncZomEnt)
                 end
             end
@@ -158,8 +159,6 @@ RegisterNetEvent("fivez:SyncZombieState", function(syncZombiesData)
             end
         end
     end
-
-    SetupZombieStates()
 end)
 
 function SetupZombie(zomPed)

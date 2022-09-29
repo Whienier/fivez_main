@@ -130,7 +130,7 @@ AddEventHandler("fivez:OpenCharacterCustomizer", function(spawn)
         headOverlays = false,
         components = false,
         props = false,
-        tattoos = true
+        tattoos = false
     }
     exports["fivem-appearance"]:startPlayerCustomization(function(appearance)
         if appearance then
@@ -514,7 +514,7 @@ RegisterCommand("+voicerangeincrease", function()
     drawRange = true
 end, false)
 RegisterCommand("-voicerangeincrease", function() end, false)
-RegisterKeyMapping("+voicerangeincrease", "Increases the range of your VOIP", "keyboard", "]")
+RegisterKeyMapping("+voicerangeincrease", "Increases the range of your VOIP", "keyboard", "f4")
 
 RegisterCommand("+voicerangedecrease", function()
     voiceRange = voiceRange - 1.0
@@ -523,7 +523,7 @@ RegisterCommand("+voicerangedecrease", function()
     drawRange = true
 end, false)
 RegisterCommand("-voicerangedecrease", function() end, false)
-RegisterKeyMapping("+voicerangedecrease", "Decrease the range of your VOIP", "keyboard", "[")
+RegisterKeyMapping("+voicerangedecrease", "Decrease the range of your VOIP", "keyboard", "f3")
 
 local drawTimestamp = nil
 Citizen.CreateThread(function()

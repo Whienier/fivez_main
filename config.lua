@@ -392,6 +392,22 @@ Config.LootableContainers = {
             [72] = 15
         },
         spawnall = false
+    },
+    [GetHashKey("ex_prop_adv_case")] = {
+        maxslots = 30,
+        maxweight = 75,
+        items = {
+
+        },
+        spawnall = true
+    }
+}
+--Containers that players can stash items into
+Config.StashContainers = {
+    [GetHashKey("prop_idol_case_01")] = {
+        label = "Small Idol Case",
+        maxslots = 5,
+        maxweight = 25
     }
 }
 
@@ -1782,6 +1798,26 @@ Config.Items = {
                 return true
             end
         end
+    },
+    [77] = {
+        itemId = 77,
+        label = "Stash",
+        model = "stash",
+        weight = 15,
+        maxcount = 1,
+        count = 0,
+        quality = 100,
+        spawnchance = 0,
+        attachments = {},
+        serverfunction = function(source)
+            local coords = GetEntityCoords(GetPlayerPed(source))
+            local object = CreateObject(GetHashKey("prop_idol_case_01"), coords.x, coords.y, coords.z, true, true, false)
+            while not DoesEntityExist(object) do
+                Citizen.Wait(1)
+            end
+            Citizen.Wait(500)
+            TriggerClientEvent("fivez:Building", source, NetworkGetNetworkIdFromEntity(object))
+        end
     }
 }
 
@@ -2574,6 +2610,10 @@ Config.ZombieLootTable = {
     ["undefined"] = {
         [4] = {chance = 1, maxcount = 1}
     }
+}
+--Drop locations for air drops to take
+Config.AirdropLocations = {
+    [1] = vector3(0, 0, 0)
 }
 
 --How many inventory slots a dead zombie can have

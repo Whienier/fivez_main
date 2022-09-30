@@ -27,7 +27,9 @@ RegisterNetEvent("fivez:LoadCharacterData", function(charData)
     --Enable PvP
     SetCanAttackFriendly(GetPlayerPed(-1), true, false)
     NetworkSetFriendlyFireOption(true)
-
+    if characterData.gender == 1 then
+        characterData.health = 200
+    end
     --Turn blackout mode on
     SetArtificialLightsState(true)
     SetArtificialLightsStateAffectsVehicles(false)

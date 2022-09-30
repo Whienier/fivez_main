@@ -63,6 +63,7 @@ function SpawnVehicle(model, coords, gloveboxinv, trunkinv, vehicleNumberplate)
     while not DoesEntityExist(createdVehicle) do
         Citizen.Wait(1)
     end
+    SetVehicleNumberPlateText(createdVehicle, vehicleNumberplate)
     local defaults = Config.CarStorage[model] or Config.DefaultCarStorage
     local gloveboxweight = 0
     local gloveboxitems = gloveboxinv or InventoryFillEmpty(defaults.gloveboxslots)
@@ -117,7 +118,7 @@ end
 
 --Make sure database vehicles are spawned before random generated ones
 local persistentVehiclesSpawned = false
---Thread to spawn persistent vehicles
+--Thread to spawn database persistent vehicles
 Citizen.CreateThread(function()
     while true do
         if #GetPlayers() >= 1 then
@@ -133,7 +134,7 @@ Citizen.CreateThread(function()
             if #persistentVehicles >= 1 then
                 for k,v in pairs(persistentVehicles) do
                     local coords = vector3(v.position.x, v.position.y, v.position.z)
-                    local createdVehicle = SpawnVehicle(v.model, coords, v.glovebox, v.trunk)
+                    local createdVehicle = SpawnVehicle(v.model, coords, v.glovebox, v.trunk, v.numberplate)
                     SetEntityCoords(createdVehicle, coords.x, coords.y, coords.z, false, false, false, false)
                     SetVehicleNumberPlateText(createdVehicle, v.numberplate)
                     SetVehicleBodyHealth(createdVehicle, v.bodyhealth)
@@ -219,7 +220,7 @@ Citizen.CreateThread(function()
                             v.tyres = tyres
                         end
                     end
-                    SQL_InsertPersistentVehicle(createdVeh, Config.CarLabels[carModel], enginehealth, tyres, fuelLevel)
+                    SQL_InsertPersistentVehicle(createdVeh, Config.CarLabels[GetHashKey(carModel)], enginehealth, tyres, fuelLevel)
                     ::skip::
                 end
                 Citizen.Wait(500)

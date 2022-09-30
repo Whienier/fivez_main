@@ -63,7 +63,7 @@ function SpawnVehicle(model, coords, gloveboxinv, trunkinv, vehicleNumberplate)
     while not DoesEntityExist(createdVehicle) do
         Citizen.Wait(1)
     end
-    SetVehicleNumberPlateText(createdVehicle, vehicleNumberplate)
+    --SetVehicleNumberPlateText(createdVehicle, vehicleNumberplate)
     local defaults = Config.CarStorage[model] or Config.DefaultCarStorage
     local gloveboxweight = 0
     local gloveboxitems = gloveboxinv or InventoryFillEmpty(defaults.gloveboxslots)

@@ -2033,7 +2033,7 @@ Config.Recipes = {
 --Amount of vehicles that can be spawned
 Config.MaxSpawnedVehicles = 25
 --Amount of cars that can be spawned of the maximum amount of vehicles, -1 is no limit
-Config.MaxSpawnCars = 10
+Config.MaxSpawnCars = 25
 
 Config.DefaultCarStorage = {
     trunkslots = 10,

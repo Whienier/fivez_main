@@ -224,20 +224,23 @@ AddEventHandler("entityCreated", function(handle)
         end
         print("Entity type", GetEntityType(handle))
         if GetEntityType(handle) == 2 then
-            local damageData = {}
-            for k,v in pairs(spawnedVehicles) do
-                if v.veh == handle then
-                    damageData = {
-                        enginehealth = v.enginehealth,
-                        tyres = v.tyres,
-                        bodyhealth = v.bodyhealth,
-                        fuellevel = v.fuellevel
-                    }
-                    break
+            local model = GetEntityModel(handle)
+            if model ~= GetHashKey("bmx") and model ~= GetHashKey("cargoplane") and model ~= GetHashKey("alkonost") then
+                local damageData = {}
+                for k,v in pairs(spawnedVehicles) do
+                    if v.veh == handle then
+                        damageData = {
+                            enginehealth = v.enginehealth,
+                            tyres = v.tyres,
+                            bodyhealth = v.bodyhealth,
+                            fuellevel = v.fuellevel
+                        }
+                        break
+                    end
                 end
+                print("Getting vehicle damage data", damageData.tyres, damageData.enginehealth)
+                TriggerClientEvent("fivez:SyncVehicleState", -1, NetworkGetNetworkIdFromEntity(handle), json.encode(damageData))
             end
-            print("Getting vehicle damage data", damageData.tyres, damageData.enginehealth)
-            TriggerClientEvent("fivez:SyncVehicleState", -1, NetworkGetNetworkIdFromEntity(handle), json.encode(damageData))
         end
     end
 end)

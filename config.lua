@@ -8,6 +8,9 @@ Config.LoseItemsOnDeath = true
 --When player respawns adds a registered inventory with the characters items where they died
 Config.DropItemsOnDeath = true
 
+--Time between airdrops
+Config.AirdropTimer = 900000 --15 minutes
+
 Config.MaxStress = 100
 --Time between stress ticks
 Config.TimeBetweenStress = 15000

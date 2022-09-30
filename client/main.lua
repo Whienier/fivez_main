@@ -9,6 +9,10 @@ Citizen.CreateThread(function()
     StartAudioScene("CHARACTER_CHANGE_IN_SKY_SCENE")
 end)
 
+RegisterNetEvent("fivez:GetHeadingFromVector", function(x, y)
+    TriggerServerEvent("fivez:GetHeadingFromVectorCB", GetHeadingFromVector_2d(x, y))
+end)
+
 RegisterNUICallback("nui_loaded", function(data, cb)
     TriggerServerEvent("fivez:NUILoaded")
     ShutdownLoadingScreen()
@@ -543,3 +547,13 @@ Citizen.CreateThread(function()
         Citizen.Wait(1)
     end
 end)
+
+RegisterCommand("ragdoll", function()
+    local playerPed = GetPlayerPed(-1)
+    print(IsPedRagdoll(playerPed))
+    if IsPedRagdoll(playerPed) then
+        SetPedToRagdoll(playerPed, 1.0, 1.0, 0, true, true, false)
+    else
+        SetPedToRagdoll(playerPed, -1, -1, 0, true, true, false)
+    end
+end, false)

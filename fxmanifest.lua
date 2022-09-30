@@ -15,7 +15,8 @@ client_scripts {
     'client/cuffs.lua',
     'client/contextmenu.lua',
     'client/skills.lua',
-    'client/persistentobjects.lua'
+    'client/persistentobjects.lua',
+    'client/airdrop.lua'
 }
 
 server_scripts { 
@@ -32,7 +33,9 @@ server_scripts {
     'server/ammo.lua',
     'server/cuffs.lua',
     'server/skills.lua',
-    'server/persistentobjects.lua'
+    'server/persistentobjects.lua',
+    'server/airdrop.lua',
+    'server/characterproficiency.lua'
 }
 
 ui_page 'interface/index.html'

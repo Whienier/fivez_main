@@ -2034,8 +2034,6 @@ Config.Recipes = {
 Config.MaxSpawnedVehicles = 25
 --Amount of cars that can be spawned of the maximum amount of vehicles, -1 is no limit
 Config.MaxSpawnCars = 10
---Amount of bikes that can be spawned of the maximum amount of vehicles, -1 is no limit 
-Config.MaxSpawnBikes = -1
 
 Config.DefaultCarStorage = {
     trunkslots = 10,
@@ -2057,15 +2055,19 @@ Config.CarLabels = {
     [GetHashKey("futo")] = "Futo",
     [GetHashKey("adder")] = "Adder",
     [GetHashKey("zentorno")] = "Zentorno",
-    [GetHashKey("ruiner")] = "Ruiner"
+    [GetHashKey("ruiner")] = "Ruiner",
+    [GetHashKey("tornado4")] = "Tornado",
+    [GetHashKey("warrener")] = "Warrener"
 }
 
 --Positions where cars can spawn
 Config.PotentialCarSpawns = {
     {
         models = { --What type of cars can spawn at this location
-            "zentorno",
-            "adder"
+            "futo",
+            "ruiner",
+            "tornado4",
+            "warrener"
         },
         damaged = { --Control how damaged the car will spawn
             minenginehealth = 500.0,
@@ -2098,8 +2100,10 @@ Config.PotentialCarSpawns = {
     },
     {
         models = { --What type of cars can spawn at this location
-            "zentorno",
-            "adder"
+            "futo",
+            "ruiner",
+            "tornado4",
+            "warrener"
         },
         damaged = { --Control how damaged the car will spawn
             minenginehealth = 500.0,
@@ -2132,8 +2136,10 @@ Config.PotentialCarSpawns = {
     },
     {
         models = { --What type of cars can spawn at this location
-            "zentorno",
-            "adder"
+            "futo",
+            "ruiner",
+            "tornado4",
+            "warrener"
         },
         damaged = { --Control how damaged the car will spawn
             minenginehealth = 500.0,
@@ -2166,8 +2172,9 @@ Config.PotentialCarSpawns = {
     },
     {
         models = { --What type of cars can spawn at this location
-            "zentorno",
-            "adder"
+            "futo",
+            "ruiner",
+            "tornado4"
         },
         damaged = { --Control how damaged the car will spawn
             minenginehealth = 500.0,
@@ -2200,8 +2207,9 @@ Config.PotentialCarSpawns = {
     },
     {
         models = { --What type of cars can spawn at this location
-            "zentorno",
-            "adder"
+            "futo",
+            "ruiner",
+            "tornado4"
         },
         damaged = { --Control how damaged the car will spawn
             minenginehealth = 500.0,
@@ -2234,8 +2242,9 @@ Config.PotentialCarSpawns = {
     },
     {
         models = { --What type of cars can spawn at this location
-            "zentorno",
-            "adder"
+            "futo",
+            "ruiner",
+            "tornado4"
         },
         damaged = { --Control how damaged the car will spawn
             minenginehealth = 500.0,
@@ -2265,79 +2274,6 @@ Config.PotentialCarSpawns = {
         maxfuel = 100.0,
         position = vector3(1956.3, 3762.53, 32),
         heading = 207.5
-    }
-}
-
-Config.PotentialBikeSpawns = {
-    {
-        models = {
-            "bmx"
-        },
-        position = vector3(-761.4, 1645.44, 204.8),
-        heading = 0.0
-    },
-    {
-        models = {
-            "bmx"
-        },
-        position = vector3(-801.2, 1840.5, 165.4),
-        heading = 0.0
-    },
-    {
-        models = {
-            "bmx"
-        },
-        position = vector3(-1580.43, 2104.57, 67.16),
-        heading = 0.0
-    },
-    {
-        models = {
-            "bmx"
-        },
-        position = vector3(-1132.77, 2695.98, 18.0),
-        heading = 270.0
-    },
-    {
-        models = {
-            "bmx"
-        },
-        position = vector3(-4581.89, 2858.38, 34.62),
-        heading = 270.0
-    },
-    {
-        models = {
-            "bmx"
-        },
-        position = vector3(-295.39, 2816.95, 58.8),
-        heading = 270.0
-    },
-    {
-        models = {
-            "bmx"
-        },
-        position = vector3(251.5, 3119.64, 42.3),
-        heading = 270.0
-    },
-    {
-        models = {
-            "bmx"
-        },
-        position = vector3(916.56, 3658.75, 32.3),
-        heading = 270.0
-    },
-    {
-        models = {
-            "bmx"
-        },
-        position = vector3(1543.2, 3779.68, 33.8),
-        heading = 270.0
-    },
-    {
-        models = {
-            "bmx"
-        },
-        position = vector3(2460, 4073.7, 37.8),
-        heading = 270.0
     }
 }
 

@@ -11,7 +11,7 @@ function AddNotification(message, delay)
     SendNUIMessage({
         type = "fivez_notifications",
         name = "AddNotification",
-        data = json.encode({message})
+        data = message
     })
 end
 

@@ -9,7 +9,7 @@ Config.LoseItemsOnDeath = true
 Config.DropItemsOnDeath = true
 
 --Time between airdrops
-Config.AirdropTimer = 900000 --15 minutes
+Config.AirdropTimer = 900 * 1000 --15 minutes
 
 Config.MaxStress = 100
 --Time between stress ticks

@@ -25,7 +25,7 @@ const FIVEZ_Notifs = new Vue({
         },
 
         AddNotification(notification) {
-            this.notifications.push(JSON.parse(notification));
+            this.notifications.push(notification);
             //this.notifications.push({test: notification});
             console.log(this.notifications)
         },

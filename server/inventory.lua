@@ -320,9 +320,11 @@ RegisterNetEvent("fivez:ItemUsed", function(itemId, slot, identifier)
                 plyChar.inventory.items[slot] = EmptySlot()
                 SQL_RemoveItemFromCharacterInventory(plyChar.Id, slot)
             elseif count > 1 then
-                count = count - 1
+                plyChar.inventory.items[slot].count = count - 1
                 SQL_UpdateItemCountInCharacterInventory(plyChar.Id, slot, count)
             end
+        elseif plyChar.inventory.items[slot].itemId ~= itemId then
+            TriggerClientEvent("fivez:AddNotification", source, "Item in slot isn't item you tried to use")
         end
     else
         local registeredInventory = GetInventoryWithId(identifier)

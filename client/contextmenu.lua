@@ -12,7 +12,7 @@ ECM:Register(function(screenPos, hitSomething, worldPos, hitEntity, normalDirect
             end
             local healthItem = ECM:AddItem(pedSubmenu, "Health: "..health)
             local armorItem = ECM:AddItem(pedSubmenu, "Armor: "..GetPedArmour(hitEntity))
-            --If we click on the players ped
+            --If we click on the local players ped
             if hitEntity == PlayerPedId() then
                 local humanityItem = ECM:AddItem(0, "Humanity: "..GetCharacterHumanity())
                 local skillSubmenu, skillSubmenuItem = ECM:AddSubmenu(pedSubmenu, "Skills")
@@ -25,6 +25,15 @@ ECM:Register(function(screenPos, hitSomething, worldPos, hitEntity, normalDirect
                         end
                     end
                 end
+
+                local suicideItem = ECM:AddItem(0, "Suicide")
+                ECM:OnActivate(suicideItem, function()
+                    ExecuteCommand("suicide")
+                end)
+                local ragdollItem = ECM:AddItem(0, "Ragdoll")
+                ECM:OnActivate(ragdollItem, function()
+                    ExecuteCommand("ragdoll")
+                end)
                 --Test how much setting these to max effects gameplay
                 --Also test if 1 and 100 values offer the same result
 
@@ -34,7 +43,7 @@ ECM:Register(function(screenPos, hitSomething, worldPos, hitEntity, normalDirect
                     for k,v in pairs(charInventory.items) do
                         if v.model == "bandage" then
                             TriggerServerEvent('fivez:InventoryUse', charInventory.Id, v.itemId, k)
-                            return
+                            break
                         end
                     end
                     AddNotification("You don't have any bandages")
@@ -89,6 +98,10 @@ ECM:Register(function(screenPos, hitSomething, worldPos, hitEntity, normalDirect
             for i=0,GetVehicleNumberOfWheels(vehiclePedIsIn) do
                 ECM:AddItem(tyresSubmenu, "Tyre "..i..':'..GetVehicleWheelHealth(vehiclePedIsIn, i))
             end
+            local flipVehItem = ECM:AddItem(0, "Flip Vehicle")
+            ECM:OnActivate(flipVehItem, function()
+                ExecuteCommand("flipveh")
+            end)
             local refuelItem = ECM:AddItem(0, "Refuel")
             ECM:OnActivate(refuelItem, function()
                 local charInventory = GetCharacterInventory()

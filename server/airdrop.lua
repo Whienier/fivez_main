@@ -87,6 +87,7 @@ function StartAirDropWIP(dropPos)
     end)
 end
 
+local activeAirdrops = {}
 local crateBroken = nil
 
 RegisterNetEvent("fivez:AirdropCrateBrokenCB", function(result)
@@ -100,12 +101,13 @@ function StartAirDrop(dropPos)
         while not DoesEntityExist(dropCrate) do
             Citizen.Wait(1)
         end
-        
+        SetEntityDistanceCullingRadius(dropCrate, 50000.0)
         local crateCoords = GetEntityCoords(dropCrate)
         local parachute = CreateObject(GetHashKey("p_cargo_chute_s"), crateCoords.x+0.0, crateCoords.y+0.0, crateCoords.z+0.0, true, true, false)
         while not DoesEntityExist(parachute) do
             Citizen.Wait(1)
         end
+        SetEntityDistanceCullingRadius(parachute, 50000.0)
         TriggerClientEvent("fivez:AirdropAttachParachute", -1, NetworkGetNetworkIdFromEntity(parachute), NetworkGetNetworkIdFromEntity(dropCrate))
         FreezeEntityPosition(dropCrate, false)
         FreezeEntityPosition(parachute, false)
@@ -122,8 +124,9 @@ function StartAirDrop(dropPos)
         while not DoesEntityExist(lootCrate) do
             Citizen.Wait(1)
         end
+        SetEntityDistanceCullingRadius(lootCrate, 50000.0)
         TriggerClientEvent("fivez:AddNotification", -1, "Airdrop has touched ground! Find and loot it!")
-        
+        table.insert(activeAirdrops, crateCoords)
         return
     end)
 end
@@ -143,7 +146,15 @@ Citizen.CreateThread(function()
             Citizen.Wait(Config.AirdropTimer)
             local airdropConfig = Config.AirdropLocations[math.random(1, #Config.AirdropLocations)]
             if airdropConfig then
-                StartAirDrop(airdropConfig)
+                local coordsTaken = false
+                for k,v in pairs(activeAirdrops) do
+                    if #(v - airdropConfig) <= 100 then
+                        coordsTaken = true
+                    end
+                end
+                if not coordsTaken then
+                    StartAirDrop(airdropConfig)
+                end
             end
         else
             Citizen.Wait(Config.ServerDelayTick)

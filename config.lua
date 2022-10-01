@@ -398,9 +398,11 @@ Config.LootableContainers = {
     },
     [GetHashKey("ex_prop_adv_case")] = {
         maxslots = 30,
-        maxweight = 75,
+        maxweight = 150,
         items = {
-
+            [15] = {minquality = 50, maxquality = 75, chance = 100},
+            [16] = 50,
+            [17] = {minquality = 80, maxquality = 100, chance = 75}
         },
         spawnall = true
     }

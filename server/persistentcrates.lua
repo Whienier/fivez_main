@@ -270,8 +270,15 @@ function CalculateLootableContainer(model)
         if k == model then
             local inventoryWeight = 0
             local items = InventoryFillEmpty(container.maxslots)
+            local hasItems = false
+            for k,v in pairs(container.items) do
+                if k ~= nil then
+                    hasItems = true
+                    break
+                end
+            end
             --If the container containers any items that should override spawns
-            if container.items[1] then
+            if hasItems then
                 --If the container spawns all items as well as overriden spawns
                 if container.spawnall then
                     lootSpawned = {}
@@ -287,15 +294,25 @@ function CalculateLootableContainer(model)
                             goto skip
                         end
 
+                        local rng = math.random(0, 100)
+
                         for ochanceItemId,ochance in pairs(container.items) do
-                            local rng = math.random(0, 100)
+                            local itemChance = ochance
+                            local itemMinQuality = configItem.minquality or Config.MinQuality
+                            local itemMaxQuality = configItem.maxquality or Config.MaxQuality
+                            if type(ochance) == "table" then
+                                itemChance = ochance.chance
+                                itemMinQuality = ochance.minquality
+                                itemMaxQuality = ochance.maxquality
+                            end
+                            
                             if ochanceItemId == configItemId then
                                 override = true
-                                if rng < ochance then
+                                if rng < itemChance then
                                     rng = math.random(1, configItem.maxcount)
                                     configItem.count = rng
                                     configItem.weight = configItem.weight * rng
-                                    rng = math.random(Config.MinQuality, Config.MaxQuality)
+                                    rng = math.random(itemMinQuality, itemMaxQuality)
                                     configItem.quality = rng
                                     if inventoryWeight + configItem.weight > container.maxweight then break end
                                     inventoryWeight = inventoryWeight + configItem.weight
@@ -303,6 +320,7 @@ function CalculateLootableContainer(model)
                                         if v.model == "empty" then
                                             items[k] = configItem
                                             table.insert(lootSpawned, configItemId)
+                                            break
                                         end
                                     end
                                 end
@@ -310,11 +328,12 @@ function CalculateLootableContainer(model)
                         end
                         
                         if not override then
+                            rng = math.random(0, 100)
                             if rng < configItem.spawnchance then
                                 rng = math.random(1, configItem.maxcount)
                                 configItem.count = rng
                                 configItem.weight = configItem.weight * rng
-                                rng = math.random(Config.MinQuality, Config.MaxQuality)
+                                rng = math.random(configItem.minquality or Config.MinQuality, configItem.quality or Config.MaxQuality)
                                 configItem.quality = rng
                                 if inventoryWeight + configItem.weight > container.maxweight then break end
                                 inventoryWeight = inventoryWeight + configItem.weight
@@ -322,6 +341,7 @@ function CalculateLootableContainer(model)
                                     if v.model == "empty" then
                                         items[k] = configItem
                                         table.insert(lootSpawned, configItemId)
+                                        break
                                     end
                                 end
                             end
@@ -329,7 +349,7 @@ function CalculateLootableContainer(model)
                         ::skip::
                     end
                 else
-                    --If container should only spawn whats in the overriden items table
+                    --If container should only spawn whats in the override items table
                     lootSpawned = {}
                     for k,chance in pairs(container.items) do
                         local alreadySpawned = false
@@ -341,12 +361,14 @@ function CalculateLootableContainer(model)
 
                         local rng = math.random(0, 100)
                         local itemData = Config.ItemsWithoutFunctions[k]
+                        --Try to get the chance index if it's a table, if not just a number
+                        local itemChance = chance.chance or chance
                         if chance == -1 then chance = itemData.spawnchance end
                         if not alreadySpawned and rng < chance then
                             rng = math.random(1, itemData.maxcount)
                             itemData.count = rng
                             itemData.weight = itemData.weight * rng
-                            rng = math.random(Config.MinQuality, Config.MaxQuality)
+                            rng = math.random(chance.minquality or configItem.minquality or Config.MinQuality, chance.maxquality or configItem.quality or Config.MaxQuality)
                             itemData.quality = rng
                             --If adding this item puts the inventory over max weight break
                             if inventoryWeight + item.weight > container.maxweight then break end
@@ -361,7 +383,7 @@ function CalculateLootableContainer(model)
                     end
                 end
             else
-                --If the container only spawns all items from config
+                --If the container doesn't have any items in the override table
                 lootSpawned = {}
                 if container.spawnall then
                     for itemId,item in pairs(Config.ItemsWithoutFunctions()) do
@@ -369,7 +391,6 @@ function CalculateLootableContainer(model)
                         if item.containerspawn == nil then goto itemadded end
 
                         for _,loot in pairs(lootSpawned) do
-                            print("Checking loot spawned", loot, itemId)
                             if tonumber(loot) == tonumber(itemId) then
                                 goto itemadded
                             end
@@ -381,10 +402,10 @@ function CalculateLootableContainer(model)
                             rng = math.random(1, item.maxcount)
                             item.count = rng
                             item.weight = item.weight * rng
-                            rng = math.random(Config.MinQuality, Config.MaxQuality)
+                            rng = math.random(item.minquality or Config.MinQuality, item.quality or Config.MaxQuality)
                             item.quality = rng
                             
-                            if inventoryWeight + item.weight > container.maxweight then break end
+                            if inventoryWeight + item.weight > container.maxweight then print("Container at max weight, can't spawn more items in it") break end
 
                             inventoryWeight = inventoryWeight + item.weight
                             for k,v in pairs(items) do

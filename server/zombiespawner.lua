@@ -137,7 +137,7 @@ function CalculateZombieLoot(zombieModel)
                 if rng < (item.chance or itemData.spawnchance) then
                     rng = math.random(1, item.maxcount)
                     itemData.count = rng
-                    rng = math.random(Config.MinQuality, Config.MaxQuality)
+                    rng = math.random(configItem.minquality or Config.MinQuality, configItem.quality or Config.MaxQuality)
                     itemData.quality = rng
                     weight = weight + (itemData.count * itemData.weight)
                     items[k] = itemData
@@ -166,7 +166,7 @@ function CalculateZombieLoot(zombieModel)
                     weight = weight + (rng * v.weight)
                     local itemData = v
                     itemData.count = rng
-                    rng = math.random(Config.MinQuality, Config.MaxQuality)
+                    rng = math.random(configItem.minquality or Config.MinQuality, configItem.quality or Config.MaxQuality)
                     itemData.quality = rng
                     items[k] = itemData
                     table.insert(lootSpawned, itemData.itemId)

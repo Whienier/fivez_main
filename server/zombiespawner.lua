@@ -118,7 +118,7 @@ function CalculateZombieLoot(zombieModel)
     local weight = 0
 
     lootSpawned = {}
-    
+    --Loop for model specifc loot
     for k,v in pairs(items) do
         if v.model == "empty" then
             for itemId, item in pairs(possibleLoot) do
@@ -137,7 +137,7 @@ function CalculateZombieLoot(zombieModel)
                 if rng < (item.chance or itemData.spawnchance) then
                     rng = math.random(1, item.maxcount)
                     itemData.count = rng
-                    rng = math.random(configItem.minquality or Config.MinQuality, configItem.quality or Config.MaxQuality)
+                    rng = math.random(itemData.minquality or Config.MinQuality, itemData.quality or Config.MaxQuality)
                     itemData.quality = rng
                     weight = weight + (itemData.count * itemData.weight)
                     items[k] = itemData
@@ -147,7 +147,7 @@ function CalculateZombieLoot(zombieModel)
             end
         end
     end
-
+    --Loop for general item spawning
     for k,v in pairs(items) do
         if v.model == "empty" then
             for _,v in pairs(Config.ItemsWithoutFunctions()) do
@@ -166,7 +166,7 @@ function CalculateZombieLoot(zombieModel)
                     weight = weight + (rng * v.weight)
                     local itemData = v
                     itemData.count = rng
-                    rng = math.random(configItem.minquality or Config.MinQuality, configItem.quality or Config.MaxQuality)
+                    rng = math.random(v.minquality or Config.MinQuality, v.quality or Config.MaxQuality)
                     itemData.quality = rng
                     items[k] = itemData
                     table.insert(lootSpawned, itemData.itemId)

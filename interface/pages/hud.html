@@ -4,21 +4,21 @@
     <v-main>
         <div id="FIVEZ_HUD_Base">
             <div id="FIVEZ_HUD_Elements">
-                <v-progress-circular color="green" :value="info.health">{{info.health}}</v-progress-circular>
-                <v-progress-circular color="blue darken-4" :value="info.armor">{{info.armor}}</v-progress-circular>
-                <v-progress-circular color="orange darken-4" :value="info.stamina">{{info.stamina}}</v-progress-circular>
+                <v-progress-circular color="green" :value="info.health"><v-icon small>mdi-heart</v-icon></v-progress-circular>
+                <v-progress-circular color="blue darken-4" :value="info.armor"><v-icon small>mdi-shield</v-icon></v-progress-circular>
+                <v-progress-circular color="orange darken-4" :value="info.stamina"><v-icon small>mdi-lungs</v-icon></v-progress-circular>
             </br>
-                <v-progress-circular color="yellow" :value="info.hunger">{{info.hunger}}</v-progress-circular>
-                <v-progress-circular color="blue" :value="info.thirst">{{info.thirst}}</v-progress-circular>
-                <v-progress-circular color="red" :value="info.stress">{{info.stress}}</v-progress-circular>
+                <v-progress-circular color="yellow" :value="info.hunger"><v-icon small>mdi-hamburger</v-icon></v-progress-circular>
+                <v-progress-circular color="blue" :value="info.thirst"><v-icon small>mdi-cup-water</v-icon></v-progress-circular>
+                <v-progress-circular color="red" :value="info.stress"><v-icon small>mdi-head-alert</v-icon></v-progress-circular>
                 <v-progress-circular color="blue" :value="micvalue">
-                    <v-icon v-show="ShowMic">mic</v-icon>
+                    <v-icon v-show="ShowMic" small>mic</v-icon>
                 </v-progress-circular>
                 <v-spacer></v-spacer>
                 <div v-show="ShowCar">
-                    <v-progress-circular color="orange" :value="carInfo.fuel">{{carInfo.fuel}}</v-progress-circular>
-                    <v-progress-circular color="orange" :value="carInfo.body">{{carInfo.body}}</v-progress-circular>
-                    <v-progress-circular color="orange" :vallue="carInfo.eng">{{carInfo.eng}}</v-progress-circular>
+                    <v-progress-circular color="orange" :value="carInfo.fuel"><v-icon small>mdi-gas-station</v-icon></v-progress-circular>
+                    <v-progress-circular color="orange" :value="carInfo.body"><v-icon small>mdi-car</v-icon></v-progress-circular>
+                    <v-progress-circular color="orange" :vallue="carInfo.eng"><v-icon small>mdi-engine</v-icon></v-progress-circular>
                 </div>
             </div>
         </div>

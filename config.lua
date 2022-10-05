@@ -366,7 +366,7 @@ Config.LootableContainers = {
             [63] = 10
         },
         spawnall = false
-    }
+    },
     [GetHashKey('prop_toolchest_05')] = {
         maxslots = 25,
         maxweight = 50,

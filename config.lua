@@ -2329,6 +2329,7 @@ Config.CustomSkills = {
                             end
                         end
                         TriggerClientEvent("fivez:AddExp", source, 1, playerData.characterData.skills[1].Xp)
+                        TriggerClientEvent("fivez:AddNotification", source, "Gained XP for Stamina!")
                         SQL_UpdateCharacterSkill(playerData.characterData.Id, 1, playerData.characterData.skills[1].Level, playerData.characterData.skills[1].Xp)
                         return
                     end
@@ -2340,6 +2341,7 @@ Config.CustomSkills = {
                     }
                     SQL_InsertCharacterSkillData(playerData.characterData.Id, 1)
                     TriggerClientEvent("fivez:AddExp", source, 1, 0)
+                    TriggerClientEvent("fivez:AddNotification", source, "Gained new skill Stamina!")
                 end
             end
         end,
@@ -2376,10 +2378,11 @@ Config.CustomSkills = {
                                 playerData.characterData.skills[2].Level = playerData.characterData.skills[2].Level + 1
                                 local remXp = playerData.characterData.skills[2].Xp - xpToNextLevel
                                 playerData.characterData.skills[2].Xp = remXp
-                                TriggerClientEvent("fivez:AddNotification", source, "You leveled up strength")
+                                TriggerClientEvent("fivez:AddNotification", source, "You leveled up Strength!")
                             end
                         end
                         TriggerClientEvent("fivez:AddExp", source, 2, playerData.characterData.skills[2].Xp)
+                        TriggerClientEvent("fivez:AddNotification", source, "Gained XP for Strength!")
                         SQL_UpdateCharacterSkill(playerData.characterData.Id, 2, playerData.characterData.skills[2].Level, playerData.characterData.skills[2].Xp)
                         return
                     end
@@ -2391,6 +2394,7 @@ Config.CustomSkills = {
                     }
                     SQL_InsertCharacterSkillData(playerData.characterData.Id, 2)
                     TriggerClientEvent("fivez:AddExp", source, 2, 0)
+                    TriggerClientEvent("fivez:AddNotification", source, "Gained new skill Strength!")
                 end
             end
         end,
@@ -2423,10 +2427,11 @@ Config.CustomSkills = {
                                 playerData.characterData.skills[3].Level = playerData.characterData.skills[3].Level + 1
                                 local remXp = playerData.characterData.skills[3].Xp - xpToNextLevel
                                 playerData.characterData.skills[3].Xp = remXp
-                                TriggerClientEvent("fivez:AddNotification", source, "You leveled up strength")
+                                TriggerClientEvent("fivez:AddNotification", source, "You leveled up Lung Capactiy!")
                             end
                         end
                         TriggerClientEvent("fivez:AddExp", source, 3, playerData.characterData.skills[3].Xp)
+                        TriggerClientEvent("fivez:AddNotification", source, "Gained XP for Lung Capacity!")
                         SQL_UpdateCharacterSkill(playerData.characterData.Id, 3, playerData.characterData.skills[3].Level, playerData.characterData.skills[3].Xp)
                         return
                     end
@@ -2438,6 +2443,7 @@ Config.CustomSkills = {
                     }
                     SQL_InsertCharacterSkillData(playerData.characterData.Id, 3)
                     TriggerClientEvent("fivez:AddExp", source, 3, 0)
+                    TriggerClientEvent("fivez:AddNotification", source, "Gained new skill Lung Capacity!")
                 end
             end
         end,
@@ -2477,10 +2483,11 @@ Config.CustomSkills = {
                                 playerData.characterData.skills[5].Level = playerData.characterData.skills[5].Level + 1
                                 local remXp = playerData.characterData.skills[5].Xp - xpToNextLevel
                                 playerData.characterData.skills[5].Xp = remXp
-                                TriggerClientEvent("fivez:AddNotification", source, "You leveled up strength")
+                                TriggerClientEvent("fivez:AddNotification", source, "You leveled up Shooting!")
                             end
                         end
                         TriggerClientEvent("fivez:AddExp", source, 5, playerData.characterData.skills[5].Xp)
+                        TriggerClientEvent("fivez:AddNotification", source, "Gained XP for Shooting!")
                         SQL_UpdateCharacterSkill(playerData.characterData.Id, 5, playerData.characterData.skills[5].Level, playerData.characterData.skills[5].Xp)
                         return
                     end
@@ -2492,6 +2499,7 @@ Config.CustomSkills = {
                     }
                     SQL_InsertCharacterSkillData(playerData.characterData.Id, 5)
                     TriggerClientEvent("fivez:AddExp", source, 5, 0)
+                    TriggerClientEvent("fivez:AddNotification", source, "Gained new skill Shooting!")
                 end
             end
         end,
@@ -2521,10 +2529,11 @@ Config.CustomSkills = {
                                 playerData.characterData.skills[6].Level = playerData.characterData.skills[6].Level + 1
                                 local remXp = playerData.characterData.skills[6].Xp - xpToNextLevel
                                 playerData.characterData.skills[6].Xp = remXp
-                                TriggerClientEvent("fivez:AddNotification", source, "You leveled up strength")
+                                TriggerClientEvent("fivez:AddNotification", source, "You leveled up Stealth!")
                             end
                         end
                         TriggerClientEvent("fivez:AddExp", source, 6, playerData.characterData.skills[6].Xp)
+                        TriggerClientEvent("fivez:AddNotification", source, "Gained XP for Stealth!")
                         SQL_UpdateCharacterSkill(playerData.characterData.Id, 6, playerData.characterData.skills[6].Level, playerData.characterData.skills[6].Xp)
                         return
                     end
@@ -2536,6 +2545,7 @@ Config.CustomSkills = {
                     }
                     SQL_InsertCharacterSkillData(playerData.characterData.Id, 6)
                     TriggerClientEvent("fivez:AddExp", source, 6, 0)
+                    TriggerClientEvent("fivez:AddNotification", source, "Gained new skill Stealth!")
                 end
             end
         end,

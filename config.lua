@@ -405,12 +405,29 @@ Config.LootableContainers = {
             [17] = {minquality = 80, maxquality = 100, chance = 75}
         },
         spawnall = true
+    },
+    [GetHashKey("prop_vend_soda_01")] = {
+        maxslots = 5,
+        maxweight = 25,
+        items = {
+            [6] = 85, --Water
+            [28] = 75, --Ice-tea
+            [29] = 75, --Chips
+            [31] = 65, --Vingear chips
+            [32] = 75, --Snickers
+            [34] = 75, --Limonade
+            [39] = 50, --Energy drink
+            [40] = 75, --Pepsi
+            [41] = 75, --Coke
+            [42] = 75 --Sprite
+        },
+        spawnall = false
     }
 }
 --Containers that players can stash items into
 Config.StashContainers = {
     [GetHashKey("prop_idol_case_01")] = {
-        label = "Small Idol Case",
+        label = "Idol Case Stash",
         maxslots = 5,
         maxweight = 25
     }
@@ -441,7 +458,7 @@ Config.ThirstDecay = 4
 --How much items will decay in a characters inventory
 Config.InventoryDecay = 5
 --Minimum quality spawned items can be
-Config.MinQuality = 1
+Config.MinQuality = 40
 --Max quality spawned items can be
 Config.MaxQuality = 100
 

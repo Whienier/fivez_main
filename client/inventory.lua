@@ -168,6 +168,36 @@ RegisterNetEvent("fivez:UpdateCharacterInventoryItems", function(charInventoryIt
     end
 end)
 
+RegisterNetEvent("fivez:LootInventoryCB", function(inventoryData)
+    otherInventory = json.decode(inventoryData)
+    if inventory then
+        local charInventory = GetCharacterInventory()
+        
+        SendNUIMessage({
+            type = "message",
+            message = "refreshInventory",
+            playerInventory = {
+                type = "inventory",
+                identifier = charInventory.Id,
+                label = "Inventory",
+                weight = charInventory.weight, --TODO: Calculate weight
+                maxWeight = charInventory.maxWeight,
+                maxSlots = charInventory.slots,
+                items = charInventory.items
+            },
+            otherInventory = {
+                type = otherInventory.type or "inventory",
+                identifier = otherInventory.id,
+                label = otherInventory.label,
+                weight = otherInventory.weight,
+                maxWeight = otherInventory.maxWeight,
+                maxSlots = otherInventory.maxSlots,
+                items = otherInventory.items
+            }
+        })
+    end
+end)
+
 RegisterNetEvent("fivez:GetClosestInventoryCB", function(closestInventoryData)
     otherInventory = json.decode(closestInventoryData)
 end)

@@ -175,6 +175,21 @@ RegisterNetEvent("fivez:VehicleTrunkPosCB", function(result)
     entityForward = json.decode(result)
 end)
 
+RegisterNetEvent("fivez:LootInventory", function(entityNetId)
+    local source = source
+    local entity = NetworkGetEntityFromNetworkId(entityNetId)
+    if DoesEntityExist(entity) then
+        local id = "zombie:"..entity
+        if RegisteredInventories[id] then
+            TriggerClientEvent("fivez:LootInventoryCB", source, json.encode(RegisteredInventories[id]))
+        else
+            TriggerClientEvent("fivez:AddNotification", source, "Inventory doesn't exist!")
+        end
+    else
+        TriggerClientEvent("fivez:AddNotification", source, "Entity doesn't exist")
+    end
+end)
+
 --Get's closest inventory, searches registeredInventories, looks for closest dead zombie, or creates a temp ground inventory
 RegisterNetEvent("fivez:GetClosestInventory", function(closestObject)
     local source = source

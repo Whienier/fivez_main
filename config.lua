@@ -461,7 +461,7 @@ Config.LootableContainers = {
             [42] = 75 --Sprite
         },
         spawnall = false
-    }
+    },
     [GetHashKey("prop_box_wood_04a")] = {
         maxslots = 30,
         maxweight = 150,

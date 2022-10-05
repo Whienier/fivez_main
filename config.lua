@@ -334,7 +334,7 @@ Config.LootableContainers = {
         },
         spawnall = true
     },
-    [GetHashKey('prop_toolchest_05')] = {
+    [GetHashKey("prop_toolchest_02")] = {
         maxslots = 25,
         maxweight = 50,
         items = {
@@ -345,7 +345,29 @@ Config.LootableContainers = {
         },
         spawnall = false
     },
-    [GetHashKey("prop_toolchest_02")] = {
+    [GetHashKey("prop_toolchest_03")] = {
+        maxslots = 25,
+        maxweight = 50,
+        items = {
+            [53] = 10,
+            [54] = 10,
+            [62] = 10,
+            [63] = 10
+        },
+        spawnall = false
+    },
+    [GetHashKey("prop_toolchest_04")] = {
+        maxslots = 25,
+        maxweight = 50,
+        items = {
+            [53] = 10,
+            [54] = 10,
+            [62] = 10,
+            [63] = 10
+        },
+        spawnall = false
+    }
+    [GetHashKey('prop_toolchest_05')] = {
         maxslots = 25,
         maxweight = 50,
         items = {
@@ -422,6 +444,56 @@ Config.LootableContainers = {
             [42] = 75 --Sprite
         },
         spawnall = false
+    },
+    [GetHashKey("prop_vend_soda_02")] = {
+        maxslots = 5,
+        maxweight = 25,
+        items = {
+            [6] = 85, --Water
+            [28] = 75, --Ice-tea
+            [29] = 75, --Chips
+            [31] = 65, --Vingear chips
+            [32] = 75, --Snickers
+            [34] = 75, --Limonade
+            [39] = 50, --Energy drink
+            [40] = 75, --Pepsi
+            [41] = 75, --Coke
+            [42] = 75 --Sprite
+        },
+        spawnall = false
+    }
+    [GetHashKey("prop_box_wood_04a")] = {
+        maxslots = 30,
+        maxweight = 150,
+        items = {},
+        spawnall = true
+    },
+    [GetHashKey("prop_box_ammo_03a")] = {
+        maxslots = 5,
+        maxweight = 25,
+        items = {
+            --TODO: Add all ammos
+            [7] = 95 --Pistol ammo
+        },
+        spawnall = false
+    },
+    [GetHashKey("prop_skip_06a")] = {
+        maxslots = 30,
+        maxweight = 500,
+        items = {},
+        spawnall = true
+    },
+    [GetHashKey("prop_rub_cabinet01")] = {
+        maxslots = 15,
+        maxweight = 50,
+        items = {}, --TODO: Maybe make this spawn clothes
+        spawnall = true
+    },
+    [GetHashKey("prop_wooden_barrel")] = {
+        maxslots = 30,
+        maxweight = 50,
+        items = {},
+        spawnall = true
     }
 }
 --Containers that players can stash items into

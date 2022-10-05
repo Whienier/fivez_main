@@ -254,6 +254,8 @@ RegisterNetEvent("fivez:GetClosestInventory", function(closestObject)
                 invCount = invCount + 1
             end
             closestInventory = RegisterNewInventory("temp:"..checkedClosestObject.model..":"..invCount, "inventory", "Container", weight, maxWeight, maxSlots, containerLoot, objectCoords)
+            --Freeze objects position to stop people from moving boxes and creating new loot
+            FreezeEntityPosition(closestObject, true)
         end
     end
 

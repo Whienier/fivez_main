@@ -54,6 +54,7 @@ Citizen.CreateThread(function()
                 if coords then
                     SetEntityCoords(GetPlayerPed(-1), coords.x, coords.y, coords.z, true, false, false, false)
                     inZone = false
+                    outZone = false
                     interior = -1
                     portalId = -1
                 end
@@ -61,6 +62,7 @@ Citizen.CreateThread(function()
                 local coords = Config.InteriorPortals[interior].inPos[portalId]
                 if coords then
                     SetEntityCoords(GetPlayerPed(-1), coords.x, coords.y, coords.z, true, false, false, false)
+                    inZone = false
                     outZone = false
                     interior = -1
                     portalId = -1

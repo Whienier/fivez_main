@@ -43,6 +43,26 @@ RegisterNetEvent("baseevents:onPlayerDied", function(killedBy, pos)
     
     table.insert(deadPlayers, {ply = source, died = GetGameTimer() + Config.RespawnTimer})
 end)
+RegisterNetEvent("baseevents:onPlayerKilled", function(killedBy, pos)
+    local source = source
+    local alreadyDead = false
+    for k,v in pairs(deadPlayers) do
+        if v.ply == source or v.ply == killedBy then
+            alreadyDead = true
+        end
+    end
+    --If the dead player is already dead or the killer is dead?
+    if alreadyDead then return end
+    if killedBy ~= source and killedBy > 0 then
+        local killerData = GetJoinedPlayer(killedBy)
+        if killerData then
+            killerData.humanity = killerData.humanity - Config.HumanityRates["killplayer"]
+        end
+    end
+    local playerData = GetJoinedPlayer(source)
+    
+    table.insert(deadPlayers, {ply = source, died = GetGameTimer() + Config.RespawnTimer})
+end)
 --Thread to respawn player after certain time
 Citizen.CreateThread(function()
     while true do

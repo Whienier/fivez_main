@@ -522,7 +522,7 @@ function SQL_GetCharacterAppearanceData(playerId)
                 opacity = 0,
                 color = 0
             },
-            facialhair = {
+            facialHair = {
                 style = 0,
                 opacity = 0,
                 color = 0
@@ -577,7 +577,7 @@ function SQL_GetCharacterAppearanceData(playerId)
                 opacity = 0,
                 color = 0
             },
-            chesthair = {
+            chestHair = {
                 style = 0,
                 opacity = 0,
                 color = 0
@@ -1106,7 +1106,7 @@ function SQL_CreateCharacterAppearanceData(playerId)
                 opacity = 0,
                 color = 0
             },
-            facialhair = {
+            facialHair = {
                 style = 0,
                 opacity = 0,
                 color = 0
@@ -1161,7 +1161,7 @@ function SQL_CreateCharacterAppearanceData(playerId)
                 opacity = 0,
                 color = 0
             },
-            chesthair = {
+            chestHair = {
                 style = 0,
                 opacity = 0,
                 color = 0

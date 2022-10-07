@@ -9,7 +9,7 @@ end
 function RespawnPlayer(onSpot)
     local playerPed = GetPlayerPed(-1)
     local pedHealth = GetEntityHealth(playerPed)
-    if pedHealth <= 0 then
+    if pedHealth <= 0 or IsPedDeadOrDying(playerPed) then
         local respawnPos = nil
         if onSpot == false then
             respawnPos = Config.PlayerSpawns[math.random(#Config.PlayerSpawns)]

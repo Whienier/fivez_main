@@ -28,7 +28,6 @@ RegisterNetEvent("baseevents:onPlayerDied", function(killedBy, pos)
     local alreadyDead = false
     for k,v in pairs(deadPlayers) do
         if v.ply == source or v.ply == killedBy then
-            print("Player is already dead", v.ply)
             alreadyDead = true
         end
     end
@@ -47,6 +46,7 @@ end)
 --Thread to respawn player after certain time
 Citizen.CreateThread(function()
     while true do
+        Citizen.Wait(1)
         if #GetPlayers() >= 1 then
             for k,v in pairs(deadPlayers) do
                 if GetGameTimer() > v.died then

@@ -96,5 +96,4 @@ RegisterNetEvent("playerDropped", function(reason)
             end
         end
     end
-    TriggerClientEvent("fivez:AddNotification", -1, GetPlayerName(source).." has left the server!")
 end)

@@ -16,7 +16,8 @@ client_scripts {
     'client/contextmenu.lua',
     'client/skills.lua',
     'client/persistentobjects.lua',
-    'client/airdrop.lua'
+    'client/airdrop.lua',
+    'client/interiorportals.lua'
 }
 
 server_scripts { 

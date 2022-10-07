@@ -12,25 +12,15 @@ Citizen.CreateThread(function()
             for k,v in pairs(portal.inPos) do
                 if #(pedCoords - v) <= 2.5 then
                     inZone = true
-                    outZone = false
                     interior = interiorId
                     portalId = k
                     --Skip past looking for out pos and inZone = false
                     goto skip
                 end
             end
-            --If we completed the loop and didn't find an in pos zone
-            for k,v in pairs(portal.outPos) do
-                inZone = false
-                outZone = true
-                interior = interiorId
-                portalId = k
-                goto skip
-            end
         end
         --If we complete the loop without being close to a zone
         inZone = false
-        outZone = false
         --Skip past inZone = false if they are in a zone
         ::skip::
     end
@@ -40,8 +30,26 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(1)
         while not startThreads do Citizen.Wait(1) end
+        local pedCoords = GetEntityCoords(GetPlayerPed(-1))
+        for interiorId, portal in pairs(Config.InteriorPortals) do
+            for k,v in pairs(portal.outPos) do
+                outZone = true
+                interior = interiorId
+                portalId = k
+                goto skip
+            end
+        end
+        outZone = false
+        ::skip::
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(1)
+        while not startThreads do Citizen.Wait(1) end
         if inZone or outZone then
-            if inZone and IsControlJustReleased(0, 18) then
+            if inZone and IsControlJustReleased(0, 176) then
                 local coords = Config.InteriorPortals[interior].outPos[portalId]
                 if coords then
                     SetEntityCoords(GetPlayerPed(-1), coords.x, coords.y, coords.z, true, false, false, false)
@@ -49,7 +57,7 @@ Citizen.CreateThread(function()
                     interior = -1
                     portalId = -1
                 end
-            elseif outZone and IsControlJustReleased(0, 18) then
+            elseif outZone and IsControlJustReleased(0, 176) then
                 local coords = Config.InteriorPortals[interior].inPos[portalId]
                 if coords then
                     SetEntityCoords(GetPlayerPed(-1), coords.x, coords.y, coords.z, true, false, false, false)

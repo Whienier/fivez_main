@@ -33,10 +33,12 @@ Citizen.CreateThread(function()
         local pedCoords = GetEntityCoords(GetPlayerPed(-1))
         for interiorId, portal in pairs(Config.InteriorPortals) do
             for k,v in pairs(portal.outPos) do
-                outZone = true
-                interior = interiorId
-                portalId = k
-                goto skip
+                if #(pedCoords - v) <= 2.5 then
+                    outZone = true
+                    interior = interiorId
+                    portalId = k
+                    goto skip
+                end
             end
         end
         outZone = false

@@ -40,6 +40,7 @@ function RespawnPlayer(onSpot)
         ResetCharacterData()
         SetEntityHealth(playerPed, newHealth)
         SetFocusEntity(GetPlayerPed(-1))
+        AddNotification("Respawned!")
         TriggerServerEvent("fivez:PlayerPedRespawned")
         playerDied = false
     end

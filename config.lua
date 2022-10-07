@@ -68,6 +68,14 @@ Config.InteriorPortals = {
         outPos = {
             [1] = vector3(308.91,266.23,82.49)
         } --Table of exit positions to allow for multiple points of exit
+    },
+    ["Appartment"] = {
+        inPos = {
+            [1] = vector3(-268.8317, -957.0762, 31.22313)
+        },
+        outPos = {
+            [1] = vector3(-273.6685, -940.0231, 92.51086)
+        }
     }
 }
 

@@ -170,12 +170,12 @@ end)
 
 RegisterNetEvent("fivez:LootInventoryCB", function(inventoryData)
     otherInventory = json.decode(inventoryData)
-    if inventory then
+    if otherInventory then
         local charInventory = GetCharacterInventory()
         
         SendNUIMessage({
             type = "message",
-            message = "refreshInventory",
+            message = "openInventory",
             playerInventory = {
                 type = "inventory",
                 identifier = charInventory.Id,
@@ -187,7 +187,7 @@ RegisterNetEvent("fivez:LootInventoryCB", function(inventoryData)
             },
             otherInventory = {
                 type = otherInventory.type or "inventory",
-                identifier = otherInventory.id,
+                identifier = otherInventory.identifier,
                 label = otherInventory.label,
                 weight = otherInventory.weight,
                 maxWeight = otherInventory.maxWeight,
@@ -195,6 +195,7 @@ RegisterNetEvent("fivez:LootInventoryCB", function(inventoryData)
                 items = otherInventory.items
             }
         })
+        SetNuiFocus(true, true)
     end
 end)
 

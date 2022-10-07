@@ -1018,7 +1018,7 @@ function SQL_CreateCharacterData(playerId)
                 SQL_InsertItemToCharacterInventory(playerId, 1, bikekitItem)
 
                 tempcreatedChar.appearance = SQL_CreateCharacterAppearanceData(playerId)
-                
+
                 while tempcreatedChar.appearance == nil do
                     Citizen.Wait(0)
                 end
@@ -1099,7 +1099,178 @@ function SQL_CreateCharacterAppearanceData(playerId)
         Citizen.Wait(0)
     end
 
-    return createdAppearanceData
+    return {
+        headOverlays = {
+            blemishes = {
+                style = 0,
+                opacity = 0,
+                color = 0
+            },
+            facialhair = {
+                style = 0,
+                opacity = 0,
+                color = 0
+            },
+            eyebrows = {
+                style = 0,
+                opacity = 0,
+                color = 0
+            },
+            ageing = {
+                style = 0,
+                opacity = 0,
+                color = 0
+            },
+            makeUp = {
+                style = 0,
+                opacity = 0,
+                color = 0
+            },
+            blush = {
+                style = 0,
+                opacity = 0,
+                color = 0
+            },
+            complexion = {
+                style = 0,
+                opacity = 0,
+                color = 0
+            },
+            hair = {
+                style = 0,
+                opacity = 0,
+                color = 0
+            },
+            sunDamage = {
+                style = 0,
+                opacity = 0,
+                color = 0
+            },
+            lipstick = {
+                style = 0,
+                opacity = 0,
+                color = 0
+            },
+            moleAndFreckles = {
+                style = 0,
+                opacity = 0,
+                color = 0
+            },
+            bodyBlemishes = {
+                style = 0,
+                opacity = 0,
+                color = 0
+            },
+            chesthair = {
+                style = 0,
+                opacity = 0,
+                color = 0
+            }
+        },
+        props = {
+            hat = {
+                drawable = -1,
+                texture = -1
+            },
+            glasses = {
+                drawable = -1,
+                texture = -1
+            },
+            ear = {
+                drawable = -1,
+                texture = -1
+            },
+            watch = {
+                drawable = -1,
+                texture = -1
+            },
+            bracelet = {
+                drawable = -1,
+                texture = -1
+            }
+        },
+        components = {
+            face = {
+                drawable = -1,
+                texture = -1
+            },
+            mask = {
+                drawable = -1,
+                texture = -1
+            },
+            hair = {
+                drawable = -1,
+                texture = -1
+            },
+            torso = {
+                drawable = -1,
+                texture = -1
+            },
+            leg = {
+                drawable = -1,
+                texture = -1
+            },
+            bag = {
+                drawable = -1,
+                texture = -1
+            },
+            shoes = {
+                drawable = -1,
+                texture = -1
+            },
+            accessory = {
+                drawable = -1,
+                texture = -1
+            },
+            undershirt = {
+                drawable = -1,
+                texture = -1
+            },
+            kevlar = {
+                drawable = -1,
+                texture = -1
+            },
+            badge = {
+                drawable = -1,
+                texture = -1
+            },
+            torso2 = {
+                drawable = -1,
+                texture = -1
+            }
+        },
+        parents = {
+            fatherSkin = 0,
+            motherSkin = 0,
+            skinMix = 0,
+            fatherShape = 0,
+            motherShape = 0,
+            shapeMix = 0
+        },
+        facefeatures = {
+            noseWidth = 0,
+            nosepeak = 0,
+            noselength = 0,
+            nosecurve = 0,
+            nosetip = 0,
+            nosetwist = 0,
+            eyebrowheight = 0,
+            eyebrowlength = 0,
+            cheeksheight = 0,
+            cheekssize = 0,
+            cheekswidth = 0,
+            eyeopening = 0,
+            lipthickness = 0,
+            jawwidth = 0,
+            jawshape = 0,
+            chinheight = 0,
+            chinlength = 0,
+            chinshape = 0,
+            chinhole = 0,
+            neckthickness = 0
+        },
+        tattoos = {}
+    }
 end
 
 function LoadCharacterAppearanceData(ply, appearanceData)

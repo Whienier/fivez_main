@@ -320,3 +320,24 @@ RegisterCommand("gender", function(source, args)
         end
     end
 end, true)
+
+RegisterNetEvent("fivez:TeleportRequest", function(targetName)
+    local source = source
+    for k,v in pairs(GetPlayers()) do
+        if string.match(GetPlayerName(v), targetName) then
+            TriggerClientEvent("fivez:SendTeleportRequest", v, GetPlayerName(source))
+            break
+        end
+    end
+end)
+
+RegisterNetEvent("fivez:AcceptTeleportRequest", function(targetName)
+    local source = source
+    for k,v in pairs(GetPlayers()) do
+        if string.match(GetPlayerName(v), targetName) then
+            TriggerClientEvent("fivez:AcceptedTeleportRequest", v, GetPlayerName(source))
+            local coords = GetEntityCoords(GetPlayerPed(source))
+            SetEntityCoords(GetPlayerPed(v), coords.x, coords.y, coords.z, true, false, false, false)
+        end
+    end
+end)

@@ -761,7 +761,6 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
             if plySlot.itemId ~= itemData.itemId then TriggerClientEvent("fivez:AddNotification", source, "You don't have that item!") return end
             --Find the other inventory we have open
             local inventoryTransferringTo = GetInventoryWithId(transferData.toId)
-            
             --Couldn't find pre-registered inventory, find a players inventory
             if not inventoryTransferringTo then
                 inventoryTransferringTo = GetJoinedPlayerWithId(transferData.toId).characterData.inventory
@@ -939,3 +938,115 @@ RegisterNetEvent("fivez:AttemptCraft", function(recipeId)
         end
     end
 end)
+
+RegisterCommand("bag", function(source)
+    local playerPed = GetPlayerPed(source)
+    if DoesEntityExist(playerPed) then
+        local playerData = GetJoinedPlayer(source)
+        local characterData = playerData.characterData
+        if characterData then
+            local appearance = characterData.appearance
+            if appearance then
+                for k,v in pairs(Config.Bags) do
+                    if k == appearance.components.bag.drawable then
+                        local bagInventory = RegisteredInventories["bag:"..k..":"..characterData.Id]
+                        if bagInventory then
+                            OpenInventory("bag:"..k..":"..characterData.Id, source)
+                            TriggerClientEvent("fivez:LootInventoryCB", source, json.encode(bagInventory))
+                            return
+                        else
+                            --TODO: Add checking for items in the database
+                            local bagData = SQL_GetCharacterBag(characterData.Id, k)
+                            if bagData ~= -1 then
+                                bagInventory = SQL_GetCharacterBagInventory(characterData.Id, k)
+                                if bagInventory then
+                                    bagInventory = RegisterNewInventory("bag:"..k..":"..characterData.Id, "inventory", "Duffel Bag", 0, 50, 25, bagInventory, nil)
+                                else
+                                    bagInventory = RegisterNewInventory("bag:"..k..":"..characterData.Id, "inventory", "Duffel Bag", 0, 50, 25, InventoryFillEmpty(25), nil)
+                                end
+                            else
+                                local createdInv = SQL_CreateCharacterBagInventory(characterData.Id, k)
+
+                                if createdInv then
+                                    bagInventory = RegisterNewInventory("bag:"..k..":"..characterData.Id, "inventory", "Duffel Bag", 0, 50, 25, InventoryFillEmpty(25), nil)
+                                end
+                            end
+                            OpenInventory("bag:"..k..":"..characterData.Id, source)
+                            TriggerClientEvent("fivez:LootInventoryCB", source, json.encode(bagInventory))
+                            return 
+                        end
+                        TriggerClientEvent("fivez:AddNotification", source, "Bag doesn't have an inventory, re-use bag!")
+                    end
+                end
+                TriggerClientEvent("fivez:AddNotification", source, "You don't have a bag on!")
+            end
+        end
+    end
+end, false)
+
+function SQL_CreateCharacterBagInventory(charId, bagId)
+    local bagIdentifier = "bag:"..bagId..":"..charId
+    MySQL.ready(function()
+        MySQL.Async.insert("INSERT INTO character_bags (character_bagsid) VALUES (@bagId)", {
+            ["bagId"] = bagIdentifier
+        })
+    end)
+    return true
+end
+
+function SQL_GetCharacterBag(charId, bagId)
+    local bagIdentifier = "bag:"..bagId..":"..charId
+    local gotData = nil
+    MySQL.ready(function()
+        MySQL.Async.fetchAll("SELECT character_bagsid FROM character_bags WHERE character_bagsid = @bagId", {
+            ["bagId"] = bagIdentifier
+        }, function(result)
+            if result then
+                gotData = result
+                return gotData
+            end
+            gotData = -1
+        end)
+    end)
+
+    while gotData == nil do
+        Citizen.Wait(1)
+    end
+
+    return gotData
+end
+
+function SQL_GetCharacterBagInventory(charId, bagId)
+    local bagIdentifier = "bag:"..bagId..":"..charId
+    local gotData = -1
+    MySQL.ready(function()
+        MySQL.Async.fetchAll("SELECT * FROM persistent_inventory_items WHERE persistent_id = @bagId", {
+            ["bagId"] = bagIdentifier
+        }, function(result)
+            if result[1] then
+                local tempData = InventoryFillEmpty(25)
+                for k,v in pairs(result) do
+                    local itemData = Config.Items[v.item_id]
+                    tempData[v.item_slotid] = {
+                        itemId = v.item_id,
+                        label = itemData.label,
+                        model = itemData.model,
+                        weight = itemData.weight,
+                        maxcount = itemData.maxcount,
+                        count = v.item_count,
+                        quality = v.item_quality,
+                        attachments = v.item_attachments
+                    }
+                end
+                gotData = tempData
+            else
+                gotData = nil
+            end
+        end)
+    end)
+
+    while gotData == -1 do
+        Citizen.Wait(1)
+    end
+    return gotData
+end

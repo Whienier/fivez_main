@@ -58,6 +58,19 @@ Config.DefaultVehicleFuelRates = {
     [150] = 2,
     [180] = 2.5
 }
+
+--Positions of 'portals' where players can go inside of house interiors
+Config.InteriorPortals = {
+    ["VineyardHouse"] = {
+        inPos = {
+            [1] = vector3(301.10,201.87,103.376)
+        }, --Table of entry positions to allow for multiple points of entry
+        outPos = {
+            [1] = vector3(308.91,266.23,82.49)
+        } --Table of exit positions to allow for multiple points of exit
+    }
+}
+
 --[[ 
 Main LS Customs X:-365.425 Y:-131.809 Z:37.873
 
@@ -502,6 +515,25 @@ Config.StashContainers = {
         label = "Idol Case Stash",
         maxslots = 5,
         maxweight = 25
+    }
+}
+--Table of bag component ids
+Config.Bags = {
+    [40] = {
+        maxslots = 25,
+        maxweight = 50
+    },
+    [41] = { --Component ID of the bag
+        maxslots = 25, --Max slots bag can hold
+        maxweight = 50 --Max weight bag can hold
+    },
+    [44] = {
+        maxslots = 25,
+        maxweight = 50
+    },
+    [45] = {
+        maxslots = 25,
+        maxweight = 50
     }
 }
 
@@ -1911,6 +1943,54 @@ Config.Items = {
             end
             Citizen.Wait(500)
             TriggerClientEvent("fivez:Building", source, NetworkGetNetworkIdFromEntity(object))
+        end
+    },
+    [78] = {
+        itemId = 78,
+        label = "Duffel Bag",
+        model = "duffelbag",
+        weight = 5,
+        maxcount = 1,
+        count = 0,
+        quality = 100,
+        spawnchance = 0,
+        attachments = {},
+        serverfunction = function(source)
+            local characterData = GetJoinedPlayer(source).characterData
+            if characterData then
+                local appearance = characterData.appearance
+                if appearance.components.bag.drawable then
+                    if appearance.components.bag.drawable == 40 then TriggerClientEvent("fivez:AddNotification", source, "You already have a bag!") return end
+                    local existingData = SQL_GetCharacterBag(characterData.Id, 40)
+                    if existingData then
+                        local dataItems = SQL_GetCharacterBagInventory(characterData.Id, 40)
+                        if dataItems then
+                            print("Duffel bag has items", GetPlayerPed(source), GetPlayerPed(tostring(source)))
+                            RegisterNewInventory("bag:40:"..characterData.Id, "inventory", "Duffel Bag", 0, 50, 25, dataItems, nil)
+                            GetJoinedPlayer(source).characterData.appearance.components.bag.drawable = 40
+                            GetJoinedPlayer(source).characterData.appearance.components.bag.texture = 1
+                            SetPedComponentVariation(GetPlayerPed(source), 5, 40, 1, 1)
+                            SetPedComponentVariation(GetPlayerPed(tostring(source)), 5, 40, 1, 1)
+                            SetPedComponentVariation(source, 5, 40, 1, 1)
+                            SetPedComponentVariation(tostring(source), 5, 40, 1, 1)
+                            return true
+                        end
+                    else
+                        local createdInv = SQL_CreateCharacterBagInventory(characterData.Id, 40)
+                        if createdInv then
+                            GetJoinedPlayer(source).characterData.appearance.components.bag.drawable = 40
+                            GetJoinedPlayer(source).characterData.appearance.components.bag.texture = 1
+                            print("Using duffel bag", source, GetPlayerPed(source), GetPlayerPed(tostring(source)))
+                            SetPedComponentVariation(GetPlayerPed(source), 5, 40, 1, 1)
+                            SetPedComponentVariation(GetPlayerPed(tostring(source)), 5, 40, 1, 1)
+                            SetPedComponentVariation(source, 5, 40, 1, 1)
+                            SetPedComponentVariation(tostring(source), 5, 40, 1, 1)
+                            RegisterNewInventory("bag:40:"..characterData.Id, "inventory", "Duffel Bag", 0, 50, 25, InventoryFillEmpty(25), nil)
+                            return true
+                        end
+                    end
+                end
+            end
         end
     }
 }

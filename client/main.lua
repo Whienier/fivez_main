@@ -559,3 +559,36 @@ RegisterCommand("ragdoll", function()
         SetPedToRagdoll(playerPed, -1, -1, 0, true, true, false)
     end
 end, false)
+
+local teleportRequests = {}
+
+RegisterCommand("tpr", function(args)
+    if args[1] then
+        TriggerServerEvent("fivez:TeleportRequest", args[1])
+    else
+        TriggerEvent("fivez:AddNotification", "Missing name argument!")
+    end
+end, false)
+
+RegisterCommand("tpa", function()
+    for k,v in pairs(teleportRequests) do
+        TriggerServerEvent("fivez:AcceptTeleportRequest", v)
+        AddNotification("Accepted teleport request")
+        break
+    end
+end, false)
+
+RegisterNetEvent("fivez:SendTeleportRequest", function(senderPly)
+    for k,v in pairs(teleportRequests) do
+        if v == senderPly then
+            return
+        end
+    end
+
+    table.insert(teleportRequests, senderPly)
+    AddNotification(senderPly.." has sent you a teleport request!")
+end)
+
+RegisterNetEvent("fivez:AcceptedTeleportRequest", function(accepteName)
+    AddNotification(accepteName.." has accepted your teleport request!")
+end)

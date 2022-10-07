@@ -941,6 +941,7 @@ end)
 
 RegisterCommand("bag", function(source)
     local playerPed = GetPlayerPed(source)
+    if IsPedDeadOrDying(playerPed, 1) then return end
     if DoesEntityExist(playerPed) then
         local playerData = GetJoinedPlayer(source)
         local characterData = playerData.characterData

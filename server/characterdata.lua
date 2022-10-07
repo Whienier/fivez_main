@@ -372,28 +372,28 @@ function SQL_UpdateCharacterAppearanceData(playerId, appearanceData)
     local updatedAllData = false
     
     MySQL.ready(function()
-        MySQL.Async.execute("UPDATE character_headoverlays SET character_blemishes = @blemishes, character_facialhair = @facialhair, character_eyebrows = @eyebrows, character_aging = @aging, character_makeup = @makeup, character_blush = @blush, character_complexion = @complexion, character_sundamage = @sundamage, character_lipstick = @lipstick, character_moles = @moles, character_chesthair = @chesthair, character_bodyblemishes = @bodyblemishes WHERE character_data_player_dataid = @playerId", {
+        MySQL.Async.execute("UPDATE character_headoverlays SET character_blemishes = @blemishes, character_facialhair = @facialhair, character_eyebrows = @eyebrows, character_aging = @aging, character_makeup = @makeup, character_blush = @blush, character_complexion = @complexion, character_hair = @hair, character_sundamage = @sundamage, character_lipstick = @lipstick, character_moles = @moles, character_chesthair = @chesthair, character_bodyblemishes = @bodyblemishes WHERE character_data_player_dataid = @playerId", {
             ["playerId"] = playerId,
             --Gotta find a foolproof way to always get head overlay and not opacity/color
             ["blemishes"] = appearanceData.headOverlays.blemishes.style,
-            ["facialhair"] = appearanceData.headOverlays.beard.style,
+            ["facialhair"] = appearanceData.headOverlays.facialhair.style,
             ["eyebrows"] = appearanceData.headOverlays.eyebrows.style,
             ["aging"] = appearanceData.headOverlays.ageing.style,
             ["makeup"] = appearanceData.headOverlays.makeUp.style,
             ["blush"] = appearanceData.headOverlays.blush.style,
             ["complexion"] = appearanceData.headOverlays.complexion.style,
-            ["hair"] = appearanceData.hair.style,
+            ["hair"] = appearanceData.headOverlays.hair.style,
             ["sundamage"] = appearanceData.headOverlays.sunDamage.style,
             ["lipstick"] = appearanceData.headOverlays.lipstick.style,
             ["moles"] = appearanceData.headOverlays.moleAndFreckles.style,
-            ["chesthair"] = appearanceData.headOverlays.chestHair.style,
+            ["chesthair"] = appearanceData.headOverlays.chesthair.style,
             ["bodyblemishes"] = appearanceData.headOverlays.bodyBlemishes.style
         })
         
         MySQL.Async.execute("UPDATE character_headoverlays_opacity SET character_blemishes = @blemishes, character_facialhair = @facialhair, character_eyebrows = @eyebrows, character_aging = @aging, character_makeup = @makeup, character_blush = @blush, character_complexion = @complexion, character_sundamage = @sundamage, character_lipstick = @lipstick, character_moles = @moles, character_chesthair = @chesthair, character_bodyblemishes = @bodyblemishes WHERE character_data_player_dataid = @playerId", {
             ["playerId"] = playerId,
             ["blemishes"] = appearanceData.headOverlays.blemishes.opacity,
-            ["facialhair"] = appearanceData.headOverlays.beard.opacity,
+            ["facialhair"] = appearanceData.headOverlays.facialhair.opacity,
             ["eyebrows"] = appearanceData.headOverlays.eyebrows.opacity,
             ["aging"] = appearanceData.headOverlays.ageing.opacity,
             ["makeup"] = appearanceData.headOverlays.makeUp.opacity,
@@ -402,14 +402,14 @@ function SQL_UpdateCharacterAppearanceData(playerId, appearanceData)
             ["sundamage"] = appearanceData.headOverlays.sunDamage.opacity,
             ["lipstick"] = appearanceData.headOverlays.lipstick.opacity,
             ["moles"] = appearanceData.headOverlays.moleAndFreckles.opacity,
-            ["chesthair"] = appearanceData.headOverlays.chestHair.opacity,
+            ["chesthair"] = appearanceData.headOverlays.chesthair.opacity,
             ["bodyblemishes"] = appearanceData.headOverlays.bodyBlemishes.opacity
         })
 
         MySQL.Async.execute("UPDATE character_headoverlays_color SET character_blemishes_color = @blemishes, character_facialhair_color = @facialhair, character_eyebrows_color = @eyebrows, character_aging_color = @aging, character_makeup_color = @makeup, character_blush_color = @blush, character_complexion_color = @complexion, character_sundamage_color = @sundamage, character_lipstick_color = @lipstick, character_moles_color = @moles, character_chesthair_color = @chesthair, character_bodyblemishes_color = @bodyblemishes WHERE character_data_player_dataid = @playerId", {
             ["playerId"] = playerId,
             ["blemishes"] = appearanceData.headOverlays.blemishes.color,
-            ["facialhair"] = appearanceData.headOverlays.beard.color,
+            ["facialhair"] = appearanceData.headOverlays.facialhair.color,
             ["eyebrows"] = appearanceData.headOverlays.eyebrows.color,
             ["aging"] = appearanceData.headOverlays.ageing.color,
             ["makeup"] = appearanceData.headOverlays.makeUp.color,
@@ -418,42 +418,42 @@ function SQL_UpdateCharacterAppearanceData(playerId, appearanceData)
             ["sundamage"] = appearanceData.headOverlays.sunDamage.color,
             ["lipstick"] = appearanceData.headOverlays.lipstick.color,
             ["moles"] = appearanceData.headOverlays.moleAndFreckles.color,
-            ["chesthair"] = appearanceData.headOverlays.chestHair.color,
+            ["chesthair"] = appearanceData.headOverlays.chesthair.color,
             ["bodyblemishes"] = appearanceData.headOverlays.bodyBlemishes.color
         })
 
         MySQL.Async.execute("UPDATE character_facefeatures SET character_nosewidth = @nosewidth, character_nosepeak = @nosepeak, character_noselength = @noselength, character_nosecurve = @nosecurve, character_nosetip = @nosetip, character_nosetwist = @nosetwist, character_eyebrowheight = @eyebrowhheight, character_eyebrowlength = @eyebrowlength, character_cheeksheight = @cheekheight, character_cheekssize = @cheeksize, character_cheekswidth = @cheekwidth, character_eyeopening = @eyeopening, character_lipthickness = @lipthickness, character_jawwidth = @jawwidth, character_jawshape = @jawshape, character_chinheight = @chinheight, character_chinlength = @chinlength, character_chinshape = @chinshape, character_chinhole = @chinhole, character_neckthickness = @neckthickness WHERE character_data_player_dataid = @playerId", {
             ["playerId"] = playerId,
-            ["nosewidth"] = appearanceData.faceFeatures.noseWidth,
-            ["nosepeak"] = appearanceData.faceFeatures.nosePeakHigh,
-            ["noselength"] = appearanceData.faceFeatures.nosePeakSize,
-            ["nosecurve"] = appearanceData.faceFeatures.nosePeakLowering,
-            ["nosetip"] = appearanceData.faceFeatures.noseBoneHigh,
-            ["nosetwist"] = appearanceData.faceFeatures.noseBoneTwist,
-            ["eyebrowheight"] = appearanceData.faceFeatures.eyeBrownHigh,
-            ["eyebrowlength"] = appearanceData.faceFeatures.eyeBrownForward,
-            ["cheekheight"] = appearanceData.faceFeatures.cheeksBoneHigh,
-            ["cheeksize"] = appearanceData.faceFeatures.cheeksWidth,
-            ["cheekwidth"] = appearanceData.faceFeatures.cheeksBoneWidth,
-            ["eyeopening"] = appearanceData.faceFeatures.eyesOpening,
-            ["lipthickness"] = appearanceData.faceFeatures.lipsThickness,
-            ["jawwidth"] = appearanceData.faceFeatures.jawBoneWidth,
-            ["jawshape"] = appearanceData.faceFeatures.jawBoneBackSize,
-            ["chinheight"] = appearanceData.faceFeatures.chinBoneLowering,
-            ["chinlength"] = appearanceData.faceFeatures.chinBoneLenght, --FiveM Appearance has this spelt incorrect
-            ["chinshape"] = appearanceData.faceFeatures.chinBoneSize,
-            ["chinhole"] = appearanceData.faceFeatures.chinHole,
-            ["neckthickness"] = appearanceData.faceFeatures.neckThickness
+            ["nosewidth"] = appearanceData.facefeatures.noseWidth,
+            ["nosepeak"] = appearanceData.facefeatures.nosePeakHigh,
+            ["noselength"] = appearanceData.facefeatures.nosePeakSize,
+            ["nosecurve"] = appearanceData.facefeatures.nosePeakLowering,
+            ["nosetip"] = appearanceData.facefeatures.noseBoneHigh,
+            ["nosetwist"] = appearanceData.facefeatures.noseBoneTwist,
+            ["eyebrowheight"] = appearanceData.facefeatures.eyeBrownHigh,
+            ["eyebrowlength"] = appearanceData.facefeatures.eyeBrownForward,
+            ["cheekheight"] = appearanceData.facefeatures.cheeksBoneHigh,
+            ["cheeksize"] = appearanceData.facefeatures.cheeksWidth,
+            ["cheekwidth"] = appearanceData.facefeatures.cheeksBoneWidth,
+            ["eyeopening"] = appearanceData.facefeatures.eyesOpening,
+            ["lipthickness"] = appearanceData.facefeatures.lipsThickness,
+            ["jawwidth"] = appearanceData.facefeatures.jawBoneWidth,
+            ["jawshape"] = appearanceData.facefeatures.jawBoneBackSize,
+            ["chinheight"] = appearanceData.facefeatures.chinBoneLowering,
+            ["chinlength"] = appearanceData.facefeatures.chinBoneLenght, --FiveM Appearance has this spelt incorrect
+            ["chinshape"] = appearanceData.facefeatures.chinBoneSize,
+            ["chinhole"] = appearanceData.facefeatures.chinHole,
+            ["neckthickness"] = appearanceData.facefeatures.neckThickness
         })
 
         MySQL.Async.execute("UPDATE character_parents SET character_father_shape = @fatherShape, character_mother_shape = @motherShape, character_shape_mix = @shapeMix, character_father_skin = @fatherSkin, character_mother_skin = @motherSkin, character_skin_mix = @skinMix WHERE character_data_player_dataid = @playerId", {
             ["playerId"] = playerId,
-            ["fatherShape"] = appearanceData.headBlend.shapeFirst,
-            ["motherShape"] = appearanceData.headBlend.shapeSecond,
-            ["shapeMix"] = appearanceData.headBlend.shapeMix,
-            ["fatherSkin"] = appearanceData.headBlend.skinFirst,
-            ["motherSkin"] = appearanceData.headBlend.skinSecond,
-            ["skinMix"] = appearanceData.headBlend.skinMix
+            ["fatherShape"] = appearanceData.parents.shapeFirst,
+            ["motherShape"] = appearanceData.parents.shapeSecond,
+            ["shapeMix"] = appearanceData.parents.shapeMix,
+            ["fatherSkin"] = appearanceData.parents.skinFirst,
+            ["motherSkin"] = appearanceData.parents.skinSecond,
+            ["skinMix"] = appearanceData.parents.skinMix
         })
 
         --[[ MySQL.Async.execute("UPDATE character_tattoos SET WHERE character_data_player_dataid = @playerId", {
@@ -462,52 +462,52 @@ function SQL_UpdateCharacterAppearanceData(playerId, appearanceData)
 
         MySQL.Async.execute("UPDATE character_props SET character_hat = @hat, character_glasses = @glasses, character_ears = @ear, character_watch = @watch, character_bracelet = @bracelet WHERE character_data_player_dataid = @playerId", {
             ["playerId"] = playerId,
-            ["hat"] = appearanceData.props[1].drawable,
-            ["glasses"] = appearanceData.props[2].drawable,
-            ["ear"] = appearanceData.props[3].drawable,
-            ["watch"] = appearanceData.props[4].drawable,
-            ["bracelet"] = appearanceData.props[5].drawable
+            ["hat"] = appearanceData.props.hat.drawable,
+            ["glasses"] = appearanceData.props.glasses.drawable,
+            ["ear"] = appearanceData.props.ear.drawable,
+            ["watch"] = appearanceData.props.watch.drawable,
+            ["bracelet"] = appearanceData.props.bracelet.drawable
         })
 
         MySQL.Async.execute("UPDATE character_props_textures SET character_hat = @hat, character_glasses = @glasses, character_ears = @ear, character_watch = @watch, character_bracelet = @bracelet WHERE character_data_player_dataid = @playerId", {
             ["playerId"] = playerId,
-            ["hat"] = appearanceData.props[1].texture,
-            ["glasses"] = appearanceData.props[2].texture,
-            ["ear"] = appearanceData.props[3].texture,
-            ["watch"] = appearanceData.props[4].texture,
-            ["bracelet"] = appearanceData.props[5].texture
+            ["hat"] = appearanceData.props.hat.texture,
+            ["glasses"] = appearanceData.props.glasses.texture,
+            ["ear"] = appearanceData.props.ear.texture,
+            ["watch"] = appearanceData.props.watch.texture,
+            ["bracelet"] = appearanceData.props.bracelet.texture
         })
 
         MySQL.Async.execute("UPDATE character_components SET character_face = @face, character_mask = @mask, character_hair = @hair, character_torso = @torso, character_leg = @leg, character_bag = @bag, character_shoes = @shoes, character_accessory = @accessory, character_undershirt = @undershirt, character_kevlar = @kevlar, character_badge = @badge, character_torso2 = @torso2 WHERE character_data_player_dataid = @playerId", {
             ["playerId"] = playerId,
-            ["face"] = appearanceData.components[1].drawable,
-            ["mask"] = appearanceData.components[2].drawable,
-            ["hair"] = appearanceData.components[3].drawable,
-            ["torso"] = appearanceData.components[4].drawable,
-            ["leg"] = appearanceData.components[5].drawable,
-            ["bag"] = appearanceData.components[6].drawable,
-            ["shoes"] = appearanceData.components[7].drawable,
-            ["accessory"] = appearanceData.components[8].drawable,
-            ["undershirt"] = appearanceData.components[9].drawable,
-            ["kevlar"] = appearanceData.components[10].drawable,
-            ["badge"] = appearanceData.components[11].drawable,
-            ["torso2"] = appearanceData.components[12].drawable
+            ["face"] = appearanceData.components.face.drawable,
+            ["mask"] = appearanceData.components.mask.drawable,
+            ["hair"] = appearanceData.components.hair.drawable,
+            ["torso"] = appearanceData.components.torso.drawable,
+            ["leg"] = appearanceData.components.leg.drawable,
+            ["bag"] = appearanceData.components.bag.drawable,
+            ["shoes"] = appearanceData.components.shoes.drawable,
+            ["accessory"] = appearanceData.components.accessory.drawable,
+            ["undershirt"] = appearanceData.components.undershirt.drawable,
+            ["kevlar"] = appearanceData.components.kevlar.drawable,
+            ["badge"] = appearanceData.components.badge.drawable,
+            ["torso2"] = appearanceData.components.torso2.drawable
         })
 
         MySQL.Async.execute("UPDATE character_components_textures SET character_face = @face, character_mask = @mask, character_hair = @hair, character_torso = @torso, character_leg = @leg, character_bag = @bag, character_shoes = @shoes, character_accessory = @accessory, character_undershirt = @undershirt, character_kevlar = @kevlar, character_badge = @badge, character_torso2 = @torso2 WHERE character_data_player_dataid = @playerId", {
             ["playerId"] = playerId,
-            ["face"] = appearanceData.components[1].texture,
-            ["mask"] = appearanceData.components[2].texture,
-            ["hair"] = appearanceData.components[3].texture,
-            ["torso"] = appearanceData.components[4].texture,
-            ["leg"] = appearanceData.components[5].texture,
-            ["bag"] = appearanceData.components[6].texture,
-            ["shoes"] = appearanceData.components[7].texture,
-            ["accessory"] = appearanceData.components[8].texture,
-            ["undershirt"] = appearanceData.components[9].texture,
-            ["kevlar"] = appearanceData.components[10].texture,
-            ["badge"] = appearanceData.components[11].texture,
-            ["torso2"] = appearanceData.components[12].texture
+            ["face"] = appearanceData.components.face.texture,
+            ["mask"] = appearanceData.components.mask.texture,
+            ["hair"] = appearanceData.components.hair.texture,
+            ["torso"] = appearanceData.components.torso.texture,
+            ["leg"] = appearanceData.components.leg.texture,
+            ["bag"] = appearanceData.components.bag.texture,
+            ["shoes"] = appearanceData.components.shoes.texture,
+            ["accessory"] = appearanceData.components.accessory.texture,
+            ["undershirt"] = appearanceData.components.undershirt.texture,
+            ["kevlar"] = appearanceData.components.kevlar.texture,
+            ["badge"] = appearanceData.components.badge.texture,
+            ["torso2"] = appearanceData.components.torso2.texture
         })
 
     end)

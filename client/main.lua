@@ -57,6 +57,11 @@ RegisterNetEvent("fivez:LoadCharacterData", function(charData)
     startThreads = true
 end)
 
+RegisterNetEvent("fivez:GiveBag", function(bagId)
+    SetPedComponentVariation(GetPlayerPed(-1), 5, 40, 1, 0)
+    print("Give bag")
+end)
+
 RegisterNetEvent('fivez:CharacterStressed', function(newStress)
     if characterData.stress + newStress > Config.MaxStress then
         characterData.stress = Config.MaxStress
@@ -563,6 +568,7 @@ end, false)
 local teleportRequests = {}
 
 RegisterCommand("tpr", function(args)
+    if IsPedDeadOrDying(GetPlayerPed(-1), 1) then return end
     if args[1] then
         TriggerServerEvent("fivez:TeleportRequest", args[1])
     else
@@ -571,6 +577,7 @@ RegisterCommand("tpr", function(args)
 end, false)
 
 RegisterCommand("tpa", function()
+    if IsPedDeadOrDying(GetPlayerPed(-1), 1) then return end
     for k,v in pairs(teleportRequests) do
         TriggerServerEvent("fivez:AcceptTeleportRequest", v)
         AddNotification("Accepted teleport request")

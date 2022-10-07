@@ -12,6 +12,7 @@ Citizen.CreateThread(function()
             for k,v in pairs(portal.inPos) do
                 if #(pedCoords - v) <= 2.5 then
                     inZone = true
+                    outZone = false
                     interior = interiorId
                     portalId = k
                     --Skip past looking for out pos and inZone = false

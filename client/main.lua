@@ -129,6 +129,12 @@ function GetCharacterSkills()
     return characterData.skills
 end
 
+RegisterNetEvent("fivez:OpenCharacterCreator", function()
+    exports["fivem-appearance"]:startPlayerCustomization(function(appearance)
+    
+    end, {ped = false, headBlend = true, faceFeatures = true, headOverlays = true, components = true, props = true, tattoos = false})
+end)
+
 AddEventHandler("fivez:OpenCharacterCustomizer", function(spawn)
     print("Open character customizer")
     local playerPed = GetPlayerPed(-1)
@@ -567,8 +573,9 @@ end, false)
 
 local teleportRequests = {}
 
-RegisterCommand("tpr", function(args)
+RegisterCommand("tpr", function(source, args)
     if IsPedDeadOrDying(GetPlayerPed(-1), 1) then return end
+    print(source, args)
     if args[1] then
         TriggerServerEvent("fivez:TeleportRequest", args[1])
     else

@@ -57,6 +57,14 @@ RegisterNetEvent("playerConnecting", function(plyName, setKickReason, deferrals)
     end
 end)
 
+RegisterNetEvent("playerJoining", function(oldId)
+    local source = source
+    local playerData = GetJoinedPlayer(source)
+    if playerData then
+        TriggerClientEvent("fivez:AddNotification", -1, GetPlayerName(source).." has joined!")
+    end
+end)
+
 RegisterNetEvent("playerDropped", function(reason)
     local source = source
     local steamIdentifier = ""

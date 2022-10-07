@@ -49,7 +49,7 @@ Citizen.CreateThread(function()
         Citizen.Wait(1)
         while not startThreads do Citizen.Wait(1) end
         if inZone or outZone then
-            if inZone and IsControlJustReleased(0, 176) then
+            if inZone and IsControlJustReleased(0, 191) then
                 local coords = Config.InteriorPortals[interior].outPos[portalId]
                 if coords then
                     SetEntityCoords(GetPlayerPed(-1), coords.x, coords.y, coords.z, true, false, false, false)
@@ -58,7 +58,7 @@ Citizen.CreateThread(function()
                     interior = -1
                     portalId = -1
                 end
-            elseif outZone and IsControlJustReleased(0, 176) then
+            elseif outZone and IsControlJustReleased(0, 191) then
                 local coords = Config.InteriorPortals[interior].inPos[portalId]
                 if coords then
                     SetEntityCoords(GetPlayerPed(-1), coords.x, coords.y, coords.z, true, false, false, false)

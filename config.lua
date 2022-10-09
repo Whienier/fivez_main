@@ -1976,9 +1976,8 @@ Config.Items = {
                             print("Duffel bag has items", GetPlayerPed(source), GetPlayerPed(tostring(source)))
                             RegisterNewInventory("bag:40:"..characterData.Id, "inventory", "Duffel Bag", 0, 50, 25, dataItems, nil)
                             GetJoinedPlayer(source).characterData.appearance.components.bag.drawable = 40
-                            GetJoinedPlayer(source).characterData.appearance.components.bag.texture = 1
                             SQL_UpdateCharacterAppearanceData(characterData.Id, GetJoinedPlayer(source).characterData.appearance)
-                            SetPedComponentVariation(GetPlayerPed(source), 5, 40, 1, 1)
+                            SetPedComponentVariation(GetPlayerPed(source), 5, 40, 0, 0)
                             TriggerClientEvent("fivez:GiveBag", source, 40)
                             return true
                         end
@@ -1986,9 +1985,8 @@ Config.Items = {
                         local createdInv = SQL_CreateCharacterBagInventory(characterData.Id, 40)
                         if createdInv then
                             GetJoinedPlayer(source).characterData.appearance.components.bag.drawable = 40
-                            GetJoinedPlayer(source).characterData.appearance.components.bag.texture = 1
                             print("Using duffel bag", source, GetPlayerPed(source), GetPlayerPed(tostring(source)))
-                            SetPedComponentVariation(GetPlayerPed(source), 5, 40, 1, 1)
+                            SetPedComponentVariation(GetPlayerPed(source), 5, 40, 0, 0)
                             RegisterNewInventory("bag:40:"..characterData.Id, "inventory", "Duffel Bag", 0, 50, 25, InventoryFillEmpty(25), nil)
                             return true
                         end

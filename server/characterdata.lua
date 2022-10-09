@@ -376,7 +376,7 @@ function SQL_UpdateCharacterAppearanceData(playerId, appearanceData)
             ["playerId"] = playerId,
             --Gotta find a foolproof way to always get head overlay and not opacity/color
             ["blemishes"] = appearanceData.headOverlays.blemishes.style,
-            ["facialhair"] = appearanceData.headOverlays.facialHair.style,
+            ["facialhair"] = appearanceData.headOverlays.beard.style,
             ["eyebrows"] = appearanceData.headOverlays.eyebrows.style,
             ["aging"] = appearanceData.headOverlays.ageing.style,
             ["makeup"] = appearanceData.headOverlays.makeUp.style,
@@ -393,7 +393,7 @@ function SQL_UpdateCharacterAppearanceData(playerId, appearanceData)
         MySQL.Async.execute("UPDATE character_headoverlays_opacity SET character_blemishes = @blemishes, character_facialhair = @facialhair, character_eyebrows = @eyebrows, character_aging = @aging, character_makeup = @makeup, character_blush = @blush, character_complexion = @complexion, character_sundamage = @sundamage, character_lipstick = @lipstick, character_moles = @moles, character_chesthair = @chesthair, character_bodyblemishes = @bodyblemishes WHERE character_data_player_dataid = @playerId", {
             ["playerId"] = playerId,
             ["blemishes"] = appearanceData.headOverlays.blemishes.opacity,
-            ["facialhair"] = appearanceData.headOverlays.facialHair.opacity,
+            ["facialhair"] = appearanceData.headOverlays.beard.opacity,
             ["eyebrows"] = appearanceData.headOverlays.eyebrows.opacity,
             ["aging"] = appearanceData.headOverlays.ageing.opacity,
             ["makeup"] = appearanceData.headOverlays.makeUp.opacity,
@@ -409,7 +409,7 @@ function SQL_UpdateCharacterAppearanceData(playerId, appearanceData)
         MySQL.Async.execute("UPDATE character_headoverlays_color SET character_blemishes_color = @blemishes, character_facialhair_color = @facialhair, character_eyebrows_color = @eyebrows, character_aging_color = @aging, character_makeup_color = @makeup, character_blush_color = @blush, character_complexion_color = @complexion, character_sundamage_color = @sundamage, character_lipstick_color = @lipstick, character_moles_color = @moles, character_chesthair_color = @chesthair, character_bodyblemishes_color = @bodyblemishes WHERE character_data_player_dataid = @playerId", {
             ["playerId"] = playerId,
             ["blemishes"] = appearanceData.headOverlays.blemishes.color,
-            ["facialhair"] = appearanceData.headOverlays.facialHair.color,
+            ["facialhair"] = appearanceData.headOverlays.beard.color,
             ["eyebrows"] = appearanceData.headOverlays.eyebrows.color,
             ["aging"] = appearanceData.headOverlays.ageing.color,
             ["makeup"] = appearanceData.headOverlays.makeUp.color,
@@ -522,7 +522,7 @@ function SQL_GetCharacterAppearanceData(playerId)
                 opacity = 0,
                 color = 0
             },
-            facialHair = {
+            beard = {
                 style = 0,
                 opacity = 0,
                 color = 0
@@ -694,7 +694,7 @@ function SQL_GetCharacterAppearanceData(playerId)
         }, function(result)
             if result[1] then
                 gotAppearance.headOverlays.blemishes.style = result[1].character_blemishes
-                gotAppearance.headOverlays.facialHair.style = result[1].character_facialhair
+                gotAppearance.headOverlays.beard.style = result[1].character_facialhair
                 gotAppearance.headOverlays.eyebrows.style = result[1].character_eyebrows
                 gotAppearance.headOverlays.ageing.style = result[1].character_aging
                 gotAppearance.headOverlays.makeUp.style = result[1].character_makeup
@@ -715,7 +715,7 @@ function SQL_GetCharacterAppearanceData(playerId)
             if result[1] then
                 --Designate into a different table?
                 gotAppearance.headOverlays.blemishes.opactiy = result[1].character_blemishes
-                gotAppearance.headOverlays.facialHair.opactiy = result[1].character_facialhair
+                gotAppearance.headOverlays.beard.opactiy = result[1].character_facialhair
                 gotAppearance.headOverlays.eyebrows.opactiy = result[1].character_eyebrows
                 gotAppearance.headOverlays.ageing.opactiy = result[1].character_aging
                 gotAppearance.headOverlays.makeUp.opactiy = result[1].character_makeup
@@ -735,7 +735,7 @@ function SQL_GetCharacterAppearanceData(playerId)
         }, function(result)
             if result[1] then
                 gotAppearance.headOverlays.blemishes.color = result[1].character_blemishes_color
-                gotAppearance.headOverlays.facialHair.color = result[1].character_facialhair_color
+                gotAppearance.headOverlays.beard.color = result[1].character_facialhair_color
                 gotAppearance.headOverlays.eyebrows.color = result[1].character_eyebrows_color
                 gotAppearance.headOverlays.ageing.color = result[1].character_aging_color
                 gotAppearance.headOverlays.makeUp.color = result[1].character_makeup_color
@@ -1106,7 +1106,7 @@ function SQL_CreateCharacterAppearanceData(playerId)
                 opacity = 0,
                 color = 0
             },
-            facialHair = {
+            beard = {
                 style = 0,
                 opacity = 0,
                 color = 0
@@ -1320,8 +1320,8 @@ function LoadCharacterAppearanceData(ply, appearanceData)
 
     SetPedHeadOverlay(playerPed, 0, appearanceData.headOverlays.blemishes.style, appearanceData.headOverlays.blemishes.opacity)
     SetPedHeadOverlayColor(playerPed, 0, 2, appearanceData.headOverlays.blemishes.color, 0)
-    SetPedHeadOverlay(playerPed, 1, appearanceData.headOverlays.facialHair.style, appearanceData.headOverlays.facialHair.opacity)
-    SetPedHeadOverlayColor(playerPed, 1, 1, appearanceData.headOverlays.facialHair.color, 0)
+    SetPedHeadOverlay(playerPed, 1, appearanceData.headOverlays.beard.style, appearanceData.headOverlays.beard.opacity)
+    SetPedHeadOverlayColor(playerPed, 1, 1, appearanceData.headOverlays.beard.color, 0)
     SetPedHeadOverlay(playerPed, 2, appearanceData.headOverlays.eyebrows.style, appearanceData.headOverlays.eyebrows.opacity)
     SetPedHeadOverlayColor(playerPed, 2, 1, appearanceData.headOverlays.eyebrows.color, 0)
     SetPedHeadOverlay(playerPed, 3, appearanceData.headOverlays.ageing.style, appearanceData.headOverlays.ageing.opacity)

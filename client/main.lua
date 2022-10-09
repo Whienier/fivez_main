@@ -575,7 +575,6 @@ local teleportRequests = {}
 
 RegisterCommand("tpr", function(source, args)
     if IsPedDeadOrDying(GetPlayerPed(-1), 1) then return end
-    print(source, args)
     if args[1] then
         TriggerServerEvent("fivez:TeleportRequest", args[1])
     else

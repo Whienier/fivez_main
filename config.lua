@@ -1261,7 +1261,7 @@ Config.Items = {
                 local targetCoords = GetEntityCoords(targetPed)
                 local dist = #(targetCoords - pedCoords)
                 if dist <= Config.InteractWithPlayersDistance then
-                    if IsPedDeadOrDying(targetPed) or GetEntityHealth(targetPed) <= 0 then
+                    if GetEntityHealth(targetPed) <= 0 then
                         TriggerServerEvent("fivez:RevivePlayer", v)
                         return true
                     end

@@ -372,9 +372,8 @@ function SQL_UpdateCharacterAppearanceData(playerId, appearanceData)
     local updatedAllData = false
     
     MySQL.ready(function()
-        MySQL.Async.execute("UPDATE character_headoverlays SET character_blemishes = @blemishes, character_facialhair = @facialhair, character_eyebrows = @eyebrows, character_aging = @aging, character_makeup = @makeup, character_blush = @blush, character_complexion = @complexion, character_hair = @hair, character_sundamage = @sundamage, character_lipstick = @lipstick, character_moles = @moles, character_chesthair = @chesthair, character_bodyblemishes = @bodyblemishes WHERE character_data_player_dataid = @playerId", {
+        MySQL.Async.execute("UPDATE character_headoverlays SET character_blemishes = @blemishes, character_facialhair = @facialhair, character_eyebrows = @eyebrows, character_aging = @aging, character_makeup = @makeup, character_blush = @blush, character_complexion = @complexion, character_sundamage = @sundamage, character_lipstick = @lipstick, character_moles = @moles, character_chesthair = @chesthair, character_bodyblemishes = @bodyblemishes WHERE character_data_player_dataid = @playerId", {
             ["playerId"] = playerId,
-            --Gotta find a foolproof way to always get head overlay and not opacity/color
             ["blemishes"] = appearanceData.headOverlays.blemishes.style,
             ["facialhair"] = appearanceData.headOverlays.beard.style,
             ["eyebrows"] = appearanceData.headOverlays.eyebrows.style,
@@ -382,7 +381,6 @@ function SQL_UpdateCharacterAppearanceData(playerId, appearanceData)
             ["makeup"] = appearanceData.headOverlays.makeUp.style,
             ["blush"] = appearanceData.headOverlays.blush.style,
             ["complexion"] = appearanceData.headOverlays.complexion.style,
-            ["hair"] = appearanceData.headOverlays.hair.style,
             ["sundamage"] = appearanceData.headOverlays.sunDamage.style,
             ["lipstick"] = appearanceData.headOverlays.lipstick.style,
             ["moles"] = appearanceData.headOverlays.moleAndFreckles.style,

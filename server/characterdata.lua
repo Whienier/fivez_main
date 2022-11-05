@@ -422,26 +422,26 @@ function SQL_UpdateCharacterAppearanceData(playerId, appearanceData)
 
         MySQL.Async.execute("UPDATE character_facefeatures SET character_nosewidth = @nosewidth, character_nosepeak = @nosepeak, character_noselength = @noselength, character_nosecurve = @nosecurve, character_nosetip = @nosetip, character_nosetwist = @nosetwist, character_eyebrowheight = @eyebrowhheight, character_eyebrowlength = @eyebrowlength, character_cheeksheight = @cheekheight, character_cheekssize = @cheeksize, character_cheekswidth = @cheekwidth, character_eyeopening = @eyeopening, character_lipthickness = @lipthickness, character_jawwidth = @jawwidth, character_jawshape = @jawshape, character_chinheight = @chinheight, character_chinlength = @chinlength, character_chinshape = @chinshape, character_chinhole = @chinhole, character_neckthickness = @neckthickness WHERE character_data_player_dataid = @playerId", {
             ["playerId"] = playerId,
-            ["nosewidth"] = appearanceData.facefeatures.noseWidth,
-            ["nosepeak"] = appearanceData.facefeatures.nosePeakHigh,
-            ["noselength"] = appearanceData.facefeatures.nosePeakSize,
-            ["nosecurve"] = appearanceData.facefeatures.nosePeakLowering,
-            ["nosetip"] = appearanceData.facefeatures.noseBoneHigh,
-            ["nosetwist"] = appearanceData.facefeatures.noseBoneTwist,
-            ["eyebrowheight"] = appearanceData.facefeatures.eyeBrownHigh,
-            ["eyebrowlength"] = appearanceData.facefeatures.eyeBrownForward,
-            ["cheekheight"] = appearanceData.facefeatures.cheeksBoneHigh,
-            ["cheeksize"] = appearanceData.facefeatures.cheeksWidth,
-            ["cheekwidth"] = appearanceData.facefeatures.cheeksBoneWidth,
-            ["eyeopening"] = appearanceData.facefeatures.eyesOpening,
-            ["lipthickness"] = appearanceData.facefeatures.lipsThickness,
-            ["jawwidth"] = appearanceData.facefeatures.jawBoneWidth,
-            ["jawshape"] = appearanceData.facefeatures.jawBoneBackSize,
-            ["chinheight"] = appearanceData.facefeatures.chinBoneLowering,
-            ["chinlength"] = appearanceData.facefeatures.chinBoneLenght, --FiveM Appearance has this spelt incorrect
-            ["chinshape"] = appearanceData.facefeatures.chinBoneSize,
-            ["chinhole"] = appearanceData.facefeatures.chinHole,
-            ["neckthickness"] = appearanceData.facefeatures.neckThickness
+            ["nosewidth"] = appearanceData.faceFeatures.noseWidth,
+            ["nosepeak"] = appearanceData.faceFeatures.nosePeakHigh,
+            ["noselength"] = appearanceData.faceFeatures.nosePeakSize,
+            ["nosecurve"] = appearanceData.faceFeatures.nosePeakLowering,
+            ["nosetip"] = appearanceData.faceFeatures.noseBoneHigh,
+            ["nosetwist"] = appearanceData.faceFeatures.noseBoneTwist,
+            ["eyebrowheight"] = appearanceData.faceFeatures.eyeBrownHigh,
+            ["eyebrowlength"] = appearanceData.faceFeatures.eyeBrownForward,
+            ["cheekheight"] = appearanceData.faceFeatures.cheeksBoneHigh,
+            ["cheeksize"] = appearanceData.faceFeatures.cheeksWidth,
+            ["cheekwidth"] = appearanceData.faceFeatures.cheeksBoneWidth,
+            ["eyeopening"] = appearanceData.faceFeatures.eyesOpening,
+            ["lipthickness"] = appearanceData.faceFeatures.lipsThickness,
+            ["jawwidth"] = appearanceData.faceFeatures.jawBoneWidth,
+            ["jawshape"] = appearanceData.faceFeatures.jawBoneBackSize,
+            ["chinheight"] = appearanceData.faceFeatures.chinBoneLowering,
+            ["chinlength"] = appearanceData.faceFeatures.chinBoneLenght, --FiveM Appearance has this spelt incorrect
+            ["chinshape"] = appearanceData.faceFeatures.chinBoneSize,
+            ["chinhole"] = appearanceData.faceFeatures.chinHole,
+            ["neckthickness"] = appearanceData.faceFeatures.neckThickness
         })
 
         MySQL.Async.execute("UPDATE character_parents SET character_father_shape = @fatherShape, character_mother_shape = @motherShape, character_shape_mix = @shapeMix, character_father_skin = @fatherSkin, character_mother_skin = @motherSkin, character_skin_mix = @skinMix WHERE character_data_player_dataid = @playerId", {
@@ -661,7 +661,7 @@ function SQL_GetCharacterAppearanceData(playerId)
             motherShape = 0,
             shapeMix = 0
         },
-        facefeatures = {
+        faceFeatures = {
             noseWidth = 0,
             nosepeak = 0,
             noselength = 0,
@@ -827,26 +827,26 @@ function SQL_GetCharacterAppearanceData(playerId)
             ["playerId"] = playerId
         }, function(result)
             if result[1] then
-                gotAppearance.facefeatures.noseWidth = result[1].character_nosewidth
-                gotAppearance.facefeatures.nosepeak = result[1].character_nosepeak
-                gotAppearance.facefeatures.noselength = result[1].character_noselength
-                gotAppearance.facefeatures.nosecurve = result[1].character_nosecurve
-                gotAppearance.facefeatures.nosetip = result[1].character_nosetip
-                gotAppearance.facefeatures.nosetwist = result[1].character_nosetwist
-                gotAppearance.facefeatures.eyebrowheight = result[1].character_eyebrowheight
-                gotAppearance.facefeatures.eyebrowlength = result[1].character_eyebrowlength
-                gotAppearance.facefeatures.cheeksheight = result[1].character_cheeksheight
-                gotAppearance.facefeatures.cheekssize = result[1].character_cheekssize
-                gotAppearance.facefeatures.cheekswidth = result[1].character_cheekswidth
-                gotAppearance.facefeatures.eyeopening = result[1].character_eyeopening
-                gotAppearance.facefeatures.lipthickness = result[1].character_lipthickness
-                gotAppearance.facefeatures.jawwidth = result[1].character_jawwidth
-                gotAppearance.facefeatures.jawshape = result[1].character_jawshape
-                gotAppearance.facefeatures.chinheight = result[1].character_chinheight
-                gotAppearance.facefeatures.chinlength = result[1].character_chinlength
-                gotAppearance.facefeatures.chinshape = result[1].character_chinshape
-                gotAppearance.facefeatures.chinhole = result[1].character_chinhole
-                gotAppearance.facefeatures.neckthickness = result[1].character_neckthickness
+                gotAppearance.faceFeatures.noseWidth = result[1].character_nosewidth
+                gotAppearance.faceFeatures.nosepeak = result[1].character_nosepeak
+                gotAppearance.faceFeatures.noselength = result[1].character_noselength
+                gotAppearance.faceFeatures.nosecurve = result[1].character_nosecurve
+                gotAppearance.faceFeatures.nosetip = result[1].character_nosetip
+                gotAppearance.faceFeatures.nosetwist = result[1].character_nosetwist
+                gotAppearance.faceFeatures.eyebrowheight = result[1].character_eyebrowheight
+                gotAppearance.faceFeatures.eyebrowlength = result[1].character_eyebrowlength
+                gotAppearance.faceFeatures.cheeksheight = result[1].character_cheeksheight
+                gotAppearance.faceFeatures.cheekssize = result[1].character_cheekssize
+                gotAppearance.faceFeatures.cheekswidth = result[1].character_cheekswidth
+                gotAppearance.faceFeatures.eyeopening = result[1].character_eyeopening
+                gotAppearance.faceFeatures.lipthickness = result[1].character_lipthickness
+                gotAppearance.faceFeatures.jawwidth = result[1].character_jawwidth
+                gotAppearance.faceFeatures.jawshape = result[1].character_jawshape
+                gotAppearance.faceFeatures.chinheight = result[1].character_chinheight
+                gotAppearance.faceFeatures.chinlength = result[1].character_chinlength
+                gotAppearance.faceFeatures.chinshape = result[1].character_chinshape
+                gotAppearance.faceFeatures.chinhole = result[1].character_chinhole
+                gotAppearance.faceFeatures.neckthickness = result[1].character_neckthickness
             end
             gotAllData = true
         end)
@@ -1245,7 +1245,7 @@ function SQL_CreateCharacterAppearanceData(playerId)
             motherShape = 0,
             shapeMix = 0
         },
-        facefeatures = {
+        faceFeatures = {
             noseWidth = 0,
             nosepeak = 0,
             noselength = 0,
@@ -1295,26 +1295,26 @@ function LoadCharacterAppearanceData(ply, appearanceData)
     SetPedPropIndex(playerPed, 6, appearanceData.props.watch.drawable, appearanceData.props.watch.texture, true)
     SetPedPropIndex(playerPed, 7, appearanceData.props.bracelet.drawable, appearanceData.props.bracelet.texture, true)
 
-    SetPedFaceFeature(playerPed, 0, appearanceData.facefeatures.nosewidth)
-    SetPedFaceFeature(playerPed, 1, appearanceData.facefeatures.nosepeak)
-    SetPedFaceFeature(playerPed, 2, appearanceData.facefeatures.noselength)
-    SetPedFaceFeature(playerPed, 3, appearanceData.facefeatures.nosecurve)
-    SetPedFaceFeature(playerPed, 4, appearanceData.facefeatures.nosetip)
-    SetPedFaceFeature(playerPed, 5, appearanceData.facefeatures.nosetwist)
-    SetPedFaceFeature(playerPed, 6, appearanceData.facefeatures.eyebrowheight)
-    SetPedFaceFeature(playerPed, 7, appearanceData.facefeatures.eyebrowlength)
-    SetPedFaceFeature(playerPed, 8, appearanceData.facefeatures.cheeksheight)
-    SetPedFaceFeature(playerPed, 9, appearanceData.facefeatures.cheekssize)
-    SetPedFaceFeature(playerPed, 10, appearanceData.facefeatures.cheekswidth)
-    SetPedFaceFeature(playerPed, 11, appearanceData.facefeatures.eyeopening)
-    SetPedFaceFeature(playerPed, 12, appearanceData.facefeatures.lipthickness)
-    SetPedFaceFeature(playerPed, 13, appearanceData.facefeatures.jawbonewidth)
-    SetPedFaceFeature(playerPed, 14, appearanceData.facefeatures.jawboneshape)
-    SetPedFaceFeature(playerPed, 15, appearanceData.facefeatures.chinheight)
-    SetPedFaceFeature(playerPed, 16, appearanceData.facefeatures.chinlength)
-    SetPedFaceFeature(playerPed, 17, appearanceData.facefeatures.chinshape)
-    SetPedFaceFeature(playerPed, 18, appearanceData.facefeatures.chinhole)
-    SetPedFaceFeature(playerPed, 19, appearanceData.facefeatures.neckthickness)
+    SetPedFaceFeature(playerPed, 0, appearanceData.faceFeatures.nosewidth)
+    SetPedFaceFeature(playerPed, 1, appearanceData.faceFeatures.nosepeak)
+    SetPedFaceFeature(playerPed, 2, appearanceData.faceFeatures.noselength)
+    SetPedFaceFeature(playerPed, 3, appearanceData.faceFeatures.nosecurve)
+    SetPedFaceFeature(playerPed, 4, appearanceData.faceFeatures.nosetip)
+    SetPedFaceFeature(playerPed, 5, appearanceData.faceFeatures.nosetwist)
+    SetPedFaceFeature(playerPed, 6, appearanceData.faceFeatures.eyebrowheight)
+    SetPedFaceFeature(playerPed, 7, appearanceData.faceFeatures.eyebrowlength)
+    SetPedFaceFeature(playerPed, 8, appearanceData.faceFeatures.cheeksheight)
+    SetPedFaceFeature(playerPed, 9, appearanceData.faceFeatures.cheekssize)
+    SetPedFaceFeature(playerPed, 10, appearanceData.faceFeatures.cheekswidth)
+    SetPedFaceFeature(playerPed, 11, appearanceData.faceFeatures.eyeopening)
+    SetPedFaceFeature(playerPed, 12, appearanceData.faceFeatures.lipthickness)
+    SetPedFaceFeature(playerPed, 13, appearanceData.faceFeatures.jawbonewidth)
+    SetPedFaceFeature(playerPed, 14, appearanceData.faceFeatures.jawboneshape)
+    SetPedFaceFeature(playerPed, 15, appearanceData.faceFeatures.chinheight)
+    SetPedFaceFeature(playerPed, 16, appearanceData.faceFeatures.chinlength)
+    SetPedFaceFeature(playerPed, 17, appearanceData.faceFeatures.chinshape)
+    SetPedFaceFeature(playerPed, 18, appearanceData.faceFeatures.chinhole)
+    SetPedFaceFeature(playerPed, 19, appearanceData.faceFeatures.neckthickness)
 
     SetPedHeadOverlay(playerPed, 0, appearanceData.headOverlays.blemishes.style, appearanceData.headOverlays.blemishes.opacity)
     SetPedHeadOverlayColor(playerPed, 0, 2, appearanceData.headOverlays.blemishes.color, 0)

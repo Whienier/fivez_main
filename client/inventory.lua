@@ -287,7 +287,7 @@ RegisterCommand("+inventory", function()
 end, false)
 RegisterCommand("-inventory", function() end, false)
 
-RegisterKeyMapping("+inventory", "Opens Inventory", "keyboard", "i")
+RegisterKeyMapping("+inventory", "Opens Inventory", "keyboard", "tab")
 
 RegisterNetEvent("fivez:OpenItemMenu", function(itemmenuData)
     local charInventory = GetCharacterInventory()

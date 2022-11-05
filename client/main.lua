@@ -7,6 +7,7 @@ local updatedAmmo = false
 --Disable ambient sounds
 Citizen.CreateThread(function()
     StartAudioScene("CHARACTER_CHANGE_IN_SKY_SCENE")
+    DistantCopCarSirens(false)
 end)
 
 RegisterNetEvent("fivez:GetHeadingFromVector", function(x, y)

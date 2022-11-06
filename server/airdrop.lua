@@ -94,6 +94,23 @@ RegisterNetEvent("fivez:AirdropCrateBrokenCB", function(result)
     crateBroken = result
 end)
 
+function FindClosestPlayerToAirdrop(coords)
+    local closestDistance = -1
+    local closestPlayer = -1
+    for k,v in pairs(GetPlayers()) do
+        if GetPlayerPed(v) then
+            local plyPos = GetEntityCoords(GetPlayerPed(v))
+            local dist = #(coords - plyPos)
+            if closestDistance == -1 or dist < closestDistance then
+                closestDistance = dist
+                closestPlayer = v
+            end
+        end
+    end
+
+    return closestDistance, closestPlayer
+end
+
 function StartAirDrop(dropPos)
     Citizen.CreateThread(function()
         TriggerClientEvent("fivez:AddNotification", -1, "Airdrop has dropped! Look to the skies!")
@@ -112,10 +129,22 @@ function StartAirDrop(dropPos)
         FreezeEntityPosition(dropCrate, false)
         FreezeEntityPosition(parachute, false)
         crateBroken = nil
-        TriggerClientEvent("fivez:AirdropCrateBroken", GetPlayers()[1], NetworkGetNetworkIdFromEntity(dropCrate))
+        local dist, closePlayer = FindClosestPlayerToAirdrop(crateCoords)
+        --If we couldn't find a closest player just use the first player
+        if closePlayer == -1 then
+            closePlayer = GetPlayers()[1]
+        end
+        TriggerClientEvent("fivez:AirdropCrateBroken", closePlayer, NetworkGetNetworkIdFromEntity(dropCrate))
         while crateBroken == nil do
             Citizen.Wait(500)
-            TriggerClientEvent("fivez:AirdropCrateBroken", GetPlayers()[1], NetworkGetNetworkIdFromEntity(dropCrate))
+            --Mitigation against player disconnecting during an airdrop
+            if GetPlayerPed(closePlayer) == nil then
+                dist, closePlayer = FindClosestPlayerToAirdrop(crateCoords)
+                if closePlayer == -1 then
+                    closePlayer = GetPlayers()[1]
+                end
+            end
+            TriggerClientEvent("fivez:AirdropCrateBroken", closePlayer, NetworkGetNetworkIdFromEntity(dropCrate))
         end
         print("Crate broke")
         crateCoords = GetEntityCoords(parachute)

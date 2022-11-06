@@ -64,6 +64,8 @@ RegisterNetEvent("fivez:GiveBag", function(bagId)
 end)
 
 RegisterNetEvent('fivez:CharacterStressed', function(newStress)
+    if characterData == nil then return end
+    
     if characterData.stress + newStress > Config.MaxStress then
         characterData.stress = Config.MaxStress
         if GetEntityHealth(GetPlayerPed(-1)) - 2 < 20 then
@@ -161,7 +163,7 @@ end)
 
 function Draw3DText(x,y,z,textInput,fontId,scaleX,scaleY)
     local px,py,pz=table.unpack(GetGameplayCamCoords())
-    local dist = GetDistanceBetweenCoords(px,py,pz, x,y,z, 1)    
+    local dist = GetDistanceBetweenCoords(px,py,pz, x,y,z, 1)   
     local scale = (1/dist)*20
     local fov = (1/GetGameplayCamFov())*100
     local scale = scale*fov   

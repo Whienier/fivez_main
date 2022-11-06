@@ -4,21 +4,21 @@
     <v-main>
         <div id="FIVEZ_HUD_Base">
             <div id="FIVEZ_HUD_Elements">
-                <v-progress-circular color="green" :rotate="-90" :size="65" :width="10" :value="info.health"><v-icon>mdi-heart</v-icon></v-progress-circular>
-                <v-progress-circular color="blue darken-4" :rotate="-90" :size="65" :width="10" :value="info.armor"><v-icon>mdi-shield</v-icon></v-progress-circular>
-                <v-progress-circular color="orange darken-4" :rotate="-90" :size="65" :width="10" :value="info.stamina"><v-icon>mdi-lungs</v-icon></v-progress-circular>
+                <v-progress-circular color="green" :rotate="-90" :size="50" :width="8" :value="info.health"><v-icon>mdi-heart</v-icon></v-progress-circular>
+                <v-progress-circular color="blue darken-4" :rotate="-90" :size="50" :width="8" :value="info.armor"><v-icon>mdi-shield</v-icon></v-progress-circular>
+                <v-progress-circular color="orange darken-4" :rotate="-90" :size="50" :width="8" :value="info.stamina"><v-icon>mdi-lungs</v-icon></v-progress-circular>
             </br>
-                <v-progress-circular color="yellow" :rotate="-90" :size="65" :width="10" :value="info.hunger"><v-icon>mdi-hamburger</v-icon></v-progress-circular>
-                <v-progress-circular color="blue" :rotate="-90" :size="65" :width="10" :value="info.thirst"><v-icon>mdi-cup-water</v-icon></v-progress-circular>
-                <v-progress-circular color="red" :rotate="-90" :size="65" :width="10" :value="info.stress"><v-icon>mdi-head-alert</v-icon></v-progress-circular>
-                <v-progress-circular color="blue" :rotate="-90" :size="65" :width="10" :value="micvalue">
+                <v-progress-circular color="yellow" :rotate="-90" :size="50" :width="8" :value="info.hunger"><v-icon>mdi-hamburger</v-icon></v-progress-circular>
+                <v-progress-circular color="blue" :rotate="-90" :size="50" :width="8" :value="info.thirst"><v-icon>mdi-cup-water</v-icon></v-progress-circular>
+                <v-progress-circular color="red" :rotate="-90" :size="50" :width="8" :value="info.stress"><v-icon>mdi-head-alert</v-icon></v-progress-circular>
+                <v-progress-circular color="blue" :rotate="-90" :size="50" :width="8" :value="micvalue">
                     <v-icon v-show="ShowMic">mic</v-icon>
                 </v-progress-circular>
                 <v-spacer></v-spacer>
                 <div v-show="ShowCar">
-                    <v-progress-circular color="orange" :rotate="-90" :size="65" :width="10" :value="carInfo.fuel"><v-icon>mdi-gas-station</v-icon></v-progress-circular>
-                    <v-progress-circular color="orange" :rotate="-90" :size="65" :width="10" :value="carInfo.body"><v-icon>mdi-car</v-icon></v-progress-circular>
-                    <v-progress-circular color="orange" :rotate="-90" :size="65" :width="10" :value="carInfo.eng"><v-icon>mdi-engine</v-icon></v-progress-circular>
+                    <v-progress-circular color="orange" :rotate="-90" :size="50" :width="8" :value="carInfo.fuel"><v-icon>mdi-gas-station</v-icon></v-progress-circular>
+                    <v-progress-circular color="orange" :rotate="-90" :size="50" :width="8" :value="carInfo.body"><v-icon>mdi-car</v-icon></v-progress-circular>
+                    <v-progress-circular color="orange" :rotate="-90" :size="50" :width="8" :value="carInfo.eng"><v-icon>mdi-engine</v-icon></v-progress-circular>
                 </div>
             </div>
         </div>

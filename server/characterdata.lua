@@ -460,20 +460,20 @@ function SQL_UpdateCharacterAppearanceData(playerId, appearanceData)
 
         MySQL.Async.execute("UPDATE character_props SET character_hat = @hat, character_glasses = @glasses, character_ears = @ear, character_watch = @watch, character_bracelet = @bracelet WHERE character_data_player_dataid = @playerId", {
             ["playerId"] = playerId,
-            ["hat"] = appearanceData.props[1].drawable,
-            ["glasses"] = appearanceData.props[2].drawable,
-            ["ear"] = appearanceData.props[3].drawable,
-            ["watch"] = appearanceData.props[4].drawable,
-            ["bracelet"] = appearanceData.props[5].drawable
+            ["hat"] = appearanceData.props.hat.drawable,
+            ["glasses"] = appearanceData.props.glasses.drawable,
+            ["ear"] = appearanceData.props.ear.drawable,
+            ["watch"] = appearanceData.props.watch.drawable,
+            ["bracelet"] = appearanceData.props.bracelet.drawable
         })
 
         MySQL.Async.execute("UPDATE character_props_textures SET character_hat = @hat, character_glasses = @glasses, character_ears = @ear, character_watch = @watch, character_bracelet = @bracelet WHERE character_data_player_dataid = @playerId", {
             ["playerId"] = playerId,
-            ["hat"] = appearanceData.props[1].texture,
-            ["glasses"] = appearanceData.props[2].texture,
-            ["ear"] = appearanceData.props[3].texture,
-            ["watch"] = appearanceData.props[4].texture,
-            ["bracelet"] = appearanceData.props[5].texture
+            ["hat"] = appearanceData.props.hat.texture,
+            ["glasses"] = appearanceData.props.glasses.texture,
+            ["ear"] = appearanceData.props.ear.texture,
+            ["watch"] = appearanceData.props.watch.texture,
+            ["bracelet"] = appearanceData.props.bracelet.texture
         })
 
         MySQL.Async.execute("UPDATE character_components SET character_face = @face, character_mask = @mask, character_hair = @hair, character_torso = @torso, character_leg = @leg, character_bag = @bag, character_shoes = @shoes, character_accessory = @accessory, character_undershirt = @undershirt, character_kevlar = @kevlar, character_badge = @badge, character_torso2 = @torso2 WHERE character_data_player_dataid = @playerId", {

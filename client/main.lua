@@ -65,7 +65,7 @@ end)
 
 RegisterNetEvent('fivez:CharacterStressed', function(newStress)
     if characterData == nil then return end
-    
+
     if characterData.stress + newStress > Config.MaxStress then
         characterData.stress = Config.MaxStress
         if GetEntityHealth(GetPlayerPed(-1)) - 2 < 20 then
@@ -154,7 +154,84 @@ AddEventHandler("fivez:OpenCharacterCustomizer", function(spawn)
     }
     exports["fivem-appearance"]:startPlayerCustomization(function(appearance)
         if appearance then
-            TriggerServerEvent("fivez:UpdateCharacterAppearance", json.encode(appearance))
+            local dataAppearance = {
+                headOverlays = appearance.headOverlays,
+                faceFeatures = appearance.faceFeatures,
+                headBlend = appearance.headBlend,
+                props = {
+                    hat = {
+                        drawable = appearance.props[1].drawable,
+                        texture = appearance.props[1].texture
+                    },
+                    glasses = {
+                        drawable = appearance.props[2].drawable,
+                        texture = appearance.props[2].texture
+                    },
+                    ear = {
+                        drawable = appearance.props[3].drawable,
+                        texture = appearance.props[3].texture
+                    },
+                    watch = {
+                        drawable = appearance.props[4].drawable,
+                        texture = appearance.props[4].texture
+                    },
+                    bracelet = {
+                        drawable = appearance.props[5].drawable,
+                        texture = appearance.props[5].texture
+                    }
+                },
+                components = {
+                    face = {
+                        drawable = appearance.components[1].drawable,
+                        texture = appearance.components[1].texture
+                    },
+                    mask = {
+                        drawable = appearance.components[2].drawable,
+                        texture = appearance.components[2].texture
+                    },
+                    hair = {
+                        drawable = appearance.components[3].drawable,
+                        texture = appearance.components[3].texture
+                    },
+                    torso = {
+                        drawable = appearance.components[4].drawable,
+                        texture = appearance.components[4].texture
+                    },
+                    leg = {
+                        drawable = appearance.components[5].drawable,
+                        texture = appearance.components[5].texture
+                    },
+                    bag = {
+                        drawable = appearance.components[6].drawable,
+                        texture = appearance.components[6].texture
+                    },
+                    shoes = {
+                        drawable = appearance.components[7].drawable,
+                        texture = appearance.components[7].texture
+                    },
+                    accessory = {
+                        drawable = appearance.components[8].drawable,
+                        texture = appearance.components[8].texture
+                    },
+                    undershirt = {
+                        drawable = appearance.components[9].drawable,
+                        texture = appearance.components[9].texture
+                    },
+                    kevlar = {
+                        drawable = appearance.components[10].drawable,
+                        texture = appearance.components[10].texture
+                    },
+                    badge = {
+                        drawable = appearance.components[11].drawable,
+                        texture = appearance.components[11].texture
+                    },
+                    torso2 = {
+                        drawable = appearance.components[12].drawable,
+                        texture = appearance.components[12].texture
+                    }
+                }
+            }
+            TriggerServerEvent("fivez:UpdateCharacterAppearance", json.encode(dataAppearance))
             TriggerServerEvent("fivez:NewCharacterCreated")
         end
         SetEntityCoords(playerPed, spawn.x, spawn.y, spawn.z, true, false, false, false)

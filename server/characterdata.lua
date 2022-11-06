@@ -446,12 +446,12 @@ function SQL_UpdateCharacterAppearanceData(playerId, appearanceData)
 
         MySQL.Async.execute("UPDATE character_parents SET character_father_shape = @fatherShape, character_mother_shape = @motherShape, character_shape_mix = @shapeMix, character_father_skin = @fatherSkin, character_mother_skin = @motherSkin, character_skin_mix = @skinMix WHERE character_data_player_dataid = @playerId", {
             ["playerId"] = playerId,
-            ["fatherShape"] = appearanceData.parents.shapeFirst,
-            ["motherShape"] = appearanceData.parents.shapeSecond,
-            ["shapeMix"] = appearanceData.parents.shapeMix,
-            ["fatherSkin"] = appearanceData.parents.skinFirst,
-            ["motherSkin"] = appearanceData.parents.skinSecond,
-            ["skinMix"] = appearanceData.parents.skinMix
+            ["fatherShape"] = appearanceData.headBlend.shapeFirst,
+            ["motherShape"] = appearanceData.headBlend.shapeSecond,
+            ["shapeMix"] = appearanceData.headBlend.shapeMix,
+            ["fatherSkin"] = appearanceData.headBlend.skinFirst,
+            ["motherSkin"] = appearanceData.headBlend.skinSecond,
+            ["skinMix"] = appearanceData.headBlend.skinMix
         })
 
         --[[ MySQL.Async.execute("UPDATE character_tattoos SET WHERE character_data_player_dataid = @playerId", {

@@ -185,8 +185,37 @@ local gotGround = nil
 RegisterNetEvent("fivez:GetGroundForZombieCB", function(result)
     gotGround = json.decode(result)
 end)
+--Server thread for spawning zombies in certain locations
+Citizen.CreateThread(function()
+    while true do
+        local players = GetPlayers()
+        if #players >= 1 then
+            --Stop spawning zombies if we are at 150
+            if #zombies >= 150 then goto skip end
 
---Server thread for spawning zombies
+            for k,v in pairs(Config.ZombieSpawns) do
+                local maxZombieCount = Config.MaxZombieSpawn
+                if Config.ZombieNightSpawn then
+                    local time = exports["weathertimesync"]:getTime()
+                    if time.hour then
+                        if time.hour >= 16 or time.hour <= 4 then
+                            maxZombieCount = Config.MaxZombieSpawn * Config.ZombieNightSpawnMultiplier
+                        end
+                    end
+                end
+                local countZombies = math.random(1, maxZombieCount)
+                for i=1, countZombies do
+                    CreateZombie(v)
+                end
+                Citizen.Wait(500)
+            end
+
+            ::skip::
+        end
+        Citizen.Wait(1)
+    end
+end)
+--Server thread for spawning zombies dynamically on players
 Citizen.CreateThread(function()
     while true do
         local players = GetPlayers()

@@ -2668,6 +2668,51 @@ Config.CustomSkills = {
     }
 }
 
+Config.ZombieSpawns = {
+    --Hospital spawn
+    vector3(274.2726, -575.1154, 45.2239456),
+    --Back of hospital
+    vector3(384.658783, -591.6046, 29.4856129),
+    --police spawn
+    vector3(410.153931, -978.3029, 30.5470123),
+    --Ammunation
+    vector3(10.750618, -1131.77136, 30.5900154),
+    --Appartment
+    vector3(-234.195862, -1001.37274, 31.15371),
+    --Back of appartment
+    vector3(-290.925629, -916.1184, 33.3945),
+    --Lucky Plucker
+    vector3(130.419617, -1440.65527, 30.8028736),
+    --Second hospital
+    vector3(289.875946, -1427.98865, 31.531044),
+    --Houses
+    vector3(-63.6153145, -1468.62524, 33.95157),
+    --Cul-de-sac houses
+    vector3(102.777176, -1941.49744, 21.8588314),
+    --Houses
+    vector3(422.00116, -1801.56335, 28.9497719),
+    --Arena
+    vector3(-192.674011, -2014.6814, 28.8612118),
+    --Up Airport
+    vector3(-1036.28271, -2734.26318, 21.3609734),
+    --Down airport
+    vector3(-1030.19348, -2723.48779, 14.2231607),
+    --Outside junkyard
+    vector3(-540.443237, -1765.09863, 23.05514),
+    --Beach houses
+    vector3(-1296.30994, -1284.4707, 7.462434),
+    --Beach appartments
+    vector3(-1026.48511, -1522.80164, 5.93516874),
+    --Dock
+    vector3(-1654.68433, -1015.07086, 14.13902),
+    --Park
+    vector3(-964.759338, 313.606628, 72.3385849),
+    --High-end appartment
+    vector3(-1323.92542, 290.288818, 66.03393),
+    --Bank
+    vector3(216.911942, 204.178452, 108.378181)
+}
+
 --Allows control over loot zombies can drop, undefined is for every zombie but if a ped model is defined
 --It will override undefined
 Config.ZombieLootTable = {

@@ -188,18 +188,14 @@ Citizen.CreateThread(function()
                     local engineHealth = -1
                     local bodyHealth = -1
                     local tyres = {[1] = -1, [2] = -1, [4] = -1, [5] = -1}
-                    if v.damaged then
+                    if v.damaged ~= nil then
                         local rng = -1
                         
-                        if v.damaged.minenginehealth then
-                            engineHealth = math.random(v.damaged.minenginehealth, v.damaged.maxenginehealth)
-                            --SetVehicleEngineHealth(createdVeh, v.damaged.enginehealth)
-                        end
+                        engineHealth = math.random(v.damaged.minenginehealth, v.damaged.maxenginehealth)
+                        --SetVehicleEngineHealth(createdVeh, v.damaged.enginehealth)
 
-                        if v.damaged.bodyhealth then
-                            bodyHealth = math.random(v.damaged.minbodyhealth, v.damaged.maxbodyhealth)
-                            SetVehicleBodyHealth(createdVeh, bodyHealth)
-                        end
+                        bodyHealth = math.random(v.damaged.minbodyhealth, v.damaged.maxbodyhealth)
+                        SetVehicleBodyHealth(createdVeh, bodyHealth)
 
                         --How many tyres are burst?
                         if v.damaged.tyres then

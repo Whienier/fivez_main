@@ -2188,10 +2188,10 @@ Config.PotentialCarSpawns = {
             "warrener"
         },
         damaged = { --Control how damaged the car will spawn
-            minenginehealth = 500.0,
-            maxenginehealth = 1000.0,
-            minbodyhealth = 500.0,
-            maxbodyhealth = 1000.0,
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
             tyres = {
                 [1] = { --Tyre health?
                     min = 0.0,
@@ -2212,8 +2212,8 @@ Config.PotentialCarSpawns = {
             }
         },
         minfuel = 0.0,
-        maxfuel = 100.0,
-        position = vector3(-403.89, 1200.28, 325.1),
+        maxfuel = 0.0,
+        position = vector3(407.413483, -994.5586, 29.5270023),
         heading = 0.0
     },
     {
@@ -2224,10 +2224,10 @@ Config.PotentialCarSpawns = {
             "warrener"
         },
         damaged = { --Control how damaged the car will spawn
-            minenginehealth = 500.0,
-            maxenginehealth = 1000.0,
-            minbodyhealth = 500.0,
-            maxbodyhealth = 1000.0,
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
             tyres = {
                 [1] = { --Tyre health?
                     min = 0.0,
@@ -2248,8 +2248,8 @@ Config.PotentialCarSpawns = {
             }
         },
         minfuel = 0.0,
-        maxfuel = 100.0,
-        position = vector3(-2408, 3281.21, 32.55),
+        maxfuel = 0.0,
+        position = vector3(329.844818, -548.8366, 29.0561543),
         heading = 249.0
     },
     {
@@ -2260,10 +2260,10 @@ Config.PotentialCarSpawns = {
             "warrener"
         },
         damaged = { --Control how damaged the car will spawn
-            minenginehealth = 500.0,
-            maxenginehealth = 1000.0,
-            minbodyhealth = 500.0,
-            maxbodyhealth = 1000.0,
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
             tyres = {
                 [1] = { --Tyre health?
                     min = 0.0,
@@ -2284,8 +2284,8 @@ Config.PotentialCarSpawns = {
             }
         },
         minfuel = 0.0,
-        maxfuel = 100.0,
-        position = vector3(-2423.1, 3294.19, 32.55),
+        maxfuel = 0.0,
+        position = vector3(288.3637, -608.5036, 43.803978),
         heading = 0.0
     },
     {
@@ -2295,10 +2295,10 @@ Config.PotentialCarSpawns = {
             "tornado4"
         },
         damaged = { --Control how damaged the car will spawn
-            minenginehealth = 500.0,
-            maxenginehealth = 1000.0,
-            minbodyhealth = 500.0,
-            maxbodyhealth = 1000.0,
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
             tyres = {
                 [1] = { --Tyre health?
                     min = 0.0,
@@ -2319,8 +2319,8 @@ Config.PotentialCarSpawns = {
             }
         },
         minfuel = 0.0,
-        maxfuel = 100.0,
-        position = vector3(-2397.94, 3298.76, 32.55),
+        maxfuel = 0.0,
+        position = vector3(102.993294, -568.7853, 44.4533653),
         heading = 0.0
     },
     {
@@ -2330,10 +2330,10 @@ Config.PotentialCarSpawns = {
             "tornado4"
         },
         damaged = { --Control how damaged the car will spawn
-            minenginehealth = 500.0,
-            maxenginehealth = 1000.0,
-            minbodyhealth = 500.0,
-            maxbodyhealth = 1000.0,
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
             tyres = {
                 [1] = { --Tyre health?
                     min = 0.0,
@@ -2354,8 +2354,8 @@ Config.PotentialCarSpawns = {
             }
         },
         minfuel = 0.0,
-        maxfuel = 100.0,
-        position = vector3(-1098.25, 2700.12, 18.63),
+        maxfuel = 0.0,
+        position = vector3(195.102127, -325.622131, 45.9580154),
         heading = 358.8
     },
     {
@@ -2365,10 +2365,10 @@ Config.PotentialCarSpawns = {
             "tornado4"
         },
         damaged = { --Control how damaged the car will spawn
-            minenginehealth = 500.0,
-            maxenginehealth = 1000.0,
-            minbodyhealth = 500.0,
-            maxbodyhealth = 1000.0,
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
             tyres = {
                 [1] = { --Tyre health?
                     min = 0.0,
@@ -2390,7 +2390,776 @@ Config.PotentialCarSpawns = {
         },
         minfuel = 0.0,
         maxfuel = 100.0,
-        position = vector3(1956.3, 3762.53, 32),
+        position = vector3(-249.379532, -415.0372, 30.89542),
+        heading = 207.5
+    },
+    {
+        models = { --What type of cars can spawn at this location
+            "futo",
+            "ruiner",
+            "tornado4"
+        },
+        damaged = { --Control how damaged the car will spawn
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
+            tyres = {
+                [1] = { --Tyre health?
+                    min = 0.0,
+                    max = 100.0
+                },
+                [2] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [4] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [5] = {
+                    min = 0.0,
+                    max = 100.0
+                }
+            }
+        },
+        minfuel = 0.0,
+        maxfuel = 0.0,
+        position = vector3(336.761627, -1471.77063, 29.8930378),
+        heading = 207.5
+    },
+    {
+        models = { --What type of cars can spawn at this location
+            "futo",
+            "ruiner",
+            "tornado4"
+        },
+        damaged = { --Control how damaged the car will spawn
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
+            tyres = {
+                [1] = { --Tyre health?
+                    min = 0.0,
+                    max = 100.0
+                },
+                [2] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [4] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [5] = {
+                    min = 0.0,
+                    max = 100.0
+                }
+            }
+        },
+        minfuel = 0.0,
+        maxfuel = 0.0,
+        position = vector3(903.009766, -1565.60352, 31.2790852),
+        heading = 207.5
+    },
+    {
+        models = { --What type of cars can spawn at this location
+            "futo",
+            "ruiner",
+            "tornado4"
+        },
+        damaged = { --Control how damaged the car will spawn
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
+            tyres = {
+                [1] = { --Tyre health?
+                    min = 0.0,
+                    max = 100.0
+                },
+                [2] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [4] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [5] = {
+                    min = 0.0,
+                    max = 100.0
+                }
+            }
+        },
+        minfuel = 0.0,
+        maxfuel = 0.0,
+        position = vector3(832.437866, -1977.53137, 29.65047),
+        heading = 207.5
+    },
+    {
+        models = { --What type of cars can spawn at this location
+            "futo",
+            "ruiner",
+            "tornado4"
+        },
+        damaged = { --Control how damaged the car will spawn
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
+            tyres = {
+                [1] = { --Tyre health?
+                    min = 0.0,
+                    max = 100.0
+                },
+                [2] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [4] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [5] = {
+                    min = 0.0,
+                    max = 100.0
+                }
+            }
+        },
+        minfuel = 0.0,
+        maxfuel = 0.0,
+        position = vector3(804.644958, -3032.27734, 6.84796858),
+        heading = 207.5
+    },
+    {
+        models = { --What type of cars can spawn at this location
+            "futo",
+            "ruiner",
+            "tornado4"
+        },
+        damaged = { --Control how damaged the car will spawn
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
+            tyres = {
+                [1] = { --Tyre health?
+                    min = 0.0,
+                    max = 100.0
+                },
+                [2] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [4] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [5] = {
+                    min = 0.0,
+                    max = 100.0
+                }
+            }
+        },
+        minfuel = 0.0,
+        maxfuel = 0.0,
+        position = vector3(170.718842, -2992.84766, 6.66546965),
+        heading = 207.5
+    },
+    {
+        models = { --What type of cars can spawn at this location
+            "futo",
+            "ruiner",
+            "tornado4"
+        },
+        damaged = { --Control how damaged the car will spawn
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
+            tyres = {
+                [1] = { --Tyre health?
+                    min = 0.0,
+                    max = 100.0
+                },
+                [2] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [4] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [5] = {
+                    min = 0.0,
+                    max = 100.0
+                }
+            }
+        },
+        minfuel = 0.0,
+        maxfuel = 0.0,
+        position = vector3(-963.386536, -2243.77441, 9.489776),
+        heading = 207.5
+    },
+    {
+        models = { --What type of cars can spawn at this location
+            "futo",
+            "ruiner",
+            "tornado4"
+        },
+        damaged = { --Control how damaged the car will spawn
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
+            tyres = {
+                [1] = { --Tyre health?
+                    min = 0.0,
+                    max = 100.0
+                },
+                [2] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [4] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [5] = {
+                    min = 0.0,
+                    max = 100.0
+                }
+            }
+        },
+        minfuel = 0.0,
+        maxfuel = 0.0,
+        position = vector3(-977.102844, -1479.28625, 6.203434),
+        heading = 207.5
+    },
+    {
+        models = { --What type of cars can spawn at this location
+            "futo",
+            "ruiner",
+            "tornado4"
+        },
+        damaged = { --Control how damaged the car will spawn
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
+            tyres = {
+                [1] = { --Tyre health?
+                    min = 0.0,
+                    max = 100.0
+                },
+                [2] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [4] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [5] = {
+                    min = 0.0,
+                    max = 100.0
+                }
+            }
+        },
+        minfuel = 0.0,
+        maxfuel = 0.0,
+        position = vector3(-1161.27759, -1177.86621, 6.124006),
+        heading = 207.5
+    },
+    {
+        models = { --What type of cars can spawn at this location
+            "futo",
+            "ruiner",
+            "tornado4"
+        },
+        damaged = { --Control how damaged the car will spawn
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
+            tyres = {
+                [1] = { --Tyre health?
+                    min = 0.0,
+                    max = 100.0
+                },
+                [2] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [4] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [5] = {
+                    min = 0.0,
+                    max = 100.0
+                }
+            }
+        },
+        minfuel = 0.0,
+        maxfuel = 0.0,
+        position = vector3(-1035.00427, -1014.8313, 2.180781),
+        heading = 207.5
+    },
+    {
+        models = { --What type of cars can spawn at this location
+            "futo",
+            "ruiner",
+            "tornado4"
+        },
+        damaged = { --Control how damaged the car will spawn
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
+            tyres = {
+                [1] = { --Tyre health?
+                    min = 0.0,
+                    max = 100.0
+                },
+                [2] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [4] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [5] = {
+                    min = 0.0,
+                    max = 100.0
+                }
+            }
+        },
+        minfuel = 0.0,
+        maxfuel = 0.0,
+        position = vector3(-1577.19385, -1019.79419, 13.8407192),
+        heading = 207.5
+    },
+    {
+        models = { --What type of cars can spawn at this location
+            "futo",
+            "ruiner",
+            "tornado4"
+        },
+        damaged = { --Control how damaged the car will spawn
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
+            tyres = {
+                [1] = { --Tyre health?
+                    min = 0.0,
+                    max = 100.0
+                },
+                [2] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [4] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [5] = {
+                    min = 0.0,
+                    max = 100.0
+                }
+            }
+        },
+        minfuel = 0.0,
+        maxfuel = 0.0,
+        position = vector3(-1522.307, -557.543335, 33.9953766),
+        heading = 207.5
+    },
+    {
+        models = { --What type of cars can spawn at this location
+            "futo",
+            "ruiner",
+            "tornado4"
+        },
+        damaged = { --Control how damaged the car will spawn
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
+            tyres = {
+                [1] = { --Tyre health?
+                    min = 0.0,
+                    max = 100.0
+                },
+                [2] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [4] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [5] = {
+                    min = 0.0,
+                    max = 100.0
+                }
+            }
+        },
+        minfuel = 0.0,
+        maxfuel = 0.0,
+        position = vector3(-698.6273, -136.466034, 37.9504),
+        heading = 207.5
+    },
+    {
+        models = { --What type of cars can spawn at this location
+            "futo",
+            "ruiner",
+            "tornado4"
+        },
+        damaged = { --Control how damaged the car will spawn
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
+            tyres = {
+                [1] = { --Tyre health?
+                    min = 0.0,
+                    max = 100.0
+                },
+                [2] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [4] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [5] = {
+                    min = 0.0,
+                    max = 100.0
+                }
+            }
+        },
+        minfuel = 0.0,
+        maxfuel = 0.0,
+        position = vector3(-232.200989, -269.888916, 49.7785),
+        heading = 207.5
+    },
+    {
+        models = { --What type of cars can spawn at this location
+            "futo",
+            "ruiner",
+            "tornado4"
+        },
+        damaged = { --Control how damaged the car will spawn
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
+            tyres = {
+                [1] = { --Tyre health?
+                    min = 0.0,
+                    max = 100.0
+                },
+                [2] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [4] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [5] = {
+                    min = 0.0,
+                    max = 100.0
+                }
+            }
+        },
+        minfuel = 0.0,
+        maxfuel = 0.0,
+        position = vector3(361.8603, 289.345062, 104.744576),
+        heading = 207.5
+    },
+    {
+        models = { --What type of cars can spawn at this location
+            "futo",
+            "ruiner",
+            "tornado4"
+        },
+        damaged = { --Control how damaged the car will spawn
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
+            tyres = {
+                [1] = { --Tyre health?
+                    min = 0.0,
+                    max = 100.0
+                },
+                [2] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [4] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [5] = {
+                    min = 0.0,
+                    max = 100.0
+                }
+            }
+        },
+        minfuel = 0.0,
+        maxfuel = 0.0,
+        position = vector3(879.6287, -590.209961, 58.8258133),
+        heading = 207.5
+    },
+    {
+        models = { --What type of cars can spawn at this location
+            "futo",
+            "ruiner",
+            "tornado4"
+        },
+        damaged = { --Control how damaged the car will spawn
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
+            tyres = {
+                [1] = { --Tyre health?
+                    min = 0.0,
+                    max = 100.0
+                },
+                [2] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [4] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [5] = {
+                    min = 0.0,
+                    max = 100.0
+                }
+            }
+        },
+        minfuel = 0.0,
+        maxfuel = 0.0,
+        position = vector3(1371.24768, -741.7769, 69.07517),
+        heading = 207.5
+    },
+    {
+        models = { --What type of cars can spawn at this location
+            "futo",
+            "ruiner",
+            "tornado4"
+        },
+        damaged = { --Control how damaged the car will spawn
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
+            tyres = {
+                [1] = { --Tyre health?
+                    min = 0.0,
+                    max = 100.0
+                },
+                [2] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [4] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [5] = {
+                    min = 0.0,
+                    max = 100.0
+                }
+            }
+        },
+        minfuel = 0.0,
+        maxfuel = 0.0,
+        position = vector3(1147.91064, -1324.12854, 35.96179),
+        heading = 207.5
+    },
+    {
+        models = { --What type of cars can spawn at this location
+            "futo",
+            "ruiner",
+            "tornado4"
+        },
+        damaged = { --Control how damaged the car will spawn
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
+            tyres = {
+                [1] = { --Tyre health?
+                    min = 0.0,
+                    max = 100.0
+                },
+                [2] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [4] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [5] = {
+                    min = 0.0,
+                    max = 100.0
+                }
+            }
+        },
+        minfuel = 0.0,
+        maxfuel = 0.0,
+        position = vector3(1381.773, -2059.35278, 53.6856575),
+        heading = 207.5
+    },{
+        models = { --What type of cars can spawn at this location
+            "futo",
+            "ruiner",
+            "tornado4"
+        },
+        damaged = { --Control how damaged the car will spawn
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
+            tyres = {
+                [1] = { --Tyre health?
+                    min = 0.0,
+                    max = 100.0
+                },
+                [2] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [4] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [5] = {
+                    min = 0.0,
+                    max = 100.0
+                }
+            }
+        },
+        minfuel = 0.0,
+        maxfuel = 0.0,
+        position = vector3(967.4494, -2228.7146, 32.1251259),
+        heading = 207.5
+    },
+    {
+        models = { --What type of cars can spawn at this location
+            "futo",
+            "ruiner",
+            "tornado4"
+        },
+        damaged = { --Control how damaged the car will spawn
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
+            tyres = {
+                [1] = { --Tyre health?
+                    min = 0.0,
+                    max = 100.0
+                },
+                [2] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [4] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [5] = {
+                    min = 0.0,
+                    max = 100.0
+                }
+            }
+        },
+        minfuel = 0.0,
+        maxfuel = 0.0,
+        position = vector3(325.828156, -2083.90356, 18.1783371),
+        heading = 207.5
+    },
+    {
+        models = { --What type of cars can spawn at this location
+            "futo",
+            "ruiner",
+            "tornado4"
+        },
+        damaged = { --Control how damaged the car will spawn
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
+            tyres = {
+                [1] = { --Tyre health?
+                    min = 0.0,
+                    max = 100.0
+                },
+                [2] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [4] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [5] = {
+                    min = 0.0,
+                    max = 100.0
+                }
+            }
+        },
+        minfuel = 0.0,
+        maxfuel = 0.0,
+        position = vector3(18.2806911, -1743.95813, 29.6537533),
+        heading = 207.5
+    },
+    {
+        models = { --What type of cars can spawn at this location
+            "futo",
+            "ruiner",
+            "tornado4"
+        },
+        damaged = { --Control how damaged the car will spawn
+            minenginehealth = 0.0,
+            maxenginehealth = 0.0,
+            minbodyhealth = 0.0,
+            maxbodyhealth = 0.0,
+            tyres = {
+                [1] = { --Tyre health?
+                    min = 0.0,
+                    max = 100.0
+                },
+                [2] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [4] = {
+                    min = 0.0,
+                    max = 100.0
+                },
+                [5] = {
+                    min = 0.0,
+                    max = 100.0
+                }
+            }
+        },
+        minfuel = 0.0,
+        maxfuel = 0.0,
+        position = vector3(67.10425, 118.714989, 80.1321),
         heading = 207.5
     }
 }

@@ -72,7 +72,7 @@ function CreateZombie(coords)
     
         table.insert(zombies, {zombie = createdZombie, spawned = GetGameTimer(), position = coords})
     
-        TriggerClientEvent("fivez:SpawnZombie", -1, NetworkGetNetworkIdFromEntity(createdZombie))
+        --TriggerClientEvent("fivez:SpawnZombie", -1, NetworkGetNetworkIdFromEntity(createdZombie))
     end)
 end
 

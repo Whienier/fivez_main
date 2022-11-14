@@ -71,6 +71,9 @@ Citizen.CreateThread(function()
             for k,v in pairs(deadPlayers) do
                 if GetGameTimer() > v.died then
                     local playerData = GetJoinedPlayer(v.ply)
+                    --TODO: Give player new gender
+                    local newGender = math.random(0, 1)
+                    playerData.characterData.gender = newGender
                     if Config.LoseItemsOnDeath then
                         if Config.DropItemsOnDeath then
                             local newInv = RegisterNewInventory("deadbody:"..v.ply, "inventory", "Dead Player", playerData.characterData.inventory.weight, playerData.characterData.inventory.maxweight, playerData.characterData.inventory.maxslots, playerData.characterData.inventory.items, GetEntityCoords(GetPlayerPed(v.ply)))
@@ -91,7 +94,7 @@ Citizen.CreateThread(function()
                         TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v.ply, json.encode(playerData.characterData.inventory.items), nil)
                     end
                     print("Respawning player", v.ply)
-                    TriggerClientEvent("fivez:RespawnPlayer", v.ply)
+                    TriggerClientEvent("fivez:RespawnPlayer", v.ply, newGender)
                     playerData.characterData.health = 100
                     playerData.characterData.armor = 0
                     playerData.characterData.hunger = 100

@@ -6,7 +6,7 @@ function IsPlayerPedCreated()
     return playerPedCreated
 end
 
-function RespawnPlayer(onSpot)
+function RespawnPlayer(onSpot, newGender)
     local playerPed = GetPlayerPed(-1)
     local pedHealth = GetEntityHealth(playerPed)
     if pedHealth <= 0 or IsPedDeadOrDying(playerPed) then
@@ -18,11 +18,30 @@ function RespawnPlayer(onSpot)
         end
         print("Got respawn pos", respawnPos)
         DoScreenFadeOut(500)
+        local model = ""
+        if newGender == 0 then
+            model = GetHashKey("mp_f_freemode_01")
+        else
+            model = GetHashKey("mp_m_freemode_01")
+        end
+
+        RequestModel(model)
+
+        while not HasModelLoaded(model) do
+            RequestModel(model)
+
+            Citizen.Wait(0)
+        end
+
+        SetPlayerModel(PlayerId(), model)
+        SetPedDefaultComponentVariation(PlayerPedId())
+        SetModelAsNoLongerNeeded(model)
         while IsScreenFadingOut() do
             Citizen.Wait(0)
         end
         local newHealth = 100
         local charData = GetCharacterData()
+        charData.gender = newGender
         if charData.gender == 1 then
             newHealth = 200
         end
@@ -121,13 +140,13 @@ RegisterNetEvent("fivez:RevivePlayerCB", function()
     RespawnPlayer(true)
 end)
 
-RegisterNetEvent("fivez:RespawnPlayer", function()
+RegisterNetEvent("fivez:RespawnPlayer", function(newGender)
     ClearFocus()
     RenderScriptCams(false, false, 0, true, false)
     DestroyCam(camera, false)
 
     camera = nil
-    RespawnPlayer(false)
+    RespawnPlayer(false, newGender)
 end)
 --Initial spawn for new players
 RegisterNetEvent("fivez:NewSpawn", function(gender)

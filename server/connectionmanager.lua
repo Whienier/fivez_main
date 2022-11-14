@@ -91,7 +91,7 @@ RegisterNetEvent("playerDropped", function(reason)
 
         for k,v in pairs(joinedPlayers) do
             if v.source == source then
-                print("Player removed from joined players")
+                print("Player has left - ", GetPlayerName(source), " - Reason - ", reason)
                 table.remove(joinedPlayers, k)
             end
         end

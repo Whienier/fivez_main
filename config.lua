@@ -3516,7 +3516,7 @@ Config.ZombieSpawnDistanceFromPlayer = 150
 Config.ZombieSpawnDistanceFromZombie = 15
 
 --How long between zombie spawns
-Config.ZombieSpawnTime = 30000
+Config.ZombieSpawnTime = 60000
 
 --Distance from a player a zombie will become 'agro' to the player
 Config.ZombieAttackDistance = 60

@@ -1041,61 +1041,62 @@ function SQL_CreateCharacterAppearanceData(playerId)
         MySQL.Async.insert("INSERT INTO character_parents (character_data_player_dataid) VALUES (@playerId)", {
             ["playerId"] = playerId
         },function(result)
-            print("Created character appearance parents")
+
         end)
 
         MySQL.Async.insert("INSERT INTO character_headoverlays (character_data_player_dataid) VALUES (@playerId)", {
             ["playerId"] = playerId
         },function(result)
-            print("Created character appearance headoverlays")
+
         end)
 
         MySQL.Async.insert("INSERT INTO character_headoverlays_opacity (character_data_player_dataid) VALUES (@playerId)", {
             ["playerId"] = playerId
         },function(result)
-            print("Created character appearance headoverlays opacity")
+
         end)
 
         MySQL.Async.insert("INSERT INTO character_headoverlays_color (character_data_player_dataid) VALUES (@playerId)", {
             ["playerId"] = playerId
         },function(result)
-            print("Created character appearance headoverlays color")
+
         end)
 
         MySQL.Async.insert("INSERT INTO character_facefeatures (character_data_player_dataid) VALUES (@playerId)", {
             ["playerId"] = playerId
         },function(result)
-            print("Created character appearance facefeatures")
+
         end)
 
         MySQL.Async.insert("INSERT INTO character_components (character_data_player_dataid) VALUES (@playerId)", {
             ["playerId"] = playerId
         },function(result)
-            print("Created character appearance components")
+
         end)
 
         MySQL.Async.insert("INSERT INTO character_components_textures (character_data_player_dataid) VALUES (@playerId)", {
             ["playerId"] = playerId
         },function(result)
-            print("Created character appearance components textures")
+
         end)
 
         MySQL.Async.insert("INSERT INTO character_props(character_data_player_dataid) VALUES (@playerId)", {
             ["playerId"] = playerId
         },function(result)
-            print("Created character appearance props")
+
         end)
 
         MySQL.Async.insert("INSERT INTO character_props_textures (character_data_player_dataid) VALUES (@playerId)", {
             ["playerId"] = playerId
         },function(result)
-            print("Created character appearance props textures")
             createdAppearanceData = true
         end)
     end)
     while createdAppearanceData == nil do
         Citizen.Wait(0)
     end
+
+    print("Created new character appearance SQL data")
 
     return {
         headOverlays = {
@@ -1273,7 +1274,7 @@ end
 
 function LoadCharacterAppearanceData(ply, appearanceData)
     local playerPed = GetPlayerPed(ply)
-    print(appearanceData.parents.fatherShape, GetPlayerPed(-1))
+
     SetPedHeadBlendData(playerPed, appearanceData.parents.fatherShape, appearanceData.parents.motherShape, 0, appearanceData.parents.fatherSkin, appearanceData.parents.motherSkin, 0, appearanceData.parents.shapeMix, appearanceData.parents.skinMix, 0, false)
     
     SetPedComponentVariation(playerPed, 0, appearanceData.components.face.drawable, appearanceData.components.face.texture, 0)

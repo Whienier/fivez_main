@@ -75,7 +75,6 @@ end
 function SyncZombieStates(source)
     local zombieData = {}
     for k,v in pairs(zombies) do
-        print("Syncing zombies", NetworkGetNetworkIdFromEntity(v.zombie))
         table.insert(zombieData, NetworkGetNetworkIdFromEntity(v.zombie))
     end
 
@@ -211,6 +210,8 @@ Citizen.CreateThread(function()
             end
 
             ::skip::
+        else
+            Citizen.Wait(Config.DelayServerTick)
         end
         Citizen.Wait(1)
     end

@@ -362,9 +362,16 @@ function CalculateLootableContainer(model)
                         local rng = math.random(0, 100)
                         local itemData = Config.ItemsWithoutFunctions()[k]
                         --Try to get the chance index if it's a table, if not just a number
-                        local itemChance = chance.chance or chance
-                        if chance == -1 then chance = itemData.spawnchance end
-                        if not alreadySpawned and rng < chance then
+                        local itemChance = -1
+                        if chance[1] then
+                            itemChance = chance.chance
+                        elseif chance > -1 then
+                            itemChance = chance
+                        elseif chance == -1 then
+                            itemChance = itemData.spawnchance
+                        end
+
+                        if not alreadySpawned and rng < itemChance then
                             rng = math.random(1, itemData.maxcount)
                             itemData.count = rng
                             itemData.weight = itemData.weight * rng

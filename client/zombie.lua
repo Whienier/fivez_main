@@ -115,7 +115,15 @@ RegisterNetEvent("fivez:SpawnZombieHorde", function(zombieHordeData)
         end
     end
 end)
-
+RegisterNetEvent("fivez:SyncZombies", function(data)
+    local zombiesData = json.decode(data)
+    for k,v in pairs(zombiesData) do
+        local zombieEnt = NetworkGetEntityFromNetworkId(v)
+        if DoesEntityExist(zombieEnt) then
+            SetupZombie(zombieEnt)
+        end
+    end
+end)
 RegisterNetEvent("fivez:SyncZombieState", function(syncZombiesData)
     print("Sync zombie event triggered")
     local syncZombies = json.decode(syncZombiesData)

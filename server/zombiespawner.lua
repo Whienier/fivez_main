@@ -44,32 +44,36 @@ function CheckCoordForDeadZombie(coords)
 end
 
 function CreateZombie(coords)
-    local zombieModel = Config.ZombieModels[math.random(#Config.ZombieModels)]
-    local createdZombie = CreatePed(0, GetHashKey(zombieModel), coords.x-0.0, coords.y-0.0, coords.z-0.0, 0.0, true, true)
+    Citizen.CreateThread(function()
+        local zombieModel = Config.ZombieModels[math.random(#Config.ZombieModels)]
+        local createdZombie = CreatePed(0, GetHashKey(zombieModel), coords.x-0.0, coords.y-0.0, coords.z-0.0, 0.0, true, true)
+        while not DoesEntityExist(createdZombie) do
+            Citizen.Wait(1)
+        end
+        --Wait until the ped has become networked and spawned
+        Citizen.Wait(250)
+        SetPedArmour(createdZombie, 100.0)
+        SetEntityCoords(createdZombie, coords.x-0.0, coords.y-0.0, coords.z-0.0, true, false, false, false)
+        
+        SetPedConfigFlag(createdZombie, 424, true) --Falls like aircraft
+        SetPedConfigFlag(createdZombie, 430, true) --Ignore being on fire
+        SetPedConfigFlag(createdZombie, 140, false) --Can attack friendlies
     
-    --Wait until the ped has become networked and spawned
-    Citizen.Wait(250)
-    SetPedArmour(createdZombie, 100.0)
-    SetEntityCoords(createdZombie, coords.x-0.0, coords.y-0.0, coords.z-0.0, true, false, false, false)
+        SetPedConfigFlag(createdZombie, 281, false) --Write mode
+        SetPedConfigFlag(createdZombie, 100, true) --Is drunk
+        SetPedConfigFlag(createdZombie, 33, false) --Dies when ragdoll
+        SetPedConfigFlag(createdZombie, 128, false) --Can be agitated
+        SetPedConfigFlag(createdZombie, 188, true) --Disable hurt
+        --SetPedConfigFlag(zomPed, 223, true) --Shrink
     
-    SetPedConfigFlag(createdZombie, 424, true) --Falls like aircraft
-    SetPedConfigFlag(createdZombie, 430, true) --Ignore being on fire
-    SetPedConfigFlag(createdZombie, 140, false) --Can attack friendlies
-
-    SetPedConfigFlag(createdZombie, 281, false) --Write mode
-    SetPedConfigFlag(createdZombie, 100, true) --Is drunk
-    SetPedConfigFlag(createdZombie, 33, false) --Dies when ragdoll
-    SetPedConfigFlag(createdZombie, 128, false) --Can be agitated
-    SetPedConfigFlag(createdZombie, 188, true) --Disable hurt
-    --SetPedConfigFlag(zomPed, 223, true) --Shrink
-
-    SetPedConfigFlag(createdZombie, 294, true) --Disable shocking events
-    SetPedConfigFlag(createdZombie, 329, true) --Disable talk to
-    SetPedConfigFlag(createdZombie, 421, true) --Flaming footprints
-
-    table.insert(zombies, {zombie = createdZombie, spawned = GetGameTimer(), position = coords})
-
-    TriggerClientEvent("fivez:SpawnZombie", -1, NetworkGetNetworkIdFromEntity(createdZombie))
+        SetPedConfigFlag(createdZombie, 294, true) --Disable shocking events
+        SetPedConfigFlag(createdZombie, 329, true) --Disable talk to
+        SetPedConfigFlag(createdZombie, 421, true) --Flaming footprints
+    
+        table.insert(zombies, {zombie = createdZombie, spawned = GetGameTimer(), position = coords})
+    
+        TriggerClientEvent("fivez:SpawnZombie", -1, NetworkGetNetworkIdFromEntity(createdZombie))
+    end)
 end
 
 function SyncZombieStates(source)
@@ -206,9 +210,8 @@ Citizen.CreateThread(function()
                 for i=1, countZombies do
                     CreateZombie(v)
                 end
-                Citizen.Wait(500)
+                Citizen.Wait(1500)
             end
-
             ::skip::
         else
             Citizen.Wait(Config.DelayServerTick)

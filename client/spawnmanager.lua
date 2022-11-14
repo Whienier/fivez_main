@@ -18,6 +18,7 @@ function RespawnPlayer(onSpot, newGender)
         end
         print("Got respawn pos", respawnPos)
         DoScreenFadeOut(500)
+
         local model = ""
         if newGender == 0 then
             model = GetHashKey("mp_f_freemode_01")
@@ -34,7 +35,7 @@ function RespawnPlayer(onSpot, newGender)
         end
 
         SetPlayerModel(PlayerId(), model)
-        SetPedDefaultComponentVariation(PlayerPedId())
+        
         SetModelAsNoLongerNeeded(model)
         while IsScreenFadingOut() do
             Citizen.Wait(0)
@@ -49,6 +50,8 @@ function RespawnPlayer(onSpot, newGender)
         --SetFocusArea(respawnPos.x, respawnPos.y, respawnPos.z, 0.0, 0.0, 0.0)
         SetEntityCoords(playerPed, respawnPos.x, respawnPos.y, respawnPos.z, false, false, false, false)
         NetworkResurrectLocalPlayer(respawnPos.x, respawnPos.y, respawnPos.z, 0.0, true, false)
+        SetPedDefaultComponentVariation(PlayerPedId())
+        SetPedHeadBlendData(PlayerPedId(), charData.parents.fatherShape, charData.parents.motherShape, 0, charData.parents.fatherSkin, charData.parents.motherSkin, 0, charData.parents.shapeMix, charData.parents.skinMix, 0, true)
         DoScreenFadeIn(500)
         while IsScreenFadingIn() do
             Citizen.Wait(0)

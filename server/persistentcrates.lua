@@ -363,7 +363,7 @@ function CalculateLootableContainer(model)
                         local itemData = Config.ItemsWithoutFunctions()[k]
                         --Try to get the chance index if it's a table, if not just a number
                         local itemChance = -1
-                        if chance[1] then
+                        if chance[1] or chance.chance then
                             itemChance = chance.chance
                         elseif chance > -1 then
                             itemChance = chance
@@ -375,7 +375,9 @@ function CalculateLootableContainer(model)
                             rng = math.random(1, itemData.maxcount)
                             itemData.count = rng
                             itemData.weight = itemData.weight * rng
-                            rng = math.random(chance.minquality or configItem.minquality or Config.MinQuality, chance.maxquality or configItem.quality or Config.MaxQuality)
+                            local minQuality = chance.minquality or configItem.minquality or Config.MinQuality
+                            local maxQuality = chance.maxquality or configItem.quality or Config.MaxQuality
+                            rng = math.random(minQuality, maxQuality)
                             itemData.quality = rng
                             --If adding this item puts the inventory over max weight break
                             if inventoryWeight + item.weight > container.maxweight then break end

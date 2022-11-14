@@ -6,7 +6,7 @@ RegisterNetEvent("playerConnecting", function(plyName, setKickReason, deferrals)
 
     Citizen.Wait(0)
 
-    deferrals.update("Welcome "..plyName.." to NoCap FiveZ! Checking SteamID")
+    deferrals.update("Welcome "..plyName.." to NoCap FiveZ! Checking SteamID, Standby")
 
     for _,v in pairs(identifiers) do
         if string.find(v, "steam:") then
@@ -91,7 +91,7 @@ RegisterNetEvent("playerDropped", function(reason)
 
         for k,v in pairs(joinedPlayers) do
             if v.source == source then
-                print("Player has left - ", GetPlayerName(source), " - Reason - ", reason)
+                print("Player has left - ", joinedPlayer.name, " - Reason - ", reason)
                 table.remove(joinedPlayers, k)
             end
         end

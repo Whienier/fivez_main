@@ -275,6 +275,23 @@ RegisterNetEvent("fivez:IsPlayerDucking", function()
     TriggerServerEvent("fivez:IsPlayerDuckingCB", IsPedDucking(GetPlayerPed(-1)))
 end)
 
+RegisterNetEvent("fivez:SyncVehicleStates", function(data)
+    local vehicleStates = json.decode(data)
+    for k,v in pairs(vehicleStates) do
+        local vehicle = NetworkGetEntityFromNetworkId(v.netId)
+        if DoesEntityExist(vehicle) then
+            SetVehicleEngineHealth(vehicle, v.enginehealth)
+            SetVehicleBodyHealth(vehicle, v.bodyhealth)
+            SetVehicleFuelLevel(vehicle, v.fuel)
+            if v.tyres ~= nil then
+                for k,v in pairs(v.tyres) do
+                    SetTyreHealth(vehicle, k, v)
+                end
+            end
+        end
+    end
+end)
+
 RegisterNetEvent("fivez:SyncVehicleState", function(vehicleNetId, vehicleData)
     local vehicle = NetworkGetEntityFromNetworkId(vehicleNetId)
     if vehicle then

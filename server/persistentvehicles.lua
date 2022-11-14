@@ -41,6 +41,14 @@ MySQL.ready(function()
     end)
 end)
 
+function SyncVehicleStates(source)
+    local data = {}
+    for k,v in pairs(spawnedVehicles) do
+        table.insert(data, {netId = NetworkGetNetworkIdFromEntity(v.veh), fuel = v.fuel, bodyhealth = v.bodyhealth, enginehealth = v.enginehealth, tyres = v.tyres})
+    end
+    TriggerClientEvent("fivez:SyncVehicleStates", source, json.encode(data))
+end
+
 function IsVehicleInSpot(coords)
     local closestDistance = -1
     local closestVehicle = 0
@@ -188,9 +196,7 @@ Citizen.CreateThread(function()
                     local engineHealth = -1
                     local bodyHealth = -1
                     local tyres = {[1] = -1, [2] = -1, [4] = -1, [5] = -1}
-                    if v.damaged ~= nil then
-                        local rng = -1
-                        
+                    if v.damaged ~= nil then                        
                         engineHealth = math.random(v.damaged.minenginehealth, v.damaged.maxenginehealth)
                         --SetVehicleEngineHealth(createdVeh, v.damaged.enginehealth)
 

@@ -2389,7 +2389,7 @@ Config.PotentialCarSpawns = {
             }
         },
         minfuel = 0.0,
-        maxfuel = 100.0,
+        maxfuel = 0.0,
         position = vector3(-249.379532, -415.0372, 30.89542),
         heading = 207.5
     },

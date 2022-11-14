@@ -224,6 +224,8 @@ RegisterNetEvent("fivez:PlayerPedSpawned", function()
             TriggerClientEvent("fivez:LoadCharacterData", source, json.encode(playerData.characterData))
         end
         SyncZombieStates(source)
+        --TODO: Sync vehicle states when player ped has spawned
+        SyncVehicleStates(source)
         TriggerClientEvent("fivez:LoadInventoryMarkers", source, json.encode(GetAllInventoryMarkers()))
         if playerData.characterData.gender == 1 then
             playerData.characterData.health = playerData.characterData.health - 100
@@ -259,7 +261,7 @@ AddEventHandler("entityCreated", function(handle)
                     end
                 end
                 print("Getting vehicle damage data", damageData.tyres, damageData.enginehealth)
-                TriggerClientEvent("fivez:SyncVehicleState", -1, NetworkGetNetworkIdFromEntity(handle), json.encode(damageData))
+                --TriggerClientEvent("fivez:SyncVehicleState", -1, NetworkGetNetworkIdFromEntity(handle), json.encode(damageData))
             end
         end
     end

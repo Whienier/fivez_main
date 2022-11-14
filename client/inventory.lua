@@ -47,7 +47,9 @@ Citizen.CreateThread(function()
     while true do
         if #inventories >= 1 then
             for k,v in pairs(inventories) do
-                DrawMarker(3, v.pos.x, v.pos.y, v.pos.z-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.1, 0.25, 0, 255, 0, 255, true, true, 2, true, NULL, NULL, false)
+                if v.pos ~= nil then
+                    DrawMarker(3, v.pos.x, v.pos.y, v.pos.z-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.1, 0.25, 0, 255, 0, 255, true, true, 2, true, NULL, NULL, false)
+                end
             end
         end
         Citizen.Wait(0)

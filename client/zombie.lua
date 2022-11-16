@@ -169,6 +169,19 @@ RegisterNetEvent("fivez:SyncZombieState", function(syncZombiesData)
     end
 end)
 
+Citizen.CreateThread(function()
+    while true do
+        local peds = GetGamePool("CPed")
+        for k,v in pairs(peds) do
+            if not IsPedAPlayer(v) then
+                SetupZombie(v)
+                print("Setting up zombie", v)
+            end
+        end
+        Citizen.Wait(10000)
+    end
+end)
+
 function SetupZombie(zomPed)
     if DoesEntityExist(zomPed) then
         --Check if ped is already a zombie/playing zombie animation
@@ -213,7 +226,7 @@ function SetupZombie(zomPed)
 
             SetPedCombatRange(zomPed, 0)
             --SetPedCombatMovement(zomPed, 3.0)
-
+            SetPedKeepTask(zomPed, true)
             TaskWanderStandard(zomPed, 1.0, 10)
             print("Setup spawned zombie")
             return

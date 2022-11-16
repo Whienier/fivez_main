@@ -346,6 +346,11 @@ RegisterCommand("gender", function(source, args)
     end
 end, true)
 
+RegisterCommand("announcement", function(source, args)
+    local source = source
+    TriggerClientEvent("fivez:AddAnnouncement", -1, args[1], args[2])
+end, true)
+
 RegisterNetEvent("fivez:TeleportRequest", function(targetName)
     local source = source
     for k,v in pairs(GetPlayers()) do

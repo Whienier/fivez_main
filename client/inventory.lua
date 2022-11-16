@@ -25,7 +25,7 @@ Citizen.CreateThread(function()
             local pedCoords = GetEntityCoords(v)
             local dist = #(plyCoords - pedCoords)
             if dist <= Config.ContainerMarkerDrawDistance then
-                Draw3DText(pedCoords.x, pedCoords.y, pedCoords.z-0.25, "[I] Lootable Body", 4, 0.1, 0.1)
+                Draw3DText(pedCoords.x, pedCoords.y, pedCoords.z-0.25, "Open Lootable Body", 4, 0.1, 0.1)
             end
             ::skip::
         end
@@ -35,7 +35,7 @@ Citizen.CreateThread(function()
                 local targetCoords = GetEntityCoords(targetPed)
                 local dist = #(targetCoords - plyCoords)
                 if dist <= Config.ContainerMarkerDrawDistance then
-                    Draw3DText(targetCoords.x, targetCoords.y, targetCoords.z-0.25, "[I] Dead Player", 4, 0.1, 0.1)
+                    Draw3DText(targetCoords.x, targetCoords.y, targetCoords.z-0.25, "Open Dead Player", 4, 0.1, 0.1)
                 end
             end
         end
@@ -223,7 +223,7 @@ Citizen.CreateThread(function()
         if DoesEntityExist(closestContainer) then
             if #(GetEntityCoords(closestContainer) - GetEntityCoords(GetPlayerPed(-1))) <= Config.ContainerMarkerDrawDistance then
                 local containerCoords = GetEntityCoords(closestContainer)
-                Draw3DText(containerCoords.x, containerCoords.y, containerCoords.z-0.5, "[I] Lootable Container", 4, 0.1, 0.1)
+                Draw3DText(containerCoords.x, containerCoords.y, containerCoords.z-0.5, "Open Lootable Container", 4, 0.1, 0.1)
             end
         end
         Citizen.Wait(0)

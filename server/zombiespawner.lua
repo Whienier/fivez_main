@@ -283,21 +283,6 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
     end
 end)
---Server thread for syncing zombies on all clients
-Citizen.CreateThread(function()
-    while true do
-        if #zombies >= 1 and #GetPlayers() >= 1 then
-            local data = {}
-            for k,v in pairs(zombies) do
-                table.insert(data, NetworkGetNetworkIdFromEntity(v.zombie))
-            end
-            TriggerClientEvent("fivez:SyncZombies", -1, json.encode(data))
-        else
-            Citizen.Wait(Config.DelayServerTick)
-        end
-        Citizen.Wait(10000)
-    end
-end)
 --Server thread for checking if a zombie dies, checks zombie hordes and single zombies
 Citizen.CreateThread(function()
     while true do

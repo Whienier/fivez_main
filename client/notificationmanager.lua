@@ -1,4 +1,21 @@
 local notifications = {}
+local announcements = {}
+
+function AddAnnouncement(message, delay)
+    local time = delay or 5
+    local removeTime = GetGameTimer() + (time * 1000)
+    
+    table.insert(announcements, {
+        message = message,
+        removeTime = removeTime
+    })
+
+    SendNUIMessage({
+        type = "fivez_notifications",
+        name = "AddAnnouncement",
+        data = message
+    })
+end
 
 function AddNotification(message, delay)
     local time = delay or 5
@@ -27,12 +44,26 @@ Citizen.CreateThread(function()
                 table.remove(notifications, k)
             end
         end
+        for k,v in pairs(announcements) do
+            if v.removeTime < GetGameTimer() then
+                SendNUIMessage({
+                    type = "fivez_notifications",
+                    name = "RemoveAnnouncement",
+                    data = k
+                })
+                table.remove(announcements, k)
+            end
+        end
         Citizen.Wait(1000)
     end
 end)
 
 RegisterNetEvent("fivez:AddNotification", function(message, delay)
     AddNotification(message, delay)
+end)
+
+RegisterNetEVent("fivez:AddAnnouncement", function(message, delay)
+    AddAnnouncement(message, delay)
 end)
 
 RegisterNetEvent("fivez:AddInventoryNotification", function(added, item)

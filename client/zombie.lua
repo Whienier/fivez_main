@@ -175,7 +175,7 @@ Citizen.CreateThread(function()
         for k,v in pairs(peds) do
             if not IsPedAPlayer(v) then
                 SetupZombie(v)
-                print("Setting up zombie", v)
+                print("Setting up zombie", GetPedRelationshipGroupHash(v))
             end
         end
         Citizen.Wait(10000)

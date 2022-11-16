@@ -74,6 +74,7 @@ Citizen.CreateThread(function()
                     --TODO: Give player new gender
                     local newGender = math.random(0, 1)
                     playerData.characterData.gender = newGender
+                    SQL_UpdateCharacterGender(playerData.characterData.Id, newGender)
                     if Config.LoseItemsOnDeath then
                         if Config.DropItemsOnDeath then
                             local newInv = RegisterNewInventory("deadbody:"..v.ply, "inventory", "Dead Player", playerData.characterData.inventory.weight, playerData.characterData.inventory.maxweight, playerData.characterData.inventory.maxslots, playerData.characterData.inventory.items, GetEntityCoords(GetPlayerPed(v.ply)))

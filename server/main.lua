@@ -229,7 +229,7 @@ RegisterNetEvent("fivez:PlayerPedSpawned", function()
         end
         SyncZombieStates(source)
         --TODO: Sync vehicle states when player ped has spawned
-        SyncVehicleStates(source)
+        --SyncVehicleStates(source)
         TriggerClientEvent("fivez:LoadInventoryMarkers", source, json.encode(GetAllInventoryMarkers()))
         if playerData.characterData.gender == 1 then
             playerData.characterData.health = playerData.characterData.health - 100

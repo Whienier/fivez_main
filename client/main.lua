@@ -275,44 +275,32 @@ RegisterNetEvent("fivez:IsPlayerDucking", function()
     TriggerServerEvent("fivez:IsPlayerDuckingCB", IsPedDucking(GetPlayerPed(-1)))
 end)
 
-RegisterNetEvent("fivez:SyncVehicleStates", function(data)
-    local vehicleStates = json.decode(data)
-    for k,v in pairs(vehicleStates) do
-        local vehicle = NetworkGetEntityFromNetworkId(v.netId)
-        if DoesEntityExist(vehicle) then
-            SetVehicleEngineHealth(vehicle, v.enginehealth)
-            SetVehicleBodyHealth(vehicle, v.bodyhealth)
-            SetVehicleFuelLevel(vehicle, v.fuel)
-            if v.tyres ~= nil then
-                for k,v in pairs(v.tyres) do
-                    SetTyreHealth(vehicle, k, v)
-                end
+Citizen.CreateThread(function()
+    while true do
+        while not startThreads do Citizen.Wait(1) end
+        local vehicles = GetGamePool("CVehicle")
+        for k,v in pairs(vehicles) do
+            local netId = NetworkGetNetworkIdFromEntity(v)
+            if netId then
+                TriggerServerEvent("fivez:SyncVehicleState", netId)
             end
+        end
+        Citizen.Wait(10000)
+    end
+end)
+RegisterNetEvent("fivez:SyncVehicleStateCB", function(vehicleNetId, data)
+    local vehicle = NetworkGetEntityFromNetworkId(vehicleNetId)
+    if DoesEntityExist(vehicle) then
+        local dataDecoded = json.decode(data)
+        SetVehicleEngineHealth(vehicle, dataDecoded.enginehealth)
+        SetVehicleBodyHealth(vehicle, dataDecoded.bodyhealth)
+        SetVehicleFuelLevel(vehicle, dataDecoded.fuel)
+        for k,v in pairs(dataDecoded.tyres) do
+            SetTyreHealth(vehicle, k, v)
         end
     end
 end)
 
-RegisterNetEvent("fivez:SyncVehicleState", function(vehicleNetId, vehicleData)
-    local vehicle = NetworkGetEntityFromNetworkId(vehicleNetId)
-    if vehicle then
-        vehicleData = json.decode(vehicleData)
-        if vehicleData.enginehealth then
-            SetVehicleEngineHealth(vehicle, vehicleData.enginehealth)
-        end
-        if vehicleData.bodyhealth then
-            SetVehicleBodyHealth(vehicle, vehicleData.bodyhealth)
-        end
-        if vehicleData.fuellevel then
-            SetVehicleFuelLevel(vehicle, vehicleData.fuellevel)
-        end
-        if vehicleData.tyres then
-            for k,v in pairs(vehicleData.tyres) do
-                SetTyreHealth(vehicle, k, v)
-            end
-        end
-        SetVehicleOnGroundProperly(vehicle)
-    end
-end)
 --Client thread to decay character hunger and thirst
 Citizen.CreateThread(function()
     while true do
@@ -367,7 +355,7 @@ end)
 --Client thread for damaging player health when thirst is low
 Citizen.CreateThread(function()
     while true do
-        while not startThreads do Citizen.Wait(0) end
+        while not startThreads do Citizen.Wait(1) end
         if characterData.thirst then
             local decayRate = 0
             if characterData.thirst <= 20 then
@@ -396,6 +384,7 @@ local startedSwinging = nil
 --Client thread to tell server if player is shooting or swinging
 Citizen.CreateThread(function()
     while true do
+        while not startThreads do Citizen.Wait(1) end
         if IsPedShooting(GetPlayerPed(-1)) then
             if not isShooting then
                 startedShooting = GetGameTimer()
@@ -438,6 +427,7 @@ end) ]]
 --Client thread for updating HUD with microphone
 Citizen.CreateThread(function()
     while true do
+        while not startThreads do Citizen.Wait(1) end
         if MumbleIsConnected() then
             if IsControlPressed(0, 249) then
                 SendNUIMessage({
@@ -510,6 +500,7 @@ Citizen.CreateThread(function()
             if vehicle > 0 then
                 --Don't show hud for bike
                 if GetEntityModel(vehicle) ~= GetHashKey("bmx") then
+                    --Maybe send check for vehicle values
                     SendNUIMessage({
                         type = "fivez_hud",
                         name = "UpdateCarHUD",

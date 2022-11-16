@@ -258,7 +258,17 @@ RegisterCommand("createvehicle", function(source, args)
         SetPedIntoVehicle(GetPlayerPed(source), createdVehicle, -1)
     end
 end, true)
-
+RegisterNetEvent("fivez:SyncVehicleState", function(vehicleNetId)
+    local source = source
+    local vehicle = NetworkGetEntityFromNetworkId(vehicleNetId)
+    if DoesEntityExist(vehicle) then
+        for k,v in pairs(spawnedVehicles) do
+            if v.veh == vehicle then
+                TriggerClientEvent("fivez:SyncVehicleStateCB", source, vehicleNetId, json.encode({fuel = v.fuel, bodyhealth = v.bodyhealth, enginehealth = v.enginehelath, tyres = v.tyres}))
+            end
+        end
+    end
+end)
 RegisterNetEvent('fivez:DriveVehicle', function()
     local source = source
     local plyPed = GetPlayerPed(source)

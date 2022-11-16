@@ -51,7 +51,7 @@ function RespawnPlayer(onSpot, newGender)
         SetEntityCoords(playerPed, respawnPos.x, respawnPos.y, respawnPos.z, false, false, false, false)
         NetworkResurrectLocalPlayer(respawnPos.x, respawnPos.y, respawnPos.z, 0.0, true, false)
         SetPedDefaultComponentVariation(PlayerPedId())
-        SetPedHeadBlendData(PlayerPedId(), charData.parents.fatherShape, charData.parents.motherShape, 0, charData.parents.fatherSkin, charData.parents.motherSkin, 0, charData.parents.shapeMix, charData.parents.skinMix, 0, true)
+        SetPedHeadBlendData(PlayerPedId(), charData.appearance.parents.fatherShape, charData.appearance.parents.motherShape, 0, charData.appearance.parents.fatherSkin, charData.appearance.parents.motherSkin, 0, charData.appearance.parents.shapeMix, charData.appearance.parents.skinMix, 0, false)
         DoScreenFadeIn(500)
         while IsScreenFadingIn() do
             Citizen.Wait(0)

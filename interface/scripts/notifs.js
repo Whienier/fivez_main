@@ -16,8 +16,7 @@ const FIVEZ_Notifs = new Vue({
         },
 
         AddAnnouncement(anouncement) {
-            this.anouncements.push(JSON.parse(anouncement))
-            
+            this.anouncements.push(anouncement)
         },
 
         RemoveAnnouncement(anouncementId) {

@@ -1939,6 +1939,132 @@ Config.Items = {
                 end
             end
         end
+    },
+    [79] = {
+        itemId = 79,
+        label = "Shirt",
+        model = "shirt",
+        weight = 2,
+        maxcount = 1,
+        count = 0,
+        quality = 100,
+        spawnchance = 0,
+        attachments = {},
+        serverfunction = function(source)
+            local characterData = GetJoinedPlayer(source).characterData
+            if characterData then
+                local appearance = characterData.appearance
+                appearance.components.torso.drawable = 14
+                SetPedComponentVariation(GetPlayerPed(source), 3, 14, 0, 0)
+                SQL_UpdateCharacterAppearanceData(characterData.Id, appearance)
+                return true
+            end
+        end
+    },
+    [80] = {
+        itemId = 80,
+        label = "Pants",
+        model = "pants",
+        weight = 2,
+        maxcount = 1,
+        count = 0,
+        quality = 100,
+        spawnchance = 0,
+        attachments = {},
+        serverfunction = function(source)
+            local characterData = GetJoinedPlayer(source).characterData
+            if characterData then
+                local appearance = characterData.appearance
+                appearance.components.legs.drawable = 14
+                SetPedComponentVariation(GetPlayerPed(source), 4, 14, 0, 0)
+                SQL_UpdateCharacterAppearanceData(characterData.Id, appearance)
+                return true
+            end
+        end
+    },
+    [81] = {
+        itemId = 81,
+        label = "Hat",
+        model = "hat",
+        weight = 1,
+        maxcount = 1,
+        count = 0,
+        quality = 100,
+        spawnchance = 0,
+        attachments = {},
+        serverfunction = function(source)
+            local characterData = GetJoinedPlayer(source).characterData
+            if characterData then
+                local appearance = characterData.appearance
+                appearance.props.hat.drawable = 1
+                SetPedPropIndex(GetPlayerPed(source), 0, 1, 0, true)
+                SQL_UpdateCharacterAppearanceData(characterData.Id, appearance)
+                return true
+            end
+        end
+    },
+    [82] = {
+        itemId = 82,
+        label = "Glasses",
+        model = "glasses",
+        weight = 1,
+        maxcount = 1,
+        count = 0,
+        quality = 100,
+        spawnchance = 0,
+        attachments = {},
+        serverfunction = function(source)
+            local characterData = GetJoinedPlayer(source).characterData
+            if characterData then
+                local appearance = characterData.appearance
+                appearance.props.glasses.drawable = 1
+                SetPedPropIndex(GetPlayerPed(source), 1, 1, 0, true)
+                SQL_UpdateCharacterAppearanceData(characterData.Id, appearance)
+                return true
+            end
+        end
+    },
+    [83] = {
+        itemId = 83,
+        label = "Shoes",
+        model = "shoes",
+        weight = 2,
+        maxcount = 1,
+        count = 0,
+        quality = 100,
+        spawnchance = 0,
+        attachments = {},
+        serverfunction = function(source)
+            local characterData = GetJoinedPlayer(source).characterData
+            if characterData then
+                local appearance = characterData.appearance
+                appearance.components.shoes.drawable = 2
+                SetPedComponentVariation(GetPlayerPed(source), 6, 2, 0, 0)
+                SQL_UpdateCharacterAppearanceData(characterData.Id, appearance)
+                return true
+            end
+        end
+    },
+    [84] = {
+        itemId = 84,
+        label = "Mask",
+        model = "mask",
+        weight = 1,
+        maxcount = 1,
+        count = 0,
+        quality = 100,
+        spawnchance = 0,
+        attachments = {},
+        serverfunction = function(source)
+            local characterData = GetJoinedPlayer(source).characterData
+            if characterData then
+                local appearance = characterData.appearance
+                appearance.components.mask.drawable = 2
+                SetPedComponentVariation(GetPlayerPed(source), 1, 2, 0, 0)
+                SQL_UpdateCharacterAppearanceData(characterData.Id, appearance)
+                return true
+            end
+        end
     }
 }
 

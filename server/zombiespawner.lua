@@ -194,7 +194,7 @@ Citizen.CreateThread(function()
         local players = GetPlayers()
         if #players >= 1 then
             --Stop spawning zombies if we are at 150
-            if #zombies >= 150 then goto skip end
+            if #zombies >= 250 then goto skip end
 
             for k,v in pairs(Config.ZombieSpawns) do
                 local maxZombieCount = Config.MaxZombieSpawn

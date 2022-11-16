@@ -74,9 +74,9 @@ RegisterNetEvent("fivez:ZombieStartedAttacking", function(zombieNetId, targetPed
 end)
 
 RegisterNetEvent("fivez:DeleteZombie", function(zombieNetId)
-    print("Deleting zombie")
     local zomPed = NetworkGetEntityFromNetworkId(zombieNetId)
     if DoesEntityExist(zomPed) then
+        print("Deleting Zombie")
         --DeleteEntity(zomPed)
         for k,v in pairs(zombies) do
             if v == zomPed then

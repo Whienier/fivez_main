@@ -554,6 +554,7 @@ Config.Items = {
             local plyPed = GetPlayerPed(source)
             SetPedRandomComponentVariation(plyPed, 0)
             SetPedRandomProps(plyPed)
+            return true
         end
     },
     [3] = {
@@ -571,6 +572,7 @@ Config.Items = {
             local plyPed = GetPlayerPed(source)
             SetPedRandomComponentVariation(plyPed, 0)
             SetPedRandomProps(plyPed)
+            return true
         end
     },
     [4] = {
@@ -607,6 +609,7 @@ Config.Items = {
         end,
         clientfunction = function(source)
             AteFood(5)
+            return false
         end,
         spawnchance = 25
     },
@@ -630,6 +633,7 @@ Config.Items = {
         end,
         clientfunction = function()
             DrankWater(20)
+            return false
         end,
         spawnchance = 25
     },
@@ -1004,6 +1008,7 @@ Config.Items = {
         end,
         clientfunction = function()
             AteFood(25)
+            return false
         end
     },
     [24] = {
@@ -1102,6 +1107,7 @@ Config.Items = {
         end,
         clientfunction = function()
             DrankWater(30)
+            return false
         end,
     },
     [29] = {
@@ -1125,6 +1131,7 @@ Config.Items = {
         end,
         clientfunction = function()
             AteFood(15)
+            return false
         end
     },
     [30] = {
@@ -1138,7 +1145,7 @@ Config.Items = {
         attachments = {},
         spawnchance = 0,
         serverfunction = function(source)
-
+            TriggerClientEvent("fivez:AddNotification", source, "Maybe I can chop this")
         end
     },
     [31] = {
@@ -1162,6 +1169,7 @@ Config.Items = {
         end,
         clientfunction = function()
             AteFood(10)
+            return false
         end
     },
     [32] = {
@@ -1186,6 +1194,7 @@ Config.Items = {
         clientfunction = function()
             local charData = GetCharacterData()
             charData.hunger = charData.hunger + 10
+            return false
         end
     },
     [33] = {
@@ -1235,6 +1244,7 @@ Config.Items = {
         end,
         clientfunction = function()
             DrankWater(40)
+            return false
         end
     },
     [35] = {
@@ -1330,6 +1340,7 @@ Config.Items = {
         end,
         clientfunction = function()
             DrankWater(10)
+            return false
         end
     },
     [41] = {
@@ -1353,6 +1364,7 @@ Config.Items = {
         end,
         clientfunction = function()
             DrankWater(10)
+            return false
         end
     },
     [42] = {
@@ -1376,6 +1388,7 @@ Config.Items = {
         end,
         clientfunction = function()
             DrankWater(10)
+            return false
         end
     },
     [43] = {
@@ -1856,7 +1869,15 @@ Config.Items = {
         count = 0,
         quality = 100,
         spawnchance = 1,
-        attachments = {}
+        attachments = {},
+        clientfunction = function()
+            local playerPed = GetPlayerPed(-1)
+            local pedMaxHP = GetEntityMaxHealth(playerPed)
+            SetEntityHealth(playerPed, GetEntityHealth(playerPed) + 75)
+            if GetEntityHealth(playerPed) > pedMaxHP then
+                SetEntityHealth(playerPed, pedMaxHP)
+            end
+        end
     },
     [76] = {
         itemId = 76,

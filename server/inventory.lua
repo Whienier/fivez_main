@@ -659,11 +659,11 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
             --Get the slot we are transferring from
             local invSlot = inventoryTransferringFrom.items[transferData.fromSlot]
             --Check if we are surpassing the max weight for the player inventory
-            if plyChar.inventory.weight + (itemData.weight * transferData.count) > plyChar.inventory.maxweight then TriggerClientEvent("fivez:AddNotification", source, "You are too heavy") return end
+            if plyChar.inventory.weight + (itemData.weight * transferData.count) > plyChar.inventory.maxweight then TriggerClientEvent("fivez:AddNotification", source, "You would be too heavy") return end
             --Check if the other inventory has enough item count
-            if invSlot.count <= 0 or invSlot.count < transferData.count then TriggerClientEvent("fivez:AddNotification", source, "Inventory doesn't have enough") return end
+            if invSlot.count <= 0 or invSlot.count < transferData.count then TriggerClientEvent("fivez:AddNotification", source, "Inventory transferring from doesn't have enough") return end
             --Check if the other inventory has the item
-            if invSlot.itemId ~= transferData.item.itemId then TriggerClientEvent("fivez:AddNotification", source, "Inventory doesn't have that item") return end
+            if invSlot.itemId ~= transferData.item.itemId then TriggerClientEvent("fivez:AddNotification", source, "Inventory transferring from doesn't have that item") return end
             local swappedItems = false
             
             --Slot transferring onto is empty

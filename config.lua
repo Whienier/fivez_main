@@ -30,6 +30,12 @@ Config.RestrictedBuildingZones  = {
     }
 }
 
+--Blips to be created
+Config.Blips = {
+    {position = vector3(0,0,0), labelid = "BLIPNAME", label = "Custom Blip", sprite = 1)},
+    {position = vector3(50, 50, 0), labelid = "BLIPNAME1", label = "Second Custom Blip", sprite = 2}
+}
+
 --How often to sync vehicle pos
 Config.DelayVehiclePosSync = 30000
 
@@ -2086,6 +2092,28 @@ Config.Items = {
                 return true
             end
         end
+    },
+    [85] = {
+        itemId = 85,
+        label = "Weapon Parts",
+        model = "weaponparts",
+        weight = 5,
+        maxcount = 5,
+        count = 0,
+        quality = 100,
+        spawnchance = 15,
+        attachments = {}
+    },
+    [86] = {
+        itemId = 86,
+        label = "High Grade Weapon Parts",
+        model = "hgweaponparts",
+        weight = 7,
+        maxcount = 5,
+        count = 0,
+        qualiy = 100,
+        spawnchance = 5,
+        attachments = {}
     }
 }
 
@@ -2291,6 +2319,27 @@ Config.Recipes = {
         required = {
             Config.CreateNewItemWithCountQual(Config.Items[55], 1, 20), --Cloth
             Config.CreateNewItemWithCountQual(Config.Items[76], 1, 20) --Beer
+        }
+    },
+    {
+        label = "Craft Pistol",
+        model = "weapon_pistol",
+        count = 1,
+        weight = 5,
+        required = {
+            Config.CreateNewItemWithCountQual(Config.Items[85], 4, 20), --Weapon parts
+            Config.CreateNewItemWithCountQual(Config.Items[54], 0, 1) --Hammer
+        }
+    },
+    {
+        label = "Craft Rifle",
+        model = "weapon_rifle",
+        count = 1,
+        weight = 20,
+        required = {
+            Config.CreateNewItemWithCountQual(Config.Items[85], 4, 20), --Weapon parts
+            Config.CreateNewItemWithCountQual(Config.Items[86], 2, 50), --High grade weapon parts
+            Config.CreateNewItemWithCountQual(Config.Items[54], 0, 1)
         }
     }
 }

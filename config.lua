@@ -32,7 +32,7 @@ Config.RestrictedBuildingZones  = {
 
 --Blips to be created
 Config.Blips = {
-    {position = vector3(0,0,0), labelid = "BLIPNAME", label = "Custom Blip", sprite = 1)},
+    {position = vector3(0,0,0), labelid = "BLIPNAME", label = "Custom Blip", sprite = 1},
     {position = vector3(50, 50, 0), labelid = "BLIPNAME1", label = "Second Custom Blip", sprite = 2}
 }
 

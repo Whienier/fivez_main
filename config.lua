@@ -2357,7 +2357,7 @@ Config.Recipes = {
             Config.CreateNewItemWithCountQual(Config.Items[90], 1, 50), --Sewing needle
             Config.CreateNewItemWithCountQual(Config.Items[54], 0, 1)
         }
-    }
+    },
     {
         label = "Craft Medium Armor",
         model = "medarmor",

@@ -2149,6 +2149,28 @@ Config.Items = {
         quality = 100,
         spawnchance = 5,
         attachments = {}
+    },
+    [90] = {
+        itemId = 90,
+        label = "Sewing Needle",
+        model = "sewingneedle",
+        weight = 1,
+        maxcount = 5,
+        count = 0,
+        quality = 100,
+        spawnchance = 15,
+        attachments = {}
+    },
+    [91] = {
+        itemId = 91,
+        label = "Armor Plate",
+        model = "armorplate",
+        weight = 5,
+        maxcount = 5,
+        count = 0,
+        quality = 100,
+        spawnchance = 10,
+        attachments = {}
     }
 }
 
@@ -2326,12 +2348,24 @@ Config.Recipes = {
         }
     },
     {
+        label = "Craft Small Armor",
+        model = "armor",
+        count = 1,
+        weight = 10,
+        required = {
+            Config.CreateNewItemWithCountQual(Config.Items[91], 4, 80), --Armor plates
+            Config.CreateNewItemWithCountQual(Config.Items[90], 1, 50), --Sewing needle
+            Config.CreateNewItemWithCountQual(Config.Items[54], 0, 1)
+        }
+    }
+    {
         label = "Craft Medium Armor",
         model = "medarmor",
         count = 1,
         weight = 15,
         required = {
-            Config.CreateNewItemWithCountQual(Config.Items[13], 5, 40),
+            Config.CreateNewItemWithCountQual(Config.Items[13], 5, 40), --Small armor
+            Config.CreateNewItemWithCountQual(Config.Items[90], 1, 50), --Sewing needle
             Config.CreateNewItemWithCountQual(Config.Items[54], 0, 1) --Hammer
         }
     },
@@ -2343,7 +2377,8 @@ Config.Recipes = {
         required = {
             Config.CreateNewItemWithCountQual(Config.Items[13], 2, 40), --Small armor
             Config.CreateNewItemWithCountQual(Config.Items[14], 3, 40), --Medium armor
-            Config.CreateNewItemWithCountQual(Config.Items[54], 0, 1)
+            Config.CreateNewItemWithCountQual(Config.Items[90], 1, 50), --Sewing needle
+            Config.CreateNewItemWithCountQual(Config.Items[54], 0, 1) --Hammer
         }
     },
     {
@@ -2397,6 +2432,16 @@ Config.Recipes = {
             Config.CreateNewItemWithCountQual(Config.Items[87], 8, 50), --Gunpowder
             Config.CreateNewItemWithCountQual(Config.Items[89], 10, 50), --Rifle shell casing
             Config.CreateNewItemWithCountQual(Config.Items[54], 0, 1)
+        }
+    },
+    {
+        label = "Craft Duffel-Bag",
+        model = "duffelbag",
+        count = 1,
+        weight = 10,
+        required = {
+            Config.CreateNewItemWithCountQual(Config.Items[55], 8, 80), --Cloth
+            Config.CreateNewItemWithCountQual(Config.Items[90], 1, 50) --Sewing needle
         }
     }
 }

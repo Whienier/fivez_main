@@ -104,11 +104,21 @@ RegisterNetEvent("fivez:FinishBuildingPlacement", function(netId)
     end
 end)
 
+local spawnedObjects = false
+
 Citizen.CreateThread(function()
-    for k,v in pairs(persistentObjects) do
-        local createdObject = CreateObject(v.model, v.position.x, v.position.y, v.position.z, true, true, v.door)
-        while not DoesEntityExist(createdObject) do
-            Citizen.Wait(1)
+    while true do
+        if #GetPlayers() >= 1 and not spawnedObjects then
+            for k,v in pairs(persistentObjects) do
+                local createdObject = CreateObject(v.model, v.position.x, v.position.y, v.position.z, true, true, v.door)
+                while not DoesEntityExist(createdObject) do
+                    Citizen.Wait(1)
+                end
+            end
+            spawnedObjects = true
+        elseif spawnedObjects then
+            return
         end
+        Citizen.Wait(Config.DelayServerTick)
     end
 end)

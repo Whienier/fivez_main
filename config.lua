@@ -32,8 +32,9 @@ Config.RestrictedBuildingZones  = {
 
 --Blips to be created
 Config.Blips = {
-    {position = vector3(0,0,0), labelid = "BLIPNAME", label = "Custom Blip", sprite = 1},
-    {position = vector3(50, 50, 0), labelid = "BLIPNAME1", label = "Second Custom Blip", sprite = 2}
+    {position = vector3(440.131622, -982.410034, 31.090929), labelid = "POLICEBLIP", label = "Police Station", sprite = 1},
+    {position = vector3(318.284, -593.79364, 44.02125), labelid = "HOSPITALBLIP", label = "Hospital", sprite = 2},
+    {position = vector3(-2301.87622, 3150.99243, 39.83637), labelid = "MILITARYBLIP", label = "Military Base", sprite = 1}
 }
 
 --How often to sync vehicle pos
@@ -1981,8 +1982,8 @@ Config.Items = {
             local characterData = GetJoinedPlayer(source).characterData
             if characterData then
                 local appearance = characterData.appearance
-                appearance.components.torso.drawable = 14
-                SetPedComponentVariation(GetPlayerPed(source), 3, 14, 0, 0)
+                appearance.components.torso.drawable = 4
+                SetPedComponentVariation(GetPlayerPed(source), 3, 4, 0, 0)
                 SQL_UpdateCharacterAppearanceData(characterData.Id, appearance)
                 return true
             end
@@ -2002,8 +2003,8 @@ Config.Items = {
             local characterData = GetJoinedPlayer(source).characterData
             if characterData then
                 local appearance = characterData.appearance
-                appearance.components.legs.drawable = 14
-                SetPedComponentVariation(GetPlayerPed(source), 4, 14, 0, 0)
+                appearance.components.leg.drawable = 4
+                SetPedComponentVariation(GetPlayerPed(source), 4, 4, 0, 0)
                 SQL_UpdateCharacterAppearanceData(characterData.Id, appearance)
                 return true
             end
@@ -2011,8 +2012,8 @@ Config.Items = {
     },
     [81] = {
         itemId = 81,
-        label = "Hat",
-        model = "hat",
+        label = "Dunce Cap",
+        model = "duncecap",
         weight = 1,
         maxcount = 1,
         count = 0,
@@ -2066,7 +2067,8 @@ Config.Items = {
             if characterData then
                 local appearance = characterData.appearance
                 appearance.components.shoes.drawable = 2
-                SetPedComponentVariation(GetPlayerPed(source), 6, 2, 0, 0)
+                appearance.components.shoes.texture = 1
+                SetPedComponentVariation(GetPlayerPed(source), 6, 2, 1, 0)
                 SQL_UpdateCharacterAppearanceData(characterData.Id, appearance)
                 return true
             end
@@ -2074,8 +2076,8 @@ Config.Items = {
     },
     [84] = {
         itemId = 84,
-        label = "Mask",
-        model = "mask",
+        label = "Skeleton Mask",
+        model = "skeletonmask",
         weight = 1,
         maxcount = 1,
         count = 0,

@@ -153,6 +153,8 @@ function StartAirDrop(dropPos)
         while not DoesEntityExist(lootCrate) do
             Citizen.Wait(1)
         end
+        local blip = AddBlipForCoord(crateCoords.x, crateCoords.y, crateCoords.z)
+        SetBlipSprite(blip, 568) --615, 587, 514, 501, 478
         SetEntityDistanceCullingRadius(lootCrate, 50000.0)
         TriggerClientEvent("fivez:AddNotification", -1, "Airdrop has touched ground! Find and loot it!")
         table.insert(activeAirdrops, crateCoords)

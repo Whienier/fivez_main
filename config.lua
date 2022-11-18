@@ -2114,6 +2114,39 @@ Config.Items = {
         qualiy = 100,
         spawnchance = 5,
         attachments = {}
+    },
+    [87] = {
+        itemId = 87,
+        label = "Gunpowder",
+        model = "gunpowder",
+        weight = 1,
+        maxcount = 15,
+        count = 0,
+        quality = 100,
+        spawnchance = 8,
+        attachments = {}
+    },
+    [88] = {
+        itemId = 88,
+        label = "Pistol Shell Casing",
+        model = "pistolshellcasing",
+        weight = 1,
+        maxcount = 15,
+        count = 0,
+        quality = 100,
+        spawnchance = 10,
+        attachments = {}
+    },
+    [89] = {
+        itemId = 89,
+        label = "Rifle Shell Casing",
+        model = "rifleshellcasing",
+        weight = 2,
+        maxcount = 15,
+        count = 0,
+        quality = 100,
+        spawnchance = 5,
+        attachments = {}
     }
 }
 
@@ -2332,13 +2365,35 @@ Config.Recipes = {
         }
     },
     {
-        label = "Craft Rifle",
-        model = "weapon_rifle",
+        label = "Craft Mini-SMG",
+        model = "weapon_minismg",
         count = 1,
         weight = 20,
         required = {
             Config.CreateNewItemWithCountQual(Config.Items[85], 4, 20), --Weapon parts
             Config.CreateNewItemWithCountQual(Config.Items[86], 2, 50), --High grade weapon parts
+            Config.CreateNewItemWithCountQual(Config.Items[54], 0, 1)
+        }
+    },
+    {
+        label = "Craft Pistol Ammo",
+        model = "ammunition_pistol",
+        count = 2,
+        weight = 2,
+        required = {
+            Config.CreateNewItemWithCountQual(Config.Items[87], 4, 50), --Gunpowder
+            Config.CreateNewItemWithCountQual(Config.Items[88], 10, 50), --Pistol Shell Casing
+            Config.CreateNewItemWithCountQual(Config.Items[54], 0, 1) --Hammer
+        }
+    },
+    {
+        label = "Craft Mini-SMG Ammo",
+        model = "ammunition_smg",
+        count = 1,
+        weight = 2,
+        required = {
+            Config.CreateNewItemWithCountQual(Config.Items[87], 8, 50), --Gunpowder
+            Config.CreateNewItemWithCountQual(Config.Items[89], 10, 50), --Rifle shell casing
             Config.CreateNewItemWithCountQual(Config.Items[54], 0, 1)
         }
     }

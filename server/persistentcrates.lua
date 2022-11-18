@@ -155,6 +155,29 @@ function SQL_UpdateItemCountInPersistentInventory(persistentId, slotId, newCount
     return updatedItemCOunt
 end
 
+function SQL_UpdateItemQualityInPersistentInventory(persistentId, slotId, newQuality)
+    local updatedItemQual = nil
+    MySQL.ready(function()
+        MySQL.Async.execute("UPDATE persistent_inventory_items SET item_quality = @newQuality WHERE persistent_id = @persistentId AND item_slotid = @slotId", {
+            ["slotId"] = slotId,
+            ["persistentId"] = persistentId,
+            ["newQuality"] = newQuality
+        }, function(result)
+            if result then
+                updatedItemQual = true
+            else
+                updatedItemQual = false
+            end
+        end)
+    end)
+
+    while updatedItemQual == nil do
+        Citizen.Wait(1)
+    end
+
+    return updatedItemQual
+end
+
 function SQL_InsertItemToPersistentInventory(persistentId, slotId, itemData)
     local insertedItem = nil
     MySQL.ready(function()

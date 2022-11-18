@@ -499,11 +499,27 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                 plyChar.inventory.items[transferData.fromSlot] = EmptySlot()
                 --Update database
                 SQL_ChangeItemSlotIdInCharacterInventory(plyChar.Id, transferData.fromSlot, transferData.toSlot)
+            --If the item is the same
             elseif plyChar.inventory.items[transferData.toSlot].itemId == transferData.item.itemId then
+                --If the quality is different
                 if plyChar.inventory.items[transferData.toSlot].quality ~= plyChar.inventory.items[transferData.fromSlot].quality then
-                    local tempItem = plyChar.inventory.items[transferData.toSlot]
+                    plyChar.inventory.items[transferData.toSlot].quality = plyChar.inventory.items[transferData.toSlot].quality + plyChar.inventory.items[transferData.fromSlot].quality
+                    
+                    local leftOverQual = 0
+                    if plyChar.inventory.items[transferData.toSlot].quality > 100 then
+                        leftOverQual = plyChar.inventory.items[transferData.toSlot].quality - 100 
+                        plyChar.inventory.items[transferData.toSlot].quality = 100 
+                    end
+
+                    if leftOverQual > 0 then
+                        plyChar.inventory.items[transferData.fromSlot].quality = leftOverQual
+                    elseif leftOverQual == 0 then
+                        plyChar.inventory.items[transferData.fromSlot] = EmptySlot()
+                    end
+
+                    --[[ local tempItem = plyChar.inventory.items[transferData.toSlot]
                     plyChar.inventory.items[transferData.toSlot] = Config.CreateNewItemWithData(plyChar.inventory.items[transferData.fromSlot])
-                    plyChar.inventory.items[transferData.fromSlot] = Config.CreateNewItemWithData(tempItem)
+                    plyChar.inventory.items[transferData.fromSlot] = Config.CreateNewItemWithData(tempItem) ]]
                 elseif plyChar.inventory.items[transferData.toSlot].quality == plyChar.inventory.items[transferData.fromSlot].quality then
                     --Set newCount to, to slot count plus amount transferring
                     local newCount = plyChar.inventory.items[transferData.toSlot].count + transferData.count
@@ -677,7 +693,28 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
             elseif plySlot.itemId == invSlot.itemId then
                 --If there is a difference in item quality
                 if invSlot.quality ~= plySlot.quality then
-                    local tempItem = plySlot
+                    --Plus the qualities together
+                    plySlot.quality = invSlot.quality + plySlot.quality
+                    --Check if quality is over 100
+                    local leftOverQual = 0
+                    if plySlot.quality > 100 then
+                        --Find out how much left over quality there is
+                        leftOverQual = plySlot.quality - 100
+                        plySlot.quality = 100
+                    end
+                    --Update the item quality in database
+                    SQL_UpdateItemQualityInCharacterInventory(plyChar.Id, transferData.toSlot, plySlot.quality)
+                    --If there is any left over quality
+                    if leftOverQual > 0 then
+                        invSlot.quality = leftOverQual
+                        SQL_UpdateItemQualityInPersistentInventory(transferData.fromId, transferData.fromSlot, leftOverQual)
+                    --If there is no quality left over
+                    elseif leftOverQual == 0 then
+                        invSlot = EmptySlot()
+                        SQL_RemoveItemFromPersistentInventory(transferData.fromId, transferData.fromSlot)
+                    end
+
+                    --[[ local tempItem = plySlot
                     plySlot = Config.CreateNewItemWithData(invSlot)
                     invSlot = Config.CreateNewItemWithData(tempItem)
 
@@ -688,7 +725,7 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                     --Delete the old item from database invenory
                     SQL_RemoveItemFromCharacterInventory(plyChar.Id, transferData.toSlot)
                     --Insert the new item to database inventory
-                    SQL_InsertItemToCharacterInventory(plyChar.Id, transferData.toSlot, {id = plySlot.itemId, count = plySlot.count, quality = plySlot.quality, attachments = plySlot.attachments})
+                    SQL_InsertItemToCharacterInventory(plyChar.Id, transferData.toSlot, {id = plySlot.itemId, count = plySlot.count, quality = plySlot.quality, attachments = plySlot.attachments}) ]]
                     
                     swappedItems = true
                 else
@@ -793,7 +830,22 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                 --If we are transferring onto the exact same item
                 --If the quality from the item slot where we are transferrinmg from is not the same as the slot we are transferring to
                 if plySlot.quality ~= invSlot.quality then
-                    local tempItem = invSlot
+                    invSlot.quality = invSlot.quality + plySlot.quality
+
+                    local leftOverQual = 0
+                    if invSlot.quality > 100 then
+                        leftOverQual = invSlot.quality - 100
+                        invSlot.quality = 100
+                    end
+                    SQL_UpdateItemQualityInPersistentInventory(transferData.toId, transferData.toSlot, invSlot.quality)
+                    if leftOverQual > 0 then
+                        plySlot.quality = leftOverQual
+                        SQL_UpdateItemQualityInCharacterInventory(plyChar.Id, transferData.fromSlot, leftOverQual)
+                    elseif leftOverQual == 0 then
+                        plySlot = EmptySlot()
+                        SQL_RemoveItemFromCharacterInventory(plyChar.Id, transferData.fromSlot)
+                    end
+                    --[[ local tempItem = invSlot
                     inventoryTransferringTo.items[transferData.toSlot] = Config.CreateNewItemWithData(plySlot)
                     invSlot = inventoryTransferringTo.items[transferData.toSlot]
                     plyChar.inventory.items[transferData.fromSlot] = Config.CreateNewItemWithData(tempItem) 
@@ -805,7 +857,7 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                     end
 
                     SQL_RemoveItemFromCharacterInventory(plyChar.Id, transferData.fromSlot)
-                    SQL_InsertItemToCharacterInventory(plyChar.Id, transferData.fromSlot, {id = plySlot.itemId, count = plySlot.count, quality = plySlot.quality, attachments = plySlot.attachments })
+                    SQL_InsertItemToCharacterInventory(plyChar.Id, transferData.fromSlot, {id = plySlot.itemId, count = plySlot.count, quality = plySlot.quality, attachments = plySlot.attachments }) ]]
                 else
                     --Transferring the exact same item and their quality is the same
                     local newCount = invSlot.count + transferData.count

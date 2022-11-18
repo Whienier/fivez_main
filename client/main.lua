@@ -693,3 +693,13 @@ end)
 RegisterNetEvent("fivez:AcceptedTeleportRequest", function(accepteName)
     AddNotification(accepteName.." has accepted your teleport request!")
 end)
+
+Citizen.CreateThread(function()
+    for k,v in pairs(Config.Blips) do
+        AddTextEntry(v.labelid, v.label)
+        local blip = AddBlipForCoord(v.position.x, v.position.y, v.position.z)
+        BeginTextCommandSetBlipName(v.labelid)
+        EndTextCommandSetBlipName(blip)
+        SetBlipSprite(blip, v.sprite)
+    end
+end)

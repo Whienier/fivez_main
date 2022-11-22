@@ -52,6 +52,7 @@ function CreateZombie(coords)
         end
         --Wait until the ped has become networked and spawned
         Citizen.Wait(250)
+        SetEntityDistanceCullingRadius(createdZombie, 500000.0)
         SetPedArmour(createdZombie, 100.0)
         SetEntityCoords(createdZombie, coords.x-0.0, coords.y-0.0, coords.z-0.0, true, false, false, false)
         
@@ -193,24 +194,37 @@ Citizen.CreateThread(function()
     while true do
         local players = GetPlayers()
         if #players >= 1 then
+            --Wait 10 seconds before spawning anything
+            Citizen.Wait(10000)
             --Stop spawning zombies if we are at 150
             if #zombies >= 250 then goto skip end
 
             for k,v in pairs(Config.ZombieSpawns) do
-                local maxZombieCount = Config.MaxZombieSpawn
-                if Config.ZombieNightSpawn then
-                    local time = exports["weathertimesync"]:getTime()
-                    if time.hour then
-                        if time.hour >= 16 or time.hour <= 4 then
-                            maxZombieCount = Config.MaxZombieSpawn * Config.ZombieNightSpawnMultiplier
-                        end
+                local closePlayer, distance = -1
+                for k,ply in pairs(players) do
+                    local dist = #(GetEntityCoords(GetPlayerPed(ply)) - v)
+                    if distance == -1 or dist < distance then
+                        closePlayer = ply
+                        distance = dist
                     end
                 end
-                local countZombies = math.random(1, maxZombieCount)
-                for i=1, countZombies do
-                    CreateZombie(v)
+                --If we got a player and they are close enough to spawn the zombie
+                if closePlayer ~= -1 and distance < Config.PlayerDistanceToZombieSpawn then
+                    local maxZombieCount = Config.MaxZombieSpawn
+                    if Config.ZombieNightSpawn then
+                        local time = exports["weathertimesync"]:getTime()
+                        if time.hour then
+                            if time.hour >= 16 or time.hour <= 4 then
+                                maxZombieCount = Config.MaxZombieSpawn * Config.ZombieNightSpawnMultiplier
+                            end
+                        end
+                    end
+                    local countZombies = math.random(1, maxZombieCount)
+                    for i=1, countZombies do
+                        CreateZombie(v)
+                    end
+                    Citizen.Wait(1500)
                 end
-                Citizen.Wait(1500)
             end
             ::skip::
         else

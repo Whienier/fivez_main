@@ -3958,7 +3958,10 @@ Config.ZombieSyncDelay = 30000
 --Delete dead zombies after 300 seconds
 Config.DeleteDeadZombiesAfter = 300000
 
---How close zombies can spawn to players
+--How close player has to be to zombie spawn before it starts spawning
+Config.PlayerDistanceToZombieSpawn = 1000
+
+--How close dynamically spawned zombies can spawn to players
 Config.ZombieSpawnDistanceFromPlayer = 150
 
 --How close zombies can spawn to other zombies

@@ -779,16 +779,19 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                 end
             end
 
-            --Update any clients with the same inventory open
-            for k,v in pairs(openInventories[inventoryTransferringFrom.identifier]) do
-                if v == source then
-                    TriggerClientEvent("fivez:AddInventoryNotification", v, true, json.encode(plySlot))
-                else
-                    TriggerClientEvent("fivez:AddInventoryNotification", v, false, json.encode(invSlot))
+            if openInventories[inventoryTransferringFrom.identifier] ~= nil then
+                --Update any clients with the same inventory open
+                for k,v in pairs(openInventories[inventoryTransferringFrom.identifier]) do
+                    if v == source then
+                        TriggerClientEvent("fivez:AddInventoryNotification", v, true, json.encode(plySlot))
+                    else
+                        TriggerClientEvent("fivez:AddInventoryNotification", v, false, json.encode(invSlot))
+                    end
+                    TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v, json.encode(plyChar.inventory.items), json.encode(inventoryTransferringFrom.items))
                 end
-                TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v, json.encode(plyChar.inventory.items), json.encode(inventoryTransferringFrom.items))
+            elseif openInventories[inventoryTransferringFrom.identifier] == nil then
+                print(inventoryTransferringFrom.identifier, " this inventory isn't in the open inventories table")
             end
-            
         elseif transferData.fromId == plyChar.Id then
             --Player is transferring out of own inventory
             local plySlot = plyChar.inventory.items[transferData.fromSlot]

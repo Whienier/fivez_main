@@ -547,6 +547,7 @@ RegisterNetEvent("fivez:ShootingWeapon", function(weaponShooting)
     local pedCoords = GetEntityCoords(GetPlayerPed(source))
     local weaponNoise = Config.WeaponNoise[weaponShooting]
     for k,v in pairs(zombies) do
+        if weaponNoise == nil then print(weaponShooting, " gun doesn't have a noise config") return end
         --If the distance between the zombie and player is closer than how loud the weapon was
         if #(GetEntityCoords(v.zombie) - pedCoords) <= weaponNoise.unsilenced then
             --Tell the zombie to go investigate the noise

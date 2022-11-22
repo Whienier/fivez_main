@@ -1096,7 +1096,7 @@ function SQL_CreateCharacterAppearanceData(playerId)
         Citizen.Wait(0)
     end
 
-    print("Created new character appearance SQL data")
+    print("Created new character appearance SQL data for ", GetJoinedPlayerWithId(playerId).name)
 
     return {
         headOverlays = {

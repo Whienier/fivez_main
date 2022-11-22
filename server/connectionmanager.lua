@@ -1,4 +1,5 @@
 RegisterNetEvent("playerConnecting", function(plyName, setKickReason, deferrals)
+    print("Player ", plyName, " is connecting")
     local source = source
     local steamIdentifier = ""
     local identifiers = GetPlayerIdentifiers(source)

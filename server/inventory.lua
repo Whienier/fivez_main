@@ -720,7 +720,7 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                         SQL_UpdateItemCountInPersistentInventory(transferData.fromId, transferData.fromSlot, leftOverCount)
                         SQL_UpdateItemQualityInPersistentInventory(transferData.fromId, transferData.fromSlot, leftOverQual)
                     --If there is no quality left over
-                    elseif leftOverQual == 0 then
+                    elseif leftOverQual == 0 or leftOverCount == 0 then
                         invSlot = EmptySlot()
                         SQL_RemoveItemFromPersistentInventory(transferData.fromId, transferData.fromSlot)
                     end
@@ -752,9 +752,7 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                 --Not transferring onto the same item
                 --Swap the items around
                 local tempItem = plyChar.inventory.items[transferData.toSlot]
-                print("DBUG TEMP ITEM: ", tempItem.itemId)
                 plyChar.inventory.items[transferData.toSlot] = Config.CreateNewItemWithData(invSlot)
-                print("DBUG AFTER TEMP ITEM: ", tempItem.itemId)
                 --Remove the item we swapped from database inventory
                 SQL_RemoveItemFromCharacterInventory(plyChar.Id, transferData.toSlot)
                 --Save item we swapped for in database inventory
@@ -866,7 +864,7 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                         plySlot.count = leftOverCount
                         SQL_UpdateItemCountInCharacterInventory(plyChar.Id, transferData.fromSlot, leftOverCount)
                         SQL_UpdateItemQualityInCharacterInventory(plyChar.Id, transferData.fromSlot, leftOverQual)
-                    elseif leftOverQual == 0 then
+                    elseif leftOverQual == 0 or leftOverCount == 0 then
                         plySlot = EmptySlot()
                         SQL_RemoveItemFromCharacterInventory(plyChar.Id, transferData.fromSlot)
                     end

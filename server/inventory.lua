@@ -741,9 +741,10 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
             elseif plySlot.itemId ~= invSlot.itemId then
                 --Not transferring onto the same item
                 --Swap the items around
-                local tempItem = plySlot
+                local tempItem = plyChar.inventory.items[transferData.toSlot]
+                print("DBUG TEMP ITEM: ", tempItem.itemId)
                 plyChar.inventory.items[transferData.toSlot] = Config.CreateNewItemWithData(invSlot)
-                plySlot = plyChar.inventory.items[transferData.toSlot]
+                print("DBUG AFTER TEMP ITEM: ", tempItem.itemId)
                 --Remove the item we swapped from database inventory
                 SQL_RemoveItemFromCharacterInventory(plyChar.Id, transferData.toSlot)
                 --Save item we swapped for in database inventory
@@ -751,7 +752,8 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                 
                 --If transferring from admin menu don't try to swap items
                 if transferData.fromId ~= "itemmenu:1" then
-                    invSlot = Config.CreateNewItemWithData(tempItem)
+                    inventoryTransferringFrom.items[transferData.fromSlot] = Config.CreateNewItemWithData(tempItem)
+
                     if not string.match(transferData.fromId, "ground") and not string.match(transferData.fromId, "zombie") and not string.match(transferData.fromId, "temp") then
                         --First delete them item we swapped to player inventory
                         SQL_RemoveItemFromPersistentInventory(transferData.fromId, transferData.fromSlot)

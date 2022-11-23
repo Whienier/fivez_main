@@ -204,10 +204,12 @@ Citizen.CreateThread(function()
                 local distance = -1
                 for k,ply in pairs(players) do
                     local plyCoords = GetEntityCoords(GetPlayerPed(ply))
-                    local dist = #(plyCoords - v)
-                    if distance == -1 or dist < distance then
-                        closePlayer = ply
-                        distance = dist
+                    if plyCoords ~= nil then
+                        local dist = #(plyCoords - v)
+                        if distance == -1 or dist < distance then
+                            closePlayer = ply
+                            distance = dist
+                        end
                     end
                 end
                 --If we got a player and they are close enough to spawn the zombie

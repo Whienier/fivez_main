@@ -421,6 +421,10 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                 end
             else
                 --Normal item with custom functions
+                --Check if the item has a client function
+                if itemData.clientfunction then
+                    TriggerClientEvent("fivez:InventoryUseCB", source, identifier, itemId, fromSlot)
+                end
                 --Check if the item has a server function
                 if itemData.serverfunction then
                     local result = itemData.serverfunction(source, plyChar.inventory.items[fromSlot].quality)
@@ -435,10 +439,6 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                         end
                         TriggerClientEvent("fivez:UpdateCharacterInventoryItems", source, json.encode(plyChar.inventory.items), nil)
                     end
-                end
-                --Check if the item has a client function
-                if itemData.clientfunction then
-                    TriggerClientEvent("fivez:InventoryUseCB", source, identifier, itemId, fromSlot)
                 end
             end
             

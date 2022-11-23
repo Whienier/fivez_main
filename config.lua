@@ -32,9 +32,9 @@ Config.RestrictedBuildingZones  = {
 
 --Blips to be created
 Config.Blips = {
-    {position = vector3(440.131622, -982.410034, 31.090929), labelid = "POLICEBLIP", label = "Police Station", sprite = 1},
-    {position = vector3(318.284, -593.79364, 44.02125), labelid = "HOSPITALBLIP", label = "Hospital", sprite = 2},
-    {position = vector3(-2301.87622, 3150.99243, 39.83637), labelid = "MILITARYBLIP", label = "Military Base", sprite = 1}
+    {position = vector3(440.131622, -982.410034, 31.090929), labelid = "POLICEBLIP", label = "Police Station", sprite = 60},
+    {position = vector3(318.284, -593.79364, 44.02125), labelid = "HOSPITALBLIP", label = "Hospital", sprite = 61},
+    {position = vector3(-2301.87622, 3150.99243, 39.83637), labelid = "MILITARYBLIP", label = "Military Base", sprite = 487}
 }
 
 --How often to sync vehicle pos

@@ -19,6 +19,7 @@ RegisterNetEvent("playerConnecting", function(plyName, setKickReason, deferrals)
 
     if not steamIdentifier then
         deferrals.done("Not connected to steam!")
+        print("Player ", plyName, " didn't have steam open!")
     else
         deferrals.update("Checking for existing data!")
         local playerData = SQL_GetPlayerData(ply, steamIdentifier)
@@ -28,6 +29,7 @@ RegisterNetEvent("playerConnecting", function(plyName, setKickReason, deferrals)
 
             if isBanned then
                 deferrals.done("You are banned")
+                print("Player ", plyName, " is tried to join but is banned!")
             end
             table.insert(joinedPlayers, {
                 Id = playerData.Id,
@@ -45,6 +47,7 @@ RegisterNetEvent("playerConnecting", function(plyName, setKickReason, deferrals)
                 Citizen.Wait(0)
             end
             deferrals.update("Created data, enjoy your stay!")
+            TriggerClientEvent("fivez:AddNotification", -1, "Welcome "..plyName..", it's their first connection")
             table.insert(joinedPlayers, {
                 Id = createdData.Id,
                 steam = steamIdentifier,

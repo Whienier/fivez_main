@@ -311,7 +311,10 @@ Citizen.CreateThread(function()
                         local zomPed = v.zombie
                         if DoesEntityExist(zomPed) then
                             if GetEntityHealth(zomPed) <= 0 then
-                                print("Zombie has died", zomPed, ", Spawned:", v.spawned, " - Died: ", GetGameTimer())
+                                --Only debug print if the zombie didn't die on spawn?
+                                if v.spawned - GetGameTimer() > 250 then
+                                    print("Zombie has died", zomPed, ", Spawned:", v.spawned, " - Died: ", GetGameTimer())
+                                end
                                 local weight, zombieLoot = CalculateZombieLoot(GetEntityModel(zomPed))
                                 RegisterNewInventory("zombie:"..zomPed, "inventory", "Dead Zombie", weight, Config.ZombieInventoryMaxWeight, Config.ZombieInventoryMaxSlots, zombieLoot, GetEntityCoords(zomPed))
                                 AddInventoryMarker(GetEntityCoords(zomPed))

@@ -694,6 +694,12 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
             elseif plySlot.itemId == invSlot.itemId then
                 --If there is a difference in item quality
                 if invSlot.quality ~= plySlot.quality then
+                    plySlot.count = plySlot.count + transferData.count
+                    local leftOverCount = 0
+                    if plySlot.count > itemData.maxcount then
+                        leftOverCount = plySlot.count - itemData.maxcount
+                        plySlot.count = itemData.maxcount
+                    end
                     --Plus the qualities together
                     plySlot.quality = invSlot.quality + plySlot.quality
                     --Check if quality is over 100
@@ -703,11 +709,15 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                         leftOverQual = plySlot.quality - 100
                         plySlot.quality = 100
                     end
+                    --Update item count in database
+                    SQL_UpdateItemCountInCharacterInventory(plyChar.Id, transferData.toSlot, plySlot.count)
                     --Update the item quality in database
                     SQL_UpdateItemQualityInCharacterInventory(plyChar.Id, transferData.toSlot, plySlot.quality)
-                    --If there is any left over quality
-                    if leftOverQual > 0 then
+                    --If there is any left over quality or count
+                    if leftOverQual > 0 or leftOverCount > 0 then
+                        invSlot.count = leftOverCount
                         invSlot.quality = leftOverQual
+                        SQL_UpdateItemCountInPersistentInventory(transferData.fromId, transferData.fromSlot, leftOverCount)
                         SQL_UpdateItemQualityInPersistentInventory(transferData.fromId, transferData.fromSlot, leftOverQual)
                     --If there is no quality left over
                     elseif leftOverQual == 0 then
@@ -836,6 +846,12 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                 --If we are transferring onto the exact same item
                 --If the quality from the item slot where we are transferrinmg from is not the same as the slot we are transferring to
                 if plySlot.quality ~= invSlot.quality then
+                    invSlot.count = invSlot.count + transferData.count
+                    local leftOverCount = 0
+                    if invSlot.count > itemData.maxcount then
+                        leftOverCount = invSlot.count - itemData.maxcount
+                        invSlot.count = itemData.maxcount
+                    end
                     invSlot.quality = invSlot.quality + plySlot.quality
 
                     local leftOverQual = 0
@@ -843,9 +859,12 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                         leftOverQual = invSlot.quality - 100
                         invSlot.quality = 100
                     end
+                    SQL_UpdateItemCountInPersistentInventory(transferData.toId, transferData.toSlot, invSlot.count)
                     SQL_UpdateItemQualityInPersistentInventory(transferData.toId, transferData.toSlot, invSlot.quality)
-                    if leftOverQual > 0 then
+                    if leftOverQual > 0 or leftOverCount > 0 then
                         plySlot.quality = leftOverQual
+                        plySlot.count = leftOverCount
+                        SQL_UpdateItemCountInCharacterInventory(plyChar.Id, transferData.fromSlot, leftOverCount)
                         SQL_UpdateItemQualityInCharacterInventory(plyChar.Id, transferData.fromSlot, leftOverQual)
                     elseif leftOverQual == 0 then
                         plySlot = EmptySlot()

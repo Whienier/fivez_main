@@ -179,11 +179,15 @@ RegisterNetEvent("fivez:LootInventory", function(entityNetId)
     local source = source
     local entity = NetworkGetEntityFromNetworkId(entityNetId)
     if DoesEntityExist(entity) then
-        local id = "zombie:"..entity
-        if RegisteredInventories[id] then
-            TriggerClientEvent("fivez:LootInventoryCB", source, json.encode(RegisteredInventories[id]))
-        else
-            TriggerClientEvent("fivez:AddNotification", source, "Inventory doesn't exist!")
+        if GetEntityModel(entity) == GetHashKey(Config.ZombieModels[1]) then
+            local id = "zombie:"..entity
+        
+            if RegisteredInventories[id] then
+                OpenInventory(id, source)
+                TriggerClientEvent("fivez:LootInventoryCB", source, json.encode(RegisteredInventories[id]))
+            else
+                TriggerClientEvent("fivez:AddNotification", source, "Inventory doesn't exist!")
+            end
         end
     else
         TriggerClientEvent("fivez:AddNotification", source, "Entity doesn't exist")
@@ -301,7 +305,11 @@ RegisterNetEvent("fivez:GetClosestInventory", function(closestObject)
 end)
 
 function OpenInventory(inventoryId, source)
-    openInventories[inventoryId] = {source}
+    if openInventories[inventoryId] then
+        table.insert(openInventories[inventoryId], source)
+    else
+        openInventories[inventoryId] = {source}
+    end
 end
 
 RegisterNetEvent("fivez:CloseInventory", function()

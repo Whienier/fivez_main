@@ -424,6 +424,7 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                 --Check if the item has a client function
                 if itemData.clientfunction then
                     TriggerClientEvent("fivez:InventoryUseCB", source, identifier, itemId, fromSlot)
+                    Wait(50)
                 end
                 --Check if the item has a server function
                 if itemData.serverfunction then

@@ -200,9 +200,11 @@ Citizen.CreateThread(function()
             if #zombies >= 250 then goto skip end
 
             for k,v in pairs(Config.ZombieSpawns) do
-                local closePlayer, distance = -1
+                local closePlayer = -1
+                local distance = -1
                 for k,ply in pairs(players) do
-                    local dist = #(GetEntityCoords(GetPlayerPed(ply)) - v)
+                    local plyCoords = GetEntityCoords(GetPlayerPed(ply))
+                    local dist = #(plyCoords - v)
                     if distance == -1 or dist < distance then
                         closePlayer = ply
                         distance = dist

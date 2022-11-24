@@ -343,12 +343,18 @@ Citizen.CreateThread(function()
             if #deadZombies >= 1 then
                 for k,v in pairs(deadZombies) do
                     if (GetGameTimer() - v.died) > Config.DeleteDeadZombiesAfter then
-                        print("Deleting dead zombie", v.ped, GetEntityHealth(v.ped))
-                        DeleteEntity(v.ped)
-                        TriggerClientEvent("fivez:DeleteZombie", -1, NetworkGetNetworkIdFromEntity(v.ped))
-                        local invId = "zombie:"..v.ped
-                        DeleteRegisteredInventory(invId)
-                        table.remove(deadZombies, k)
+                        if GetEntityHealth(v.ped) <= 0 then
+                            print("Deleting dead zombie", v.ped, GetEntityHealth(v.ped))
+                            DeleteEntity(v.ped)
+                            TriggerClientEvent("fivez:DeleteZombie", -1, NetworkGetNetworkIdFromEntity(v.ped))
+                            local invId = "zombie:"..v.ped
+                            DeleteRegisteredInventory(invId)
+                            table.remove(deadZombies, k)
+                        else
+                            --If the 'dead' zombie isn't so dead, re-add to the zombies table
+                            table.insert(zombies, {zombie = v.ped, spawned = GetGameTimer(), position = GetEntityCoords(v.ped)})
+                            table.remove(deadZombies, k)
+                        end
                     end
                 end
             end

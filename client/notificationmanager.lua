@@ -62,7 +62,7 @@ RegisterNetEvent("fivez:AddNotification", function(message, delay)
     AddNotification(message, delay)
 end)
 
-RegisterNetEVent("fivez:AddAnnouncement", function(message, delay)
+RegisterNetEvent("fivez:AddAnnouncement", function(message, delay)
     AddAnnouncement(message, delay)
 end)
 

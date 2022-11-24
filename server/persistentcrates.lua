@@ -386,7 +386,8 @@ function CalculateLootableContainer(model)
                         local itemData = Config.ItemsWithoutFunctions()[k]
                         --Try to get the chance index if it's a table, if not just a number
                         local itemChance = -1
-                        if chance[1] or chance.chance then
+                        
+                        if chance.chance ~= nil then
                             itemChance = chance.chance
                         elseif chance > -1 then
                             itemChance = chance

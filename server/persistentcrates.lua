@@ -335,9 +335,9 @@ function CalculateLootableContainer(model)
                                     rng = math.random(1, configItem.maxcount)
                                     configItem.count = rng
                                     configItem.weight = configItem.weight * rng
+                                    if inventoryWeight + configItem.weight > container.maxweight then break end
                                     rng = math.random(itemMinQuality, itemMaxQuality)
                                     configItem.quality = rng
-                                    if inventoryWeight + configItem.weight > container.maxweight then break end
                                     inventoryWeight = inventoryWeight + configItem.weight
                                     for k,v in pairs(items) do
                                         if v.model == "empty" then
@@ -356,9 +356,9 @@ function CalculateLootableContainer(model)
                                 rng = math.random(1, configItem.maxcount)
                                 configItem.count = rng
                                 configItem.weight = configItem.weight * rng
+                                if inventoryWeight + configItem.weight > container.maxweight then break end
                                 rng = math.random(configItem.minquality or Config.MinQuality, configItem.quality or Config.MaxQuality)
                                 configItem.quality = rng
-                                if inventoryWeight + configItem.weight > container.maxweight then break end
                                 inventoryWeight = inventoryWeight + configItem.weight
                                 for k,v in pairs(items) do
                                     if v.model == "empty" then
@@ -387,12 +387,14 @@ function CalculateLootableContainer(model)
                         --Try to get the chance index if it's a table, if not just a number
                         local itemChance = -1
                         
-                        if chance.chance ~= nil then
+                        if isnumber(chance) then
+                            if chance > -1 then
+                                itemChance = chance
+                            elseif chance == -1 then
+                                itemChance = itemData.spawnchance
+                            end
+                        else
                             itemChance = chance.chance
-                        elseif chance > -1 then
-                            itemChance = chance
-                        elseif chance == -1 then
-                            itemChance = itemData.spawnchance
                         end
 
                         if not alreadySpawned and rng < itemChance then

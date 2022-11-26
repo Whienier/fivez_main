@@ -58,12 +58,20 @@ function GetInventoryWithId(invId)
     if not RegisteredInventories[invId] then
         --Check spawned vehicles
         for k,v in pairs(spawnedVehicles) do
-            if v.glovebox.identifier == invId then
-                return v.glovebox
+            if v.glovebox then
+                if v.glovebox.identifier == invId then
+                    return v.glovebox
+                end
+            else
+                print("Glovebox inventory didn't exist", invId)
             end
 
-            if v.trunk.identifier == invId then
-                return v.trunk
+            if v.trunk then
+                if v.trunk.identifier == invId then
+                    return v.trunk
+                end
+            else
+                print("Trunk inventory didn't exist", invId)
             end
         end
         --If the inventory is a temp inventory

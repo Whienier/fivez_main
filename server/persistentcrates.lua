@@ -386,24 +386,27 @@ function CalculateLootableContainer(model)
                         local itemData = Config.ItemsWithoutFunctions()[k]
                         --Try to get the chance index if it's a table, if not just a number
                         local itemChance = -1
-                        
-                        if isnumber(chance) then
+                        local itemMinQuality = -1
+                        local itemMaxQuality = -1
+                        if type(chance) ~= "table" then
                             if chance > -1 then
                                 itemChance = chance
                             elseif chance == -1 then
                                 itemChance = itemData.spawnchance
                             end
+                            itemMinQuality = itemData.minquality or Config.MinQuality
+                            itemMaxQuality = itemData.maxquality or Config.MaxQuality
                         else
                             itemChance = chance.chance
+                            itemMinQuality = chance.minquality
+                            itemMaxQuality = chance.maxquality
                         end
 
                         if not alreadySpawned and rng < itemChance then
                             rng = math.random(1, itemData.maxcount)
                             itemData.count = rng
                             itemData.weight = itemData.weight * rng
-                            local minQuality = chance.minquality or configItem.minquality or Config.MinQuality
-                            local maxQuality = chance.maxquality or configItem.quality or Config.MaxQuality
-                            rng = math.random(minQuality, maxQuality)
+                            rng = math.random(itemMinQuality, itemMaxQuality)
                             itemData.quality = rng
                             --If adding this item puts the inventory over max weight break
                             if inventoryWeight + item.weight > container.maxweight then break end

@@ -291,12 +291,64 @@ Config.LootableContainers = {
         },
         spawnall = true
     },
-    [GetHashKey("prop_bin_05a")] = {
+    [GetHashKey("prop_bin_01a")] = {
         maxslots = 5,
         maxweight = 50,
         items = {
             [53] = 50
         },
+        spawnall = true
+    },
+    [GetHashKey("prop_bin_02a")] = {
+        maxslots = 5,
+        maxweight = 50,
+        items = {
+
+        },
+        spawnall = true
+    },
+    [GetHashKey("prop_bin_03a")] = {
+        maxslots = 5,
+        maxweight = 50,
+        items = {},
+        spawnall = true
+    },
+    [GetHashKey("prop_bin_04a")] = {
+        maxslots = 5,
+        maxweight = 50,
+        items = {},
+        spawnall = true
+    },
+    [GetHashKey("prop_bin_05a")] = {
+        maxslots = 5,
+        maxweight = 50,
+        items = {},
+        spawnall = true
+    },
+    [GetHashKey("prop_bin_08a")] = {
+        maxslots = 10,
+        maxweight = 75,
+        items = {},
+        spawnall = true
+    },
+    [GetHashKey("prop_bin_08open")] = {
+        maxslots = 10,
+        maxweight = 75,
+        items = {
+            [53] = 50
+        },
+        spawnall = true
+    },
+    [GetHashKey("prop_bin_11a")] = {
+        maxslots = 5,
+        maxweight = 50,
+        items = {},
+        spawnall = true
+    },
+    [GetHashKey("prop_bin_11b")] = {
+        maxslots = 5,
+        maxweight = 50,
+        items = {},
         spawnall = true
     },
     [GetHashKey("prop_cratepile_07a")] = {

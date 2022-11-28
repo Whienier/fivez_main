@@ -174,6 +174,7 @@ Citizen.CreateThread(function()
         local peds = GetGamePool("CPed")
         for k,v in pairs(peds) do
             if not IsPedAPlayer(v) then
+                print("Befor set up zombie", GetPedRelationshipGroupHash(v))
                 SetupZombie(v)
                 print("Setting up zombie", GetPedRelationshipGroupHash(v))
             end

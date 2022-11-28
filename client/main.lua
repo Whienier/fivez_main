@@ -233,6 +233,9 @@ AddEventHandler("fivez:OpenCharacterCustomizer", function(spawn)
             }
             TriggerServerEvent("fivez:UpdateCharacterAppearance", json.encode(dataAppearance))
             TriggerServerEvent("fivez:NewCharacterCreated")
+            TriggerEvent("fivez:AddNotification", "Use [I] to open your inventory!")
+            TriggerEvent("fivez:AddNotification", "Hold [ALT] and right click on objects to interact!")
+            TriggerEvent("fivez:AddNotification", "Good Luck!")
         end
         SetEntityCoords(playerPed, spawn.x, spawn.y, spawn.z, true, false, false, false)
     end, config)

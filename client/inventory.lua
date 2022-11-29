@@ -29,16 +29,6 @@ Citizen.CreateThread(function()
             end
             ::skip::
         end
-        for k,v in pairs(GetActivePlayers()) do
-            local targetPed = GetPlayerPed(v)
-            if GetEntityHealth(targetPed) <= 0 then
-                local targetCoords = GetEntityCoords(targetPed)
-                local dist = #(targetCoords - plyCoords)
-                if dist <= Config.ContainerMarkerDrawDistance then
-                    Draw3DText(targetCoords.x, targetCoords.y, targetCoords.z-0.25, "Open Dead Player", 4, 0.1, 0.1)
-                end
-            end
-        end
         Citizen.Wait(0)
     end
 end)

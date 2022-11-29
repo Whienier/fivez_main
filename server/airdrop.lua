@@ -118,16 +118,16 @@ function StartAirDrop(dropPos)
         while not DoesEntityExist(dropCrate) do
             Citizen.Wait(1)
         end
-        SetEntityDistanceCullingRadius(dropCrate, 50000.0)
+        FreezeEntityPosition(dropCrate, false)
+        SetEntityDistanceCullingRadius(dropCrate, 500000.0)
         local crateCoords = GetEntityCoords(dropCrate)
         local parachute = CreateObject(GetHashKey("p_cargo_chute_s"), crateCoords.x+0.0, crateCoords.y+0.0, crateCoords.z+0.0, true, true, false)
         while not DoesEntityExist(parachute) do
             Citizen.Wait(1)
         end
-        SetEntityDistanceCullingRadius(parachute, 50000.0)
-        TriggerClientEvent("fivez:AirdropAttachParachute", -1, NetworkGetNetworkIdFromEntity(parachute), NetworkGetNetworkIdFromEntity(dropCrate))
-        FreezeEntityPosition(dropCrate, false)
         FreezeEntityPosition(parachute, false)
+        SetEntityDistanceCullingRadius(parachute, 500000.0)
+        TriggerClientEvent("fivez:AirdropAttachParachute", -1, NetworkGetNetworkIdFromEntity(parachute), NetworkGetNetworkIdFromEntity(dropCrate))
         crateBroken = nil
         local dist, closePlayer = FindClosestPlayerToAirdrop(crateCoords)
         --If we couldn't find a closest player just use the first player
@@ -155,7 +155,7 @@ function StartAirDrop(dropPos)
         end
         local blip = AddBlipForCoord(crateCoords.x, crateCoords.y, crateCoords.z)
         SetBlipSprite(blip, 568) --615, 587, 514, 501, 478
-        SetEntityDistanceCullingRadius(lootCrate, 50000.0)
+        SetEntityDistanceCullingRadius(lootCrate, 500000.0)
         TriggerClientEvent("fivez:AddNotification", -1, "Airdrop has touched ground! Find and loot it!")
         table.insert(activeAirdrops, crateCoords)
         return

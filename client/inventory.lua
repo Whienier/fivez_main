@@ -272,7 +272,6 @@ RegisterCommand("+inventory", function()
         Citizen.Wait(0)
     end
     FreezeEntityPosition(closestLootableContainer, true)
-    print("Open inventory", closestLootableContainer)
     charInventory.weight = 0
     for k,v in pairs(charInventory.items) do
         if v.model ~= "empty" then

@@ -206,7 +206,7 @@ RegisterNetEvent("fivez:GetClosestInventoryCB", function(closestInventoryData)
 end)
 
 RegisterNetEvent("fivez:CheckClosestObject", function(object)
-    local dist, closestObject = GetClosestLootableContainer()
+    local closestObject = GetClosestLootableContainer()
     print("Checking object status", object, closestObject)
     if closestObject == object then
         FreezeEntityPosition(closestObject, true)
@@ -250,7 +250,7 @@ RegisterCommand("+inventory", function()
     if GetEntityHealth(PlayerPedId()) <= 0 then return end
     local charInventory = GetCharacterInventory()
     
-    local dist, closestLootableContainer = GetClosestLootableContainer()
+    local closestLootableContainer = GetClosestLootableContainer()
 
     otherInventory = nil
     TriggerServerEvent("fivez:GetClosestInventory", closestLootableContainer)

@@ -207,8 +207,9 @@ end)
 
 RegisterNetEvent("fivez:CheckClosestObject", function(object)
     local dist, closestObject = GetClosestLootableContainer()
-
+    print("Checking object status", object, closestObject)
     if closestObject == object then
+        FreezeEntityPosition(closestObject, true)
         TriggerServerEvent("fivez:CheckClosestObjectCB", json.encode({pos = GetEntityCoords(closestObject), model = GetEntityModel(closestObject)}))
     else
         TriggerServerEvent("fivez:CheckClosestObjectCB", json.encode(false))

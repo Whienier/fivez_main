@@ -225,10 +225,10 @@ function SetupZombie(zomPed)
             --SetPedCombatMovement(zomPed, 3.0)
             SetPedKeepTask(zomPed, true)
             TaskWanderStandard(zomPed, 1.0, 10)
-            print("Setup spawned zombie")
+            --print("Setup spawned zombie")
             return
         elseif not IsEntityPlayingAnim(zomPed, "move_m@drunk@verydrunk", "move_m@drunk@verydrunk", 3) then
-            print("Zombie wasn't playing right animation!")
+            --print("Zombie wasn't playing right animation!")
             RequestAnimSet("move_m@drunk@verydrunk")
             while not HasAnimSetLoaded("move_m@drunk@verydrunk") do
                 Citizen.Wait(1)

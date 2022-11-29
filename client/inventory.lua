@@ -219,48 +219,30 @@ end)
 --Loop to draw 3D text on lootable container objects
 Citizen.CreateThread(function()
     while true do
-        local allObjects = GetGamePool("CObject")
-
-        for k,object in pairs(allObjects) do
+        for k,object in pairs(GetGamePool("CObject")) do
             for k,v in pairs(Config.LootableContainers) do
                 if k == GetEntityModel(object) then
-                    local objectCoords = GetEntityCoords(object)
-                    if #(objectCoords - GetEntityCoords(GetPlayerPed(-1))) <= Config.ContainerMarkerDrawDistance then
+                    if #(GetEntityCoords(object) - GetEntityCoords(GetPlayerPed(-1))) <= Config.ContainerMarkerDrawDistance then
                         Draw3DText(objectCoords.x, objectCoords.y, objectCoords.z - 0.5, "Open Lootable Container", 4, 0.1, 0.1)
                     end
                 end
             end
         end
-        Citizen.Wait(0)
+        Citizen.Wait(1)
     end
 end)
 
 function GetClosestLootableContainer()
     local plyCoords = GetEntityCoords(GetPlayerPed(-1))
-    local dist = -1
-    local closestObject = nil
-    for k,object in pairs(GetGamePool("CObject")) do
-        for k,v in pairs(Config.LootableContainers) do
-            if GetEntityModel(object) == k then
-                local distance = #(plyCoords - GetEntityCoords(object))
-                if dist == -1 or dist < distance then
-                    dist = distance
-                    closestObject = object
-                end
-            end
-        end
-    end
-    
-    return dist, closestObject
 
---[[     for k,v in pairs(Config.LootableContainers) do
+    for k,v in pairs(Config.LootableContainers) do
         local object = GetClosestObjectOfType(plyCoords.x, plyCoords.y, plyCoords.z, 20.0, k, true, true, true, false)
         if DoesEntityExist(object) then
             return object
         end
     end
 
-    return nil ]]
+    return nil
 end
 
 RegisterCommand("+inventory", function()

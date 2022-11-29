@@ -19,11 +19,10 @@ end)
 --Block ped speaking
 Citizen.CreateThread(function()
     while true do
-        if #zombies >= 1 then
-            for k,v in pairs(zombies) do
-                if DoesEntityExist(v) then
-                    StopPedSpeaking(v, true)
-                end
+        local peds = GetGamePool("CPed")
+        for k,v in pairs(peds) do
+            if DoesEntityExist(v) then
+                StopPedSpeaking(v, true)
             end
         end
         Citizen.Wait(1)
@@ -76,7 +75,6 @@ end)
 RegisterNetEvent("fivez:DeleteZombie", function(zombieNetId)
     local zomPed = NetworkGetEntityFromNetworkId(zombieNetId)
     if DoesEntityExist(zomPed) then
-        print("Deleting Zombie")
         --DeleteEntity(zomPed)
         for k,v in pairs(zombies) do
             if v == zomPed then
@@ -174,9 +172,7 @@ Citizen.CreateThread(function()
         local peds = GetGamePool("CPed")
         for k,v in pairs(peds) do
             if not IsPedAPlayer(v) then
-                print("Befor set up zombie", GetPedRelationshipGroupHash(v))
                 SetupZombie(v)
-                print("Setting up zombie", GetPedRelationshipGroupHash(v))
             end
         end
         Citizen.Wait(10000)
@@ -231,6 +227,14 @@ function SetupZombie(zomPed)
             TaskWanderStandard(zomPed, 1.0, 10)
             print("Setup spawned zombie")
             return
+        elseif not IsEntityPlayingAnim(zomPed, "move_m@drunk@verydrunk", "move_m@drunk@verydrunk", 3) then
+            print("Zombie wasn't playing right animation!")
+            RequestAnimSet("move_m@drunk@verydrunk")
+            while not HasAnimSetLoaded("move_m@drunk@verydrunk") do
+                Citizen.Wait(1)
+            end
+
+            SetPedMovementClipset(zomPed, "move_m@drunk@verydrunk", 0.0)
         end
     end
 end
@@ -248,10 +252,10 @@ local debugzombies = false
 Citizen.CreateThread(function()
     while true do
         while not debugzombies do
-            Citizen.Wait(0)
+            Citizen.Wait(1)
         end
         local plyPos = GetEntityCoords(GetPlayerPed(-1))
-        for k,v in pairs(zombies) do
+        for k,v in pairs(GetGamePool("CPed")) do
             local zomPed = v
             if DoesEntityExist(zomPed) then
                 local zomPos = GetEntityCoords(zomPed)

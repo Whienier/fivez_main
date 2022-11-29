@@ -206,13 +206,27 @@ RegisterNetEvent("fivez:CheckClosestObject", function(object)
     end
 end)
 
+local lowPerformance = false
+
 --Loop to draw 3D text on lootable container objects
 Citizen.CreateThread(function()
     while true do
-        for k,object in pairs(GetGamePool("CObject")) do
-            for k,v in pairs(Config.LootableContainers) do
-                if k == GetEntityModel(object) then
-                    local objectCoords = GetEntityCoords(object)
+        if lowPerformance then
+            for k,object in pairs(GetGamePool("CObject")) do
+                for k,v in pairs(Config.LootableContainers) do
+                    if k == GetEntityModel(object) then
+                        local objectCoords = GetEntityCoords(object)
+                        if #(objectCoords - GetEntityCoords(GetPlayerPed(-1))) <= Config.ContainerMarkerDrawDistance then
+                            Draw3DText(objectCoords.x, objectCoords.y, objectCoords.z - 0.5, "Open Lootable Container", 4, 0.1, 0.1)
+                        end
+                    end
+                end
+            end
+        else
+            local closestContainer = GetClosestLootableContainer()
+            if closestContainer ~= nil then
+                if DoesEntityExist(closestContainer) then
+                    local objectCoords = GetEntityCoords(closestContainer)
                     if #(objectCoords - GetEntityCoords(GetPlayerPed(-1))) <= Config.ContainerMarkerDrawDistance then
                         Draw3DText(objectCoords.x, objectCoords.y, objectCoords.z - 0.5, "Open Lootable Container", 4, 0.1, 0.1)
                     end
@@ -222,6 +236,10 @@ Citizen.CreateThread(function()
         Citizen.Wait(1)
     end
 end)
+
+RegisterCommand("lowperformance", function()
+    lowPerformance = not lowPerformance
+end, false)
 
 function GetClosestLootableContainer()
     local plyCoords = GetEntityCoords(GetPlayerPed(-1))

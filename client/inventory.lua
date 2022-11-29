@@ -218,12 +218,16 @@ end)
 --Loop to lootable containers markers
 Citizen.CreateThread(function()
     while true do
-        local closestContainer = GetClosestLootableContainer()
+        local allObjects = GetGamePool("CObject")
 
-        if DoesEntityExist(closestContainer) then
-            if #(GetEntityCoords(closestContainer) - GetEntityCoords(GetPlayerPed(-1))) <= Config.ContainerMarkerDrawDistance then
-                local containerCoords = GetEntityCoords(closestContainer)
-                Draw3DText(containerCoords.x, containerCoords.y, containerCoords.z-0.5, "Open Lootable Container", 4, 0.1, 0.1)
+        for k,object in pairs(allObjects) do
+            for k,v in pairs(Config.LootableContainers) do
+                if k == GetEntityModel(object) then
+                    local objectCoords = GetEntityCoords(object)
+                    if #(objectCoords - GetEntityCoords(GetPlayerPed(-1))) <= Config.ContainerMarkerDrawDistance then
+                        Draw3DText(objectCoords.x, objectCoords.y, objectCoords.z - 0.5, "Open Lootable Container", 4, 0.1, 0.1)
+                    end
+                end
             end
         end
         Citizen.Wait(0)
@@ -232,6 +236,23 @@ end)
 
 function GetClosestLootableContainer()
     local plyCoords = GetEntityCoords(GetPlayerPed(-1))
+    local allObjects = GetGamePool("CObject")
+    local dist = -1
+    local closestObject = nil
+    for k,object in pairs(allObjects) do
+        local objectModel = GetEntityModel(object)
+        for k,v in pairs(Config.LootableContainers) do
+            if objectModel == k then
+                local distance = #(plyCoords - GetEntityCoords(object))
+                if dist == -1 or dist < distance then
+                    dist = distance
+                    closestObject = object
+                end
+            end
+        end
+    end
+    
+    return closestObject
 
     for k,v in pairs(Config.LootableContainers) do
         local object = GetClosestObjectOfType(plyCoords.x, plyCoords.y, plyCoords.z, 20.0, k, true, true, true, false)

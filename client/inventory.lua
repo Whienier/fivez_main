@@ -222,7 +222,8 @@ Citizen.CreateThread(function()
         for k,object in pairs(GetGamePool("CObject")) do
             for k,v in pairs(Config.LootableContainers) do
                 if k == GetEntityModel(object) then
-                    if #(GetEntityCoords(object) - GetEntityCoords(GetPlayerPed(-1))) <= Config.ContainerMarkerDrawDistance then
+                    local objectCoords = GetEntityCoords(object)
+                    if #(objectCoords - GetEntityCoords(GetPlayerPed(-1))) <= Config.ContainerMarkerDrawDistance then
                         Draw3DText(objectCoords.x, objectCoords.y, objectCoords.z - 0.5, "Open Lootable Container", 4, 0.1, 0.1)
                     end
                 end

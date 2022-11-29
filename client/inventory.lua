@@ -20,7 +20,7 @@ end)
 Citizen.CreateThread(function()
     while true do
         local plyCoords = GetEntityCoords(GetPlayerPed(-1))
-        for k,v in pairs(zombies) do
+        for k,v in pairs(GetGamePool("CPed")) do
             if GetEntityHealth(v) >= 1 then goto skip end
             local pedCoords = GetEntityCoords(v)
             local dist = #(plyCoords - pedCoords)
@@ -206,7 +206,7 @@ RegisterNetEvent("fivez:GetClosestInventoryCB", function(closestInventoryData)
 end)
 
 RegisterNetEvent("fivez:CheckClosestObject", function(object)
-    local closestObject = GetClosestLootableContainer()
+    local dist, closestObject = GetClosestLootableContainer()
 
     if closestObject == object then
         TriggerServerEvent("fivez:CheckClosestObjectCB", json.encode({pos = GetEntityCoords(closestObject), model = GetEntityModel(closestObject)}))
@@ -236,13 +236,11 @@ end)
 
 function GetClosestLootableContainer()
     local plyCoords = GetEntityCoords(GetPlayerPed(-1))
-    local allObjects = GetGamePool("CObject")
     local dist = -1
     local closestObject = nil
-    for k,object in pairs(allObjects) do
-        local objectModel = GetEntityModel(object)
+    for k,object in pairs(GetGamePool("CObject")) do
         for k,v in pairs(Config.LootableContainers) do
-            if objectModel == k then
+            if GetEntityModel(object) == k then
                 local distance = #(plyCoords - GetEntityCoords(object))
                 if dist == -1 or dist < distance then
                     dist = distance
@@ -252,7 +250,7 @@ function GetClosestLootableContainer()
         end
     end
     
-    return closestObject
+    return dist, closestObject
 
 --[[     for k,v in pairs(Config.LootableContainers) do
         local object = GetClosestObjectOfType(plyCoords.x, plyCoords.y, plyCoords.z, 20.0, k, true, true, true, false)
@@ -268,7 +266,7 @@ RegisterCommand("+inventory", function()
     if GetEntityHealth(PlayerPedId()) <= 0 then return end
     local charInventory = GetCharacterInventory()
     
-    local closestLootableContainer = GetClosestLootableContainer()
+    local dist, closestLootableContainer = GetClosestLootableContainer()
 
     otherInventory = nil
     TriggerServerEvent("fivez:GetClosestInventory", closestLootableContainer)
@@ -277,7 +275,7 @@ RegisterCommand("+inventory", function()
         Citizen.Wait(0)
     end
     FreezeEntityPosition(closestLootableContainer, true)
-    print("Open inventory")
+    print("Open inventory", closestLootableContainer)
     charInventory.weight = 0
     for k,v in pairs(charInventory.items) do
         if v.model ~= "empty" then

@@ -211,7 +211,7 @@ local lowPerformance = false
 --Loop to draw 3D text on lootable container objects
 Citizen.CreateThread(function()
     while true do
-        if lowPerformance then
+        if not lowPerformance then
             for k,object in pairs(GetGamePool("CObject")) do
                 for k,v in pairs(Config.LootableContainers) do
                     if k == GetEntityModel(object) then

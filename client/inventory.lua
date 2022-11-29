@@ -215,7 +215,7 @@ RegisterNetEvent("fivez:CheckClosestObject", function(object)
     end
 end)
 
---Loop to lootable containers markers
+--Loop to draw 3D text on lootable container objects
 Citizen.CreateThread(function()
     while true do
         local allObjects = GetGamePool("CObject")
@@ -254,14 +254,14 @@ function GetClosestLootableContainer()
     
     return closestObject
 
-    for k,v in pairs(Config.LootableContainers) do
+--[[     for k,v in pairs(Config.LootableContainers) do
         local object = GetClosestObjectOfType(plyCoords.x, plyCoords.y, plyCoords.z, 20.0, k, true, true, true, false)
         if DoesEntityExist(object) then
             return object
         end
     end
 
-    return nil
+    return nil ]]
 end
 
 RegisterCommand("+inventory", function()
@@ -276,6 +276,7 @@ RegisterCommand("+inventory", function()
     while otherInventory == nil do
         Citizen.Wait(0)
     end
+    FreezeEntityPosition(closestLootableContainer, true)
     print("Open inventory")
     charInventory.weight = 0
     for k,v in pairs(charInventory.items) do

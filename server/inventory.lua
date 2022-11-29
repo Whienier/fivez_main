@@ -729,8 +729,8 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                     SQL_UpdateItemCountInCharacterInventory(plyChar.Id, transferData.toSlot, plySlot.count)
                     --Update the item quality in database
                     SQL_UpdateItemQualityInCharacterInventory(plyChar.Id, transferData.toSlot, plySlot.quality)
-                    --If there is any left over quality or count
-                    if leftOverQual > 0 or leftOverCount > 0 then
+                    --If there is any left over quality and count
+                    if leftOverQual > 0 and leftOverCount > 0 then
                         invSlot.count = leftOverCount
                         invSlot.quality = leftOverQual
                         SQL_UpdateItemCountInPersistentInventory(transferData.fromId, transferData.fromSlot, leftOverCount)

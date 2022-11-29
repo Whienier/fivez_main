@@ -206,7 +206,7 @@ RegisterNetEvent("fivez:CheckClosestObject", function(object)
     end
 end)
 
-local lowPerformance = false
+local lowPerformance = true
 
 --Loop to draw 3D text on lootable container objects
 Citizen.CreateThread(function()
@@ -239,6 +239,11 @@ end)
 
 RegisterCommand("lowperformance", function()
     lowPerformance = not lowPerformance
+    local status = "disabled"
+    if lowPerformance then
+        status = "enabled"
+    end
+    TriggerEvent("fivez:AddNotification", "Low Performance:"..status)
 end, false)
 
 function GetClosestLootableContainer()

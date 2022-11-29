@@ -344,9 +344,9 @@ Citizen.CreateThread(function()
                 for k,v in pairs(deadZombies) do
                     if (GetGameTimer() - v.died) > Config.DeleteDeadZombiesAfter then
                         if GetEntityHealth(v.ped) <= 0 then
-                            print("Deleting dead zombie", v.ped, GetEntityHealth(v.ped))
+                            --print("Deleting dead zombie", v.ped, GetEntityHealth(v.ped))
                             DeleteEntity(v.ped)
-                            TriggerClientEvent("fivez:DeleteZombie", -1, NetworkGetNetworkIdFromEntity(v.ped))
+                            --TriggerClientEvent("fivez:DeleteZombie", -1, NetworkGetNetworkIdFromEntity(v.ped))
                             local invId = "zombie:"..v.ped
                             DeleteRegisteredInventory(invId)
                             table.remove(deadZombies, k)

@@ -733,15 +733,19 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                     if (leftOverQual > 0 and leftOverCount > 0) then
                         invSlot.count = leftOverCount
                         invSlot.quality = leftOverQual
-                        SQL_UpdateItemCountInPersistentInventory(transferData.fromId, transferData.fromSlot, leftOverCount)
-                        SQL_UpdateItemQualityInPersistentInventory(transferData.fromId, transferData.fromSlot, leftOverQual)
+                        if not string.match(transferData.fromId, "ground") and not string.match(transferData.fromId, "zombie") and not string.match(transferData.fromId, "temp") then
+                            SQL_UpdateItemCountInPersistentInventory(transferData.fromId, transferData.fromSlot, leftOverCount)
+                            SQL_UpdateItemQualityInPersistentInventory(transferData.fromId, transferData.fromSlot, leftOverQual)
+                        end
                     --If there is no quality left over
                     end
                     print(leftOverQual, leftOverCount)
-                    if (leftOverQual == 0) or (leftOverCount == 0) then
+                    if leftOverQual == 0 or leftOverCount == 0 then
                         print("Removing other slot")
-                        invSlot = EmptySlot()
-                        SQL_RemoveItemFromPersistentInventory(transferData.fromId, transferData.fromSlot)
+                        inventoryTransferringFrom.items[transferData.fromSlot] = EmptySlot()
+                        if not string.match(transferData.fromId, "ground") and not string.match(transferData.fromId, "zombie") and not string.match(transferData.fromId, "temp") then
+                            SQL_RemoveItemFromPersistentInventory(transferData.fromId, transferData.fromSlot)
+                        end
                     end
 
                     --[[ local tempItem = plySlot

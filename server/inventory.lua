@@ -736,7 +736,10 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                         SQL_UpdateItemCountInPersistentInventory(transferData.fromId, transferData.fromSlot, leftOverCount)
                         SQL_UpdateItemQualityInPersistentInventory(transferData.fromId, transferData.fromSlot, leftOverQual)
                     --If there is no quality left over
-                    elseif (leftOverQual == 0) or (leftOverCount == 0) then
+                    end
+                    print(leftOverQual, leftOverCount)
+                    if (leftOverQual == 0) or (leftOverCount == 0) then
+                        print("Removing other slot")
                         invSlot = EmptySlot()
                         SQL_RemoveItemFromPersistentInventory(transferData.fromId, transferData.fromSlot)
                     end

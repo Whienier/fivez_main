@@ -73,38 +73,40 @@ Citizen.CreateThread(function()
                     local playerData = GetJoinedPlayer(v.ply)
                     --TODO: Give player new gender
                     local newGender = math.random(0, 1)
-                    playerData.characterData.gender = newGender
-                    SQL_UpdateCharacterGender(playerData.characterData.Id, newGender)
-                    if Config.LoseItemsOnDeath then
-                        if Config.DropItemsOnDeath then
-                            local newInv = RegisterNewInventory("deadbody:"..v.ply, "inventory", "Dead Player", playerData.characterData.inventory.weight, playerData.characterData.inventory.maxweight, playerData.characterData.inventory.maxslots, playerData.characterData.inventory.items, GetEntityCoords(GetPlayerPed(v.ply)))
-                            if newInv ~= nil then
-                                AddInventoryMarker(GetEntityCoords(GetPlayerPed(v.ply)))
+                    if playerData then
+                        playerData.characterData.gender = newGender
+                        SQL_UpdateCharacterGender(playerData.characterData.Id, newGender)
+                        if Config.LoseItemsOnDeath then
+                            if Config.DropItemsOnDeath then
+                                local newInv = RegisterNewInventory("deadbody:"..v.ply, "inventory", "Dead Player", playerData.characterData.inventory.weight, playerData.characterData.inventory.maxweight, playerData.characterData.inventory.maxslots, playerData.characterData.inventory.items, GetEntityCoords(GetPlayerPed(v.ply)))
+                                if newInv ~= nil then
+                                    AddInventoryMarker(GetEntityCoords(GetPlayerPed(v.ply)))
+                                end
                             end
-                        end
-                        SQL_ClearCharacterInventoryItems(playerData.characterData.Id)
-                        for k,v in pairs(playerData.characterData.inventory.items) do
-                            if v.itemId then
-                                playerData.characterData.inventory.items[k] = EmptySlot()
+                            SQL_ClearCharacterInventoryItems(playerData.characterData.Id)
+                            for k,v in pairs(playerData.characterData.inventory.items) do
+                                if v.itemId then
+                                    playerData.characterData.inventory.items[k] = EmptySlot()
+                                end
                             end
+                            for k,v in pairs(Config.StartingItems) do
+                                playerData.characterData.inventory.items[v.slot] = v.item
+                                SQL_InsertItemToCharacterInventory(playerData.characterData.Id, v.slot, v.item)
+                            end
+                            TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v.ply, json.encode(playerData.characterData.inventory.items), nil)
                         end
-                        for k,v in pairs(Config.StartingItems) do
-                            playerData.characterData.inventory.items[v.slot] = v.item
-                            SQL_InsertItemToCharacterInventory(playerData.characterData.Id, v.slot, v.item)
-                        end
-                        TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v.ply, json.encode(playerData.characterData.inventory.items), nil)
+                        print("Respawning player", v.ply)
+                        TriggerClientEvent("fivez:RespawnPlayer", v.ply, newGender)
+                        playerData.characterData.health = 100
+                        playerData.characterData.armor = 0
+                        playerData.characterData.hunger = 100
+                        playerData.characterData.thirst = 100
+                        playerData.characterData.stress = 0
+                        playerData.characterData.humanity = 0
+                        playerData.characterData.skills = {}
+                        SQL_ResetCharacterStats(playerData.characterData.Id, playerData.characterData.gender)
+                        table.remove(deadPlayers, k)
                     end
-                    print("Respawning player", v.ply)
-                    TriggerClientEvent("fivez:RespawnPlayer", v.ply, newGender)
-                    playerData.characterData.health = 100
-                    playerData.characterData.armor = 0
-                    playerData.characterData.hunger = 100
-                    playerData.characterData.thirst = 100
-                    playerData.characterData.stress = 0
-                    playerData.characterData.humanity = 0
-                    playerData.characterData.skills = {}
-                    SQL_ResetCharacterStats(playerData.characterData.Id, playerData.characterData.gender)
-                    table.remove(deadPlayers, k)
                 end
             end
         else

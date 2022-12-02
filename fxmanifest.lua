@@ -17,7 +17,7 @@ client_scripts {
     'client/skills.lua',
     'client/persistentobjects.lua',
     'client/airdrop.lua',
-    'client/interiorportals.lua',
+    --'client/interiorportals.lua',
     'client/routingportals.lua'
 }
 

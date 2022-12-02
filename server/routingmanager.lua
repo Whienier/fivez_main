@@ -107,6 +107,7 @@ RegisterNetEvent("fivez:EnterRoutingPortal", function(routingId, interiorId, por
             --If we didn't find an active interior, create one for the player
             AddActiveInterior(routingId, interiorId, source)
         end
+        print("Player routing bucket", GetPlayerRoutingBucket(source))
         --Get the location of the exit portal
         local exitPortal = Config.RoutingInteriors[routingId].outPosition
         --Set player ped coords to the exit portal
@@ -124,7 +125,7 @@ RegisterNetEvent("fivez:ExitRoutingPortal", function(routingId, interiorId, port
         RemovePlayerFromActiveInterior(interiorId, source)
 
         local entryPortal = Config.RoutingInteriors[routingId].inPositions[interiorId][portalId]
-        SetEntityCoords(GetPlayerPed(-1), entryPortal.x, entryPortal.y, entryPortal.z, true, false, false, false)
+        SetEntityCoords(GetPlayerPed(source), entryPortal.x, entryPortal.y, entryPortal.z, true, false, false, false)
     else
         print(routingPortal, " - Routing Portal doesn't exist!", routingId)
     end

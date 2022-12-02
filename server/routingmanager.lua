@@ -123,7 +123,7 @@ RegisterNetEvent("fivez:ExitRoutingPortal", function(routingId, interiorId, port
     if routingPortal then
         RemovePlayerFromActiveInterior(interiorId, source)
 
-        local entryPortal = Config.RoutingInteriors[routingId].inPosition[interiorId][portalId]
+        local entryPortal = Config.RoutingInteriors[routingId].inPositions[interiorId][portalId]
         SetEntityCoords(GetPlayerPed(-1), entryPortal.x, entryPortal.y, entryPortal.z, true, false, false, false)
     else
         print(routingPortal, " - Routing Portal doesn't exist!", routingId)

@@ -48,14 +48,13 @@ function GetRoutingBucket()
     end
 end
 
-RegisterCommand("fakeinteriorplayer", function(args)
+RegisterCommand("fakeinteriorplayer", function(source, args)
     local routingId = args[1]
     local interiorId = args[2]
     AddActiveInterior(routingId, interiorId, 0)
 end, true)
 
-RegisterCommand("cis", function()
-    local source = source
+RegisterCommand("cis", function(source)
     local infoString = ""
     for k,v in pairs(activeInteriors) do
         local interiorId = k

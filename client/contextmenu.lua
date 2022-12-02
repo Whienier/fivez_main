@@ -158,7 +158,11 @@ ECM:Register(function(screenPos, hitSomething, worldPos, hitEntity, normalDirect
                 if k == entModel then
                     local lootOption = ECM:AddItem(0, "Loot Container")
                     ECM:OnActivate(lootOption, function()
-                        TriggerServerEvent("fivez:LootInventory", NetworkGetNetworkIdFromEntity(hitEntity))
+                        if NetworkGetNetworkIdFromEntity(hitEntity) then
+                            TriggerServerEvent("fivez:LootInventory", NetworkGetNetworkIdFromEntity(hitEntity))
+                        else
+                            TriggerEvent("fivez:AddNotification", "Entity isn't networked!")
+                        end
                     end)
                 end
             end

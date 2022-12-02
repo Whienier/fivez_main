@@ -20,24 +20,21 @@ Citizen.CreateThread(function()
             tempRoutingId = k
             for k,house in pairs(v.inPositions) do
                 tempInteriorId = k
-                for k,portals in pairs(house) do
-                    print(portals)
-                    for i=0,i<#portals do
-                        local distance = #(GetEntityCoords(GetPlayerPed(-1)) - portals[i])
+                for k,portal in pairs(house) do
+                    local distance = #(GetEntityCoords(GetPlayerPed(-1)) - portal)
 
-                        if distance <= 15 then
-                            DrawMarker(1, portals[i].x, portals[i].y, portals[i].z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0, 255, 0, 255, true, false, 2, false, nil, nil, false)
-                            tempPortalId = i
-                        end
-    
-                        --Check for inputs if we are close enough
-                        if distance <= 3 then
-                            if IsControlJustPressed(0, 191) then
-                                usedInteriorId = tempInteriorId
-                                usedPortalId = tempPortalId
-                                TriggerServerEvent("fivez:EnterRoutingPortal", tempRoutingId, tempInteriorId, tempPortalId)
-                                insideRoutingInterior = true
-                            end
+                    if distance <= 15 then
+                        DrawMarker(1, portal.x, portal.y, portal.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0, 255, 0, 255, true, false, 2, false, nil, nil, false)
+                        tempPortalId = k
+                    end
+
+                    --Check for inputs if we are close enough
+                    if distance <= 3 then
+                        if IsControlJustPressed(0, 191) then
+                            usedInteriorId = tempInteriorId
+                            usedPortalId = tempPortalId
+                            TriggerServerEvent("fivez:EnterRoutingPortal", tempRoutingId, tempInteriorId, tempPortalId)
+                            insideRoutingInterior = true
                         end
                     end
                 end

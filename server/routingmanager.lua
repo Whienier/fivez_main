@@ -51,7 +51,7 @@ end
 RegisterCommand("fakeinteriorplayer", function(source, args)
     local routingId = args[1]
     local interiorId = args[2]
-    AddActiveInterior(routingId, interiorId, -2)
+    AddActiveInterior(tonumber(routingId), interiorId, -2)
 end, true)
 
 RegisterCommand("cis", function(source)
@@ -60,7 +60,7 @@ RegisterCommand("cis", function(source)
         local interiorId = k
         for k,v in pairs(v.players) do
             if v == source then
-                infoString = activeInteriors[k].routingId.." - "..activeInteriors[k].interiorId.." - "..activeInteriors[k].routingBucket 
+                infoString = activeInteriors[k].routingId.." - "..activeInteriors[k].interiorId.." - "..activeInteriors[k].routingBucket.." - "..#activeInteriors[k].players
             end
         end
     end
@@ -120,6 +120,7 @@ end
 RegisterNetEvent("fivez:EnterRoutingPortal", function(routingId, interiorId, portalId)
     local source = source
     local playerPed = GetPlayerPed(source)
+    print("Entrying routing portal", routingId, interiorId)
     local routingPortal = Config.RoutingInteriors[routingId].inPositions[interiorId][portalId]
     --Make sure player is close enough to portal to use it
     if #(GetEntityCoords(playerPed) - routingPortal) <= 3 then

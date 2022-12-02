@@ -33,6 +33,7 @@ Citizen.CreateThread(function()
                             usedPortalId = k
                             TriggerServerEvent("fivez:EnterRoutingPortal", tempRoutingId, tempInteriorId, k)
                             insideRoutingInterior = true
+                            Citizen.Wait(500)
                         end
                     end
                 end
@@ -62,6 +63,7 @@ Citizen.CreateThread(function()
                     usedInteriorId = nil
                     usedPortalid = nil
                     insideRoutingInterior = false
+                    Citizen.Wait(500)
                 end
             end
         end

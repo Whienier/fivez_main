@@ -86,10 +86,14 @@ function RemovePlayerFromActiveInterior(interiorId, source)
                     SetPlayerRoutingBucket(source, 0)
                     --Remove player from the players table
                     table.remove(activeInteriors[activeInteriorId].players, k)
+
+                    return true
                 end
             end
         end
     end
+
+    return false
 end
 
 RegisterNetEvent("fivez:EnterRoutingPortal", function(routingId, interiorId, portalId)
@@ -107,7 +111,6 @@ RegisterNetEvent("fivez:EnterRoutingPortal", function(routingId, interiorId, por
             --If we didn't find an active interior, create one for the player
             AddActiveInterior(routingId, interiorId, source)
         end
-        print("Player routing bucket", GetPlayerRoutingBucket(source))
         --Get the location of the exit portal
         local exitPortal = Config.RoutingInteriors[routingId].outPosition
         --Set player ped coords to the exit portal
@@ -122,10 +125,14 @@ RegisterNetEvent("fivez:ExitRoutingPortal", function(routingId, interiorId, port
 
     local routingPortal = Config.RoutingInteriors[routingId].outPosition
     if routingPortal then
-        RemovePlayerFromActiveInterior(interiorId, source)
+        local removed = RemovePlayerFromActiveInterior(interiorId, source)
 
-        local entryPortal = Config.RoutingInteriors[routingId].inPositions[interiorId][portalId]
-        SetEntityCoords(GetPlayerPed(source), entryPortal.x, entryPortal.y, entryPortal.z, true, false, false, false)
+        if removed then
+            local entryPortal = Config.RoutingInteriors[routingId].inPositions[interiorId][portalId]
+            SetEntityCoords(GetPlayerPed(source), entryPortal.x, entryPortal.y, entryPortal.z, true, false, false, false)
+        else
+            print(source, GetPlayerIdentifier(source, 3), "Player didn't exist in an active interior")
+        end
     else
         print(routingPortal, " - Routing Portal doesn't exist!", routingId)
     end

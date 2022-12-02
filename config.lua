@@ -33,12 +33,7 @@ Config.RestrictedBuildingZones  = {
 --Used mainly for a player hangout and customization
 Config.SafeZones = {
     ["The Last Hold"] = {
-        position = {
-            tl = vector3(5, 5, 0),
-            tr = vector3(5, -5, 0),
-            bl = vector3(-5, 5, 0),
-            br = vector3(-5, -5, 0)
-        },
+        position = vector3(0,0,0),
         color = rgba(0, 0, 255, 255),
         traders = {
             barber = {vector3(0,0,0)}, --Position of the trader
@@ -118,6 +113,20 @@ Config.InteriorPortals = {
     }
 }
 
+--TODO: Link up house interiors to swap players routing buckets
+--Make clients remember what portal they entered with
+Config.RoutingInteriors = {
+    [1] = {
+        inPositions = {
+            ["house1"] = {
+                [1] = vector3(-990.96, -1104.87, 2.22),
+                [2] = vector3(-1001.46, -1086.85, 2.1),
+                [3] = vector3(-989.49, -1105.96, 7.15)
+            }
+        },
+        outPosition = vector3(346.68, -1006, -98.87) --Multiple in positions for one as routing buckets will be assigned to each in position
+    }
+}
 
 Config.PlayerSpawns = {
     vector3(-951.0881, -1079.3075, 2.5),

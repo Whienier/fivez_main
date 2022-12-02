@@ -2,7 +2,7 @@ local inZone = false
 local outZone = false
 local interior = -1
 local portalId = -1
-
+--Thread to know if player is in an entry portal
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(1)
@@ -25,7 +25,7 @@ Citizen.CreateThread(function()
         ::skip::
     end
 end)
-
+--Thread to know if player is in an exit portal
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(1)
@@ -46,6 +46,7 @@ Citizen.CreateThread(function()
     end
 end)
 
+--Thread for knowing when player wants to enter portal
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(1)
@@ -74,10 +75,13 @@ Citizen.CreateThread(function()
     end
 end)
 
+--Thread for drawing markers on portal positions
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(1)
         while not startThreads do Citizen.Wait(1) end
+        while not NetworkIsPlayerActive(PlayerId()) do Citizen.Wait(1) end
+
         for k,v in pairs(Config.InteriorPortals) do
             local coords = GetEntityCoords(GetPlayerPed(-1))
             for k,v in pairs(v.inPos) do

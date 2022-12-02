@@ -26,27 +26,22 @@ Citizen.CreateThread(function()
                 for k,portalPos in pairs(house) do
                     local distance = #(pedCoords - portalPos)
 
-                    if dist == -1 or distance < dist then
+                    if distance <= 15 then
+                        DrawMarker(1, portalPos.x, portalPos.y, portalPos.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0, 255, 0, 255, true, false, 2, false, nil, nil, false)
                         closestCoords = portalPos
                         dist = distance
                         tempPortalId = k
                     end
-                end
-            end
-        end
-        --Make sure we have a distance and the distance is less than 16
-        if dist ~= -1 and dist < 16 then
-            --Draw marker if we are close enough
-            if dist <= 15 then
-                DrawMarker(1, closestCoords.x, closestCoords.y, closestCoords.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0, 255, 0, 255, true, false, 2, false, nil, nil, false)
-            end
-            --Check for inputs if we are close enough
-            if dist <= 3 then
-                if IsControlJustPressed(0, 191) then
-                    usedInteriorId = tempInteriorId
-                    usedPortalId = tempPortalId
-                    TriggerServerEvent("fivez:EnterRoutingPortal", tempRoutingId, tempInteriorId, tempPortalId)
-                    insideRoutingInterior = true
+
+                    --Check for inputs if we are close enough
+                    if dist <= 3 then
+                        if IsControlJustPressed(0, 191) then
+                            usedInteriorId = tempInteriorId
+                            usedPortalId = tempPortalId
+                            TriggerServerEvent("fivez:EnterRoutingPortal", tempRoutingId, tempInteriorId, tempPortalId)
+                            insideRoutingInterior = true
+                        end
+                    end
                 end
             end
         end

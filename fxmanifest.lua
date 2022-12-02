@@ -17,7 +17,8 @@ client_scripts {
     'client/skills.lua',
     'client/persistentobjects.lua',
     'client/airdrop.lua',
-    'client/interiorportals.lua'
+    'client/interiorportals.lua',
+    'client/routingportals.lua'
 }
 
 server_scripts { 
@@ -36,7 +37,8 @@ server_scripts {
     'server/skills.lua',
     'server/persistentobjects.lua',
     'server/airdrop.lua',
-    'server/characterproficiency.lua'
+    'server/characterproficiency.lua',
+    'server/routingmanager.lua'
 }
 
 ui_page 'interface/index.html'

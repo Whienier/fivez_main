@@ -21,6 +21,7 @@ Citizen.CreateThread(function()
             for k,house in pairs(v.inPositions) do
                 tempInteriorId = k
                 for k,portals in pairs(house) do
+                    print(portals)
                     for i=0,i<#portals do
                         local distance = #(GetEntityCoords(GetPlayerPed(-1)) - portals[i])
 

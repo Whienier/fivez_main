@@ -30,6 +30,38 @@ Config.RestrictedBuildingZones  = {
     }
 }
 
+--Used mainly for a player hangout and customization
+Config.SafeZones = {
+    ["The Last Hold"] = {
+        position = {
+            tl = vector3(5, 5, 0),
+            tr = vector3(5, -5, 0),
+            bl = vector3(-5, 5, 0),
+            br = vector3(-5, -5, 0)
+        },
+        color = rgba(0, 0, 255, 255),
+        traders = {
+            barber = {vector3(0,0,0)}, --Position of the trader
+            clothes = {vector3(0,0,0)},
+            playerTrading = true --Allows for player trading through-out the zone
+        }
+    }
+}
+
+--Can be areas like military base
+Config.HighRiskZones = {
+    {
+        position = {
+            tl = vector3(5, 5, 0),
+            tr = vector3(5, -5, 0),
+            bl = vector3(-5, 5, 0),
+            br = vector3(-5, -5, 0)
+        },
+        color = rgba(255, 0, 0, 255),
+        zombieMultipiler = 2 --Allows for increased zombie spawns in zones
+    }
+}
+
 --Blips to be created
 Config.Blips = {
     {position = vector3(440.131622, -982.410034, 31.090929), labelid = "POLICEBLIP", label = "Police Station", sprite = 60},

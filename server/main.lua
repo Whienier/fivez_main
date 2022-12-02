@@ -315,10 +315,13 @@ Citizen.CreateThread(function()
                     local playerData = GetJoinedPlayer(v)
                     --If player has moved a certain distance from last position
                     if not playerData then break end
-                    if playerData.characterData.lastposition then
-                        local lastPos = vector3(playerData.characterData.lastposition.x, playerData.characterData.lastposition.y, playerData.characterData.lastposition.z)
-                        if #(pedCoords - lastPos) > 10 then
-                            SQL_UpdateCharacterPosition(playerData.Id, pedCoords)
+                    local lastPos = playerData.characterData.lastposition
+                    if lastPos then
+                        if lastPos.x ~= nil and lastPos.y ~= nil and lastPos.z ~= nil then
+                            local lastPos = vector3(playerData.characterData.lastposition.x, playerData.characterData.lastposition.y, playerData.characterData.lastposition.z)
+                            if #(pedCoords - lastPos) > 10 then
+                                SQL_UpdateCharacterPosition(playerData.Id, pedCoords)
+                            end
                         end
                     else
                         playerData.characterData.lastposition = pedCoords

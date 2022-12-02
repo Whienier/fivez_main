@@ -12,9 +12,6 @@ Citizen.CreateThread(function()
         --If we are inside a routing interior then wait till we get out
         while insideRoutingInterior do Citizen.Wait(1) end
 
-        local pedCoords = GetEntityCoords(GetPlayerPed(-1))
-        local dist = -1
-        local closestCoords = nil
         local tempRoutingId = nil
         local tempInteriorId = nil
         local tempPortalId = nil
@@ -23,23 +20,23 @@ Citizen.CreateThread(function()
             tempRoutingId = k
             for k,house in pairs(v.inPositions) do
                 tempInteriorId = k
-                for k,portalPos in pairs(house) do
-                    local distance = #(pedCoords - portalPos)
+                for k,portals in pairs(house) do
+                    for i=0,i<#portals do
+                        local distance = #(GetEntityCoords(GetPlayerPed(-1)) - portals[i])
 
-                    if distance <= 15 then
-                        DrawMarker(1, portalPos.x, portalPos.y, portalPos.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0, 255, 0, 255, true, false, 2, false, nil, nil, false)
-                        closestCoords = portalPos
-                        dist = distance
-                        tempPortalId = k
-                    end
-
-                    --Check for inputs if we are close enough
-                    if dist <= 3 then
-                        if IsControlJustPressed(0, 191) then
-                            usedInteriorId = tempInteriorId
-                            usedPortalId = tempPortalId
-                            TriggerServerEvent("fivez:EnterRoutingPortal", tempRoutingId, tempInteriorId, tempPortalId)
-                            insideRoutingInterior = true
+                        if distance <= 15 then
+                            DrawMarker(1, portals[i].x, portals[i].y, portals[i].z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0, 255, 0, 255, true, false, 2, false, nil, nil, false)
+                            tempPortalId = i
+                        end
+    
+                        --Check for inputs if we are close enough
+                        if distance <= 3 then
+                            if IsControlJustPressed(0, 191) then
+                                usedInteriorId = tempInteriorId
+                                usedPortalId = tempPortalId
+                                TriggerServerEvent("fivez:EnterRoutingPortal", tempRoutingId, tempInteriorId, tempPortalId)
+                                insideRoutingInterior = true
+                            end
                         end
                     end
                 end

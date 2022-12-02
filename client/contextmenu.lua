@@ -158,7 +158,7 @@ ECM:Register(function(screenPos, hitSomething, worldPos, hitEntity, normalDirect
                 if k == entModel then
                     local lootOption = ECM:AddItem(0, "Loot Container")
                     ECM:OnActivate(lootOption, function()
-                        TriggerServerEvent("fivez:LootInventory", )
+                        TriggerServerEvent("fivez:LootInventory", NetworkGetNetworkIdFromEntity(hitEntity))
                     end)
                 end
             end

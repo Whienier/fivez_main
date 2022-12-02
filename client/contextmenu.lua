@@ -152,6 +152,16 @@ ECM:Register(function(screenPos, hitSomething, worldPos, hitEntity, normalDirect
                     AddNotification("You don't have anything to fix the vehicles engine")
                 end)
             end
+        elseif entType == 3 then
+            local entModel = GetEntityModel(hitEntity)
+            for k,v in pairs(Config.LootableContainers) do
+                if k == entModel then
+                    local lootOption = ECM:AddItem(0, "Loot Container")
+                    ECM:OnActivate(lootOption, function()
+                        TriggerServerEvent("fivez:LootInventory", )
+                    end)
+                end
+            end
         end
     end
 end)

@@ -48,6 +48,26 @@ function GetRoutingBucket()
     end
 end
 
+RegisterCommand("fakeinteriorplayer", function(args)
+    local routingId = args[1]
+    local interiorId = args[2]
+    AddActiveInterior(routingId, interiorId, 0)
+end, true)
+
+RegisterCommand("cis", function()
+    local source = source
+    local infoString = ""
+    for k,v in pairs(activeInteriors) do
+        local interiorId = k
+        for k,v in pairs(v.players) do
+            if v == source then
+                infoString = activeInteriors[k].routingId.." - "..activeInteriors[k].interiorId.." - "..activeInteriors[k].routingBucket 
+            end
+        end
+    end
+    TriggerClientEvent("fivez:AddAnnouncement", source, infoString)
+end, true)
+
 function AddActiveInterior(routingId, interiorId, source)
     local routingBucket = GetRoutingBucket()
     table.insert(activeInteriors, {

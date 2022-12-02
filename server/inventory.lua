@@ -84,25 +84,42 @@ function GetInventoryWithId(invId)
     return RegisteredInventories[invId]
 end
 
-function GetClosestInventory(pedCoords)
-    for k,v in pairs(RegisteredInventories) do
-        if v.position then
-            if #(pedCoords - v.position) <= Config.OpenInventoryDistance then
-                return v
+function GetClosestInventory(pedCoords, plyRoutingBucket)
+    if plyRoutingBucket == 0 then
+        for k,v in pairs(RegisteredInventories) do
+            if v.position then
+                if #(pedCoords - v.position) <= Config.OpenInventoryDistance then
+                    return v
+                end
             end
         end
-    end
-    for k,v in pairs(TempInventories) do
-        if v.position then
-            if #(pedCoords - v.position) <= Config.OpenInventoryDistance then
-                return v
+        for k,v in pairs(TempInventories) do
+            if v.position then
+                if #(pedCoords - v.position) <= Config.OpenInventoryDistance then
+                    return v
+                end
+            end
+        end
+    elseif plyRoutingBucket > 0 then
+        for k,v in pairs(RegisteredInventories) do
+            if v.position and v.routingBucket then
+                if plyRoutingBucket == v.routingBucket and #(pedCoords - v.position) <= Config.OpenInventoryDistance then
+                    return v
+                end
+            end
+        end
+        for k,v in pairs(TempInventories) do
+            if v.position and v.routingBucket then
+                if plyRoutingBucket == v.routingBucket and #(pedCoords - v.position) <= Config.OpenInventoryDistance then
+                    return v
+                end
             end
         end
     end
     return nil
 end
 
-function CreateTempGroundInventory(pedCoords)
+function CreateTempGroundInventory(pedCoords, routingBucket)
     local tempId = #RegisteredInventories + 1
     tempId = "ground:"..tempId
 
@@ -116,13 +133,14 @@ function CreateTempGroundInventory(pedCoords)
         maxWeight = Config.DefaultMaxWeight,
         maxSlots = Config.DefaultMaxSlots,
         position = pedCoords,
-        items = items
+        items = items,
+        routingBucket = routingBucket or 0
     }
 
     return TempInventories[tempId]
 end
 
-function RegisterNewInventory(id, type, label, weight, maxweight, maxslots, items, position)
+function RegisterNewInventory(id, type, label, weight, maxweight, maxslots, items, position, routingBucket)
     if RegisteredInventories[id] then return RegisteredInventories[id] end
     RegisteredInventories[id] = {
         type = type or "inventory",
@@ -132,7 +150,8 @@ function RegisterNewInventory(id, type, label, weight, maxweight, maxslots, item
         maxWeight = maxweight,
         maxSlots = maxslots,
         items = items,
-        position = position
+        position = position,
+        routingBucket = routingBucket or 0
     }
 
     return RegisteredInventories[id]
@@ -196,6 +215,9 @@ RegisterNetEvent("fivez:LootInventory", function(entityNetId)
             else
                 TriggerClientEvent("fivez:AddNotification", source, "Inventory doesn't exist!")
             end
+        else
+            local routingBucket = GetPlayerRoutingBucket(source)
+
         end
     else
         TriggerClientEvent("fivez:AddNotification", source, "Entity doesn't exist")
@@ -208,8 +230,8 @@ RegisterNetEvent("fivez:GetClosestInventory", function(closestObject)
     local playerPed = GetPlayerPed(source)
     local pedCoords = GetEntityCoords(playerPed)
 
-    --Get closest registered or temp inventory, uses position
-    local closestInventory = GetClosestInventory(pedCoords)
+    --Get closest registered or temp inventory, uses position and routing bucket
+    local closestInventory = GetClosestInventory(pedCoords, GetPlayerRoutingBucket(source))
 
     --Check if player is in vehicle
     local vehicle = GetVehiclePedIsIn(playerPed, false)
@@ -244,33 +266,34 @@ RegisterNetEvent("fivez:GetClosestInventory", function(closestObject)
         end
     end
     --Checks dynamic lootable containers around the players ped
-    checkedClosestObject = nil
-    TriggerClientEvent("fivez:CheckClosestObject", source, closestObject)
-    while checkedClosestObject == nil do
-        Citizen.Wait(0)
-    end
-    if (not closestInventory) and checkedClosestObject then
-        local objectCoords = vector3(checkedClosestObject.pos.x, checkedClosestObject.pos.y, checkedClosestObject.pos.z)
-        if #(objectCoords - GetEntityCoords(playerPed)) <= 2 then
-            local maxSlots = 0
-            local maxWeight = 0
-            for k,v in pairs(Config.LootableContainers) do
-                if k == checkedClosestObject.model then
-                    maxSlots = v.maxslots
-                    maxWeight = v.maxweight
+    if not closestInventory then
+        checkedClosestObject = nil
+        TriggerClientEvent("fivez:CheckClosestObject", source, closestObject)
+        while checkedClosestObject == nil do
+            Citizen.Wait(0)
+        end
+        if checkedClosestObject then
+            local objectCoords = vector3(checkedClosestObject.pos.x, checkedClosestObject.pos.y, checkedClosestObject.pos.z)
+            if #(objectCoords - GetEntityCoords(playerPed)) <= 2 then
+                local maxSlots = 0
+                local maxWeight = 0
+                for k,v in pairs(Config.LootableContainers) do
+                    if k == checkedClosestObject.model then
+                        maxSlots = v.maxslots
+                        maxWeight = v.maxweight
+                    end
                 end
+                local weight, containerLoot = CalculateLootableContainer(checkedClosestObject.model)
+                local invCount = 0
+                for k,v in pairs(RegisteredInventories) do
+                    invCount = invCount + 1
+                end
+                closestInventory = RegisterNewInventory("temp:"..checkedClosestObject.model..":"..invCount, "inventory", "Container", weight, maxWeight, maxSlots, containerLoot, objectCoords, GetPlayerRoutingBucket(source))
+                --Freeze objects position to stop people from moving boxes and creating new loot
+                FreezeEntityPosition(closestObject, true)
             end
-            local weight, containerLoot = CalculateLootableContainer(checkedClosestObject.model)
-            local invCount = 0
-            for k,v in pairs(RegisteredInventories) do
-                invCount = invCount + 1
-            end
-            closestInventory = RegisterNewInventory("temp:"..checkedClosestObject.model..":"..invCount, "inventory", "Container", weight, maxWeight, maxSlots, containerLoot, objectCoords)
-            --Freeze objects position to stop people from moving boxes and creating new loot
-            FreezeEntityPosition(closestObject, true)
         end
     end
-
     --Check dead players and see if we are near any
     if not closestInventory then
         local closestDist, deadPlayer = GetClosestDeadPlayer()
@@ -290,7 +313,7 @@ RegisterNetEvent("fivez:GetClosestInventory", function(closestObject)
         if deadZombieClose == -1 or deadZombieClose > 5 then
             print("Creating temp ground")
             --Create temporary ground inventory
-            closestInventory = CreateTempGroundInventory(pedCoords)
+            closestInventory = CreateTempGroundInventory(pedCoords, GetPlayerRoutingBucket(source))
             TriggerClientEvent("fivez:AddGroundMarker", -1, json.encode(pedCoords))
             table.insert(inventoryMarkers, {position = pedCoords, created = GetGameTimer()})
         elseif deadZombieClose <= 5 then

@@ -122,6 +122,11 @@ Config.RoutingInteriors = {
                 [1] = vector3(-990.96, -1104.87, 2.22),
                 [2] = vector3(-1001.46, -1086.85, 2.1),
                 [3] = vector3(-989.49, -1105.96, 7.15)
+            },
+            ["house2"] = {
+                [1] = vector3(-1035.55, -1145.91, 2.61),
+                [2] = vector3(-1024.21, -1164.67, 2.71),
+                [3] = vector3(-1037.12, -1144.48, 7.6)
             }
         },
         outPosition = vector3(346.68, -1006, -98.87) --Multiple in positions for one as routing buckets will be assigned to each in position
@@ -260,6 +265,24 @@ Config.WeaponNoise = {
 
 --Models of containers (dumpsters) players can loot
 Config.LootableContainers = {
+    [GetHashKey("v_res_tre_storagebox")] = {
+        maxslots = 25,
+        maxweight = 150,
+        items = {},
+        spawnall = true
+    },
+    [GetHashKey("v_res_tre_bedsidetable")] = {
+        maxslots = 25,
+        maxweight = 150,
+        items = {},
+        spawnall = true
+    },
+    [GetHashKey("v_res_mp_sofa")] = {
+        maxslots = 10,
+        maxweight = 25,
+        items = {},
+        spawnall = true
+    },
     [GetHashKey("p_dumpster_t")] = {
         maxslots = 10,
         maxweight = 50,

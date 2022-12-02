@@ -51,7 +51,7 @@ end
 RegisterCommand("fakeinteriorplayer", function(source, args)
     local routingId = args[1]
     local interiorId = args[2]
-    AddActiveInterior(routingId, interiorId, 0)
+    AddActiveInterior(routingId, interiorId, -2)
 end, true)
 
 RegisterCommand("cis", function(source)
@@ -80,8 +80,10 @@ function AddActiveInterior(routingId, interiorId, source)
     --Disable client-side entity creation
     SetRoutingBucketEntityLockdownMode(routingBucket, "strict")
     SetRoutingBucketPopulationEnabled(routingBucket, false)
-    --Set the player going into the interior to the routing bucket
-    SetPlayerRoutingBucket(source, routingBucket)
+    if source ~= -2 then
+        --Set the player going into the interior to the routing bucket
+        SetPlayerRoutingBucket(source, routingBucket)
+    end
 end
 
 function AddPlayerToActiveInterior(interiorId, source)

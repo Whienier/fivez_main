@@ -57,15 +57,14 @@ Citizen.CreateThread(function()
         --If we are not inside a routing interior wait until we are inside one
         while not insideRoutingInterior do Citizen.Wait(1) end
 
-        local pedCoords = GetEntityCoords(GetPlayerPed(-1))
         local dist = -1
         local closestCoords = nil
         local tempRoutingId = nil
 
         for k,v in pairs(Config.RoutingInteriors) do
-            local distance = #(pedCoords - v)
+            local distance = #(GetEntityCoords(GetPlayerPed(-1)) - v.outPosition)
             if dist == -1 or distance < dist then
-                closestCoords = v
+                closestCoords = v.outPosition
                 dist = distance
                 tempRoutingId = k
             end

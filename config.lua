@@ -34,7 +34,7 @@ Config.RestrictedBuildingZones  = {
 Config.SafeZones = {
     ["The Last Hold"] = {
         position = vector3(0,0,0),
-        color = colour(0, 0, 255, 255),
+        color = vector4(0, 0, 255, 255),
         traders = {
             barber = {vector3(0,0,0)}, --Position of the trader
             clothes = {vector3(0,0,0)},
@@ -52,7 +52,7 @@ Config.HighRiskZones = {
             bl = vector3(-5, 5, 0),
             br = vector3(-5, -5, 0)
         },
-        color = color(255, 0, 0, 255),
+        color = vector4(255, 0, 0, 255),
         zombieMultipiler = 2 --Allows for increased zombie spawns in zones
     }
 }

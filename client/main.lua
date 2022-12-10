@@ -33,7 +33,10 @@ RegisterNUICallback("nui_loaded", function(data, cb)
     cb('ok')
 end)
 
+local characters = {}
+
 RegisterNUICallback("character_createcharacter", function(data, cb)
+    if #characters == 1 then SendNUIMessage({type = "character", name = "MaxCharacters"}) return end
     TriggerServerEvent("fivez:CreateCharacter", json.encode({firstname = data.first, lastname = data.last, gender = data.gender}))
     cb('ok')
 end)
@@ -63,7 +66,7 @@ RegisterNetEvent("fivez:UpdateCharacterMenu", function(encodedCharData)
 end)
 
 RegisterNetEvent("fivez:OpenCharacterMenu", function(encodedCharData)
-    local charData = json.decode(encodedCharData)
+    characters = json.decode(encodedCharData)
     SendNUIMessage({
         type = "character",
         name = "OpenMenu",

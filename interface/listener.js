@@ -14,6 +14,9 @@ window.addEventListener("message", async (event) => {
 				case "UpdateCharacters":
 					Character.UpdateCharacters(event.data.data);
 				break;
+				case "MaxCharacters":
+					Character.MaxCharactersNotification();
+				break;
 				default:
 					console.log(`Couldn't Find Event Name: ${event.data.name} for Type: ${event.data.type}`);
 				break;

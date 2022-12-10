@@ -5,7 +5,7 @@ const Character = new Vue({
 		ResourceName: "fivez_main",
         ShowMenu: false,
         ShowCreator: false,
-        ShowMaxCharacters: true,
+        ShowMaxCharacters: false,
 		Updating: false,
         Characters: [],
         NewCharacterValid: true,
@@ -69,6 +69,11 @@ const Character = new Vue({
         Creator(){
             this.ShowCreator = !this.ShowCreator;
             console.log(this.ShowCreator);
+        },
+
+        MaxCharactersNotification(){
+            this.ShowMaxCharacters = true;
+            setTimeout(()=>{this.ShowMaxCharacters=false;}, 5000);
         },
 
         Disconnect() {

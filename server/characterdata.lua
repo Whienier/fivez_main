@@ -942,13 +942,12 @@ RegisterNetEvent("fivez:SelectCharacter", function()
     local joinedPly = GetJoinedPlayer(source)
     if joinedPly then
         local charData = SQL_GetCharacterData(joinedPly.Id)
-        print("Selected character data", charData)
         if charData then
             joinedPly.characterdata = charData
             if charData.isNew then
-                TriggerClientEvent("fivez:NewSpawn", charData.gender)
+                TriggerClientEvent("fivez:NewSpawn", source, charData.gender)
             else
-                TriggerClientEvent("fivez:OpenSpawnMenu", charData.lastposition)
+                TriggerClientEvent("fivez:OpenSpawnMenu", source, charData.lastposition)
             end
         end
     end
@@ -1051,8 +1050,13 @@ RegisterNetEvent("fivez:CreateCharacter", function(data)
     if joinedPly then
         local createdChar = SQL_CreateCharacterData(joinedPly.Id, decodedData.firstname, decodedData.lastname, decodedData.gender)
         if createdChar then
-            local charData = SQL_GetCrucialCharacterData(joinedPly.Id)
-            TriggerClientEvent("fivez:UpdateCharacterMenu", source, json.encode({charData}))
+            local data = {
+                Id = joinedPly.Id,
+                name = decodedData.firstname +" "+ decodedData.lastname,
+                gender = decodedData.gender,
+                lastposition = nil
+            }
+            TriggerClientEvent("fivez:UpdateCharacterMenu", source, json.encode({data}))
         end
     end
 end)

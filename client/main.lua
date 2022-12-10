@@ -39,7 +39,7 @@ RegisterNUICallback("character_createcharacter", function(data, cb)
 end)
 
 RegisterNUICallback("character_select", function(data, cb)
-    TriggerServerEvent("fivez:SelectCharacter", data.id)
+    TriggerServerEvent("fivez:SelectCharacter")
     SendNUIMessage({
         type = "character",
         name = "CloseMenu"
@@ -49,7 +49,7 @@ RegisterNUICallback("character_select", function(data, cb)
 end)
 
 RegisterNUICallback("character_delete", function(data, cb)
-    TriggerServerEvent("fivez:DeleteCharacter", data.id)
+    TriggerServerEvent("fivez:DeleteCharacter")
     cb('ok')
 end)
 

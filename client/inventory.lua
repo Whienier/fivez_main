@@ -8,6 +8,21 @@ RegisterNetEvent("fivez:AddGroundMarker", function(position)
     position = json.decode(position)
     table.insert(inventories, {pos = position})
 end)
+Citizen.CreateThread(function()
+    while true do
+        while not startThreads do Citizen.Wait(1) end
+        while not NetworkIsPlayerActive(PlayerId()) do Citizen.Wait(1) end
+        TriggerServerEvent("fivez:SyncMarkers")
+        Citizen.Wait(15000)
+    end
+end)
+RegisterNetEvent("fivez:SyncMarkersCB", function(encodedMarkers)
+    local decodedMarkers = json.decode(encodedMarkers)
+    for k,v in pairs(decodedMarkers) do
+        table.insert(inventories, {pos = v})
+    end
+end)
+
 RegisterNetEvent("fivez:RemoveGroundMarker", function(position)
     position = json.decode(position)
     for k,v in pairs(inventories) do

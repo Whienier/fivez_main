@@ -968,7 +968,7 @@ function SQL_GetCrucialCharacterData(playerId)
                     lastposition  = result[1].character_lastposition
                 }
     
-                gotCharData = tempData
+                gotCharData = {tempData}
             else
                 gotCharData = nil
             end

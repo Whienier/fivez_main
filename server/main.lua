@@ -289,7 +289,6 @@ RegisterNetEvent("fivez:NUILoaded", function()
         SetRoutingBucketPopulationEnabled(#joinedPlayers+1, false)
     elseif not playerData.isNew then
         local charData = SQL_GetCrucialCharacterData(playerData.Id)
-        print(charData)
         TriggerClientEvent("fivez:OpenCharacterMenu", source, json.encode(charData))
         --TriggerClientEvent("fivez:SpawnAtLastLoc", source, playerData.characterData.gender, json.encode(playerData.characterData.lastposition))
     end

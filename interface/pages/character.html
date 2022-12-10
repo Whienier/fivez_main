@@ -23,10 +23,10 @@
 						<v-flex xs4 v-for="(character, charIndex) in Characters" :key="charIndex">
 							<v-card dark>
 								<v-card-title primary-title>
-									{{ character.character_fname }} {{ character.character_lname }}
+									{{ character.name }}
 								</v-card-title>
 								<v-card-text>
-									<span>Gender: {{ Genders[character.character_gender] }} | Wallet: {{ character.character_wallet }} | Bank: {{ character.character_bank }}</span>
+									<span>Gender: {{ Genders[character.gender] }}</span>
 								</v-card-text>
 								<v-card-actions>
 									<v-btn color="green" :loading="Updating" @click="SelectCharacter(character.character_dataid)"><v-icon>check</v-icon></v-btn>

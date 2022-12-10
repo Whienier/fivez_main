@@ -42,7 +42,7 @@ RegisterNUICallback("character_select", function(data, cb)
     TriggerServerEvent("fivez:SelectCharacter", data.id)
     SendNUIMessage({
         type = "character",
-        message = "CloseMenu"
+        name = "CloseMenu"
     })
     SetNuiFocus(false, false)
     cb('ok')
@@ -57,7 +57,7 @@ RegisterNetEvent("fivez:UpdateCharacterMenu", function(encodedCharData)
     local charData = json.decode(encodedCharData)
     SendNUIMessage({
         type = "character",
-        message = "UpdateCharacters",
+        name = "UpdateCharacters",
         data = charData
     })
 end)
@@ -66,7 +66,7 @@ RegisterNetEvent("fivez:OpenCharacterMenu", function(encodedCharData)
     local charData = json.decode(encodedCharData)
     SendNUIMessage({
         type = "character",
-        message = "OpenMenu",
+        name = "OpenMenu",
         data = charData
     })
     SetNuiFocus(true, true)
@@ -130,7 +130,7 @@ RegisterNetEvent('fivez:CharacterStressed', function(newStress)
     end
     SendNUIMessage({
         type = "fivez_hud",
-        message = "UpdateStress",
+        name = "UpdateStress",
         data = characterData.stress
     })
 end)

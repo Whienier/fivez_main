@@ -69,7 +69,7 @@ end)
 RegisterNetEvent("fivez:AddInventoryNotification", function(added, item)
     SendNUIMessage({
         type = "message",
-        message = "addNotification",
+        name = "addNotification",
         added = added,
         item = json.decode(item)
     })

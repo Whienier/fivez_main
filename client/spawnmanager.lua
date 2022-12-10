@@ -27,7 +27,7 @@ RegisterNetEvent("fivez:OpenSpawnMenu", function(encodedLastPos)
 
     SendNUIMessage({
         type = "spawnmenu",
-        message = "OpenMenu"
+        name = "OpenMenu"
     })
 end)
 

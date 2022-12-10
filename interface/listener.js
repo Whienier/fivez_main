@@ -3,7 +3,7 @@ window.addEventListener("message", async (event) => {
         return;
     }
 	switch(event.data.type) {
-		case "charactermenu":
+		case "character":
 			switch(event.data.name) {
 				case "OpenMenu":
 					Character.OpenMenu(event.data.data);

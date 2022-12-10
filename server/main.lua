@@ -288,7 +288,8 @@ RegisterNetEvent("fivez:NUILoaded", function()
         --Disable population so we don't get spam for entity created
         SetRoutingBucketPopulationEnabled(#joinedPlayers+1, false)
     elseif not playerData.isNew then
-        TriggerClientEvent("fivez:OpenCharacterMenu", source, json.encode(playerData.characterData))
+        local charData = SQL_GetCharacterData(playerData.Id)
+        TriggerClientEvent("fivez:OpenCharacterMenu", source, json.encode(charData))
         --TriggerClientEvent("fivez:SpawnAtLastLoc", source, playerData.characterData.gender, json.encode(playerData.characterData.lastposition))
     end
 end)

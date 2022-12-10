@@ -1026,6 +1026,24 @@ function SQL_GetCharacterData(playerId)
     return gotCharData
 end
 
+RegisterNetEvent("fivez:DeleteCharacter", function()
+    local source = source
+    local joinedPly = GetJoinedPlayer(source)
+    if joinedPly then
+        SQL_DeleteCharacterData(joinedPly.Id)
+
+        TriggerClientEvent("fivez:UpdateCharacterMenu", source, json.encode({}))
+    end
+end)
+
+function SQL_DeleteCharacterData(playerId)
+    MySQL.ready(function()
+        MySQL.Async.execute("DELETE FROM character_data WHERE player_dataid = @playerId", {
+            ["playerId"] = playerId
+        })
+    end)
+end
+
 RegisterNetEvent("fivez:CreateCharacter", function(data)
     local source = source
     local decodedData = json.decode(data)

@@ -3,16 +3,16 @@ window.addEventListener("message", async (event) => {
         return;
     }
 	switch(event.data.type) {
-		case "cnr_character":
+		case "charactermenu":
 			switch(event.data.name) {
 				case "OpenMenu":
-					CNR_Character.OpenMenu(event.data.data);
+					Character.OpenMenu(event.data.data);
 					break;
 				case "CloseMenu":
-					CNR_Character.CloseMenu();
+					Character.CloseMenu();
 					break;
 				case "UpdateCharacters":
-					CNR_Character.UpdateCharacters(event.data.data);
+					Character.UpdateCharacters(event.data.data);
 				break;
 				default:
 					console.log(`Couldn't Find Event Name: ${event.data.name} for Type: ${event.data.type}`);
@@ -94,6 +94,22 @@ window.addEventListener("message", async (event) => {
                 case "RemoveAnnouncement":
                     FIVEZ_Notifs.RemoveAnnouncement(event.data.data);
                 break;
+				default:
+					console.log(`Couldn't Find Event Name: ${event.data.name} for type: ${event.data.type}`);
+				break;
+			}
+		break;
+		case "spawnmenu":
+			switch(event.data.name) {
+				case "OpenMenu":
+					Spawnmenu.OpenMenu();
+				break;
+				case "CloseMenu":
+					Spawnmenu.CloseMenu();
+				break;
+				default:
+					console.log(`Couldn't Find Event Name: ${event.data.name} for type: ${event.data.type}`);
+				break;
 			}
 		break;
 		// Default Catcher

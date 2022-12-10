@@ -1,0 +1,35 @@
+<link rel="stylesheet" href="./pages/spawnmenu.css">
+<!-- Character App -->
+<v-app id="Spawnmenu" v-show="ShowMenu">
+	<v-main>
+		<div id="Spawnmenu_Base">
+			<div id="Spawnmenu_Header">
+				Spawn Locations
+				<br />
+			</div>
+			<div id="Spawnmenu_Body">
+				<v-container grid-list-xs>
+					<v-layout column wrap>
+						<div id="Spawnmenu_Items">
+							<v-flex xs4 v-for="(spawn, elementIndex) in Locations" :key="elementIndex">
+								<div id="Spawnmenu_Item">
+									<v-card dark>
+										<v-card-title primary-title>
+											{{ spawn.label }}
+										</v-card-title>
+										<v-card-actions>
+											<v-btn color="green" @click="SelectLocation(elementIndex)"><v-icon>mdi-eye</v-icon></v-btn>
+											<v-btn color="green" @click="SpawnLocation(elementIndex)"><v-icon>check</v-icon></v-btn>
+										</v-card-actions>
+									</v-card>
+								</div>
+							</v-flex>
+						</div>
+					</v-layout>
+				</v-container>
+			</div>
+		</div>
+		<!-- TOO MANY CHARACTERS ERROR -->
+		<!--<v-snackbar v-model="ShowMaxCharacters" :bottom="true" :multi-line="true" :timeout="6000">TESTING SNACKS</v-snackbar>-->
+	</v-main>
+</v-app>

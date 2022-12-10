@@ -1,10 +1,10 @@
-#CNR_Character {
+#Character {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0);
 }
 
-#CNR_Character_Base {
+#Character_Base {
     position: absolute;
     width: 65%;
     height: 65%;
@@ -13,12 +13,12 @@
     transform: translate(-50%, -50%);
 }
 
-#CNR_Character_Header {
+#Character_Header {
     text-align: center;
     font-size: 30px;
     font-weight: bold;
 }
 
-#CNR_Character_Body {
+#Character_Body {
     position: absoulte;
 }

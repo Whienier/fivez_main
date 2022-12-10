@@ -120,7 +120,6 @@ end
 RegisterNetEvent("fivez:EnterRoutingPortal", function(routingId, interiorId, portalId)
     local source = source
     local playerPed = GetPlayerPed(source)
-    print("Entrying routing portal", routingId, interiorId)
     local routingPortal = Config.RoutingInteriors[routingId].inPositions[interiorId][portalId]
     --Make sure player is close enough to portal to use it
     if #(GetEntityCoords(playerPed) - routingPortal) <= 3 then

@@ -29,6 +29,8 @@ Citizen.CreateThread(function()
     end
 end)
 
+--TODO: Maybe swap stress loop to client instead of server
+
 RegisterNetEvent("fivez:ZombieWalk", function(zombieNetId)
     local zombie = NetworkGetEntityFromNetworkId(zombieNetId)
     if zombie then

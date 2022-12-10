@@ -284,6 +284,7 @@ Citizen.CreateThread(function()
                             end
                         end
                     end
+
                     local numZombies = math.random(1, zombieAmount)
                     print("Spawning ", numZombies, " zombies")
                     for i=1, numZombies do
@@ -390,7 +391,6 @@ RegisterNetEvent("fivez:IsPlayerDuckingCB", function(ducking)
     duckingCB = ducking
 end)
 local lastStress = {}
---Stress server loop
 Citizen.CreateThread(function()
     while true do
         if #GetPlayers() >= 1 then
@@ -431,6 +431,39 @@ Citizen.CreateThread(function()
             Citizen.Wait(Config.DelayServerTick)
         end
         Citizen.Wait(1000)
+    end
+end)
+--Server thread to remove zombies if they are too close to a safe zone
+Citizen.CreateThread(function()
+    while true do
+        if #GetPlayers() >= 1 then
+            for k,v in pairs(zombies) do
+                local zombie = v.zombie
+                if DoesEntityExist(zombie) then
+                    local zombieCoords = GetEntityCoords(zombie)
+                    local safeZoneDist = -1
+                    for k,v in pairs(Config.SafeZones) do
+                        local distance = #(v.position - zombieCoords)
+                        if safeZoneDist == -1 or safeZoneDist > distance then
+                            safeZoneDist = distance
+                        end
+                    end
+
+                    if safeZoneDist ~= -1 then
+                        if safeZoneDist < Config.ZombieProtectionRadius then
+                            DeleteEntity(zombie)
+                            table.remove(zombies, k)
+                        end
+                    end
+                end
+                Citizen.Wait(5)
+            end
+            Citizen.Wait(500)
+        else
+            Citizen.Wait(Config.DelayServerTick)
+        end
+
+        Citizen.Wait(1)
     end
 end)
 

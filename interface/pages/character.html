@@ -1,9 +1,9 @@
 <link rel="stylesheet" href="./pages/character.css">
 <!-- Character App -->
-<v-app id="CNR_Character" v-show="ShowMenu">
+<v-app id="Character" v-show="ShowMenu">
 	<v-main>
-		<div id="CNR_Character_Base">
-			<div id="CNR_Character_Header">
+		<div id="Character_Base">
+			<div id="Character_Header">
 				Characters
 				<br />
 				<v-tooltip left>
@@ -17,7 +17,7 @@
 					</template>
 				</v-tooltip>
 			</div>
-			<div id="CNR_Character_Body">
+			<div id="Character_Body">
 				<v-container grid-list-xs>
 					<v-layout row wrap>
 						<v-flex xs4 v-for="(character, charIndex) in Characters" :key="charIndex">

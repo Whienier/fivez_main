@@ -210,6 +210,7 @@ RegisterNetEvent("fivez:NewCharacterCreated", function()
     SetPlayerRoutingBucket(source, 0)
     local playerData = GetJoinedPlayer(source)
     if playerData then
+        SQL_UpdateCharacterNewState(playerData.Id)
         playerData.playerSpawned = true
         TriggerClientEvent("fivez:LoadCharacterData", source, json.encode(playerData.characterData))
     end
@@ -245,6 +246,7 @@ end)
 AddEventHandler("entityCreated", function(handle)
     print("Entity has been created!", handle, DoesEntityExist(handle), NetworkGetNetworkIdFromEntity(handle))
     if DoesEntityExist(handle) then
+        --TODO: Maybe make server loop to set weather every so often
         if #joinedPlayers == 1 then
             TriggerEvent("weathersync:setWeather", "blizzard", 0.0, false, false)
             Citizen.Wait(100)
@@ -272,20 +274,38 @@ AddEventHandler("entityCreated", function(handle)
         end
     end
 end)
---Triggered when a players NUI is loaded
+--Triggered when a clients NUI frame has first loaded
 RegisterNetEvent("fivez:NUILoaded", function()
     local source = source
     --Have to use steam identifier, since source is not server id until this point
     local playerData = GetJoinedPlayerWithSteam(source)
     if playerData.isNew then
+        TriggerClientEvent("fivez:OpenCharacterMenu", source, json.encode({}))
         --Tell player to get a new spawn
-        TriggerClientEvent("fivez:NewSpawn", source, playerData.characterData.gender)
+        --TriggerClientEvent("fivez:NewSpawn", source, playerData.characterData.gender)
         --Set the player to a routing bucket depending on how many players are joined
         SetPlayerRoutingBucket(source, #joinedPlayers+1)
         --Disable population so we don't get spam for entity created
         SetRoutingBucketPopulationEnabled(#joinedPlayers+1, false)
     elseif not playerData.isNew then
-        TriggerClientEvent("fivez:SpawnAtLastLoc", source, playerData.characterData.gender, json.encode(playerData.characterData.lastposition))
+        TriggerClientEvent("fivez:OpenCharacterMenu", source, json.encode(playerData.characterData))
+        --TriggerClientEvent("fivez:SpawnAtLastLoc", source, playerData.characterData.gender, json.encode(playerData.characterData.lastposition))
+    end
+end)
+
+RegisterNetEvent('fivez:SpawnLocation', function(spawnId)
+    local source = source
+    local spawnLocation = Config.DefinedPlayerSpawns[spawnId]
+
+    if spawnId > 1 and spawnLocation ~= nil then
+        TriggerClientEvent("fivez:SpawnAtLoc", source, json.encode(spawnLocation))
+    elseif spawnId == 0 and spawnLocation == nil then
+        TriggerClientEvent("fivez:NewSpawn", source, )
+    else
+        local joinedPly = GetJoinedPlayer(source)
+        if joinedPly then
+            TriggerClientEvent("fivez:SpawnAtLastLoc", source, joinedPly.characterData.gender, json.encode(joinedPly.characterData.lastposition))
+        end
     end
 end)
 

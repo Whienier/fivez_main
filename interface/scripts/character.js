@@ -1,5 +1,5 @@
-const CNR_Character = new Vue({
-	el: "#CNR_Character",
+const Character = new Vue({
+	el: "#Character",
     vuetify: new Vuetify(),
 	data: {
 		ResourceName: "fivez_main",

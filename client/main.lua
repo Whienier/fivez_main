@@ -4,10 +4,23 @@ startThreads = false
 local isShooting = false
 local startedShooting = GetGameTimer()
 local updatedAmmo = false
+
 --Disable ambient sounds
 Citizen.CreateThread(function()
     StartAudioScene("CHARACTER_CHANGE_IN_SKY_SCENE")
     DistantCopCarSirens(false)
+end)
+
+--Thread for creating config POI blips
+Citizen.CreateThread(function()
+    for k,v in pairs(Config.Blips) do
+        AddTextEntry(v.labelid, v.label)
+        local blip = AddBlipForCoord(v.position.x, v.position.y, v.position.z)
+        BeginTextCommandSetBlipName(v.labelid)
+        AddTextComponentSubstringBlipName(blip)
+        EndTextCommandSetBlipName(blip)
+        SetBlipSprite(blip, v.sprite)
+    end
 end)
 
 RegisterNetEvent("fivez:GetHeadingFromVector", function(x, y)
@@ -18,6 +31,45 @@ RegisterNUICallback("nui_loaded", function(data, cb)
     TriggerServerEvent("fivez:NUILoaded")
     ShutdownLoadingScreen()
     cb('ok')
+end)
+
+RegisterNUICallback("character_createcharacter", function(data, cb)
+    TriggerServerEvent("fivez:CreateCharacter", json.encode({firstname = data.first, lastname = data.last, gender = data.gender}))
+    cb('ok')
+end)
+
+RegisterNUICallback("character_select", function(data, cb)
+    TriggerServerEvent("fivez:SelectCharacter", data.id)
+    SendNUIMessage({
+        type = "character",
+        message = "CloseMenu"
+    })
+    SetNuiFocus(false, false)
+    cb('ok')
+end)
+
+RegisterNUICallback("character_delete", function(data, cb)
+    TriggerServerEvent("fivez:DeleteCharacter", data.id)
+    cb('ok')
+end)
+
+RegisterNetEvent("fivez:UpdateCharacterMenu", function(encodedCharData)
+    local charData = json.decode(encodedCharData)
+    SendNUIMessage({
+        type = "character",
+        message = "UpdateCharacters",
+        data = charData
+    })
+end)
+
+RegisterNetEvent("fivez:OpenCharacterMenu", function(encodedCharData)
+    local charData = json.decode(encodedCharData)
+    SendNUIMessage({
+        type = "character",
+        message = "OpenMenu",
+        data = charData
+    })
+    SetNuiFocus(true, true)
 end)
 
 RegisterNetEvent("fivez:LoadCharacterData", function(charData)
@@ -278,6 +330,7 @@ RegisterNetEvent("fivez:IsPlayerDucking", function()
     TriggerServerEvent("fivez:IsPlayerDuckingCB", IsPedDucking(GetPlayerPed(-1)))
 end)
 
+--Client thread to keep the vehicles loaded on the client in-sync with server values
 Citizen.CreateThread(function()
     while true do
         while not startThreads do Citizen.Wait(1) end
@@ -345,10 +398,9 @@ Citizen.CreateThread(function()
                 decayRate = decayRate + 5
             end
 
-            if GetEntityHealth(GetPlayerPed(-1)) <= 20 then goto skip end
-            
-            SetEntityHealth(GetPlayerPed(-1), GetEntityHealth(GetPlayerPed(-1)) - decayRate)
-            ::skip::
+            if GetEntityHealth(GetPlayerPed(-1)) > 20 then
+                SetEntityHealth(GetPlayerPed(-1), GetEntityHealth(GetPlayerPed(-1)) - decayRate)
+            end
         end
 
         Citizen.Wait(Config.CharacterDecayTimer)
@@ -371,12 +423,10 @@ Citizen.CreateThread(function()
             if characterData.thirst <= 0 then
                 decayRate = decayRate + 5
             end
-            
-            if GetEntityHealth(GetPlayerPed(-1)) <= 20 then goto skip end
-            
-            SetEntityHealth(GetPlayerPed(-1), GetEntityHealth(GetPlayerPed(-1)) - decayRate)
-
-            ::skip::
+                        
+            if GetEntityHealth(GetPlayerPed(-1)) > 20 then
+                SetEntityHealth(GetPlayerPed(-1), GetEntityHealth(GetPlayerPed(-1)) - decayRate)
+            end
         end
         Citizen.Wait(Config.CharacterDecayTimer)
     end
@@ -443,6 +493,9 @@ Citizen.CreateThread(function()
                     name = "MicOff"
                 })
             end
+        else
+            --Wait 15 seconds if they don't have voip enabled
+            Citizen.Wait(15000)
         end
         Citizen.Wait(1)
     end
@@ -529,38 +582,6 @@ Citizen.CreateThread(function()
     end
 end)
 
-RegisterCommand("pos", function()
-    print(GetEntityCoords(GetPlayerPed(-1)))
-end, false)
-
-RegisterCommand("flipveh", function()
-    local coords = GetEntityCoords(GetPlayerPed(-1))
-    local veh = GetClosestVehicle(coords.x, coords.y, coords.z, 10.0, 0, 70)
-    if veh > 0 then
-        PlaceObjectOnGroundProperly(veh)
-    end
-end, false)
-
-RegisterCommand("suicide", function()
-    SetEntityHealth(GetPlayerPed(-1), 0)
-end, false)
-
-RegisterCommand("help", function()
-    TriggerEvent("chat:addMessage", {
-        color = {0,0,0},
-        multiline = true,
-        args = { "ServerHelp", "Use the discord invite code (wuhCdjv8) to join discord! Or if you want to look at the forum again type /webhelp"}
-    })
-end, false)
-
-RegisterCommand("webhelp", function()
-    TriggerEvent("chat:addMessage", {
-        color = {0,0,0},
-        multiline = true,
-        args = {"ServerHelp", "For the forum type 51.161.197.99 into your web browser!"}
-    })
-end, false)
-
 RegisterNetEvent("fivez:RefuelVehicle", function(vehicleNetId, fuel)
     local plyPed = GetPlayerPed(-1)
     local vehicle = NetworkGetEntityFromNetworkId(vehicleNetId)
@@ -613,11 +634,13 @@ Citizen.CreateThread(function()
         Citizen.Wait(Config.VehicleFuelTimer)
     end
 end)
+
+--Voice stuff
 local drawRange = false
-local voiceRange = 0.0
+local voiceRange = 5.0
 RegisterCommand("+voicerangeincrease", function()
     voiceRange = voiceRange + 1.0
-    if voiceRange > 15 then voiceRange = 15 end
+    if voiceRange > 25 then voiceRange = 25 end
     MumbleSetAudioInputDistance(voiceRange)
     drawRange = true
 end, false)
@@ -633,6 +656,7 @@ end, false)
 RegisterCommand("-voicerangedecrease", function() end, false)
 RegisterKeyMapping("+voicerangedecrease", "Decrease the range of your VOIP", "keyboard", "f3")
 
+--Thread for drawing a range indicator for voice
 local drawTimestamp = nil
 Citizen.CreateThread(function()
     while true do
@@ -652,6 +676,7 @@ Citizen.CreateThread(function()
     end
 end)
 
+--Command for ragdolling
 RegisterCommand("ragdoll", function()
     local playerPed = GetPlayerPed(-1)
     print(IsPedRagdoll(playerPed))
@@ -662,6 +687,7 @@ RegisterCommand("ragdoll", function()
     end
 end, false)
 
+--Teleport requesting stuff
 local teleportRequests = {}
 
 RegisterCommand("tpr", function(source, args)
@@ -697,13 +723,38 @@ RegisterNetEvent("fivez:AcceptedTeleportRequest", function(accepteName)
     AddNotification(accepteName.." has accepted your teleport request!")
 end)
 
-Citizen.CreateThread(function()
-    for k,v in pairs(Config.Blips) do
-        AddTextEntry(v.labelid, v.label)
-        local blip = AddBlipForCoord(v.position.x, v.position.y, v.position.z)
-        BeginTextCommandSetBlipName(v.labelid)
-        AddTextComponentSubstringBlipName(blip)
-        EndTextCommandSetBlipName(blip)
-        SetBlipSprite(blip, v.sprite)
+--Debug command for getting player pos
+RegisterCommand("pos", function()
+    print(GetEntityCoords(GetPlayerPed(-1)))
+end, false)
+
+--Command to flip vehicle
+RegisterCommand("flipveh", function()
+    local coords = GetEntityCoords(GetPlayerPed(-1))
+    local veh = GetClosestVehicle(coords.x, coords.y, coords.z, 10.0, 0, 70)
+    if veh > 0 then
+        PlaceObjectOnGroundProperly(veh)
     end
-end)
+end, false)
+
+--Command for suicide
+RegisterCommand("suicide", function()
+    SetEntityHealth(GetPlayerPed(-1), 0)
+end, false)
+
+--Command for displaying help, TODO: Swap this out for an interactive HTML page
+RegisterCommand("help", function()
+    TriggerEvent("chat:addMessage", {
+        color = {0,0,0},
+        multiline = true,
+        args = { "ServerHelp", "Use the discord invite code (wuhCdjv8) to join discord! Or if you want to look at the forum again type /webhelp"}
+    })
+end, false)
+
+RegisterCommand("webhelp", function()
+    TriggerEvent("chat:addMessage", {
+        color = {0,0,0},
+        multiline = true,
+        args = {"ServerHelp", "For the forum type 51.161.197.99 into your web browser!"}
+    })
+end, false)

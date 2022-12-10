@@ -58,14 +58,6 @@ function SQL_GetPlayerData(ply, steamIdentifier)
                     playerSpawned = false
                 }
 
-                local characterData = nil
-                characterData = SQL_GetCharacterData(tempplayerData.Id)
-                while characterData == nil do
-                    Citizen.Wait(0)
-                end
-
-                tempplayerData.characterData = characterData
-
                 playerData = tempplayerData
             else
                 playerData = false
@@ -115,12 +107,6 @@ function SQL_CreatePlayerData(steamIdentifier, plyName)
                     playerSpawned = false
                 }
 
-                local createdChar = nil
-                createdChar = SQL_CreateCharacterData(result)
-                while createdChar == nil do
-                    Citizen.Wait(0)
-                end
-                tempData.characterData = createdChar
                 createdData = tempData
             else
                 createdData = 0

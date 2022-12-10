@@ -18,7 +18,8 @@ client_scripts {
     'client/persistentobjects.lua',
     'client/airdrop.lua',
     --'client/interiorportals.lua',
-    'client/routingportals.lua'
+    'client/routingportals.lua',
+    'client/zonemanager.lua'
 }
 
 server_scripts { 

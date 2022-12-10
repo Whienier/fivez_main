@@ -350,6 +350,14 @@ function SQL_UpdateCharacterHumanity(playerId, newHumanity)
     end)
 end
 
+function SQL_UpdateCharacterNewState(playerId)
+    MySQL.ready(function()
+        MySQL.Async.execute("UPDATE character_data SET character_isnew = FALSE WHERE player_dataid = @playerId",{
+            ["playerId"] = playerId
+        })
+    end)
+end
+
 function SQL_UpdateCharacterPosition(playerId, newPos)
     local updatedPos = false
     MySQL.ready(function()
@@ -929,6 +937,23 @@ function SQL_GetCharacterSkillsData(playerId)
     return skillData
 end
 
+RegisterNetEvent("fivez:SelectCharacter", function()
+    local source = source
+    local joinedPly = GetJoinedPlayer(source)
+    if joinedPly then
+        local charData = SQL_GetCharacterData(joinedPly.Id)
+
+        if charData then
+            joinedPly.characterdata = charData
+            if charData.isnew then
+                TriggerClientEvent("fivez:NewSpawn", charData.gender)
+            else
+                TriggerClientEvent("fivez:OpenSpawnMenu", charData.lastposition)
+            end
+        end
+    end
+end)
+
 function SQL_GetCharacterData(playerId)
     local gotCharData = nil
 
@@ -939,6 +964,7 @@ function SQL_GetCharacterData(playerId)
             if result[1] then
                 local tempgotCharData = {
                     Id = result[1].player_dataid,
+                    name = result[1].character_name
                     gender = result[1].character_gender,
                     appearance = {},
                     inventory = {},
@@ -948,6 +974,7 @@ function SQL_GetCharacterData(playerId)
                     thirst = result[1].character_thirst,
                     stress = result[1].character_stress,
                     humanity = result[1].character_humanity,
+                    isNew = result[1].character_isnew,
                     isRunning = false,
                     isShooting = false,
                     isDucking = false,
@@ -961,8 +988,6 @@ function SQL_GetCharacterData(playerId)
                 tempgotCharData.inventory = SQL_GetCharacterInventoryData(playerId)
                 
                 gotCharData = tempgotCharData
-            else
-                gotCharData = SQL_CreateCharacterData(playerId)
             end
         end)
     end)
@@ -974,12 +999,24 @@ function SQL_GetCharacterData(playerId)
     return gotCharData
 end
 
-function SQL_CreateCharacterData(playerId)
+RegisterNetEvent("fivez:CreateCharacter", function(data)
+    local source = source
+    local decodedData = json.decode(data)
+    local joinedPly = GetJoinedPlayer(source)
+    if joinedPly then
+        local createdChar = SQL_CreateCharacterData(joinedPly.Id, decodedData.firstname, decodedData.lastname, decodedData.gender)
+        if createdChar then
+            TriggerClientEvent("fivez:UpdateCharacterMenu", source, json.encode({createdChar}))
+        end
+    end
+end)
+
+function SQL_CreateCharacterData(playerId, firstName, lastName, gender)
     local createdChar = nil
-    local gender = math.random(0,1)
     MySQL.ready(function()
-        MySQL.Async.insert("INSERT INTO character_data (player_dataid, character_gender) VALUES (@playerId, @gender)", {
+        MySQL.Async.insert("INSERT INTO character_data (player_dataid, character_name, character_gender) VALUES (@playerId, @characterName, @gender)", {
             ["playerId"] = playerId,
+            ["characterName"] = firstName.." "..lastName,
             ["gender"] = gender
         }, function(result)
             if result then
@@ -998,6 +1035,7 @@ function SQL_CreateCharacterData(playerId)
                     thirst = 100,
                     stress = 0,
                     humanity = 0,
+                    isNew = true,
                     isRunning = false,
                     isShooting = false,
                     isDucking = false,

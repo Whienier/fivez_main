@@ -30,10 +30,11 @@ Config.RestrictedBuildingZones  = {
     }
 }
 
+--REMEMBER TO UPDATE CARWRECKS AND CONTAINERS STREAM FILE
 --Used mainly for a player hangout and customization
 Config.SafeZones = {
     ["The Last Hold"] = {
-        position = vector3(0,0,0),
+        position = vector3(-183.032776, -1548.34656, 34.4813),
         color = vector4(0, 0, 255, 255),
         traders = {
             barber = {vector3(0,0,0)}, --Position of the trader
@@ -42,6 +43,9 @@ Config.SafeZones = {
         }
     }
 }
+
+--Safe zone protection radius, if a zombie is closer than this to a safezone it will be removed
+Config.ZombieProtectionRadius = 100
 
 --Can be areas like military base
 Config.HighRiskZones = {
@@ -113,8 +117,7 @@ Config.InteriorPortals = {
     }
 }
 
---TODO: Link up house interiors to swap players routing buckets
---Make clients remember what portal they entered with
+--Routing interiors
 Config.RoutingInteriors = {
     [1] = {
         inPositions = {
@@ -133,6 +136,14 @@ Config.RoutingInteriors = {
     }
 }
 
+--Places a player can choose to spawn through the spawn menu
+Config.DefinedPlayerSpawns = {
+    [1] = vector3(-183.032776, -1548.34656, 34.4813), --Safezone
+    [2] = vector3(50, 50, 0), --Hospital
+    [3] = vector3(-50, -50, 0) --Police department
+}
+
+--Random spawns for players
 Config.PlayerSpawns = {
     vector3(-951.0881, -1079.3075, 2.5),
     vector3(-1047.66492, -1152.7428, 2.5),

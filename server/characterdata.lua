@@ -954,6 +954,31 @@ RegisterNetEvent("fivez:SelectCharacter", function()
     end
 end)
 
+function SQL_GetCrucialCharacterData(playerId)
+    local gotCharData = -1
+    MySQL.ready.fetchAll("SELECT * FROM character_data WHERE player_dataid = @playerId", {
+        ["playerId"] = playerId
+    }, function(result)
+        if result[1] then
+            local tempData = {
+                Id = result[1].player_dataid,
+                name = result[1].character_name,
+                gender = result[1].character_gender,
+                lastposition  = result[1].character_lastposition
+            }
+
+            gotCharData = tempData
+        else
+            gotCharData = nil
+        end
+    end)
+    while gotCharData == -1 do
+        Citizen.Wait(1)
+    end
+
+    return gotCharData
+end
+
 function SQL_GetCharacterData(playerId)
     local gotCharData = nil
 

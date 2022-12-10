@@ -38,7 +38,7 @@ local traderId = nil
 local inBarber = false
 local inClothes = false
 
-Citien.CreateThread(function()
+Citizen.CreateThread(function()
     while true do
         while not startThreads do Citizen.Wait(1) end
         if inZone and zoneTriggered then

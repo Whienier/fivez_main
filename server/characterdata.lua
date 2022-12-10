@@ -964,7 +964,7 @@ function SQL_GetCharacterData(playerId)
             if result[1] then
                 local tempgotCharData = {
                     Id = result[1].player_dataid,
-                    name = result[1].character_name
+                    name = result[1].character_name,
                     gender = result[1].character_gender,
                     appearance = {},
                     inventory = {},

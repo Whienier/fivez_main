@@ -154,6 +154,14 @@ function CheckRoutingBucket(ply)
     return false
 end
 
+function SetJoinedPlayerCharacter(playerId, characterData)
+    for k,v in pairs(joinedPlayers) do
+        if v.Id == playerId then
+            joinedPlayers[k].characterData = characterData
+        end
+    end
+end
+
 --Use steam identifier to get player from joinedPlayers table
 function GetJoinedPlayerWithSteam(source)
     local steamIdentifier = ""
@@ -212,7 +220,19 @@ RegisterNetEvent("fivez:NewCharacterCreated", function()
     if playerData then
         SQL_UpdateCharacterNewState(playerData.Id)
         playerData.playerSpawned = true
-        TriggerClientEvent("fivez:LoadCharacterData", source, json.encode(playerData.characterData))
+        local dataToSend = {
+            Id = playerData.Id,
+            name = playerData.characterData.name,
+            gender = playerData.characterData.gender,
+            health = playerData.characterData.health,
+            armor = playerData.characterData.armor,
+            hunger = playerData.characterData.hunger,
+            thirst = playerData.characterData.thirst,
+            stress = playerData.characterData.stress,
+            humanity = playerData.characterData.humanity,
+            isNew = playerData.characterData.isNew
+        }
+        TriggerClientEvent("fivez:LoadCharacterData", source, json.encode(dataToSend))
     end
 end)
 --Triggered when a players ped is spawned

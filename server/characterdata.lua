@@ -943,7 +943,7 @@ RegisterNetEvent("fivez:SelectCharacter", function()
     if joinedPly then
         local charData = SQL_GetCharacterData(joinedPly.Id)
         if charData then
-            joinedPly.characterdata = charData
+            SetJoinedPlayerCharacter(joinedPly.Id, charData)
             if charData.isNew then
                 TriggerClientEvent("fivez:NewSpawn", source, charData.gender)
             else

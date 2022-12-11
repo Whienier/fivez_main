@@ -48,6 +48,8 @@ RegisterNUICallback("character_select", function(data, cb)
         name = "CloseMenu"
     })
     SetNuiFocus(false, false)
+    --Set it to nil since we don't need it after character selection
+    characters = nil
     cb('ok')
 end)
 
@@ -57,11 +59,11 @@ RegisterNUICallback("character_delete", function(data, cb)
 end)
 
 RegisterNetEvent("fivez:UpdateCharacterMenu", function(encodedCharData)
-    local charData = json.decode(encodedCharData)
+    characters = json.decode(encodedCharData)
     SendNUIMessage({
         type = "character",
         name = "UpdateCharacters",
-        data = charData
+        data = characters
     })
 end)
 
@@ -70,7 +72,7 @@ RegisterNetEvent("fivez:OpenCharacterMenu", function(encodedCharData)
     SendNUIMessage({
         type = "character",
         name = "OpenMenu",
-        data = charData
+        data = characters
     })
     SetNuiFocus(true, true)
 end)
@@ -123,7 +125,8 @@ RegisterNetEvent('fivez:CharacterStressed', function(newStress)
 
     if characterData.stress + newStress > Config.MaxStress then
         characterData.stress = Config.MaxStress
-        if GetEntityHealth(GetPlayerPed(-1)) - 2 < 20 then
+        --TODO: Swap this out for blurry vision or something
+        if (GetEntityHealth(GetPlayerPed(-1)) - 2) < 20 then
             SetEntityHealth(GetPlayerPed(-1), 20)
         else
             SetEntityHealth(GetPlayerPed(-1), GetEntityHealth(GetPlayerPed(-1)) - 2)

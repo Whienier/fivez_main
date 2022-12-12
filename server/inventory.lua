@@ -9,7 +9,11 @@ end
 
 RegisterNetEvent("fivez:SyncMarkers", function()
     local source = source
-    TriggerClientEvent("fivez:SyncMarkersCB", source, json.encode(inventoryMarkers))
+    local markersToSend = {}
+    for k,v in pairs(inventoryMarkers) do
+        table.insert(markersToSend, v.position)
+    end
+    TriggerClientEvent("fivez:SyncMarkersCB", source, json.encode(markersToSend))
 end)
 
 function GetAllInventoryMarkers()

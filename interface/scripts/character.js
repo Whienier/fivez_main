@@ -69,6 +69,7 @@ const Character = new Vue({
         },
 
         MaxCharactersNotification(){
+            this.Updating = false;
             this.ShowMaxCharacters = true;
             setTimeout(()=>{this.ShowMaxCharacters=false;}, 5000);
         },

@@ -1051,7 +1051,6 @@ RegisterNetEvent("fivez:CreateCharacter", function(data)
     local joinedPly = GetJoinedPlayer(source)
     if joinedPly then
         local existingChar = SQL_GetCharacterData(joinedPly.Id)
-        print("Existing char", existingChar, joinedPly.Id)
         if existingChar ~= nil then return end
         local createdChar = SQL_CreateCharacterData(joinedPly.Id, decodedData.firstname, decodedData.lastname, decodedData.gender)
         if createdChar then

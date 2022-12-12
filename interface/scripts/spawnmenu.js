@@ -8,7 +8,7 @@ const Spawnmenu = new Vue({
         Locations: {
             0: {label: "Random Position", picture: "randopos"},
             1: {label: "Last Position", picture: "lastpos"},
-            2: {label: "Apartments", picture: "apartments"},
+            2: {label: "Safezone", picture: "safezone"},
             3: {label: "Hospital", picture: "hospital"},
             4: {label: "Police Department", picture: "policedepart"}
         }

@@ -202,8 +202,9 @@ RegisterNetEvent("fivez:OpenCharacterCreator", function()
     end, {ped = false, headBlend = true, faceFeatures = true, headOverlays = true, components = true, props = true, tattoos = false})
 end)
 
-AddEventHandler("fivez:OpenCharacterCustomizer", function(spawn)
+AddEventHandler("fivez:OpenCharacterCustomizer", function()
     print("Open character customizer")
+    if not characterData.isNew then print("Can't open character customizer on non new character") return end
     local playerPed = GetPlayerPed(-1)
     local customizerPos = Config.CharacterCustomizerPosition
     SetEntityCoords(playerPed, customizerPos.x, customizerPos.y, customizerPos.z, true, false, false, true)
@@ -301,7 +302,6 @@ AddEventHandler("fivez:OpenCharacterCustomizer", function(spawn)
             TriggerEvent("fivez:AddNotification", "Hold [ALT] and right click on objects to interact!", 10)
             TriggerEvent("fivez:AddNotification", "Type /webhelp or/help for more info, all keybindings are changable in settings. Good Luck!", 12)
         end
-        SetEntityCoords(playerPed, spawn.x, spawn.y, spawn.z, true, false, false, false)
     end, config)
 end)
 

@@ -225,6 +225,7 @@ RegisterNetEvent("fivez:NewCharacterCreated", function()
         playerData.playerSpawned = true
         if playerData.characterData then
             TriggerClientEvent("fivez:LoadCharacterData", source, json.encode(playerData.characterData))
+            TriggerClientEvent("fivez:OpenSpawnMenu", source, json.encode(playerData.characterData.lastposition))
         end
     end
 end)

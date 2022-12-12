@@ -161,7 +161,7 @@ function InitialSpawn(gender, lastLocation)
 
         FreezeEntityPosition(PlayerPedId(), false)
         if new then
-            TriggerEvent("fivez:OpenCharacterCustomizer", spawnLocation)
+            TriggerEvent("fivez:OpenCharacterCustomizer")
         end
         TriggerServerEvent("fivez:PlayerPedSpawned")
         Citizen.Wait(0)

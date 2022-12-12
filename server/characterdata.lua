@@ -947,7 +947,7 @@ RegisterNetEvent("fivez:SelectCharacter", function()
             if charData.isNew == true then
                 TriggerClientEvent("fivez:NewSpawn", source, charData.gender)
             else
-                TriggerClientEvent("fivez:OpenSpawnMenu", source, charData.lastposition)
+                TriggerClientEvent("fivez:OpenSpawnMenu", source, json.encode(charData.lastposition))
             end
         end
     end

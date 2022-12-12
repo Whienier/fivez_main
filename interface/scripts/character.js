@@ -39,9 +39,6 @@ const Character = new Vue({
         },
 
 		CreateCharacter() {
-            if (this.Characters.length == 1){
-                return;
-            }
             axios.post("http://"+this.ResourceName+"/character_createcharacter", {
                 first: this.NewCharacterData.FirstName,
                 last: this.NewCharacterData.LastName,

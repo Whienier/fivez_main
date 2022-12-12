@@ -981,7 +981,7 @@ function SQL_GetCrucialCharacterData(playerId)
 end
 
 function SQL_GetCharacterData(playerId)
-    local gotCharData = nil
+    local gotCharData = -1
 
     MySQL.ready(function()
         MySQL.Async.fetchAll("SELECT * FROM character_data WHERE player_dataid = @playerId", {
@@ -1014,11 +1014,13 @@ function SQL_GetCharacterData(playerId)
                 tempgotCharData.inventory = SQL_GetCharacterInventoryData(playerId)
                 
                 gotCharData = tempgotCharData
+            else
+                gotCharData = nil
             end
         end)
     end)
 
-    while gotCharData == nil do
+    while gotCharData == -1 do
         Citizen.Wait(0)
     end
 

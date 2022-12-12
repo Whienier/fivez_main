@@ -23,6 +23,8 @@ Citizen.CreateThread(function()
         for k,v in pairs(peds) do
             if DoesEntityExist(v) then
                 StopPedSpeaking(v, true)
+                SetPedTalk(v)
+                PlayPain(v, 27, 0.0, false)
             end
         end
         Citizen.Wait(1)

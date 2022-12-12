@@ -21,7 +21,7 @@ Citizen.CreateThread(function()
         if #inventoryMarkers >= 1 then
             for k,v in pairs(inventoryMarkers) do
                 if (GetGameTimer() - v.created) > Config.DeleteInventoryMarkerTime then
-                    TriggerClientEvent("fivez:RemoveGroundMarker", -1, json.encode(v.position))
+                    --TriggerClientEvent("fivez:RemoveGroundMarker", -1, json.encode(v.position))
                     table.remove(inventoryMarkers, k)
                 end
             end

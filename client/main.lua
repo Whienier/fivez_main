@@ -348,9 +348,11 @@ Citizen.CreateThread(function()
         while not startThreads do Citizen.Wait(1) end
         local vehicles = GetGamePool("CVehicle")
         for k,v in pairs(vehicles) do
-            local netId = NetworkGetNetworkIdFromEntity(v)
-            if netId then
-                TriggerServerEvent("fivez:SyncVehicleState", netId)
+            if DoesEntityExist(v) then
+                local netId = NetworkGetNetworkIdFromEntity(v)
+                if netId then
+                    TriggerServerEvent("fivez:SyncVehicleState", netId)
+                end
             end
         end
         Citizen.Wait(10000)

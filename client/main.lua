@@ -39,6 +39,7 @@ RegisterNUICallback("character_createcharacter", function(data, cb)
     if characters then
         if #characters >= 1 then
             SendNUIMessage({type = "character", name = "MaxCharacters"})
+            cb('ok')
             return
         end
     end

@@ -21,8 +21,8 @@ const Character = new Vue({
             ]
         },
         Genders: {
-            0: "Male",
-            1: "Female"
+            0: "Female",
+            1: "Male"
         }
 	},
 

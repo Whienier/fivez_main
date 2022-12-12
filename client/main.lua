@@ -365,8 +365,10 @@ RegisterNetEvent("fivez:SyncVehicleStateCB", function(vehicleNetId, data)
         SetVehicleEngineHealth(vehicle, dataDecoded.enginehealth)
         SetVehicleBodyHealth(vehicle, dataDecoded.bodyhealth)
         SetVehicleFuelLevel(vehicle, dataDecoded.fuel)
-        for k,v in pairs(dataDecoded.tyres) do
-            SetTyreHealth(vehicle, k, v)
+        if dataDecoded.tyres then
+            for k,v in pairs(dataDecoded.tyres) do
+                SetTyreHealth(vehicle, k, v)
+            end
         end
     end
 end)

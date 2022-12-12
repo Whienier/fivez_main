@@ -163,8 +163,8 @@ function InitialSpawn(gender, lastLocation)
         if new then
             TriggerEvent("fivez:OpenCharacterCustomizer", spawnLocation)
         end
-        Citizen.Wait(0)
         TriggerServerEvent("fivez:PlayerPedSpawned")
+        Citizen.Wait(0)
     end)
 end
 

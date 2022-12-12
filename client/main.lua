@@ -36,7 +36,12 @@ end)
 local characters = {}
 
 RegisterNUICallback("character_createcharacter", function(data, cb)
-    if #characters == 1 then SendNUIMessage({type = "character", name = "MaxCharacters"}) return end
+    if characters then
+        if #characters >= 1 then
+            SendNUIMessage({type = "character", name = "MaxCharacters"})
+            return
+        end
+    end
     TriggerServerEvent("fivez:CreateCharacter", json.encode({firstname = data.first, lastname = data.last, gender = data.gender}))
     cb('ok')
 end)

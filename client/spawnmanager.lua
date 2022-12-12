@@ -10,15 +10,16 @@ local spawnLocations = {
 }
 
 RegisterNUICallback("select_location", function(data, cb)
-    if data.id > 0 then
-        ShowSelectedSpawn(data.id)
+    local spawnId = tonumber(data.id)
+    if spawnId > 0 then
+        ShowSelectedSpawn(spawnId)
     end
     cb('ok')
 end)
 
 RegisterNUICallback("spawn_location", function(data, cb)
     spawnLocations[1] = nil
-    TriggerServerEvent("fivez:SpawnLocation", data.id)
+    TriggerServerEvent("fivez:SpawnLocation", tonumber(data.id))
 
     SendNUIMessage({
         type = "spawnmenu",

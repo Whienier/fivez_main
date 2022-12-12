@@ -71,3 +71,14 @@ Citizen.CreateThread(function()
         Citizen.Wait(1)
     end
 end)
+
+RegisterCommand("getinteriorname", function()
+    local pedCoords = GetPlayerPed(-1)
+    local interiorId = GetInteriorAtCoords(pedCoords.x, pedCoords.y, pedCoords.z)
+
+    if interiorId > 0 then
+        print("Interior info", GetInteriorLocationAndNamehash(interiorId))
+    else
+        print("Not in a interior")
+    end
+end)

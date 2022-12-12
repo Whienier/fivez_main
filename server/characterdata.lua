@@ -1057,7 +1057,7 @@ RegisterNetEvent("fivez:CreateCharacter", function(data)
         if createdChar then
             local data = {
                 Id = joinedPly.Id,
-                name = decodedData.firstname +" "+ decodedData.lastname,
+                name = decodedData.firstname.." ".. decodedData.lastname,
                 gender = decodedData.gender,
                 lastposition = nil
             }

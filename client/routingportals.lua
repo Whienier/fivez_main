@@ -77,7 +77,8 @@ RegisterCommand("getinteriorname", function()
     local interiorId = GetInteriorAtCoords(pedCoords.x, pedCoords.y, pedCoords.z)
 
     if interiorId > 0 then
-        print("Interior info", GetInteriorLocationAndNamehash(interiorId))
+        local intPos, intHash = GetInteriorLocationAndNamehash(interiorId)
+        print("Interior info", intPos, intHash)
     else
         print("Not in a interior")
     end

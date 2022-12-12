@@ -120,6 +120,7 @@ end
 RegisterNetEvent("fivez:EnterRoutingPortal", function(routingId, interiorId, portalId)
     local source = source
     local playerPed = GetPlayerPed(source)
+    if GetVehiclePedIsIn(playerPed, false) > 0 then TriggerClientEvent("fivez:AddNotification", source, "Cannot enter interior when inside a vehicle!") return end
     local routingPortal = Config.RoutingInteriors[routingId].inPositions[interiorId][portalId]
     --Make sure player is close enough to portal to use it
     if #(GetEntityCoords(playerPed) - routingPortal) <= 3 then
@@ -143,7 +144,7 @@ end)
 
 RegisterNetEvent("fivez:ExitRoutingPortal", function(routingId, interiorId, portalId)
     local source = source
-
+    if GetVehiclePedIsIn(GetPlayerPed(source), false) > 0 then TriggerClientEvent("fivez:AddNotification", source, "Cannot enter interior when inside a vehicle!") return end
     local routingPortal = Config.RoutingInteriors[routingId].outPosition
     if routingPortal then
         local removed = RemovePlayerFromActiveInterior(interiorId, source)

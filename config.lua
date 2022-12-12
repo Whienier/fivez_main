@@ -273,7 +273,7 @@ Config.WeaponNoise = {
         unsilenced = 0
     }
 }
-
+--TODO: Add LootableAreas table that will allow for looting inside interiors with no interactable items
 --Models of containers (dumpsters) players can loot
 Config.LootableContainers = {
     [GetHashKey("v_res_tre_storagebox")] = {

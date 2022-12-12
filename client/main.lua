@@ -350,7 +350,7 @@ Citizen.CreateThread(function()
         for k,v in pairs(vehicles) do
             if DoesEntityExist(v) then
                 local netId = NetworkGetNetworkIdFromEntity(v)
-                if netId then
+                if NetworkDoesEntityExistWithNetworkId(netId) then
                     TriggerServerEvent("fivez:SyncVehicleState", netId)
                 end
             end

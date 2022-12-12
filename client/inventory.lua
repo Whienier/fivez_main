@@ -248,7 +248,8 @@ Citizen.CreateThread(function()
         else
             local closestContainer = GetClosestLootableContainer()
             if closestContainer ~= nil then
-                if DoesEntityExist(closestContainer) then
+                local netId = NetworkGetNetworkIdFromEntity(closestContainer)
+                if DoesEntityExist(closestContainer) and NetworkDoesEntityExistWithNetworkId(netId) then
                     local objectCoords = GetEntityCoords(closestContainer)
                     if #(objectCoords - GetEntityCoords(GetPlayerPed(-1))) <= Config.ContainerMarkerDrawDistance then
                         Draw3DText(objectCoords.x, objectCoords.y, objectCoords.z - 0.5, "Open Lootable Container", 4, 0.1, 0.1)

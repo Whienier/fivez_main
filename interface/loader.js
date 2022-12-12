@@ -2,6 +2,7 @@ const Pages =
 [
 	"notifs",
 	"character",
+	"spawnmenu",
 	"hud",
 	"inventory"
 ]

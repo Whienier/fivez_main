@@ -121,18 +121,24 @@ Config.InteriorPortals = {
 Config.RoutingInteriors = {
     [1] = {
         inPositions = {
-            ["house1"] = {
+            ["house1"] = { --These portals will lead to the same routing bucket
                 [1] = vector3(-990.96, -1104.87, 2.22),
                 [2] = vector3(-1001.46, -1086.85, 2.1),
                 [3] = vector3(-989.49, -1105.96, 7.15)
             },
-            ["house2"] = {
+            ["house2"] = { --These portals will lead to a different routing bucket
                 [1] = vector3(-1035.55, -1145.91, 2.61),
                 [2] = vector3(-1024.21, -1164.67, 2.71),
                 [3] = vector3(-1037.12, -1144.48, 7.6)
             }
         },
-        outPosition = vector3(346.68, -1006, -98.87) --Multiple in positions for one as routing buckets will be assigned to each in position
+        outPosition = vector3(346.68, -1006, -98.87), --Multiple in positions for one as routing buckets will be assigned to each in position
+        lootableAreas = {
+            [1] = {
+                position = vector3(346.68, -1006, -98.87),
+                lootGrade = 0
+            }
+        }
     }
 }
 

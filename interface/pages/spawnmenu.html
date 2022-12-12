@@ -17,7 +17,7 @@
 										<v-card-title primary-title>
 											{{ spawn.label }}
 										</v-card-title>
-										<v-card-actions>
+										<v-card-actions style="padding-left:16px;padding-bottom:16px;">
 											<v-btn color="green" @click="SelectLocation(elementIndex)"><v-icon>mdi-eye</v-icon></v-btn>
 											<v-btn color="green" @click="SpawnLocation(elementIndex)"><v-icon>check</v-icon></v-btn>
 										</v-card-actions>
@@ -29,7 +29,5 @@
 				</v-container>
 			</div>
 		</div>
-		<!-- TOO MANY CHARACTERS ERROR -->
-		<!--<v-snackbar v-model="ShowMaxCharacters" :bottom="true" :multi-line="true" :timeout="6000">TESTING SNACKS</v-snackbar>-->
 	</v-main>
 </v-app>

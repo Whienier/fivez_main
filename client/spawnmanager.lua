@@ -19,6 +19,12 @@ end)
 RegisterNUICallback("spawn_location", function(data, cb)
     spawnLocations[1] = nil
     TriggerServerEvent("fivez:SpawnLocation", data.id)
+
+    SendNUIMessage({
+        type = "spawnmenu",
+        name = "CloseMenu"
+    })
+    SetNuiFocus(false, false)
     cb('ok')
 end)
 
@@ -29,6 +35,7 @@ RegisterNetEvent("fivez:OpenSpawnMenu", function(encodedLastPos)
         type = "spawnmenu",
         name = "OpenMenu"
     })
+    SetNuiFocus(true, true)
 end)
 
 function IsPlayerPedCreated()

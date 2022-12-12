@@ -103,7 +103,10 @@ Citizen.CreateThread(function()
                         playerData.characterData.thirst = 100
                         playerData.characterData.stress = 0
                         playerData.characterData.humanity = 0
-                        playerData.characterData.skills = {}
+                        for k,v in pairs(playerData.characterData.skills) do
+                            v.Xp = 0
+                            v.Level = 1
+                        end
                         SQL_ResetCharacterStats(playerData.characterData.Id, playerData.characterData.gender)
                         table.remove(deadPlayers, k)
                     end
@@ -220,19 +223,9 @@ RegisterNetEvent("fivez:NewCharacterCreated", function()
     if playerData then
         SQL_UpdateCharacterNewState(playerData.Id)
         playerData.playerSpawned = true
-        local dataToSend = {
-            Id = playerData.Id,
-            name = playerData.characterData.name,
-            gender = playerData.characterData.gender,
-            health = playerData.characterData.health,
-            armor = playerData.characterData.armor,
-            hunger = playerData.characterData.hunger,
-            thirst = playerData.characterData.thirst,
-            stress = playerData.characterData.stress,
-            humanity = playerData.characterData.humanity,
-            isNew = playerData.characterData.isNew
-        }
-        TriggerClientEvent("fivez:LoadCharacterData", source, json.encode(dataToSend))
+        if playerData.characterData then
+            TriggerClientEvent("fivez:LoadCharacterData", source, json.encode(playerData.characterData))
+        end
     end
 end)
 --Triggered when a players ped is spawned

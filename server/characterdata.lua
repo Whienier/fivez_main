@@ -265,7 +265,7 @@ function SQL_ResetCharacterStats(playerId, gender)
             ["health"] = health
         })
 
-        MySQL.Async.execute("DELETE FROM character_skills WHERE character_data_player_dataid = @playerId", {
+        MySQL.Async.execute("UPDATE character_skills SET skill_level = 1, skill_exp = 0 WHERE character_data_player_dataid = @playerId", {
             ["playerId"] = playerId
         })
 

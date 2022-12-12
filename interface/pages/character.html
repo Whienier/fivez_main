@@ -43,8 +43,8 @@
                             <v-text-field v-model="NewCharacterData.FirstName" label="First Name" :rules="NewCharacterFormRules.NameRules" :counter="20"></v-text-field>
                             <v-text-field v-model="NewCharacterData.LastName" label="Last Name" :rules="NewCharacterFormRules.NameRules" :counter="20"></v-text-field>
                             <v-radio-group v-model="NewCharacterData.Gender" :rules="NewCharacterFormRules.GenderRules">
-                                <v-radio label="Male" value="0"></v-radio>
-                                <v-radio label="Female" value="1"></v-radio>
+                                <v-radio label="Male" value="1"></v-radio>
+                                <v-radio label="Female" value="0"></v-radio>
                             </v-radio-group>
                         </v-form>
                     </v-card-text>

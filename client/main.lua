@@ -30,9 +30,10 @@ end)
 RegisterNUICallback("nui_loaded", function(data, cb)
     TriggerServerEvent("fivez:NUILoaded")
     ShutdownLoadingScreen()
-    local camera = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", Config.CharacterMenuPosition, 0, 0, 0, GetGameplayCamFov())
+    local camRot = Config.CharacterMenuCamera.rotation
+    local camera = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", Config.CharacterMenuCamera.position, camRot.x, camRot.y, camRot.z, GetGameplayCamFov())
     SetCamActive(camera, true)
-
+    
     RenderScriptCams(true, true, 0.0, true, false)
     cb('ok')
 end)

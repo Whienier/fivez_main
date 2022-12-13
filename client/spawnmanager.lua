@@ -17,16 +17,35 @@ RegisterNUICallback("select_location", function(data, cb)
     cb('ok')
 end)
 
+function ShowSelectedSpawn(locationId)
+    local spawnLocation = spawnLocations[locationId]
+    --If location doesn't exist must be last position
+    if spawnLocation == nil then 
+        if spawnLocations[1] == nil then TriggerEvent("fivez:AddNotifications", "You don't have a last position!") return end
+        spawnLocation = spawnLocations[1]
+    end
+
+    SetFocusPosAndVel(spawnLocation.x, spawnLocation.y, spawnLocation.z, 0.0, 0.0, 0.0)
+
+    if camera == nil then
+        camera = CreateCameraWithParams("DEFAULT_SCRIPTING_CAMERA", spawnLocation.x, spawnLocation.y, spawnLocation.z+10.0, 0.0, 45.0, 45.0, 90.0)
+    end
+
+    SetCamActive(camera, true)
+    RenderScriptCams(true, true, 0, true, false)
+    SetCamCoord(camera, spawnLocation.x, spawnLocation.y, spawnLocation.z+10.0)
+end
+
 RegisterNUICallback("spawn_location", function(data, cb)
     spawnLocations[1] = nil
-    TriggerServerEvent("fivez:SpawnLocation", tonumber(data.id))
-
     if camera ~= nil then
         DestroyCam(camera, true)
         SetCamActive(camera, false)
-        RenderScriptCams(false, true, 1.0, false, false)
+        RenderScriptCams(false, true, 0.0, false, false)
         camera = nil
     end
+    TriggerServerEvent("fivez:SpawnLocation", tonumber(data.id))
+
     SendNUIMessage({
         type = "spawnmenu",
         name = "CloseMenu"
@@ -180,25 +199,6 @@ function InitialSpawn(gender, lastLocation)
         TriggerServerEvent("fivez:PlayerPedSpawned")
         Citizen.Wait(0)
     end)
-end
-
-function ShowSelectedSpawn(locationId)
-    local spawnLocation = spawnLocations[locationId]
-    --If location doesn't exist must be last position
-    if spawnLocation == nil then 
-        if characterData.lastposition == nil then TriggerEvent("fivez:AddNotifications", "You don't have a last position!") return end
-        spawnLocation = characterData.lastposition 
-    end
-
-    SetFocusPosAndVel(spawnLocation.x, spawnLocation.y, spawnLocation.z, 0.0, 0.0, 0.0)
-
-    if camera == nil then
-        camera = CreateCameraWithParams("DEFAULT_SCRIPTING_CAMERA", spawnLocation.x, spawnLocation.y, spawnLocation.z+10.0, 0.0, 45.0, 45.0, 90.0, true, 0)
-    end
-
-    SetCamActive(camera, true)
-    RenderScriptCams(true, true, 0, true, false)
-    SetCamCoord(camera, spawnLocation.x, spawnLocation.y, spawnLocation.z+10.0)
 end
 
 RegisterNetEvent("fivez:RevivePlayerCB", function()

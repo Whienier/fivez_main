@@ -218,7 +218,10 @@ Config.PlayerSpawns = {
     vector3(-325.877472, -1404.6123, 32.24842)
 }
 --Camera is created at this position for when a player first loads in
-Config.CharacterMenuPosition = vector3(-183.032776, -1548.34656, 34.4813)
+Config.CharacterMenuCamera = {
+    position = vector3(-183.032776, -1548.34656, 34.4813),
+    rotation = vector3(0,0,0)
+}
 --New character customization position
 Config.CharacterCustomizerPosition = vector3(-74.73, -819.58, 325.57)
 --Rates for humanity

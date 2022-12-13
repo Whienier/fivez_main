@@ -23,7 +23,7 @@ function ShowSelectedSpawn(locationId)
     SetFocusPosAndVel(spawnLocation.x, spawnLocation.y, spawnLocation.z, 0.0, 0.0, 0.0)
 
     if camera == nil then
-        camera = CreateCameraWithParams("DEFAULT_SCRIPTING_CAMERA", spawnLocation.x, spawnLocation.y, spawnLocation.z+10.0, 0.0, 45.0, 45.0, 90.0, true, 2)
+        camera = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", spawnLocation.x, spawnLocation.y, spawnLocation.z+10.0, 0.0, 45.0, 45.0, 90.0, true, 2)
     end
 
     SetCamActive(camera, true)
@@ -212,7 +212,13 @@ end)
 RegisterNetEvent("fivez:NewSpawn", function(gender)
     InitialSpawn(gender, nil)
 end)
---Intial spawn for non new players
+--Intial spawn for non new players choosing defined spawn
+RegisterNetEvent("fivez:SpawnAtLoc", function(gender, spawnId)
+    local spawnLocation = Config.DefinedPlayerSpawns[spawnId]
+    if spawnLocation == nil then return end
+    InitialSpawn(gender, spawnLocation)
+end)
+--Intial spawn for non new players choosing last position spawn
 RegisterNetEvent("fivez:SpawnAtLastLoc", function(gender, lastLocation)
     print(lastLocation)
     lastLocation = json.decode(lastLocation)

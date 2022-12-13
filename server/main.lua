@@ -381,7 +381,7 @@ RegisterNetEvent('fivez:SpawnLocation', function(spawnId)
     local spawnLocation = Config.DefinedPlayerSpawns[spawnId]
     local joinedPly = GetJoinedPlayer(source)
     if spawnLocation ~= nil then
-        TriggerClientEvent("fivez:SpawnAtLoc", source, json.encode(spawnLocation))
+        TriggerClientEvent("fivez:SpawnAtLoc", source, joinedPly.characterData.gender, spawnId)
     elseif spawnId == 0 and spawnLocation == nil then
         if joinedPly then
             TriggerClientEvent("fivez:NewSpawn", source, joinedPly.characterData.gender)

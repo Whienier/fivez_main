@@ -217,28 +217,14 @@ Config.PlayerSpawns = {
     vector3(66.2866058, -1416.30469, 29.4901),
     vector3(-325.877472, -1404.6123, 32.24842)
 }
-
+--Camera is created at this position for when a player first loads in
+Config.CharacterMenuPosition = vector3(-183.032776, -1548.34656, 34.4813)
 --New character customization position
 Config.CharacterCustomizerPosition = vector3(-74.73, -819.58, 325.57)
 --Rates for humanity
 Config.HumanityRates = {
     ["revive"] = 750, --Used for when a player revives another, adds
     ["killplayer"] = 1500 --Used for when a player kills another, minus
-}
-
-Config.LootCrates = {
-    {
-        label = "Crate",
-        model = "adv_prop",
-        maxslots = 10,
-        maxweight = 5,
-        items = { --Override the chances of the potential items spawning
-            [1] = 10, --Now a bandage item only has 10% chance to spawn
-            [2] = -1, -- -1 for no change in spawn chance
-            [3] = 90,
-            [4] = 100
-        }
-    }
 }
 
 Config.WeaponNoise = {
@@ -3684,8 +3670,6 @@ Config.PotentialCarSpawns = {
     }
 }
 
---If the default skills are used, the default GTA levels in the pause menu
-Config.DefaultSkills = true
 --Time between level ticks
 Config.LevelTicks = 10000
 --How often client effect function of skills are run on a player
@@ -4173,9 +4157,6 @@ Config.ZombieInventoryMaxSlots = 6
 
 --Max weight of dead zombie inventory
 Config.ZombieInventoryMaxWeight = 50
-
---How often server tries to sync zombies with player, UP THIS TO LIKE 5 MINUTES ON ACTUAL TESTS
-Config.ZombieSyncDelay = 30000
 
 --Delete dead zombies after 300 seconds
 Config.DeleteDeadZombiesAfter = 300000

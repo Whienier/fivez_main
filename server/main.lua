@@ -43,6 +43,7 @@ RegisterNetEvent("baseevents:onPlayerDied", function(killedBy, pos)
     
     table.insert(deadPlayers, {ply = source, died = GetGameTimer() + Config.RespawnTimer})
 end)
+--Event to know when a player is killed
 RegisterNetEvent("baseevents:onPlayerKilled", function(killedBy, pos)
     local source = source
     local alreadyDead = false

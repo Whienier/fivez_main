@@ -191,7 +191,7 @@ function ShowSelectedSpawn(locationId)
     end
 
     SetCamActive(camera, true)
-    RenderScriptCams(true, false, 0, true, false)
+    RenderScriptCams(true, true, 0, true, false)
     SetCamCoord(camera, spawnLocation.x, spawnLocation.y, spawnLocation.z)
 end
 

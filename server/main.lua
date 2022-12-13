@@ -30,7 +30,12 @@ Citizen.CreateThread(function()
                 if v.traders.barber then
                     local barberPos = v.traders.barber.position
                     local barberPed = CreatePed(0, v.traders.barber.pedModel, barberPos.x, barberPos.y, barberPos.z, v.traders.barber.heading, true, true)
+                    while not DoesEntityExist(barberPed) do
+                        Citizen.Wait(1)
+                    end
+                    Citizen.Wait(250)
                     v.traders.barber.pedId = barberPed
+                    SetEntityCoords(barberPed, barberPos.x, barberPos.y, barberPos.z, true, false, false, false)
                     FreezeEntityPosition(barberPed, true)
                     SetEntityDistanceCullingRadius(barberPed, 50000.0)
                     SetPedArmour(barberPed, 10000)
@@ -39,7 +44,12 @@ Citizen.CreateThread(function()
                 if v.traders.clothes then
                     local clothesPos = v.traders.clothes.position
                     local clothesPed = CreatePed(0, v.traders.clothes.pedModel, clothesPos.x, clothesPos.y, clothesPos.z, v.traders.clothes.heading, true, true)
+                    while not DoesEntityExist(clothesPed) do
+                        Citizen.Wait(1)
+                    end
+                    Citizen.Wait(250)
                     v.traders.clothes.pedId = clothesPed
+                    SetEntityCoords(clothesPed, clothesPos.x, clothesPos.y, clothesPos.z, true, false, false, false)
                     FreezeEntityPosition(clothesPed, true)
                     SetEntityDistanceCullingRadius(clothesPed, 50000.0)
                     SetPedArmour(clothesPed, 10000)

@@ -70,7 +70,7 @@ Citizen.CreateThread(function()
                 local clothesPos = Config.SafeZones[safeZoneId].traders.clothes.position
                 local dist = #(pedCoords - clothesPos)
                 if dist <= 15 then
-                    DrawMarker(1, clothesPos.x, clothesPos.y, clothesPoss.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0, 255, 0, 255, true, false, 2, false, nil, nil, false)
+                    DrawMarker(1, clothesPos.x, clothesPos.y, clothesPos.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0, 255, 0, 255, true, false, 2, false, nil, nil, false)
                 end
                 if dist <= 3 then
                     inClothes = true

@@ -38,10 +38,15 @@ local traderId = nil
 local inBarber = false
 local inClothes = false
 
+local healthOnEnter = 0
+
 Citizen.CreateThread(function()
     while true do
         while not startThreads do Citizen.Wait(1) end
         if inZone and zoneTriggered then
+            if healthOnEnter > 0 then
+                SetEntityHealth(GetPlayerPed(-1), healthOnEnter)
+            end
             DisablePlayerFiring(PlayerId(), true)
             DisableControlAction(0, 106, true)
             if IsDisabledControlJustPressed(0, 106) then
@@ -75,11 +80,13 @@ Citizen.CreateThread(function()
             DisablePlayerFiring(PlayerId(), false)
         end
         if inZone and not zoneTriggered then
+            healthOnEnter = GetEntityHealth(GetPlayerPed(-1))
             zoneTriggered = true
             TriggerEvent("fivez:AddNotification", "Entering The Last Hold")
             NetworkSetFriendlyFireOption(false)
             Citizen.Wait(1000)
         elseif not inZone and zoneTriggered then
+            healthOnEnter = 0
             zoneTriggered = false
             TriggerEvent("fivez:AddNotification", "Leaving The Last Hold")
             NetworkSetFriendlyFireOption(true)

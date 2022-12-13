@@ -30,7 +30,8 @@ Citizen.CreateThread(function()
             local barberPed = CreatePed(0, v.traders.barber.pedModel, barberPos.x, barberPos.y, barberPos.z, v.traders.barber.heading, true, true)
             v.traders.barber.pedId = barberPed
             FreezeEntityPosition(barberPed, true)
-            SetEntityInvincible(barberPed, true)
+            SetEntityDistanceCullingRadius(barberPed, 50000.0)
+            SetPedArmour(barberPed, 10000)
         end
 
         if v.traders.clothes then
@@ -38,7 +39,8 @@ Citizen.CreateThread(function()
             local clothesPed = CreatePed(0, v.traders.clothes.pedModel, clothesPos.x, clothesPos.y, clothesPos.z, v.traders.clothes.heading, true, true)
             v.traders.clothes.pedId = clothesPed
             FreezeEntityPosition(clothesPed, true)
-            SetEntityInvincible(clothesPed, true)
+            SetEntityDistanceCullingRadius(clothesPed, 50000.0)
+            SetPedArmour(clothesPed, 10000)
         end
     end
 end)

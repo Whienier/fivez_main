@@ -25,6 +25,8 @@ Citizen.CreateThread(function()
                 StopPedSpeaking(v, true)
                 SetPedTalk(v)
                 PlayPain(v, 27, 0.0, false)
+                --TESTING: To see if we can get more then 3 peds to attack
+                RegisterTarget(v, GetPlayerPed(-1))
             end
         end
         Citizen.Wait(1)

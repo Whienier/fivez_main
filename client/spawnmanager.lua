@@ -19,7 +19,7 @@ function ShowSelectedSpawn(locationId)
         if lastposition == nil then TriggerEvent("fivez:AddNotifications", "You don't have a last position!") return end
         spawnLocation = lastposition
     end
-
+    ClearFocus()
     SetFocusPosAndVel(spawnLocation.x, spawnLocation.y, spawnLocation.z, 0.0, 0.0, 0.0)
 
     if camera == nil then
@@ -34,6 +34,7 @@ end
 RegisterNUICallback("spawn_location", function(data, cb)
     lastposition = nil
     if camera ~= nil then
+        ClearFocus()
         DestroyCam(camera, true)
         SetCamActive(camera, false)
         RenderScriptCams(false, true, 0.0, false, false)

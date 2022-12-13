@@ -312,6 +312,7 @@ RegisterNetEvent("fivez:PlayerPedSpawned", function()
     if playerData then
         SetPedHeadBlendData(GetPlayerPed(source), 0, 0, 0, 0, 0, 0, 0, 0, 0, false)
         SetPedDefaultComponentVariation(GetPlayerPed(source))
+        print(playerData.characterData.isNew)
         if playerData.characterData.isNew == false then
             playerData.playerSpawned = true
             local charAppearance = playerData.characterData.appearance

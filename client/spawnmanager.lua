@@ -238,7 +238,7 @@ Citizen.CreateThread(function()
             SetTextDropShadow()
             SetTextOutline()
             SetTextEntry("STRING")
-            AddTextComponentString("Spawning in:"..tostring((Config.RespawnTimer-spawnCountdown)/1000))
+            AddTextComponentString("ENTER to respawn now | Spawning in:"..tostring((Config.RespawnTimer-spawnCountdown)/1000))
             DrawText(0.5, 0.5)
             spawnCountdown = GetGameTimer() - deathTimestamp
             --If control was relased respawn player

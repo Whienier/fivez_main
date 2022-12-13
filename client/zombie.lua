@@ -3,6 +3,7 @@ local zombiesAttacking = {}
 
 AddRelationshipGroup("zombie")
 
+--TODO: IDEA create multiple groups of 'zombies' this way we can have some zombies in one group and some in another allowing for more attackers?
 SetRelationshipBetweenGroups(5, GetHashKey("zombie"), GetHashKey("PLAYER"))
 SetRelationshipBetweenGroups(5, GetHashKey("PLAYER"), GetHashKey("zombie"))
 

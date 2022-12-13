@@ -56,7 +56,7 @@ RegisterNUICallback("nui_loaded", function(data, cb)
     local camRot = Config.CharacterMenuCamera.rotation
     local camPos = Config.CharacterMenuCamera.position
     SetFocusPosAndVel(camPos.x, camPos.y, camPos.z, 0.0, 0.0, 0.0)
-    local camera = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", camPos.x, camPos.y, camPos.z, camRot.x, camRot.y, camRot.z, 90.0, true, 2)
+    local camera = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", camPos.x, camPos.y, camPos.z, camRot.x, camRot.y, camRot.z, 110.0, true, 2)
     SetCamActive(camera, true)
     SetCamCoord(camera, camPos.x, camPos.y, camPos.z)
     RenderScriptCams(true, true, 0.0, true, false)

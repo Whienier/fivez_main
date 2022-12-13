@@ -6,7 +6,7 @@ Citizen.CreateThread(function()
     while true do
         while not startThreads do Citizen.Wait(1) end
 
-        local pedCoords = GetPlayerPed(-1)
+        local pedCoords = GetEntityCoords(GetPlayerPed(-1))
         local dist = -1
         for k,v in pairs(Config.SafeZones) do
             local distance = #(pedCoords - v.position)

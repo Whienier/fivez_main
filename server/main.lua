@@ -22,26 +22,33 @@ function GetClosestDeadPlayer(coords)
     return closestDistance, closestPlayer
 end
 
---Server thread to spawn any trader peds for safe zones
+--Server thread to spawn any trader peds for safe zones, waits until somebody has connected before spawning peds
 Citizen.CreateThread(function()
-    for k,v in pairs(Config.SafeZones) do
-        if v.traders.barber then
-            local barberPos = v.traders.barber.position
-            local barberPed = CreatePed(0, v.traders.barber.pedModel, barberPos.x, barberPos.y, barberPos.z, v.traders.barber.heading, true, true)
-            v.traders.barber.pedId = barberPed
-            FreezeEntityPosition(barberPed, true)
-            SetEntityDistanceCullingRadius(barberPed, 50000.0)
-            SetPedArmour(barberPed, 10000)
-        end
+    while true do
+        if #GetPlayers() >= 1 then
+            for k,v in pairs(Config.SafeZones) do
+                if v.traders.barber then
+                    local barberPos = v.traders.barber.position
+                    local barberPed = CreatePed(0, v.traders.barber.pedModel, barberPos.x, barberPos.y, barberPos.z, v.traders.barber.heading, true, true)
+                    v.traders.barber.pedId = barberPed
+                    FreezeEntityPosition(barberPed, true)
+                    SetEntityDistanceCullingRadius(barberPed, 50000.0)
+                    SetPedArmour(barberPed, 10000)
+                end
+        
+                if v.traders.clothes then
+                    local clothesPos = v.traders.clothes.position
+                    local clothesPed = CreatePed(0, v.traders.clothes.pedModel, clothesPos.x, clothesPos.y, clothesPos.z, v.traders.clothes.heading, true, true)
+                    v.traders.clothes.pedId = clothesPed
+                    FreezeEntityPosition(clothesPed, true)
+                    SetEntityDistanceCullingRadius(clothesPed, 50000.0)
+                    SetPedArmour(clothesPed, 10000)
+                end
+            end
 
-        if v.traders.clothes then
-            local clothesPos = v.traders.clothes.position
-            local clothesPed = CreatePed(0, v.traders.clothes.pedModel, clothesPos.x, clothesPos.y, clothesPos.z, v.traders.clothes.heading, true, true)
-            v.traders.clothes.pedId = clothesPed
-            FreezeEntityPosition(clothesPed, true)
-            SetEntityDistanceCullingRadius(clothesPed, 50000.0)
-            SetPedArmour(clothesPed, 10000)
+            return
         end
+        Citizen.Wait(1)
     end
 end)
 --Event to know when a player dies

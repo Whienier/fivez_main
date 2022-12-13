@@ -144,9 +144,10 @@ Config.RoutingInteriors = {
 
 --Places a player can choose to spawn through the spawn menu
 Config.DefinedPlayerSpawns = {
-    [1] = vector3(-183.032776, -1548.34656, 34.4813), --Safezone
-    [2] = vector3(50, 50, 0), --Hospital
-    [3] = vector3(-50, -50, 0) --Police department
+    [1] = nil,
+    [2] = vector3(-183.032776, -1548.34656, 34.4813), --Safezone
+    [3] = vector3(296.36, -584.86, 43.61), --Hospital
+    [4] = vector3(432.01, -982.19, 31.39) --Police department
 }
 
 --Random spawns for players

@@ -380,7 +380,7 @@ RegisterNetEvent('fivez:SpawnLocation', function(spawnId)
     local source = source
     local spawnLocation = Config.DefinedPlayerSpawns[spawnId]
     local joinedPly = GetJoinedPlayer(source)
-    if spawnId > 1 and spawnLocation ~= nil then
+    if spawnLocation ~= nil then
         TriggerClientEvent("fivez:SpawnAtLoc", source, json.encode(spawnLocation))
     elseif spawnId == 0 and spawnLocation == nil then
         if joinedPly then
@@ -388,7 +388,7 @@ RegisterNetEvent('fivez:SpawnLocation', function(spawnId)
         else
             print("No joined player data when spawning at random location")
         end
-    else
+    elseif spawnId == 1 then
         if joinedPly then
             TriggerClientEvent("fivez:SpawnAtLastLoc", source, joinedPly.characterData.gender, json.encode(joinedPly.characterData.lastposition))
         else

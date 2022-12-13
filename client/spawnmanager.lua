@@ -2,12 +2,7 @@ local playerPedCreated = false
 local playerDied = false
 local camera = nil
 
-local spawnLocations = {
-    [1] = nil,
-    [2] = vector3(-183.032776, -1548.34656, 34.4813), --Safezone
-    [3] = vector3(296.36, -584.86, 43.61), --Hospital
-    [4] = vector3(432.01, -982.19, 31.39) --Police department
-}
+local lastposition = nil
 
 RegisterNUICallback("select_location", function(data, cb)
     local spawnId = tonumber(data.id)
@@ -18,17 +13,17 @@ RegisterNUICallback("select_location", function(data, cb)
 end)
 
 function ShowSelectedSpawn(locationId)
-    local spawnLocation = spawnLocations[locationId]
+    local spawnLocation = Config.DefinedPlayerSpawns[locationId]
     --If location doesn't exist must be last position
     if spawnLocation == nil then 
-        if spawnLocations[1] == nil then TriggerEvent("fivez:AddNotifications", "You don't have a last position!") return end
-        spawnLocation = spawnLocations[1]
+        if lastposition == nil then TriggerEvent("fivez:AddNotifications", "You don't have a last position!") return end
+        spawnLocation = lastposition
     end
 
     SetFocusPosAndVel(spawnLocation.x, spawnLocation.y, spawnLocation.z, 0.0, 0.0, 0.0)
 
     if camera == nil then
-        camera = CreateCameraWithParams("DEFAULT_SCRIPTING_CAMERA", spawnLocation.x, spawnLocation.y, spawnLocation.z+10.0, 0.0, 45.0, 45.0, 90.0)
+        camera = CreateCameraWithParams("DEFAULT_SCRIPTING_CAMERA", spawnLocation.x, spawnLocation.y, spawnLocation.z+10.0, 0.0, 45.0, 45.0, 90.0, true, 2)
     end
 
     SetCamActive(camera, true)
@@ -37,7 +32,7 @@ function ShowSelectedSpawn(locationId)
 end
 
 RegisterNUICallback("spawn_location", function(data, cb)
-    spawnLocations[1] = nil
+    lastposition = nil
     if camera ~= nil then
         DestroyCam(camera, true)
         SetCamActive(camera, false)
@@ -55,7 +50,7 @@ RegisterNUICallback("spawn_location", function(data, cb)
 end)
 
 RegisterNetEvent("fivez:OpenSpawnMenu", function(encodedLastPos)
-    spawnLocations[1] = json.decode(encodedLastPos)
+    lastposition = json.decode(encodedLastPos)
 
     SendNUIMessage({
         type = "spawnmenu",

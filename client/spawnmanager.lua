@@ -233,6 +233,10 @@ Citizen.CreateThread(function()
             AddTextComponentString("Spawning in:"..tostring((Config.RespawnTimer-spawnCountdown)/1000))
             DrawText(0.5, 0.5)
             spawnCountdown = GetGameTimer() - deathTimestamp
+            --If control was relased respawn player
+            if IsControlJustReleased(0, 191) then
+                TriggerServerEvent("fivez:DeathRespawnNow")
+            end
         end
         Citizen.Wait(0)
     end
@@ -245,7 +249,7 @@ Citizen.CreateThread(function()
             if not playerDied then
                 local deathTime = Config.RespawnTimer/1000
                 deathTimestamp = GetGameTimer()
-                AddNotification("Please wait "..tostring(deathTime).." seconds for respawn")
+                AddNotification("Please wait "..tostring(deathTime).." seconds for respawn, or press ENTER to respawn")
                 ClearFocus()
 
                 camera = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", GetEntityCoords(PlayerPedId()), 0, 0, 0, GetGameplayCamFov())

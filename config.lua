@@ -1,7 +1,7 @@
 Config = {}
 
 --How long before the server will respawn a player
-Config.RespawnTimer = 15000
+Config.RespawnTimer = 300 * 1000
 
 --When player respawns clears character inventory from database and memory
 Config.LoseItemsOnDeath = true

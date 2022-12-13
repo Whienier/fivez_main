@@ -119,6 +119,51 @@ Citizen.CreateThread(function()
         Citizen.Wait(1000)
     end
 end)
+--Event for respawning a player when they want to
+RegisterNetEvent("fivez:DeathRespawnNow", function()
+    local source = source
+    for k,v in pairs(deadPlayers) do
+        if v.ply == source then
+            local playerData = GetJoinedPlayer(source)
+            if playerData then
+                if Config.LoseItemsOnDeath then
+                    if Config.DropItemsOnDeath then
+                        local newInv = RegisterNewInventory("deadbody:"..v.ply, "inventory", "Dead Player", playerData.characterData.inventory.weight, playerData.characterData.inventory.maxweight, playerData.characterData.inventory.maxslots, playerData.characterData.inventory.items, GetEntityCoords(GetPlayerPed(v.ply)))
+                        if newInv ~= nil then
+                            AddInventoryMarker(GetEntityCoords(GetPlayerPed(v.ply)))
+                        end
+                    end
+                    SQL_ClearCharacterInventoryItems(playerData.characterData.Id)
+                    for k,v in pairs(playerData.characterData.inventory.items) do
+                        if v.itemId then
+                            playerData.characterData.inventory.items[k] = EmptySlot()
+                        end
+                    end
+                    for k,v in pairs(Config.StartingItems) do
+                        playerData.characterData.inventory.items[k] = EmptySlot()
+                        SQL_InsertItemToCharacterInventory(playerData.characterData.Id, v.slot, v.item)
+                    end
+                    TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v.ply, json.encode(playerData.characterData.inventory.items), nil)
+                end
+                
+                TriggerClientEvent("fivez:RespawnPlayer", v.ply, playerData.characterData.gender)
+                playerData.characterData.health = 100
+                playerData.characterData.armor = 0
+                playerData.characterData.hunger = 100
+                playerData.characterData.thirst = 100
+                playerData.characterData.stress = 0
+                playerData.characterData.humanity = 0
+                for k,v in pairs(playerData.characterData.skills) do
+                    v.Xp = 0
+                    v.Level = 1
+                end
+                SQL_ResetCharacterStats(playerData.characterData.Id, playerData.characterData.gender)
+                table.remove(deadPlayers, k)
+            end
+        end
+    end
+end)
+--Event for reviving players
 RegisterNetEvent("fivez:RevivePlayer", function(targetPly)
     local source = source
     local reviverPed = GetPlayerPed(source)

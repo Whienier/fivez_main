@@ -55,7 +55,7 @@ RegisterNUICallback("nui_loaded", function(data, cb)
     ShutdownLoadingScreen()
     local camRot = Config.CharacterMenuCamera.rotation
     local camPos = Config.CharacterMenuCamera.position
-    local camera = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", camPos.x, camPos.y, camPos.z, camRot.x, camRot.y, camRot.z, GetGameplayCamFov(), true, 2)
+    local camera = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", camPos.x, camPos.y, camPos.z, camRot.x, camRot.y, camRot.z, 90.0, true, 2)
     SetCamActive(camera, true)
     
     RenderScriptCams(true, true, 0.0, true, false)

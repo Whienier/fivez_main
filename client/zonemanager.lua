@@ -15,20 +15,20 @@ Citizen.CreateThread(function()
                 tempZoneId = k
             end
         end
-        --If we are quite far away increase wait time since it'll take the player some time to get in range anyway 
-        if dist >= 75 then
-            Citizen.Wait(5000)
-        elseif dist >= 150 then
-            Citizen.Wait(10000)
-        elseif dist >= 200 then
-            Citizen.Wait(20000)
-        end
         if dist < 50 and inZone == false then
             inZone = true
             safeZoneId = tempZoneId
         elseif dist > 50 and inZone == true then
             inZone = false
             safeZoneId = nil
+        end
+        --If we are far away increase wait time since it'll take the player some time to get in range anyway 
+        if dist >= 75 and dist <= 149 then
+            Citizen.Wait(5000)
+        elseif dist >= 150 and dist <= 199 then
+            Citizen.Wait(10000)
+        elseif dist >= 200 then
+            Citizen.Wait(20000)
         end
         Citizen.Wait(1)
     end

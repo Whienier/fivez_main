@@ -21,6 +21,11 @@ RegisterNUICallback("spawn_location", function(data, cb)
     spawnLocations[1] = nil
     TriggerServerEvent("fivez:SpawnLocation", tonumber(data.id))
 
+    if camera ~= nil then
+        SetCamActive(camera, false)
+        RenderScriptCams(false, true, 1.0, true, false)
+        camera = nil
+    end
     SendNUIMessage({
         type = "spawnmenu",
         name = "CloseMenu"
@@ -187,12 +192,12 @@ function ShowSelectedSpawn(locationId)
     SetFocusPosAndVel(spawnLocation.x, spawnLocation.y, spawnLocation.z, 0.0, 0.0, 0.0)
 
     if camera == nil then
-        camera = CreateCameraWithParams("DEFAULT_SCRIPTING_CAMERA", spawnLocation.x, spawnLocation.y, spawnLocation.z, 0.0, 0.0, 0.0, 90.0, true, 0)
+        camera = CreateCameraWithParams("DEFAULT_SCRIPTING_CAMERA", spawnLocation.x, spawnLocation.y, spawnLocation.z, 0.0, 45.0, 0.0, 90.0, true, 0)
     end
 
     SetCamActive(camera, true)
     RenderScriptCams(true, true, 0, true, false)
-    SetCamCoord(camera, spawnLocation.x, spawnLocation.y, spawnLocation.z)
+    SetCamCoord(camera, spawnLocation.x, spawnLocation.y, spawnLocation.z+10.0)
 end
 
 RegisterNetEvent("fivez:RevivePlayerCB", function()

@@ -23,7 +23,7 @@ function ShowSelectedSpawn(locationId)
     SetFocusPosAndVel(spawnLocation.x, spawnLocation.y, spawnLocation.z, 0.0, 0.0, 0.0)
 
     if camera == nil then
-        camera = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", spawnLocation.x, spawnLocation.y, spawnLocation.z+10.0, 0.0, 70.0, 0.0, 90.0, true, 2)
+        camera = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", spawnLocation.x, spawnLocation.y, spawnLocation.z+10.0, 70.0, 0.0, 0.0, 90.0, true, 2)
     end
 
     SetCamActive(camera, true)

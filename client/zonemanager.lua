@@ -23,14 +23,14 @@ Citizen.CreateThread(function()
             safeZoneId = nil
         end
         --If we are far away increase wait time since it'll take the player some time to get in range anyway 
-        if dist >= 75 and dist <= 149 then
+--[[         if dist >= 75 and dist <= 149 then
             Citizen.Wait(5000)
         elseif dist >= 150 and dist <= 199 then
             Citizen.Wait(10000)
         elseif dist >= 200 then
             Citizen.Wait(20000)
-        end
-        Citizen.Wait(1)
+        end ]]
+        Citizen.Wait(1500)
     end
 end)
 
@@ -54,9 +54,10 @@ Citizen.CreateThread(function()
             end
             local pedCoords = GetEntityCoords(GetPlayerPed(-1))
             if Config.SafeZones[safeZoneId].traders.barber then
-                local dist = #(pedCoords - v.traders.barber)
+                local barberPos = Config.SafeZones[safeZoneId].traders.barber.position
+                local dist = #(pedCoords - barberPos)
                 if dist <= 15 then
-                    DrawMarker(1, v.traders.barber.x, v.traders.barber.y, v.traders.barber.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0, 255, 0, 255, true, false, 2, false, nil, nil, false)
+                    DrawMarker(1, barberPos.x, barberPos.y, barberPos.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0, 255, 0, 255, true, false, 2, false, nil, nil, false)
                 end
                 if dist <= 3 then
                     inBarber = true
@@ -66,9 +67,10 @@ Citizen.CreateThread(function()
             end
 
             if Config.SafeZones[safeZoneId].traders.clothes then
-                local dist = #(pedCoords - v.traders.clothes)
+                local clothesPos = Config.SafeZones[safeZoneId].traders.clothes.position
+                local dist = #(pedCoords - clothesPos)
                 if dist <= 15 then
-                    DrawMarker(1, v.traders.clothes.x, v.traders.clothes.y, v.traders.clothes.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0, 255, 0, 255, true, false, 2, false, nil, nil, false)
+                    DrawMarker(1, clothesPos.x, clothesPos.y, clothesPoss.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0, 255, 0, 255, true, false, 2, false, nil, nil, false)
                 end
                 if dist <= 3 then
                     inClothes = true

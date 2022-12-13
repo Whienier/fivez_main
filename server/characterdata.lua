@@ -1367,7 +1367,7 @@ end
 function LoadCharacterAppearanceData(ply, appearanceData)
     local playerPed = GetPlayerPed(ply)
 
-    SetPedHeadBlendData(playerPed, appearanceData.parents.fatherShape, appearanceData.parents.motherShape, 0, appearanceData.parents.fatherSkin, appearanceData.parents.motherSkin, 0, appearanceData.parents.shapeMix, appearanceData.parents.skinMix, 0, false)
+    SetPedHeadBlendData(playerPed, appearanceData.parents.motherShape, appearanceData.parents.fatherShape, 0, appearanceData.parents.motherSkin, appearanceData.parents.fatherSkin, 0, appearanceData.parents.shapeMix, appearanceData.parents.skinMix, 0, false)
     
     SetPedComponentVariation(playerPed, 0, appearanceData.components.face.drawable, appearanceData.components.face.texture, 0)
     SetPedComponentVariation(playerPed, 1, appearanceData.components.mask.drawable, appearanceData.components.mask.texture, 0)

@@ -22,6 +22,26 @@ function GetClosestDeadPlayer(coords)
     return closestDistance, closestPlayer
 end
 
+--Server thread to spawn any trader peds for safe zones
+Citizen.CreateThread(function()
+    for k,v in pairs(Config.SafeZones) do
+        if v.traders.barber then
+            local barberPos = v.traders.barber.position
+            local barberPed = CreatePed(0, v.traders.barber.pedModel, barberPos.x, barberPos.y, barberPos.z, v.traders.barber.heading, true, true)
+            v.traders.barber.pedId = barberPed
+            FreezeEntityPosition(barberPed, true)
+            SetEntityInvincible(barberPed, true)
+        end
+
+        if v.traders.clothes then
+            local clothesPos = v.traders.clothes.position
+            local clothesPed = CreatePed(0, v.traders.clothes.pedModel, clothesPos.x, clothesPos.y, clothesPos.z, v.traders.clothes.heading, true, true)
+            v.traders.clothes.pedId = clothesPed
+            FreezeEntityPosition(clothesPed, true)
+            SetEntityInvincible(clothesPed, true)
+        end
+    end
+end)
 --Event to know when a player dies
 RegisterNetEvent("baseevents:onPlayerDied", function(killedBy, pos)
     local source = source

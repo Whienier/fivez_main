@@ -65,13 +65,16 @@ function IsPlayerPedCreated()
     return playerPedCreated
 end
 
-function RespawnPlayer(onSpot, newGender)
+function RespawnPlayer(onSpot, newGender, spawnId)
     local playerPed = GetPlayerPed(-1)
     local pedHealth = GetEntityHealth(playerPed)
     if pedHealth <= 0 or IsPedDeadOrDying(playerPed) then
         local respawnPos = nil
         if onSpot == false then
-            respawnPos = Config.PlayerSpawns[math.random(#Config.PlayerSpawns)]
+            respawnPos = Config.DefinedPlayerSpawns[spawnId]
+            if respawnPos == nil then
+                respawnPos = Config.PlayerSpawns[math.random(#Config.PlayerSpawns)]
+            end
         elseif onSpot == true then
             respawnPos = GetEntityCoords(playerPed)
         end
@@ -203,13 +206,13 @@ RegisterNetEvent("fivez:RevivePlayerCB", function()
     RespawnPlayer(true)
 end)
 
-RegisterNetEvent("fivez:RespawnPlayer", function(newGender)
+RegisterNetEvent("fivez:RespawnPlayer", function(newGender, spawnId)
     ClearFocus()
     RenderScriptCams(false, false, 0, true, false)
     DestroyCam(camera, false)
 
     camera = nil
-    RespawnPlayer(false, newGender)
+    RespawnPlayer(false, newGender, spawnId)
 end)
 --Initial spawn for new players
 RegisterNetEvent("fivez:NewSpawn", function(gender)

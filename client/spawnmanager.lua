@@ -32,6 +32,8 @@ function ShowSelectedSpawn(locationId)
 end
 
 RegisterNUICallback("spawn_location", function(data, cb)
+    --Fade the screen out before destroying the camera
+    DoScreenFadeOut(100)
     lastposition = nil
     if camera ~= nil then
         ClearFocus()
@@ -40,7 +42,6 @@ RegisterNUICallback("spawn_location", function(data, cb)
         RenderScriptCams(false, true, 0.0, false, false)
         camera = nil
     end
-    DoScreenFadeOut(500)
     TriggerServerEvent("fivez:SpawnLocation", tonumber(data.id))
 
     SendNUIMessage({

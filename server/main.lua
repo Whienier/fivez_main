@@ -1,6 +1,7 @@
 joinedPlayers = {}
 
 local deadPlayers = {}
+local wasDead = {}
 
 function GetClosestDeadPlayer(coords)
     local closestPlayer = -1
@@ -136,7 +137,9 @@ Citizen.CreateThread(function()
                             TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v.ply, json.encode(playerData.characterData.inventory.items), nil)
                         end
                         print("Respawning player", v.ply)
-                        TriggerClientEvent("fivez:RespawnPlayer", v.ply, newGender)
+                        TriggerClientEvent("fivez:OpenSpawnMenu", source, nil)
+                        table.insert(wasDead, v.ply)
+                        --TriggerClientEvent("fivez:RespawnPlayer", v.ply, newGender)
                         playerData.characterData.health = 100
                         playerData.characterData.armor = 0
                         playerData.characterData.hunger = 100
@@ -186,6 +189,7 @@ RegisterNetEvent("fivez:DeathRespawnNow", function()
                 end
                 
                 TriggerClientEvent("fivez:OpenSpawnMenu", source, nil)
+                table.insert(wasDead, v.ply)
                 --TriggerClientEvent("fivez:RespawnPlayer", v.ply, playerData.characterData.gender)
                 playerData.characterData.health = 100
                 playerData.characterData.armor = 0
@@ -399,7 +403,14 @@ RegisterNetEvent('fivez:SpawnLocation', function(spawnId)
     local spawnLocation = Config.DefinedPlayerSpawns[spawnId]
     local joinedPly = GetJoinedPlayer(source)
     print("Player health", GetEntityHealth(GetPlayerPed(source)))
-    if GetEntityHealth(GetPlayerPed(source)) == 0 then
+    local plyWasDead = false
+    for k,v in pairs(wasDead) do
+        if v == source then
+            plyWasDead = true
+            table.remove(wasDead, k)
+        end
+    end
+    if plyWasDead then
         TriggerClientEvent("fivez:RespawnPlayer", source, v.ply, joinedPly.characterData.gender, spawnId)
         return
     end

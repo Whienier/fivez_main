@@ -55,7 +55,8 @@ Citizen.CreateThread(function()
             for k,v in pairs(inventories) do
                 if v.pos ~= nil then
                     if v.pos.x ~= nil and v.pos.y ~= nil and v.pos.z ~= nil then
-                        local dist = #(v.pos - pedCoords)
+                        local posVector = vector3(v.pos.x, v.pos.y, v.pos.z)
+                        local dist = #(posVector - pedCoords)
                         if dist >= 15 then
                             DrawMarker(3, v.pos.x, v.pos.y, v.pos.z-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.1, 0.25, 0, 255, 0, 255, true, true, 2, true, NULL, NULL, false)
                         end

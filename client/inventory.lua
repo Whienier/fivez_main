@@ -52,7 +52,8 @@ end)
 --Draws little green markers where inventories are
 Citizen.CreateThread(function()
     while true do
-        if #inventories >= 1 then
+        --If there are inventories to draw and we aren't in a vehicle or dead
+        if #inventories >= 1 and (not IsPedInAnyVehicle(PlayerPedId(), false) or GetEntityHealth(GetPlayerPed(-1)) <= 0) then
             local pedCoords = GetEntityCoords(GetPlayerPed(-1))
             for k,v in pairs(inventories) do
                 if v.pos ~= nil then

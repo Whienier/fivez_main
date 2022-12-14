@@ -619,7 +619,8 @@ Config.Bags = {
         maxweight = 50
     }
 }
-
+--How close a player has to be too a marker for it to be set over network to be drawn
+Config.InventoryMarkersSyncDistance = 120
 --Distance player is away from a lootable container to draw a marker
 Config.ContainerMarkerDrawDistance = 5
 

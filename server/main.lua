@@ -411,7 +411,7 @@ RegisterNetEvent('fivez:SpawnLocation', function(spawnId)
         end
     end
     if plyWasDead then
-        TriggerClientEvent("fivez:RespawnPlayer", source, v.ply, joinedPly.characterData.gender, spawnId)
+        TriggerClientEvent("fivez:RespawnPlayer", source, joinedPly.characterData.gender, spawnId)
         return
     end
     if spawnLocation ~= nil then

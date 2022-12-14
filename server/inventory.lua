@@ -9,9 +9,12 @@ end
 
 RegisterNetEvent("fivez:SyncMarkers", function()
     local source = source
+    local pedCoords = GetEntityCoords(GetPlayerPed(-1))
     local markersToSend = {}
     for k,v in pairs(inventoryMarkers) do
-        table.insert(markersToSend, v.position)
+        if #(v.position - pedCoords) <= Config.InventoryMarkersSyncDistance then
+            table.insert(markersToSend, v.position)
+        end
     end
     TriggerClientEvent("fivez:SyncMarkersCB", source, json.encode(markersToSend))
 end)

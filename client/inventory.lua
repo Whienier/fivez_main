@@ -48,6 +48,7 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
     end
 end)
+--TODO: Optimize this as it slowly increases CPU usage, maybe have a hard cap or only send ones close to the player
 --Draws little green markers where inventories are
 Citizen.CreateThread(function()
     while true do

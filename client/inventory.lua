@@ -19,6 +19,7 @@ end)
 RegisterNetEvent("fivez:SyncMarkersCB", function(encodedMarkers)
     local decodedMarkers = json.decode(encodedMarkers)
     for k,v in pairs(decodedMarkers) do
+        print(v, json.decode(v))
         local tempVector = vector3(v.x. v.y, v.z)
         table.insert(inventories, {pos = tempVector})
     end

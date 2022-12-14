@@ -19,7 +19,8 @@ end)
 RegisterNetEvent("fivez:SyncMarkersCB", function(encodedMarkers)
     local decodedMarkers = json.decode(encodedMarkers)
     for k,v in pairs(decodedMarkers) do
-        table.insert(inventories, {pos = v})
+        local tempVector = vector3(v.x. v.y, v.z)
+        table.insert(inventories, {pos = tempVector})
     end
 end)
 
@@ -55,9 +56,8 @@ Citizen.CreateThread(function()
             for k,v in pairs(inventories) do
                 if v.pos ~= nil then
                     if v.pos.x ~= nil and v.pos.y ~= nil and v.pos.z ~= nil then
-                        local posVector = vector3(v.pos.x, v.pos.y, v.pos.z)
-                        local dist = #(posVector - pedCoords)
-                        if dist >= 15 then
+                        local dist = #(v.pos - pedCoords)
+                        if dist <= 15 then
                             DrawMarker(3, v.pos.x, v.pos.y, v.pos.z-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.1, 0.25, 0, 255, 0, 255, true, true, 2, true, NULL, NULL, false)
                         end
                     end

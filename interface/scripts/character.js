@@ -49,12 +49,12 @@ const Character = new Vue({
         },
 
 		SelectCharacter(_id) {
-            axios.post(`http://${this.ResourceName}/character_select`, { id: _id }).then((response) => { console.log(response) }).catch((error) => { console.log(error) });
+            axios.post(`http://${this.ResourceName}/character_select`, { id: _id }).then((response) => { }).catch((error) => { console.log(error) });
             this.ShowCreator = false;
         },
 
 		DeleteCharacter(_id) {
-			axios.post(`http://${this.ResourceName}/character_delete`, {id: _id}).then((response) => { console.log(response) }).catch((error) => { console.log(error) });
+			axios.post(`http://${this.ResourceName}/character_delete`, {id: _id}).then((response) => { }).catch((error) => { console.log(error) });
             this.Updating = true;
         },
 
@@ -75,7 +75,7 @@ const Character = new Vue({
         },
 
         Disconnect() {
-            axios.post(`http://${this.ResourceName}/disconnect`, {}).then((response) => { console.log(response) }).catch((error) => { console.log(error) });
+            axios.post(`http://${this.ResourceName}/disconnect`, {}).then((response) => { }).catch((error) => { console.log(error) });
         }
 	}
 })

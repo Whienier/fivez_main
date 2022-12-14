@@ -26,11 +26,11 @@ const Spawnmenu = new Vue({
         },
 
         SelectLocation(_id) {
-            axios.post(`http://${this.ResourceName}/select_location`, { id: _id }).then((response) => { console.log(response) }).catch((error) => { console.log(error) });
+            axios.post(`http://${this.ResourceName}/select_location`, { id: _id }).then((response) => { }).catch((error) => { console.log(error) });
         },
 
         SpawnLocation(_id) {
-            axios.post(`http://${this.ResourceName}/spawn_location`, { id: _id }).then((response) => { console.log(response) }).catch((error) => { console.log(error) });
+            axios.post(`http://${this.ResourceName}/spawn_location`, { id: _id }).then((response) => { }).catch((error) => { console.log(error) });
         }
     }
 })

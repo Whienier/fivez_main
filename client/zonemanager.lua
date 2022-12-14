@@ -38,15 +38,10 @@ local traderId = nil
 local inBarber = false
 local inClothes = false
 
-local healthOnEnter = 0
-
 Citizen.CreateThread(function()
     while true do
         while not startThreads do Citizen.Wait(1) end
         if inZone and zoneTriggered then
-            if healthOnEnter > 0 then
-                SetEntityHealth(GetPlayerPed(-1), healthOnEnter)
-            end
             DisablePlayerFiring(PlayerId(), true)
             DisableControlAction(0, 106, true)
             if IsDisabledControlJustPressed(0, 106) then
@@ -57,6 +52,7 @@ Citizen.CreateThread(function()
                 local barberPos = Config.SafeZones[safeZoneId].traders.barber.position
                 local dist = #(pedCoords - barberPos)
                 if dist <= 15 then
+                    Draw3DText(barberPos.x, barberPos.y, barberPos.z, "Interact with Craig", 1.0, 1.0)
                     DrawMarker(1, barberPos.x, barberPos.y, barberPos.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0, 255, 0, 255, true, false, 2, false, nil, nil, false)
                 end
                 if dist <= 3 then
@@ -70,6 +66,8 @@ Citizen.CreateThread(function()
                 local clothesPos = Config.SafeZones[safeZoneId].traders.clothes.position
                 local dist = #(pedCoords - clothesPos)
                 if dist <= 15 then
+                    --TODO: Make UI for buying stuff? Or use inventory shop system
+                    Draw3DText(clothesPos.x, clothesPos.y, clothesPos.z, "Interact with Doug", 1.0, 1.0)
                     DrawMarker(1, clothesPos.x, clothesPos.y, clothesPos.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0, 255, 0, 255, true, false, 2, false, nil, nil, false)
                 end
                 if dist <= 3 then
@@ -82,16 +80,22 @@ Citizen.CreateThread(function()
             DisablePlayerFiring(PlayerId(), false)
         end
         if inZone and not zoneTriggered then
-            healthOnEnter = GetEntityHealth(GetPlayerPed(-1))
+            --Set player as invincible
+            SetPlayerInvincible(PlayerId(), true)
+            --Disable PvP
+            SetCanAttackFriendly(GetPlayerPed(-1), false, false)
+            NetworkSetFriendlyFireOption(false)
             zoneTriggered = true
             TriggerEvent("fivez:AddNotification", "Entering The Last Hold")
-            NetworkSetFriendlyFireOption(false)
             Citizen.Wait(1000)
         elseif not inZone and zoneTriggered then
-            healthOnEnter = 0
+            --Disable invinciblity
+            SetPlayerInvincible(PlayerId(), false)
+            --Enable PvP
+            SetCanAttackFriendly(GetPlayerPed(-1), true, false)
+            NetworkSetFriendlyFireOption(true)
             zoneTriggered = false
             TriggerEvent("fivez:AddNotification", "Leaving The Last Hold")
-            NetworkSetFriendlyFireOption(true)
             Citizen.Wait(1000)
         end
         Citizen.Wait(1)
@@ -103,6 +107,9 @@ Citizen.CreateThread(function()
         if inBarber then
             if IsControlJustReleased(0, 191) then
                 --Trigger fivem appearance
+                exports["fivem-appearance"]:startPlayerCustomization(function()
+                
+                end, {ped = false, headBlend = false, faceFeatures = false, headOverlays = false, components = false, props = false, tattoos = false})
             end
         elseif inClothes then
             if IsControlJustReleased(0, 191) then

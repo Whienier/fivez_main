@@ -649,6 +649,7 @@ Config.MinQuality = 40
 --Max quality spawned items can be
 Config.MaxQuality = 100
 
+--TODO: Make items have 'price' variable that is a table that defines what other items they'll trade for
 Config.Items = {
     [1] = {
         itemId = 1,

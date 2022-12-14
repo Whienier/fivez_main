@@ -185,7 +185,8 @@ RegisterNetEvent("fivez:DeathRespawnNow", function()
                     TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v.ply, json.encode(playerData.characterData.inventory.items), nil)
                 end
                 
-                TriggerClientEvent("fivez:RespawnPlayer", v.ply, playerData.characterData.gender)
+                TriggerClientEvent("fivez:OpenSpawnMenu", source, nil)
+                --TriggerClientEvent("fivez:RespawnPlayer", v.ply, playerData.characterData.gender)
                 playerData.characterData.health = 100
                 playerData.characterData.armor = 0
                 playerData.characterData.hunger = 100

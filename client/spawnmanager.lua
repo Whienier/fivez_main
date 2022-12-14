@@ -40,6 +40,7 @@ RegisterNUICallback("spawn_location", function(data, cb)
         RenderScriptCams(false, true, 0.0, false, false)
         camera = nil
     end
+    DoScreenFadeOut(500)
     TriggerServerEvent("fivez:SpawnLocation", tonumber(data.id))
 
     SendNUIMessage({
@@ -136,11 +137,12 @@ function InitialSpawn(gender, lastLocation)
     Citizen.CreateThread(function()
         local playerPed = GetPlayerPed(-1)
 
-        DoScreenFadeOut(500)
-        while not IsScreenFadedOut() do
-            Citizen.Wait(0)
+        if not IsScreenFadedOut() then
+            DoScreenFadeOut(500)
+            while not IsScreenFadedOut() do
+                Citizen.Wait(0)
+            end
         end
-
         FreezeEntityPosition(playerPed, true)
 
         local model = ""

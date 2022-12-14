@@ -409,7 +409,7 @@ function CalculateLootableContainer(model)
                             rng = math.random(itemMinQuality, itemMaxQuality)
                             itemData.quality = rng
                             --If adding this item puts the inventory over max weight break
-                            if inventoryWeight + item.weight > container.maxweight then break end
+                            if inventoryWeight + itemData.weight > container.maxweight then break end
                             inventoryWeight = inventoryWeight + itemData.weight
                             for k,v in pairs(items) do
                                 if v.model == "empty" then

@@ -398,6 +398,7 @@ RegisterNetEvent('fivez:SpawnLocation', function(spawnId)
     local source = source
     local spawnLocation = Config.DefinedPlayerSpawns[spawnId]
     local joinedPly = GetJoinedPlayer(source)
+    print("Player health", GetEntityHealth(GetPlayerPed(source)))
     if GetEntityHealth(GetPlayerPed(source)) == 0 then
         TriggerClientEvent("fivez:RespawnPlayer", source, v.ply, joinedPly.characterData.gender, spawnId)
         return

@@ -234,17 +234,21 @@ RegisterNetEvent("fivez:CheckClosestObject", function(object)
 end)
 
 local lowPerformance = true
-
+local test = false
+local test1 = false
 --Loop to draw 3D text on lootable container objects
 Citizen.CreateThread(function()
     while true do
         if not lowPerformance then
             for k,object in pairs(GetGamePool("CObject")) do
-                for k,v in pairs(Config.LootableContainers) do
-                    if k == GetEntityModel(object) then
-                        local objectCoords = GetEntityCoords(object)
-                        if #(objectCoords - GetEntityCoords(GetPlayerPed(-1))) <= Config.ContainerMarkerDrawDistance then
-                            Draw3DText(objectCoords.x, objectCoords.y, objectCoords.z - 0.5, "Open Lootable Container", 4, 0.1, 0.1)
+                local netId = NetworkGetNetworkIdFromEntity(object)
+                if NetworkDoesEntityExistWithNetworkId(netId) then
+                    for k,v in pairs(Config.LootableContainers) do
+                        if k == GetEntityModel(object) then
+                            local objectCoords = GetEntityCoords(object)
+                            if #(objectCoords - GetEntityCoords(GetPlayerPed(-1))) <= Config.ContainerMarkerDrawDistance then
+                                Draw3DText(objectCoords.x, objectCoords.y, objectCoords.z - 0.5, "Open Lootable Container", 4, 0.1, 0.1)
+                            end
                         end
                     end
                 end
@@ -253,11 +257,29 @@ Citizen.CreateThread(function()
             local plyCoords = GetEntityCoords(GetPlayerPed(-1))
             local closestContainer = GetClosestLootableContainer(plyCoords)
             if closestContainer ~= nil then
-                local netId = NetworkGetNetworkIdFromEntity(closestContainer)
-                if NetworkDoesEntityExistWithNetworkId(netId) then
+                if not test and not test1 then
+                    --Original
+                    local netId = NetworkGetNetworkIdFromEntity(closestContainer)
+                    if NetworkDoesEntityExistWithNetworkId(netId) then
+                        local objectCoords = GetEntityCoords(closestContainer)
+                        if #(objectCoords - plyCoords) <= Config.ContainerMarkerDrawDistance then
+                            Draw3DText(objectCoords.x, objectCoords.y, objectCoords.z - 0.5, "Open Lootable Container", 4, 0.1, 0.1)
+                        end
+                    end
+                elseif test1 then
+                    --No checking of net id
                     local objectCoords = GetEntityCoords(closestContainer)
                     if #(objectCoords - plyCoords) <= Config.ContainerMarkerDrawDistance then
                         Draw3DText(objectCoords.x, objectCoords.y, objectCoords.z - 0.5, "Open Lootable Container", 4, 0.1, 0.1)
+                    end
+                elseif test then
+                    --Only checks if net id is greater than 0
+                    local netId = NetworkGetNetworkIdFromEntity(closestContainer)
+                    if netId > 0 then
+                        local objectCoords = GetEntityCoords(closestContainer)
+                        if #(objectCoords - plyCoords) <= Config.ContainerMarkerDrawDistance then
+                            Draw3DText(objectCoords.x, objectCoords.y, objectCoords.z - 0.5, "Open Lootable Container", 4, 0.1, 0.1)
+                        end
                     end
                 end
             end
@@ -273,6 +295,16 @@ RegisterCommand("lowperformance", function()
         status = "enabled"
     end
     TriggerEvent("fivez:AddNotification", "Low Performance:"..status)
+end, false)
+
+RegisterCommand("testperformance", function()
+    test1 = false
+    test = true
+end, false)
+
+RegisterCommand("test1performance", function()
+    test = false
+    test1 = true
 end, false)
 
 function GetClosestLootableContainer(plyCoords)

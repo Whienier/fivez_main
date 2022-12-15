@@ -76,16 +76,16 @@ Citizen.CreateThread(function()
                     if v.traders.barber.pedId == -1 then
                         print("Spawning barber ped")
                         local barberPos = v.traders.barber.position
-                        local barberPed = CreatePed(0, v.traders.barber.pedModel, barberPos.x, barberPos.y, barberPos.z, v.traders.barber.heading, true, true)
+                        local barberPed = CreatePed(0, v.traders.barber.pedModel, barberPos.x-0.0, barberPos.y-0.0, barberPos.z-0.0, v.traders.barber.heading, true, false)
                         while not DoesEntityExist(barberPed) do
                             Citizen.Wait(1)
                         end
                         Citizen.Wait(250)
+                        SetEntityDistanceCullingRadius(barberPed, 50000.0)
                         print("Spawned barber ped")
                         v.traders.barber.pedId = barberPed
                         SetEntityCoords(barberPed, barberPos.x, barberPos.y, barberPos.z, true, false, false, false)
                         FreezeEntityPosition(barberPed, true)
-                        SetEntityDistanceCullingRadius(barberPed, 50000.0)
                     end
                 end
         

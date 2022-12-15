@@ -37,8 +37,8 @@ Config.SafeZones = {
         position = vector3(-183.032776, -1548.34656, 34.4813),
         color = vector4(0, 0, 255, 255),
         traders = {
-            barber = {markerlabel = "Interact with Craig", position = vector3(-186.8689, -1533.475, 33.73635), heading = 0, pedId = -1, pedModel = GetHashKey("A_M_M_StudioParty_01")}, --Position of the trader
-            clothes = {markerlabel = "Interact with Dale", position = vector3(-173.7581, -1529.785, 34.35387), heading = 0, pedId = -1, pedModel = GetHashKey("A_M_M_StudioParty_01")},
+            barber = {markerlabel = "Interact with Craig", position = vector3(-186.8689, -1533.475, 33.73635), heading = 0.0, pedId = -1, pedModel = GetHashKey("A_M_M_StudioParty_01")}, --Position of the trader
+            clothes = {markerlabel = "Interact with Dale", position = vector3(-173.7581, -1529.785, 34.35387), heading = 0.0, pedId = -1, pedModel = GetHashKey("A_M_M_StudioParty_01")},
             playerTrading = true --Allows for player trading through-out the zone
         }
     }

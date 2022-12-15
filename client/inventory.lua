@@ -222,6 +222,13 @@ end)
 
 RegisterNetEvent("fivez:GetClosestInventoryCB", function(closestInventoryData)
     otherInventory = json.decode(closestInventoryData)
+    
+    RequestAnimDict("anim@amb@business@bgen@bgen_no_work@")
+    while not HasAnimDictLoaded("anim@amb@business@bgen@bgen_no_work@") do
+        RequestAnimDict("anim@amb@business@bgen@bgen_no_work@")
+        Citizen.Wait(1)
+    end
+    TaskPlayAnim(GetPlayerPed(-1), "anim@amb@business@bgen@bgen_no_work@", "stand_phone_phonepickup_phone01", 5.0, 1.0, 500, 50, 0, 0, 0, 0)
 end)
 
 RegisterNetEvent("fivez:CheckClosestObject", function(object)
@@ -310,12 +317,12 @@ RegisterNetEvent("fivez:PlayHolsterAnimation", function()
 end)
 --Event for playing animation when player drops an item
 RegisterNetEvent("fivez:PlayDroppedItemAnimation", function()
-    RequestAnimDict("mp_common")
-    while not HasAnimDictLoaded("mp_common") do
-        RequestAnimDict("mp_common")
+    RequestAnimDict("pickup_object")
+    while not HasAnimDictLoaded("pickup_object") do
+        RequestAnimDict("pickup_object")
         Citizen.Wait(1)
     end
-    TaskPlayAnim(GetPlayerPed(-1), "mp_common", "givetask2_a", 5.0, 1.0, 500, 50, 0, 0, 0, 0)
+    TaskPlayAnim(GetPlayerPed(-1), "pickup_object", "putdown_low", 5.0, 1.0, 500, 50, 0, 0, 0, 0)
 end)
 
 RegisterCommand("+inventory", function()

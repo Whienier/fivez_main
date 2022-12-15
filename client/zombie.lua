@@ -26,7 +26,7 @@ Citizen.CreateThread(function()
         for k,v in pairs(peds) do
             if DoesEntityExist(v) then
                 --If the player is actually close enough to hear the zombie then start playing sounds
-                if #(GetEntityCoords(v) - plyCoords) <= 30 then
+                if #(GetEntityCoords(v) - plyCoords) <= 60 then
                     --StopPedSpeaking(v, true)
                     SetPedTalk(v)
                     PlayPedAmbientSpeechNative(v, "DYING_MOAN", "SPEECH_PARAMS_MEGAPHONE")

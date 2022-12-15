@@ -691,7 +691,7 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                     end
                 end
             end
-            TriggerClientEvent("fivez:PlayDroppedItemAnimation", source)
+
             for k,v in pairs(openInventories[transferData.id]) do
                 TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v, nil, json.encode(inventoryData.items))
             end
@@ -969,7 +969,7 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                 SQL_RemoveItemFromCharacterInventory(plyChar.Id, transferData.fromSlot)
                 SQL_InsertItemToCharacterInventory(plyChar.Id, transferData.fromSlot, {id = plySlot.itemId, count = plySlot.count, quality = plySlot.quality, attachments = plySlot.attachments})
             end
-
+            TriggerClientEvent("fivez:PlayDroppedItemAnimation", source)
             for k,v in pairs(openInventories[inventoryTransferringTo.identifier]) do
                 if v == source then
                     --If the person transferring to this inventory, notify we transferred

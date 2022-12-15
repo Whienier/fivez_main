@@ -66,7 +66,7 @@ Citizen.CreateThread(function()
                 local dist = #(pedCoords - barberPos)
                 if dist <= 15 then
                     if Config.SafeZones[safeZoneId].traders.barber.markerlabel then
-                        Draw3DText(barberPos.x, barberPos.y, barberPos.z, Config.SafeZones[safeZoneId].traders.barber.markerlabel, 7, 0.5, 0.5)
+                        Draw3DText(barberPos.x, barberPos.y, barberPos.z, Config.SafeZones[safeZoneId].traders.barber.markerlabel, 7, 0.1, 0.25)
                     end
                     DrawMarker(1, barberPos.x, barberPos.y, barberPos.z-1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0, 255, 0, 255, true, false, 2, false, nil, nil, false)
                 end
@@ -83,7 +83,7 @@ Citizen.CreateThread(function()
                 if dist <= 15 then
                     --TODO: Make UI for buying stuff? Or use inventory shop system
                     if Config.SafeZones[safeZoneId].traders.clothes.markerlabel then
-                        Draw3DText(clothesPos.x, clothesPos.y, clothesPos.z, Config.SafeZones[safeZoneId].traders.clothes.markerlabel, 7, 0.5, 0.5)
+                        Draw3DText(clothesPos.x, clothesPos.y, clothesPos.z, Config.SafeZones[safeZoneId].traders.clothes.markerlabel, 7, 0.1, 0.25)
                     end
                     DrawMarker(1, clothesPos.x, clothesPos.y, clothesPos.z-1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0, 255, 0, 255, true, false, 2, false, nil, nil, false)
                 end

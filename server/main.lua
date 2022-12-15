@@ -28,8 +28,8 @@ Citizen.CreateThread(function()
         for k,v in pairs(Config.SafeZones) do
             if v.traders.barber then
                 if v.traders.barber.pedId ~= -1 then
-                    local pedCoords = GetEntityCoords(v.traders.barber.pedId)
-                    if pedCoords == nil then
+                    if not DoesEntityExist(v.traders.barber.pedId) then
+                        print("Safe zone barber doesn't exist re-creating")
                         local barberPos = v.traders.barber.position
                         local barberPed = CreatePed(0, v.traders.barber.pedModel, barberPos.x, barberPos.y, barberPos.z, v.traders.barber.heading, true, true)
                         while not DoesEntityExist(barberPed) do
@@ -46,8 +46,7 @@ Citizen.CreateThread(function()
 
             if v.traders.clothes then
                 if v.traders.clothes.pedId ~= -1 then
-                    local pedCoords = GetEntityCoords(v.traders.clothes.pedId)
-                    if pedCoords == nil then
+                    if not DoesEntityExist(v.traders.clothes.pedId) then
                         local clothesPos = v.traders.clothes.position
                         local clothesPed = CreatePed(0, v.traders.clothes.pedModel, clothesPos.x, clothesPos.y, clothesPos.z, v.traders.clothes.heading, true, true)
                         while not DoesEntityExist(clothesPed) do

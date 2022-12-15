@@ -320,12 +320,12 @@ RegisterCommand("testinvanim", function()
         TaskPlayAnim(GetPlayerPed(-1), "anim@mugging@victim@toss_ped@", "throw_object_right_pocket_male", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
         print("Played intimidation animation")
     else
-        RequestAnimDict("mp_common")
-        while not HasAnimDictLoaded("mp_common") do
-            RequestAnimDict("mp_common")
+        RequestAnimDict("anim@mugging@victim@toss_ped@")
+        while not HasAnimDictLoaded("anim@mugging@victim@toss_ped@") do
+            RequestAnimDict("anim@mugging@victim@toss_ped@")
             Citizen.Wait(1)
         end
-        TaskPlayAnim(GetPlayerPed(-1), "mp_common", "givetake2_b", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
+        TaskPlayAnim(GetPlayerPed(-1), "anim@mugging@victim@toss_ped@", "throw_object_right_pocket_female", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
         print("Played common animation")
     end
 end, false)

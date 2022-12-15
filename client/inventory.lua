@@ -297,7 +297,7 @@ RegisterNetEvent("fivez:PlayUnholsterAnimation", function()
         RequestAnimDict("reaction@intimidation@1h")
         Citizen.Wait(1)
     end
-    TaskPlayAnim(GetPlayerPed(-1), "reaction@intimidation@1h", "intro", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
+    TaskPlayAnim(GetPlayerPed(-1), "reaction@intimidation@1h", "intro", 5.0, 1.0, 500, 50, 0, 0, 0, 0)
 end)
 --Event for playing unholster animation
 RegisterNetEvent("fivez:PlayHolsterAnimation", function()
@@ -306,26 +306,27 @@ RegisterNetEvent("fivez:PlayHolsterAnimation", function()
         RequestAnimDict("reaction@intimidation@1h")
         Citizen.Wait(1)
     end
-    TaskPlayAnim(GetPlayerPed(-1), "reaction@intimidation@1h", "outro", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
+    TaskPlayAnim(GetPlayerPed(-1), "reaction@intimidation@1h", "outro", 5.0, 1.0, 500, 50, 0, 0, 0, 0)
 end)
 local test = false
+--clothingtrousers
 RegisterCommand("testinvanim", function()
     test = not test
     if test then
-        RequestAnimDict("anim@mugging@victim@toss_ped@")
-        while not HasAnimDictLoaded("anim@mugging@victim@toss_ped@") do
-            RequestAnimDict("anim@mugging@victim@toss_ped@")
+        RequestAnimDict("clothingtrousers")
+        while not HasAnimDictLoaded("clothingtrousers") do
+            RequestAnimDict("clothingtrousers")
             Citizen.Wait(1)
         end
-        TaskPlayAnim(GetPlayerPed(-1), "anim@mugging@victim@toss_ped@", "throw_object_right_pocket_male", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
+        TaskPlayAnim(GetPlayerPed(-1), "clothingtrousers", "intro", 5.0, 1.0, 500, 50, 0, 0, 0, 0)
         print("Played intimidation animation")
     else
-        RequestAnimDict("mp_common")
-        while not HasAnimDictLoaded("mp_common") do
-            RequestAnimDict("mp_common")
+        RequestAnimDict("clothingtrousers")
+        while not HasAnimDictLoaded("clothingtrousers") do
+            RequestAnimDict("clothingtrousers")
             Citizen.Wait(1)
         end
-        TaskPlayAnim(GetPlayerPed(-1), "mp_common", "givetake2_b", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
+        TaskPlayAnim(GetPlayerPed(-1), "clothingtrousers", "check_out_a", 5.0, 1.0, 500, 50, 0, 0, 0, 0)
         print("Played common animation")
     end
 end, false)

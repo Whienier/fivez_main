@@ -68,48 +68,42 @@ end)
 
 --Server thread to spawn any trader peds for safe zones, waits until somebody has connected before spawning peds
 Citizen.CreateThread(function()
-    while true do
-        if #GetPlayers() >= 1 then
-            Citizen.Wait(30000)
-            for k,v in pairs(Config.SafeZones) do
-                if v.traders.barber then
-                    if v.traders.barber.pedId == -1 then
-                        print("Spawning barber ped")
-                        local barberPos = v.traders.barber.position
-                        local barberPed = CreatePed(0, v.traders.barber.pedModel, barberPos.x-0.0, barberPos.y-0.0, barberPos.z-0.0, v.traders.barber.heading, true, false)
-                        while not DoesEntityExist(barberPed) do
-                            Citizen.Wait(1)
-                        end
-                        Citizen.Wait(250)
-                        SetEntityDistanceCullingRadius(barberPed, 50000.0)
-                        print("Spawned barber ped")
-                        v.traders.barber.pedId = barberPed
-                        SetEntityCoords(barberPed, barberPos.x, barberPos.y, barberPos.z, true, false, false, false)
-                        FreezeEntityPosition(barberPed, true)
-                    end
+    for k,v in pairs(Config.SafeZones) do
+        if v.traders.barber then
+            if v.traders.barber.pedId == -1 then
+                print("Spawning barber ped")
+                local barberPos = v.traders.barber.position
+                local barberPed = CreatePed(0, v.traders.barber.pedModel, barberPos.x-0.0, barberPos.y-0.0, barberPos.z-0.0, v.traders.barber.heading, true, false)
+                while not DoesEntityExist(barberPed) do
+                    Citizen.Wait(1)
                 end
-        
-                if v.traders.clothes then
-                    if v.traders.clothes.pedId == -1 then
-                        local clothesPos = v.traders.clothes.position
-                        local clothesPed = CreatePed(0, v.traders.clothes.pedModel, clothesPos.x, clothesPos.y, clothesPos.z, v.traders.clothes.heading, true, false)
-                        while not DoesEntityExist(clothesPed) do
-                            Citizen.Wait(1)
-                        end
-                        Citizen.Wait(250)
-                        v.traders.clothes.pedId = clothesPed
-                        SetEntityCoords(clothesPed, clothesPos.x, clothesPos.y, clothesPos.z, true, false, false, false)
-                        FreezeEntityPosition(clothesPed, true)
-                        SetEntityDistanceCullingRadius(clothesPed, 50000.0)
-                        SetPedArmour(clothesPed, 10000)
-                    end
-                end
+                Citizen.Wait(250)
+                SetEntityDistanceCullingRadius(barberPed, 50000.0)
+                print("Spawned barber ped")
+                v.traders.barber.pedId = barberPed
+                SetEntityCoords(barberPed, barberPos.x, barberPos.y, barberPos.z, true, false, false, false)
+                FreezeEntityPosition(barberPed, true)
             end
-            print("Spawned safe zone peds")
-            return
         end
-        Citizen.Wait(1)
+
+        if v.traders.clothes then
+            if v.traders.clothes.pedId == -1 then
+                local clothesPos = v.traders.clothes.position
+                local clothesPed = CreatePed(0, v.traders.clothes.pedModel, clothesPos.x, clothesPos.y, clothesPos.z, v.traders.clothes.heading, true, false)
+                while not DoesEntityExist(clothesPed) do
+                    Citizen.Wait(1)
+                end
+                Citizen.Wait(250)
+                v.traders.clothes.pedId = clothesPed
+                SetEntityCoords(clothesPed, clothesPos.x, clothesPos.y, clothesPos.z, true, false, false, false)
+                FreezeEntityPosition(clothesPed, true)
+                SetEntityDistanceCullingRadius(clothesPed, 50000.0)
+                SetPedArmour(clothesPed, 10000)
+            end
+        end
     end
+    print("Spawned safe zone peds")
+    return
 end)
 --Event to know when a player dies
 RegisterNetEvent("baseevents:onPlayerDied", function(killedBy, pos)

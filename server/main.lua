@@ -137,7 +137,7 @@ Citizen.CreateThread(function()
                             TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v.ply, json.encode(playerData.characterData.inventory.items), nil)
                         end
                         print("Respawning player", v.ply)
-                        TriggerClientEvent("fivez:OpenSpawnMenu", source, nil)
+                        TriggerClientEvent("fivez:OpenSpawnMenu", v.ply, nil)
                         table.insert(wasDead, v.ply)
                         --TriggerClientEvent("fivez:RespawnPlayer", v.ply, newGender)
                         playerData.characterData.health = 100

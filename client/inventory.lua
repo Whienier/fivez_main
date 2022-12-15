@@ -6,7 +6,7 @@ RegisterNetEvent("fivez:LoadInventoryMarkers", function(markers)
 end)
 RegisterNetEvent("fivez:AddGroundMarker", function(position)
     position = json.decode(position)
-    table.insert(inventories, {pos = position})
+    table.insert(inventories, vector3(position.x, position.y, position.z))
 end)
 Citizen.CreateThread(function()
     while true do
@@ -19,8 +19,7 @@ end)
 RegisterNetEvent("fivez:SyncMarkersCB", function(encodedMarkers)
     local decodedMarkers = json.decode(encodedMarkers)
     for k,v in pairs(decodedMarkers) do
-        local tempVector = vector3(v.x, v.y, v.z)
-        table.insert(inventories, {pos = tempVector})
+        table.insert(inventories, vector3(v.x, v.y, v.z))
     end
 end)
 
@@ -56,11 +55,11 @@ Citizen.CreateThread(function()
         if #inventories >= 1 and (not IsPedInAnyVehicle(PlayerPedId(), false) or GetEntityHealth(GetPlayerPed(-1)) <= 0) then
             local pedCoords = GetEntityCoords(GetPlayerPed(-1))
             for k,v in pairs(inventories) do
-                if v.pos ~= nil then
-                    if v.pos.x ~= nil and v.pos.y ~= nil and v.pos.z ~= nil then
-                        local dist = #(v.pos - pedCoords)
+                if v ~= nil then
+                    if v.x ~= nil and v.y ~= nil and v.z ~= nil then
+                        local dist = #(v - pedCoords)
                         if dist <= 15 then
-                            DrawMarker(3, v.pos.x, v.pos.y, v.pos.z-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.1, 0.25, 0, 255, 0, 255, true, true, 2, true, NULL, NULL, false)
+                            DrawMarker(3, v.x, v.y, v.z-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.1, 0.25, 0, 255, 0, 255, true, true, 2, true, NULL, NULL, false)
                         end
                     end
                 end

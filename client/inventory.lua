@@ -315,8 +315,16 @@ RegisterCommand("+inventory", function()
         end
     end
     if test then
+        RequestAnimDict("reaction@intimidation@1h")
+        while not HasAnimDictLoaded("reaction@intimidation@1h") do
+            Citizen.Wait(1)
+        end
         TaskPlayAnim(playerPed, "reaction@intimidation@1h", "intro", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
     else
+        RequestAnimDict("mp_common")
+        while not HasAnimDictLoaded("mp_common") do
+            Citizen.Wait(1)
+        end
         TaskPlayAnim(playerPed, "mp_common", "givetake2_a", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
     end
     SendNUIMessage({

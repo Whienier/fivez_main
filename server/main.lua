@@ -428,7 +428,7 @@ end)
 --Triggered when a clients NUI frame has first loaded
 RegisterNetEvent("fivez:NUILoaded", function()
     local source = source
-    TriggerclientEvent("fivez:SetStartFocus", source)
+    TriggerClientEvent("fivez:SetStartFocus", source)
     --Have to use steam identifier, since source is not server id until this point
     local playerData = GetJoinedPlayerWithSteam(source)
     if playerData.isNew then

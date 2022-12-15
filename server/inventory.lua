@@ -691,7 +691,7 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                     end
                 end
             end
-            
+            TriggerClientEvent("fivez:PlayDroppedItemAnimation", source)
             for k,v in pairs(openInventories[transferData.id]) do
                 TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v, nil, json.encode(inventoryData.items))
             end

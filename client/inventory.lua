@@ -308,28 +308,16 @@ RegisterNetEvent("fivez:PlayHolsterAnimation", function()
     end
     TaskPlayAnim(GetPlayerPed(-1), "reaction@intimidation@1h", "outro", 5.0, 1.0, 500, 50, 0, 0, 0, 0)
 end)
-local test = false
---clothingtrousers
-RegisterCommand("testinvanim", function()
-    test = not test
-    if test then
-        RequestAnimDict("clothingtrousers")
-        while not HasAnimDictLoaded("clothingtrousers") do
-            RequestAnimDict("clothingtrousers")
-            Citizen.Wait(1)
-        end
-        TaskPlayAnim(GetPlayerPed(-1), "clothingtrousers", "intro", 5.0, 1.0, 500, 50, 0, 0, 0, 0)
-        print("Played intimidation animation")
-    else
-        RequestAnimDict("clothingtrousers")
-        while not HasAnimDictLoaded("clothingtrousers") do
-            RequestAnimDict("clothingtrousers")
-            Citizen.Wait(1)
-        end
-        TaskPlayAnim(GetPlayerPed(-1), "clothingtrousers", "check_out_a", 5.0, 1.0, 500, 50, 0, 0, 0, 0)
-        print("Played common animation")
+--Event for playing animation when player drops an item
+RegisterNetEvent("fivez:PlayDroppedItemAnimation", function()
+    RequestAnimDict("mp_common")
+    while not HasAnimDictLoaded("mp_common") do
+        RequestAnimDict("mp_common")
+        Citizen.Wait(1)
     end
-end, false)
+    TaskPlayAnim(GetPlayerPed(-1), "mp_common", "givetask2_a", 5.0, 1.0, 500, 50, 0, 0, 0, 0)
+end)
+
 RegisterCommand("+inventory", function()
     if GetEntityHealth(PlayerPedId()) <= 0 then return end
     local charInventory = GetCharacterInventory()

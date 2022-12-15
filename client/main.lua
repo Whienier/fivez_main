@@ -55,16 +55,23 @@ RegisterNetEvent("fivez:GetHeadingFromVector", function(x, y)
     TriggerServerEvent("fivez:GetHeadingFromVectorCB", GetHeadingFromVector_2d(x, y))
 end)
 
+local camera = nil
+function DestroyCharacterMenuCamera()
+    ClearFocus()
+    SetCamActive(camera, false)
+    DestroyCam(camera)
+    RenderScriptCams(false, true, 0.0, false, false)
+    camera = nil
+end
+
 RegisterNUICallback("nui_loaded", function(data, cb)
     ShutdownLoadingScreen()
     
     local camRot = Config.CharacterMenuCamera.rotation
     local camPos = Config.CharacterMenuCamera.position
     ClearFocus()
-    SetFocusPosAndVel(camPos.x, camPos.y, camPos.z, 0.0, 0.0, 0.0)
     
-    local camera = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", camPos.x, camPos.y, camPos.z, camRot.x, camRot.y, camRot.z, 110.0, true, 2)
-    SetFocusPosAndVel(camPos.x, camPos.y, camPos.z, 0.0, 0.0, 0.0)
+    camera = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", camPos.x, camPos.y, camPos.z, camRot.x, camRot.y, camRot.z, 110.0, true, 2)
     SetCamActive(camera, true)
     SetCamCoord(camera, camPos.x, camPos.y, camPos.z)
     RenderScriptCams(true, true, 0.0, true, false)

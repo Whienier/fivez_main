@@ -41,6 +41,8 @@ RegisterNUICallback("spawn_location", function(data, cb)
         SetCamActive(camera, false)
         RenderScriptCams(false, true, 0.0, false, false)
         camera = nil
+    elseif camera == nil then
+        DestroyCharacterMenuCamera()
     end
     TriggerServerEvent("fivez:SpawnLocation", tonumber(data.id))
 

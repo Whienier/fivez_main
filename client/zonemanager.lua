@@ -42,6 +42,8 @@ local traderId = nil
 local inBarber = false
 local inClothes = false
 
+local lastNotif = 0
+
 Citizen.CreateThread(function()
     while true do
         while not startThreads do Citizen.Wait(1) end
@@ -54,8 +56,9 @@ Citizen.CreateThread(function()
             DisableControlAction(0, 142, true)
             DisableControlAction(0, 263, true)
             DisableControlAction(0, 264, true)
-            if IsDisabledControlJustPressed(0, 25) or IsDisabledControlJustPressed(0, 106) or IsDisabledControlJustPressed(0, 140) or IsDisabledControlJustPressed(0, 141) or IsDisabledControlJustPressed(0, 142) or IsDisabledControlJustPressed(0, 263) or IsDisabledControlJustPressed(0, 264) then
-                TriggerEvent("fivez:AddNotification", "You cannot fire/punch in safe zone!")
+            if GetGameTimer() + 5000 > lastNotif and (IsDisabledControlJustPressed(0, 25) or IsDisabledControlJustPressed(0, 106) or IsDisabledControlJustPressed(0, 140) or IsDisabledControlJustPressed(0, 141) or IsDisabledControlJustPressed(0, 142) or IsDisabledControlJustPressed(0, 263) or IsDisabledControlJustPressed(0, 264)) then
+                TriggerEvent("fivez:AddNotification", "Using weapons is restricted!")
+                lastNotif = GetGameTimer()
             end
             local pedCoords = GetEntityCoords(GetPlayerPed(-1))
             if Config.SafeZones[safeZoneId].traders.barber then
@@ -90,9 +93,8 @@ Citizen.CreateThread(function()
                     inClothes = false
                 end
             end
-        elseif not inZone and not zoneTriggered then
-            DisablePlayerFiring(PlayerId(), false)
         end
+
         if inZone and not zoneTriggered then
             --Set player as invincible
             SetPlayerInvincible(PlayerId(), true)

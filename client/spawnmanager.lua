@@ -206,7 +206,7 @@ end
 RegisterNetEvent("fivez:RevivePlayerCB", function()
     RespawnPlayer(true)
 end)
-
+local spawnMenuOpened = false
 RegisterNetEvent("fivez:RespawnPlayer", function(newGender, spawnId)
     ClearFocus()
     RenderScriptCams(false, false, 0, true, false)
@@ -214,6 +214,7 @@ RegisterNetEvent("fivez:RespawnPlayer", function(newGender, spawnId)
 
     camera = nil
     RespawnPlayer(false, newGender, spawnId)
+    spawnMenuOpened = false
 end)
 --Initial spawn for new players
 RegisterNetEvent("fivez:NewSpawn", function(gender)
@@ -234,6 +235,8 @@ RegisterNetEvent("fivez:SpawnAtLastLoc", function(gender, lastLocation)
 end)
 local spawnCountdown = 0
 local deathTimestamp = 0
+
+
 Citizen.CreateThread(function()
     while true do
         if playerDied then
@@ -250,10 +253,13 @@ Citizen.CreateThread(function()
             --If control was relased respawn player
             if IsControlJustReleased(0, 191) then
                 TriggerServerEvent("fivez:DeathRespawnNow")
+                playerDied = false
+                spawnMenuOpened = true
             end
 
             if (Config.RespawnTimer-spawnCountdown)/1000 <= 0 then
                 playerDied = false
+                spawnMenuOpened = true
             end
         end
         Citizen.Wait(0)
@@ -264,7 +270,7 @@ Citizen.CreateThread(function()
     while true do
 
         if IsPedDeadOrDying(GetPlayerPed(-1), 1) or GetEntityHealth(GetPlayerPed(-1)) <= 0 then
-            if not playerDied then
+            if not playerDied and not spawnMenuOpened then
                 local deathTime = Config.RespawnTimer/1000
                 deathTimestamp = GetGameTimer()
                 AddNotification("Please wait "..tostring(deathTime).." seconds for respawn, or press ENTER to respawn")

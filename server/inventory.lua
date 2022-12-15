@@ -235,7 +235,6 @@ RegisterNetEvent("fivez:LootInventory", function(entityNetId)
         TriggerClientEvent("fivez:AddNotification", source, "Entity doesn't exist")
     end
 end)
-local test = false
 --Get's closest inventory, searches registeredInventories, looks for closest dead zombie, or creates a temp ground inventory
 RegisterNetEvent("fivez:GetClosestInventory", function(closestObject)
     local source = source
@@ -344,18 +343,9 @@ RegisterNetEvent("fivez:GetClosestInventory", function(closestObject)
         openInventories[closestInventory.identifier] = {source}
     end
     print("Opening closest inventory", closestInventory.identifier)
-    if test then
-        TaskPlayAnim(playerPed, "reaction@intimidation@1h", "intro", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
-    else
-        TaskPlayAnim(playerPed, "mp_common", "givetake2_a", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
-    end
+    
     TriggerClientEvent("fivez:GetClosestInventoryCB", source, json.encode(closestInventory))
 end)
-
-RegisterCommand("testinvanim", function()
-    test = not test
-    print(test)
-end, false)
 
 function OpenInventory(inventoryId, source)
     if openInventories[inventoryId] then

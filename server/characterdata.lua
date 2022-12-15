@@ -174,6 +174,7 @@ function SQL_GetCharacterInventoryItemsData(playerId, maxSlots)
                                 itemId = k,
                                 label = v.label,
                                 model = v.model,
+                                description = v.description,
                                 weight = v.weight,
                                 maxcount = v.maxcount,
                                 count = res.item_count,

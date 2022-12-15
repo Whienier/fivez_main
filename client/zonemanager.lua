@@ -47,7 +47,11 @@ local lastNotif = 0
 Citizen.CreateThread(function()
     while true do
         while not startThreads do Citizen.Wait(1) end
+        while not NetworkIsPlayerActive(PlayerId()) do Citizen.Wait(1) end
+
         if inZone and zoneTriggered then
+            --If the player doesn't have invincibility but is in the zone
+            if not GetPlayerInvincible2(PlayerId()) then SetPlayerInvincible(PlayerId(), true) end
             DisablePlayerFiring(PlayerId(), true)
             DisableControlAction(0, 25, true)
             DisableControlAction(0, 106, true)

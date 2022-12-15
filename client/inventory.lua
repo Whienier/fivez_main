@@ -290,7 +290,11 @@ function GetClosestLootableContainer(plyCoords)
 
     return nil
 end
-
+local test = false
+RegisterCommand("testinvanim", function()
+    test = not test
+    print(test)
+end, false)
 RegisterCommand("+inventory", function()
     if GetEntityHealth(PlayerPedId()) <= 0 then return end
     local charInventory = GetCharacterInventory()
@@ -309,6 +313,11 @@ RegisterCommand("+inventory", function()
         if v.model ~= "empty" then
             charInventory.weight = charInventory.weight + v.weight
         end
+    end
+    if test then
+        TaskPlayAnim(playerPed, "reaction@intimidation@1h", "intro", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
+    else
+        TaskPlayAnim(playerPed, "mp_common", "givetake2_a", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
     end
     SendNUIMessage({
         type = "message",

@@ -246,11 +246,7 @@ RegisterNetEvent("fivez:OpenCharacterCreator", function()
 end)
 
 AddEventHandler("fivez:OpenCharacterCustomizer", function()
-    print("Open character customizer")
-    if not characterData.isNew then print("Can't open character customizer on non new character") return end
-    local playerPed = GetPlayerPed(-1)
-    local customizerPos = Config.CharacterCustomizerPosition
-    SetEntityCoords(playerPed, customizerPos.x, customizerPos.y, customizerPos.z, true, false, false, true)
+    if characterData ~= nil then print("Can't open character customizer on a non new character") return end
     local config = {
         ped = false,
         headBlend = true,

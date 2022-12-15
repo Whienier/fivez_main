@@ -135,7 +135,7 @@ function InitialSpawn(gender, lastLocation)
     local spawnLocation = lastLocation
     local new = false
     if spawnLocation == nil then
-        spawnLocation = Config.PlayerSpawns[math.random(#Config.PlayerSpawns)]
+        spawnLocation = Config.CharacterCustomizerPosition
         new = true
     end
     Citizen.CreateThread(function()

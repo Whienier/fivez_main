@@ -91,7 +91,7 @@ function SpawnSafeZonePeds()
                 end
                 Citizen.Wait(250)
                 SetEntityDistanceCullingRadius(barberPed, 50000.0)
-                print("Spawned barber ped", barberPed)
+                print("Spawned barber ped", barberPed, NetworkGetNetworkIdFromEntity(barberPed))
                 v.traders.barber.pedId = barberPed
                 SetEntityCoords(barberPed, barberPos.x, barberPos.y, barberPos.z, true, false, false, false)
                 FreezeEntityPosition(barberPed, true)

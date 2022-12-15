@@ -317,6 +317,7 @@ RegisterNetEvent("fivez:PlayDroppedItemAnimation", function()
     end
     TaskPlayAnim(GetPlayerPed(-1), "pickup_object", "putdown_low", 5.0, 1.0, 500, 50, 0, 0, 0, 0)
 end)
+local test = false
 --Event for playing animation when player opens it
 RegisterNetEvent("fivez:PlayOpenInventoryAnimation", function()
     RequestAnimDict("anim@amb@business@bgen@bgen_no_work@")
@@ -324,9 +325,17 @@ RegisterNetEvent("fivez:PlayOpenInventoryAnimation", function()
         RequestAnimDict("anim@amb@business@bgen@bgen_no_work@")
         Citizen.Wait(1)
     end
-    TaskPlayAnim(GetPlayerPed(-1), "anim@amb@business@bgen@bgen_no_work@", "stand_phone_phonepickup_nowork", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
+    if test then
+        TaskPlayAnim(GetPlayerPed(-1), "anim@amb@business@bgen@bgen_no_work@", "stand_phone_phoneputdown_nowork", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
+    else
+        TaskPlayAnim(GetPlayerPed(-1), "anim@amb@business@bgen@bgen_no_work@", "stand_phone_phoneputdown_phone01", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
+    end
     print("Play open inventory animation")
 end)
+
+RegisterCommand("testinvanim", function()
+    test = not test
+end, false)
 
 RegisterCommand("+inventory", function()
     if GetEntityHealth(PlayerPedId()) <= 0 then return end

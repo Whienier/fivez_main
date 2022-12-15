@@ -324,7 +324,8 @@ RegisterNetEvent("fivez:PlayOpenInventoryAnimation", function()
         RequestAnimDict("anim@amb@business@bgen@bgen_no_work@")
         Citizen.Wait(1)
     end
-    TaskPlayAnim(GetPlayerPed(-1), "anim@amb@business@bgen@bgen_no_work@", "stand_phone_phonepickup_phone01", 5.0, 1.0, 500, 50, 0, 0, 0, 0)
+    TaskPlayAnim(GetPlayerPed(-1), "anim@amb@business@bgen@bgen_no_work@", "stand_phone_phonepickup_phone01", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
+    print("Play open inventory animation")
 end)
 
 RegisterCommand("+inventory", function()

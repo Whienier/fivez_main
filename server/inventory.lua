@@ -835,7 +835,7 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                     end
                 end
             end
-            TriggerClientEvent("fivez:PlayDroppedItemAnimation")
+            TriggerClientEvent("fivez:PlayDroppedItemAnimation", source)
             if openInventories[inventoryTransferringFrom.identifier] ~= nil then
                 --Update any clients with the same inventory open
                 for k,v in pairs(openInventories[inventoryTransferringFrom.identifier]) do

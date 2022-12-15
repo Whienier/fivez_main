@@ -296,15 +296,19 @@ RegisterCommand("testinvanim", function()
     if test then
         RequestAnimDict("reaction@intimidation@1h")
         while not HasAnimDictLoaded("reaction@intimidation@1h") do
+            RequestAnimDict("reaction@intimidation@1h")
             Citizen.Wait(1)
         end
-        TaskPlayAnim(playerPed, "reaction@intimidation@1h", "intro", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
+        TaskPlayAnim(GetPlayerPed(-1), "reaction@intimidation@1h", "intro", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
+        print("Played intimidation animation")
     else
         RequestAnimDict("mp_common")
         while not HasAnimDictLoaded("mp_common") do
+            RequestAnimDict("mp_common")
             Citizen.Wait(1)
         end
-        TaskPlayAnim(playerPed, "mp_common", "givetake2_a", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
+        TaskPlayAnim(GetPlayerPed(-1), "mp_common", "givetake2_a", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
+        print("Played common animation")
     end
 end, false)
 RegisterCommand("+inventory", function()

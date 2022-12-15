@@ -23,7 +23,7 @@ Citizen.CreateThread(function()
         local peds = GetGamePool("CPed")
         for k,v in pairs(peds) do
             if DoesEntityExist(v) then
-                StopPedSpeaking(v, true)
+                --StopPedSpeaking(v, true)
                 SetPedTalk(v)
                 PlayPain(v, 27, 0.0, false)
             end

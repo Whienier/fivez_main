@@ -91,7 +91,7 @@ Citizen.CreateThread(function()
                 if v.traders.clothes then
                     if v.traders.clothes.pedId == -1 then
                         local clothesPos = v.traders.clothes.position
-                        local clothesPed = CreatePed(0, v.traders.clothes.pedModel, clothesPos.x, clothesPos.y, clothesPos.z, v.traders.clothes.heading, true, true)
+                        local clothesPed = CreatePed(0, v.traders.clothes.pedModel, clothesPos.x, clothesPos.y, clothesPos.z, v.traders.clothes.heading, true, false)
                         while not DoesEntityExist(clothesPed) do
                             Citizen.Wait(1)
                         end

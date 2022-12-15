@@ -46,7 +46,7 @@ end
 function CreateZombie(coords)
     Citizen.CreateThread(function()
         local zombieModel = Config.ZombieModels[math.random(#Config.ZombieModels)]
-        local createdZombie = CreatePed(0, GetHashKey(zombieModel), coords.x-0.0, coords.y-0.0, coords.z-0.0, 0.0, true, true)
+        local createdZombie = CreatePed(0, GetHashKey(zombieModel), coords.x-0.0, coords.y-0.0, coords.z-0.0, 0.0, true, false)
         while not DoesEntityExist(createdZombie) do
             Citizen.Wait(1)
         end

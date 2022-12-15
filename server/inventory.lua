@@ -343,7 +343,7 @@ RegisterNetEvent("fivez:GetClosestInventory", function(closestObject)
         openInventories[closestInventory.identifier] = {source}
     end
     print("Opening closest inventory", closestInventory.identifier)
-    
+    TriggerClientEvent("fivez:PlayOpenInventoryAnimation", source)
     TriggerClientEvent("fivez:GetClosestInventoryCB", source, json.encode(closestInventory))
 end)
 
@@ -835,7 +835,7 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                     end
                 end
             end
-
+            TriggerClientEvent("fivez:PlayDroppedItemAnimation")
             if openInventories[inventoryTransferringFrom.identifier] ~= nil then
                 --Update any clients with the same inventory open
                 for k,v in pairs(openInventories[inventoryTransferringFrom.identifier]) do

@@ -290,6 +290,7 @@ function GetClosestLootableContainer(plyCoords)
 
     return nil
 end
+--Event for playing holster animation
 RegisterNetEvent("fivez:PlayUnholsterAnimation", function()
     RequestAnimDict("reaction@intimidation@1h")
     while not HasAnimDictLoaded("reaction@intimidation@1h") do
@@ -298,6 +299,7 @@ RegisterNetEvent("fivez:PlayUnholsterAnimation", function()
     end
     TaskPlayAnim(GetPlayerPed(-1), "reaction@intimidation@1h", "intro", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
 end)
+--Event for playing unholster animation
 RegisterNetEvent("fivez:PlayHolsterAnimation", function()
     RequestAnimDict("reaction@intimidation@1h")
     while not HasAnimDictLoaded("reaction@intimidation@1h") do
@@ -310,12 +312,12 @@ local test = false
 RegisterCommand("testinvanim", function()
     test = not test
     if test then
-        RequestAnimDict("mp_common")
-        while not HasAnimDictLoaded("mp_common") do
-            RequestAnimDict("mp_common")
+        RequestAnimDict("anim@mugging@victim@toss_ped@")
+        while not HasAnimDictLoaded("anim@mugging@victim@toss_ped@") do
+            RequestAnimDict("anim@mugging@victim@toss_ped@")
             Citizen.Wait(1)
         end
-        TaskPlayAnim(GetPlayerPed(-1), "mp_common", "givetake1_a", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
+        TaskPlayAnim(GetPlayerPed(-1), "anim@mugging@victim@toss_ped@", "throw_object_right_pocket_male", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
         print("Played intimidation animation")
     else
         RequestAnimDict("mp_common")
@@ -323,7 +325,7 @@ RegisterCommand("testinvanim", function()
             RequestAnimDict("mp_common")
             Citizen.Wait(1)
         end
-        TaskPlayAnim(GetPlayerPed(-1), "mp_common", "givetake1_b", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
+        TaskPlayAnim(GetPlayerPed(-1), "mp_common", "givetake2_b", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
         print("Played common animation")
     end
 end, false)

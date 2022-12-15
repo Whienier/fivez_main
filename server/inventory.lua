@@ -445,9 +445,11 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                     if itemData.melee == nil then
                         ammoCount = SQL_GetWeaponAmmoCount(plyChar.Id, GetHashKey(itemData.model))
                     end
+                    TriggerClientEvent("fivez:PlayUnholsterAnimation", source)
                     GiveWeaponToPed(plyPed, GetHashKey(itemData.model), ammoCount or 0, false, true)
                 elseif hands == GetHashKey(itemData.model) then
                     SetPedAmmo(plyPed, GetHashKey(itemData.model), 0.0)
+                    TriggerClientEvent("fivez:PlayHolsterAnimation", source)
                     RemoveWeaponFromPed(plyPed, GetHashKey(itemData.model))
                     holstered = true
                 else
@@ -462,6 +464,7 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                         ammoCount = SQL_GetWeaponAmmoCount(plyChar.Id, GetHashKey(itemData.model))
                     end
                     SetPedAmmo(plyPed, hands, 0.0)
+                    TriggerClientEvent("fivez:PlayUnholsterAnimation", source)
                     GiveWeaponToPed(plyPed, GetHashKey(itemData.model), ammoCount or 0, false, true)
                 end
 

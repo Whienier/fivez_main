@@ -73,6 +73,10 @@ RegisterNUICallback("nui_loaded", function(data, cb)
     cb('ok')
 end)
 
+RegisterNetEvent("fivez:SetStartFocus", function()
+    SetFocusPosAndVel(Config.CharacterMenuCamera.position.x, Config.CharacterMenuCamera.position.y, Config.CharacterMenuCamera.position.z, 0.0, 0.0, 0.0)
+end)
+
 local characters = {}
 
 RegisterNUICallback("character_createcharacter", function(data, cb)

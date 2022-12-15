@@ -75,12 +75,14 @@ Citizen.CreateThread(function()
             for k,v in pairs(Config.SafeZones) do
                 if v.traders.barber then
                     if v.traders.barber.pedId == -1 then
+                        print("Spawning barber ped")
                         local barberPos = v.traders.barber.position
                         local barberPed = CreatePed(0, v.traders.barber.pedModel, barberPos.x, barberPos.y, barberPos.z, v.traders.barber.heading, true, true)
                         while not DoesEntityExist(barberPed) do
                             Citizen.Wait(1)
                         end
                         Citizen.Wait(250)
+                        print("Spawned barber ped")
                         v.traders.barber.pedId = barberPed
                         SetEntityCoords(barberPed, barberPos.x, barberPos.y, barberPos.z, true, false, false, false)
                         FreezeEntityPosition(barberPed, true)
@@ -104,7 +106,7 @@ Citizen.CreateThread(function()
                     end
                 end
             end
-
+            print("Spawned safe zone peds")
             return
         end
         Citizen.Wait(1)

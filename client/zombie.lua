@@ -26,9 +26,10 @@ Citizen.CreateThread(function()
                 --StopPedSpeaking(v, true)
                 SetPedTalk(v)
                 PlayPain(v, 27, 0.0, false)
+                PlayPedAmbientSpeechNative(v, "DYING_MOAN", "SPEECH_PARAMS_ALLOW_REPEAT")
             end
         end
-        Citizen.Wait(1)
+        Citizen.Wait(5000)
     end
 end)
 

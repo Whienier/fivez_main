@@ -17,20 +17,35 @@ Citizen.CreateThread(function()
         Citizen.Wait(1)
     end
 end)
+
+local test = false
+
 --Block ped speaking
 Citizen.CreateThread(function()
     while true do
         local peds = GetGamePool("CPed")
+        local plyCoords = GetEntityCoords(GetPlayerPed(-1))
         for k,v in pairs(peds) do
             if DoesEntityExist(v) then
-                --StopPedSpeaking(v, true)
-                SetPedTalk(v)
-                PlayPain(v, 27, 0.0, false)
-                PlayPedAmbientSpeechNative(v, "DYING_MOAN", "SPEECH_PARAMS_ALLOW_REPEAT")
+                if not test then
+                    --If the player is actually close enough to hear the zombie then start playing sounds
+                    if #(GetEntityCoords(v) - plyCoords) <= 30 then
+                        --StopPedSpeaking(v, true)
+                        SetPedTalk(v)
+                        PlayPedAmbientSpeechNative(v, "DYING_MOAN", "SPEECH_PARAMS_MEGAPHONE")
+                    end
+                elseif test then
+                    SetPedTalk(v)
+                    PlayPedAmbientSpeechNative(v, "DYING_MOAN", "SPEECH_PARAMS_SHOUTED")
+                end
             end
         end
-        Citizen.Wait(5000)
+        Citizen.Wait(1)
     end
+end)
+
+RegisterCommand("zombievoicetest", function()
+    test = not test
 end)
 
 --TODO: Maybe swap stress loop to client instead of server

@@ -112,11 +112,10 @@ Citizen.CreateThread(function()
             for k,v in pairs(deadPlayers) do
                 if GetGameTimer() > v.died then
                     local playerData = GetJoinedPlayer(v.ply)
-                    --TODO: Give player new gender
-                    local newGender = math.random(0, 1)
+                    --local newGender = math.random(0, 1)
                     if playerData then
-                        playerData.characterData.gender = newGender
-                        SQL_UpdateCharacterGender(playerData.characterData.Id, newGender)
+                        --playerData.characterData.gender = newGender
+                        --SQL_UpdateCharacterGender(playerData.characterData.Id, newGender)
                         if Config.LoseItemsOnDeath then
                             if Config.DropItemsOnDeath then
                                 local newInv = RegisterNewInventory("deadbody:"..v.ply, "inventory", "Dead Player", playerData.characterData.inventory.weight, playerData.characterData.inventory.maxweight, playerData.characterData.inventory.maxslots, playerData.characterData.inventory.items, GetEntityCoords(GetPlayerPed(v.ply)))
@@ -182,7 +181,7 @@ RegisterNetEvent("fivez:DeathRespawnNow", function()
                         end
                     end
                     for k,v in pairs(Config.StartingItems) do
-                        playerData.characterData.inventory.items[k] = EmptySlot()
+                        playerData.characterData.inventory.items[k] = v.item
                         SQL_InsertItemToCharacterInventory(playerData.characterData.Id, v.slot, v.item)
                     end
                     TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v.ply, json.encode(playerData.characterData.inventory.items), nil)

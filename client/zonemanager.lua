@@ -109,6 +109,7 @@ Citizen.CreateThread(function()
             SetCanAttackFriendly(GetPlayerPed(-1), true, false)
             NetworkSetFriendlyFireOption(true)
             --Enable punching
+            DisablePlayerFiring(PlayerId(), false)
             DisableControlAction(0, 25, false)
             DisableControlAction(0, 106, false)
             DisableControlAction(0, 140, false)

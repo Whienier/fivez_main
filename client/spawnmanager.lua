@@ -251,6 +251,10 @@ Citizen.CreateThread(function()
             if IsControlJustReleased(0, 191) then
                 TriggerServerEvent("fivez:DeathRespawnNow")
             end
+
+            if (Config.RespawnTimer-spawnCountdown)/1000 <= 0 then
+                playerDied = false
+            end
         end
         Citizen.Wait(0)
     end

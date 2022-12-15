@@ -46,6 +46,11 @@ Citizen.CreateThread(function()
     end
 end)
 
+Citizen.CreateThread(function()
+    --Stop health regen
+    SetPlayerHealthRechargeMultiplier(PlayerId(), 0.0)
+end)
+
 RegisterNetEvent("fivez:GetHeadingFromVector", function(x, y)
     TriggerServerEvent("fivez:GetHeadingFromVectorCB", GetHeadingFromVector_2d(x, y))
 end)
@@ -174,6 +179,9 @@ RegisterNetEvent('fivez:CharacterStressed', function(newStress)
         end
     else
         characterData.stress = newStress
+        if characterData.stress >= 75 then
+            SetCamEffect(1)
+        end
     end
     SendNUIMessage({
         type = "fivez_hud",
@@ -570,10 +578,7 @@ Citizen.CreateThread(function()
         DisableControlAction(0, 164, true) --4
         DisableControlAction(0, 165, true) --5
         
-        --Stop health regen
-        SetPlayerHealthRechargeMultiplier(PlayerId(), 0.0)
-        
-        Citizen.Wait(0)
+        Citizen.Wait(1)
     end
 end)
 

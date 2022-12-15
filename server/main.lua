@@ -28,6 +28,7 @@ Citizen.CreateThread(function()
         for k,v in pairs(Config.SafeZones) do
             if v.traders.barber then
                 if v.traders.barber.pedId ~= -1 then
+                    print("Barber has been created", GetEntityCoords(v.traders.barber.pedId))
                     if not DoesEntityExist(v.traders.barber.pedId) then
                         print("Safe zone barber doesn't exist re-creating")
                         local barberPos = v.traders.barber.position

@@ -44,6 +44,8 @@ Config.SafeZones = {
     }
 }
 
+Config.DecayStatsInSafeZone = false
+
 --Safe zone protection radius, if a zombie is closer than this to a safezone it will be removed
 Config.ZombieProtectionRadius = 100
 
@@ -2416,6 +2418,7 @@ Config.CreateNewItemWithData = function(itemData)
         itemId = itemData.itemId,
         label = itemData.label,
         model = itemData.model,
+        description = Config.Items[itemData.itemId].description,
         weight = itemData.weight,
         maxcount = itemData.maxcount,
         count = itemData.count,
@@ -2434,6 +2437,7 @@ Config.CreateNewItemWithCountQual = function(itemData, count, quality)
         itemId = itemData.itemId,
         label = itemData.label,
         model = itemData.model,
+        description = Config.Items[itemData.itemId].description,
         weight = itemData.weight,
         maxcount = itemData.maxcount,
         count = count,

@@ -408,10 +408,15 @@ RegisterNetEvent("fivez:SyncVehicleStateCB", function(vehicleNetId, data)
     end
 end)
 
+local decayStatsInSafeZone = Config.DecayStatsInSafeZone
 --Client thread to decay character hunger and thirst
 Citizen.CreateThread(function()
     while true do
         while not startThreads do Citizen.Wait(0) end
+        --Setting to allow to stop stats to decay while in safezone
+        if not decayStatsInSafeZone then
+            while IsPlayerInSafeZone() do Citizen.Wait(1) end
+        end
         local running = 0
         if IsPedRunning(GetPlayerPed(-1)) then
             running = Config.RunningDecayIncrease
@@ -436,6 +441,8 @@ end)
 Citizen.CreateThread(function()
     while true do
         while not startThreads do Citizen.Wait(0) end
+        --If player is in safe zone don't damage
+        while IsPlayerInSafeZone() do Citizen.Wait(1) end
         if characterData.hunger then
             local decayRate = 0
             if characterData.hunger <= 20 then
@@ -462,6 +469,8 @@ end)
 Citizen.CreateThread(function()
     while true do
         while not startThreads do Citizen.Wait(1) end
+        --If player is in safe zone don't damage
+        while IsPlayerInSafeZone() do Citizen.Wait(1) end
         if characterData.thirst then
             local decayRate = 0
             if characterData.thirst <= 20 then

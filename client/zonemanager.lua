@@ -2,6 +2,10 @@ local inZone = false
 local zoneTriggered = false
 local safeZoneId = nil
 
+function IsPlayerInSafeZone()
+    return inZone
+end
+
 Citizen.CreateThread(function()
     while true do
         while not startThreads do Citizen.Wait(1) end

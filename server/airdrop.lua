@@ -3,6 +3,7 @@ RegisterNetEvent("fivez:GetHeadingFromVectorCB", function(result)
     headingCB = result
 end)
 
+--IDEA: Spawn vehicle and ped frozen close to player and teleport them to where the start is
 function StartAirDropWIP(dropPos)
     Citizen.CreateThread(function()
         --Get a random heading

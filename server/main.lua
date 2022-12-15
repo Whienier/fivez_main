@@ -68,6 +68,18 @@ end)
 
 --Server thread to spawn any trader peds for safe zones, waits until somebody has connected before spawning peds
 Citizen.CreateThread(function()
+    while true do
+        if #GetPlayers() >= 1 then
+            SpawnSafeZonePeds()
+            return
+        else
+            Citizen.Wait(Config.ServerDelayTick)
+        end
+        Citizen.Wait(1)
+    end
+end)
+
+function SpawnSafeZonePeds()
     for k,v in pairs(Config.SafeZones) do
         if v.traders.barber then
             if v.traders.barber.pedId == -1 then
@@ -102,9 +114,7 @@ Citizen.CreateThread(function()
             end
         end
     end
-    print("Spawned safe zone peds")
-    return
-end)
+end
 --Event to know when a player dies
 RegisterNetEvent("baseevents:onPlayerDied", function(killedBy, pos)
     local source = source

@@ -326,9 +326,9 @@ RegisterNetEvent("fivez:PlayOpenInventoryAnimation", function()
         Citizen.Wait(1)
     end
     if test then
-        TaskPlayAnim(GetPlayerPed(-1), "anim@amb@business@bgen@bgen_no_work@", "stand_phone_phoneputdown_nowork", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
+        TaskPlayAnim(GetPlayerPed(-1), "anim@amb@business@bgen@bgen_no_work@", "stand_phone_phoneputdown_fallasleep_nowork", 5.0, 1.0, 500, 50, 0, 0, 0, 0)
     else
-        TaskPlayAnim(GetPlayerPed(-1), "anim@amb@business@bgen@bgen_no_work@", "stand_phone_phoneputdown_phone01", 5.0, 1.0, -1, 50, 0, 0, 0, 0)
+        TaskPlayAnim(GetPlayerPed(-1), "anim@amb@business@bgen@bgen_no_work@", "stand_phone_phoneputdown_fallasleep_phone01", 5.0, 1.0, 500, 50, 0, 0, 0, 0)
     end
     print("Play open inventory animation")
 end)

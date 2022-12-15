@@ -73,7 +73,7 @@ Citizen.CreateThread(function()
             if v.traders.barber.pedId == -1 then
                 print("Spawning barber ped")
                 local barberPos = v.traders.barber.position
-                local barberPed = CreatePed(0, v.traders.barber.pedModel, barberPos.x-0.0, barberPos.y-0.0, barberPos.z-0.0, v.traders.barber.heading, true, false)
+                local barberPed = CreatePed(0, v.traders.barber.pedModel, barberPos.x-0.0, barberPos.y-0.0, barberPos.z-0.0, v.traders.barber.heading, true, true)
                 while not DoesEntityExist(barberPed) do
                     Citizen.Wait(1)
                 end
@@ -89,7 +89,7 @@ Citizen.CreateThread(function()
         if v.traders.clothes then
             if v.traders.clothes.pedId == -1 then
                 local clothesPos = v.traders.clothes.position
-                local clothesPed = CreatePed(0, v.traders.clothes.pedModel, clothesPos.x, clothesPos.y, clothesPos.z, v.traders.clothes.heading, true, false)
+                local clothesPed = CreatePed(0, v.traders.clothes.pedModel, clothesPos.x, clothesPos.y, clothesPos.z, v.traders.clothes.heading, true, true)
                 while not DoesEntityExist(clothesPed) do
                     Citizen.Wait(1)
                 end

@@ -84,17 +84,21 @@ function SpawnSafeZonePeds()
         if v.traders.barber then
             if v.traders.barber.pedId == -1 then
                 print("Spawning barber ped")
-                local barberPos = v.traders.barber.position
-                local barberPed = CreatePed(0, v.traders.barber.pedModel, barberPos.x-0.0, barberPos.y-0.0, barberPos.z-0.0, v.traders.barber.heading, true, true)
-                while not DoesEntityExist(barberPed) do
-                    Citizen.Wait(1)
-                end
-                Citizen.Wait(250)
-                SetEntityDistanceCullingRadius(barberPed, 50000.0)
-                print("Spawned barber ped", barberPed, NetworkGetNetworkIdFromEntity(barberPed))
-                v.traders.barber.pedId = barberPed
-                SetEntityCoords(barberPed, barberPos.x, barberPos.y, barberPos.z, true, false, false, false)
-                FreezeEntityPosition(barberPed, true)
+                --Try to spawn ped inside thread
+                Citizen.CreateThread(function()
+                    local barberPos = v.traders.barber.position
+                    local barberPed = CreatePed(0, v.traders.barber.pedModel, barberPos.x-0.0, barberPos.y-0.0, barberPos.z-0.0, v.traders.barber.heading, true, true)
+                    while not DoesEntityExist(barberPed) do
+                        Citizen.Wait(1)
+                    end
+                    Citizen.Wait(250)
+                    SetEntityDistanceCullingRadius(barberPed, 50000.0)
+                    print("Spawned barber ped", barberPed, NetworkGetNetworkIdFromEntity(barberPed))
+                    v.traders.barber.pedId = barberPed
+                    SetEntityCoords(barberPed, barberPos.x, barberPos.y, barberPos.z, true, false, false, false)
+                    FreezeEntityPosition(barberPed, true)
+                end)
+                
             end
         end
 

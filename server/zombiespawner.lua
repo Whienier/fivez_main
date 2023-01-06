@@ -134,20 +134,19 @@ function CalculateZombieLoot(zombieModel)
                     end
                 end
 
-                if alreadySpawned then goto skip end
-
-                local rng = math.random(0, 100)
-                local itemData = Config.ItemsWithoutFunctions()[itemId]
-                if rng < (item.chance or itemData.spawnchance) then
-                    rng = math.random(1, item.maxcount)
-                    itemData.count = rng
-                    rng = math.random(itemData.minquality or Config.MinQuality, itemData.quality or Config.MaxQuality)
-                    itemData.quality = rng
-                    weight = weight + (itemData.count * itemData.weight)
-                    items[k] = itemData
-                    table.insert(lootSpawned, itemId)
+                if not alreadySpawned then
+                    local rng = math.random(0, 100)
+                    local itemData = Config.ItemsWithoutFunctions()[itemId]
+                    if rng < (item.chance or itemData.spawnchance) then
+                        rng = math.random(1, item.maxcount)
+                        itemData.count = rng
+                        rng = math.random(itemData.minquality or Config.MinQuality, itemData.quality or Config.MaxQuality)
+                        itemData.quality = rng
+                        weight = weight + (itemData.count * itemData.weight)
+                        items[k] = itemData
+                        table.insert(lootSpawned, itemId)
+                    end
                 end
-                ::skip::
             end
         end
     end
@@ -161,22 +160,21 @@ function CalculateZombieLoot(zombieModel)
                         alreadySpawned = true
                     end
                 end
-                if not v.zombiespawn then goto skip end
-                if alreadySpawned then goto skip end
 
-                local rng = math.random(0, 100)
-                if rng < v.spawnchance then
-                    rng = math.random(1, v.maxcount)
-                    weight = weight + (rng * v.weight)
-                    local itemData = v
-                    itemData.count = rng
-                    rng = math.random(v.minquality or Config.MinQuality, v.quality or Config.MaxQuality)
-                    itemData.quality = rng
-                    items[k] = itemData
-                    table.insert(lootSpawned, itemData.itemId)
+                if not alreadySpawned and v.zombiespawn then
+                    local rng = math.random(0, 100)
+                    if rng < v.spawnchance then
+                        rng = math.random(1, v.maxcount)
+                        weight = weight + (rng * v.weight)
+                        local itemData = v
+                        itemData.count = rng
+                        local minQuality = v.minquality or Config.MinQuality
+                        rng = math.random(minQuality, v.quality or Config.MaxQuality)
+                        itemData.quality = rng
+                        items[k] = itemData
+                        table.insert(lootSpawned, itemData.itemId)
+                    end
                 end
-
-                ::skip::
             end
         end
     end

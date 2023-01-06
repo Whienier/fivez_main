@@ -1579,6 +1579,7 @@ Config.Items = {
         maxcount = 1,
         count = 0,
         quality = 100,
+        qualRemPerUse = 100,
         spawnchance = 5,
         attachments = {},
         containerspawn = true,

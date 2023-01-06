@@ -106,7 +106,7 @@ Citizen.CreateThread(function()
             SetCanAttackFriendly(GetPlayerPed(-1), false, false)
             NetworkSetFriendlyFireOption(false)
             zoneTriggered = true
-            TriggerEvent("fivez:AddNotification", "Entering The Last Hold")
+            TriggerEvent("fivez:AddNotification", "Entering "+safeZoneId)
             Citizen.Wait(1000)
         elseif not inZone and zoneTriggered then
             --Disable invinciblity
@@ -124,7 +124,7 @@ Citizen.CreateThread(function()
             DisableControlAction(0, 263, false)
             DisableControlAction(0, 264, false)
             zoneTriggered = false
-            TriggerEvent("fivez:AddNotification", "Leaving The Last Hold")
+            TriggerEvent("fivez:AddNotification", "Leaving "+safeZoneId)
             Citizen.Wait(1000)
         end
         Citizen.Wait(1)
@@ -136,13 +136,20 @@ Citizen.CreateThread(function()
         if inBarber then
             if IsControlJustReleased(0, 191) then
                 --Trigger fivem appearance
-                exports["fivem-appearance"]:startPlayerCustomization(function()
-                
+                exports["fivem-appearance"]:startPlayerCustomization(function(appearanceData)
+                    if appearanceData then
+                        
+                    end
                 end, {ped = false, headBlend = false, faceFeatures = false, headOverlays = false, components = false, props = false, tattoos = false})
             end
         elseif inClothes then
             if IsControlJustReleased(0, 191) then
                 --Trigger fivem appearance
+                exports["fivem-appearance"]:startPlayerCustomization(function(appearanceData)
+                    if appearanceData then
+
+                    end
+                end, {ped = false, headBlend = false, faceFeatures = false, headOverlays = false, components = true, props = true, tattoos = false})
             end
         else
             Citizen.Wait(1500)

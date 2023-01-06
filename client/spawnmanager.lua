@@ -21,14 +21,17 @@ function ShowSelectedSpawn(locationId)
     end
     ClearFocus()
     SetFocusPosAndVel(spawnLocation.x, spawnLocation.y, spawnLocation.z, 0.0, 0.0, 0.0)
+    local camLocation = Config.DefinedPlayerSpawnsCamPositions[locationId]
+    --If there isn't a camera position for the spawn use the spawn location
+    if camLocation == nil then camLocation = spawnLocation end
 
     if camera == nil then
-        camera = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", spawnLocation.x, spawnLocation.y, spawnLocation.z+10.0, -70.0, 0.0, 0.0, 90.0, true, 2)
+        camera = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", camLocation.x, camLocation.y, camLocation.z+10.0, -70.0, 0.0, 0.0, 90.0, true, 2)
     end
 
     SetCamActive(camera, true)
     RenderScriptCams(true, true, 0, true, false)
-    SetCamCoord(camera, spawnLocation.x, spawnLocation.y, spawnLocation.z+10.0)
+    SetCamCoord(camera, camLocation.x, camLocation.y, camLocation.z+10.0)
 end
 
 RegisterNUICallback("spawn_location", function(data, cb)

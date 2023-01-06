@@ -21,10 +21,10 @@ end)
 --Block ped speaking
 Citizen.CreateThread(function()
     while true do
-        local peds = GetGamePool("CPed")
         local plyCoords = GetEntityCoords(GetPlayerPed(-1))
-        for k,v in pairs(peds) do
-            if DoesEntityExist(v) then
+        for k,v in pairs(GetGamePool("CPed")) do
+            --If ped exists and is not a player
+            if DoesEntityExist(v) and (not IsPedAPlayer(v)) then
                 --If the player is actually close enough to hear the zombie then start playing sounds
                 if #(GetEntityCoords(v) - plyCoords) <= 60 then
                     --StopPedSpeaking(v, true)

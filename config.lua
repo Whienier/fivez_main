@@ -37,8 +37,8 @@ Config.SafeZones = {
         position = vector3(-183.032776, -1548.34656, 34.4813),
         color = vector4(0, 0, 255, 255),
         traders = {
-            barber = {markerlabel = "Interact with Craig", position = vector3(-186.8689, -1533.475, 33.73635), heading = 0.0, pedId = -1, pedModel = GetHashKey("A_M_M_StudioParty_01")}, --Position of the trader
-            clothes = {markerlabel = "Interact with Dale", position = vector3(-173.7581, -1529.785, 34.35387), heading = 0.0, pedId = -1, pedModel = GetHashKey("A_M_M_StudioParty_01")},
+            barber = {markerlabel = "Use Barber", position = vector3(-186.8689, -1533.475, 33.73635), heading = 0.0, pedId = -1, pedModel = GetHashKey("A_M_M_StudioParty_01")}, --Position of the trader
+            clothes = {markerlabel = "Use Clothes Shop", position = vector3(-173.7581, -1529.785, 34.35387), heading = 0.0, pedId = -1, pedModel = GetHashKey("A_M_M_StudioParty_01")},
             playerTrading = true --Allows for player trading through-out the zone
         }
     }
@@ -143,8 +143,14 @@ Config.RoutingInteriors = {
         }
     }
 }
-
---Places a player can choose to spawn through the spawn menu
+--Locations of the camera for each defined spawn, if nil will use the spawn position vector
+Config.DefinedPlayerSpawnsCamPositions = {
+    [1] = nil,
+    [2] = vector3(-187.5851, -1559.849, 35.75613), --Safezone camera
+    [3] = vector3(296.36, -584.86, 43.61), --Hospital camera
+    [4] = vector3(432.01, -982.19, 31.39) --Police department camera
+}
+--Locations players can choose to spawn using the spawn menu
 Config.DefinedPlayerSpawns = {
     [1] = nil,
     [2] = vector3(-187.5851, -1559.849, 35.75613), --Safezone
@@ -651,7 +657,8 @@ Config.InventoryDecay = 5
 Config.MinQuality = 40
 --Max quality spawned items can be
 Config.MaxQuality = 100
-
+--Default quality reduced when an item is used
+Config.QualRemPerItemUse = 10
 --TODO: Make items have 'price' variable that is a table that defines what other items they'll trade for
 Config.Items = {
     [1] = {

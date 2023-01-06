@@ -375,11 +375,13 @@ end)
 
 RegisterNetEvent("fivez:ItemUsed", function(itemId, slot, identifier)
     local source = source
+    local reduceQualAmount = Config.QualRemPerItemUse
     if identifier == nil then
         local plyChar = GetJoinedPlayer(source).characterData
         local itemData = Config.Items[itemId]
         if not itemData then TriggerClientEvent("fivez:AddNotification", source, "Item doesn't exist!") return end
-
+        if itemData.qualRemPerUse then reduceQualAmount = itemData.qualRemPerUse end
+        
         if plyChar.inventory.items[slot].itemId == itemId then
             local count = plyChar.inventory.items[slot].count
             local notificationItem = Config.CreateNewItemWithCountQual(plyChar.inventory.items[slot], 1, plyChar.inventory.items[slot].quality)
@@ -399,6 +401,7 @@ RegisterNetEvent("fivez:ItemUsed", function(itemId, slot, identifier)
 
         if registeredInventory then
             if registeredInventory.items[slot].itemId == itemId then
+
                 local count = registeredInventory.items[slot].count
                 TriggerClientEvent("fivez:AddInventoryNotification", source, false, json.encode(registeredInventory.items[slot]))
                 if count == 1 then
@@ -413,7 +416,7 @@ RegisterNetEvent("fivez:ItemUsed", function(itemId, slot, identifier)
                     end
                 end
             else
-                TriggerClientEvent("fivez:AddNotification", source, "Item doesn't exist in the inventory")
+                TriggerClientEvent("fivez:AddNotification", source, GetPlayerName(source)+" tried to use an non existing item from another inventory [" + identifier+"]")
                 return
             end
         end
@@ -474,9 +477,11 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                     plyChar.inventory.hands = -1
                 end
             else
+                local hasClientFunc = false
                 --Normal item with custom functions
                 --Check if the item has a client function
                 if itemData.clientfunction then
+                    hasClientFunc = true
                     TriggerClientEvent("fivez:InventoryUseCB", source, identifier, itemId, fromSlot)
                     Wait(50)
                 end
@@ -484,15 +489,17 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                 if itemData.serverfunction then
                     local result = itemData.serverfunction(source, plyChar.inventory.items[fromSlot].quality)
                     if result then
-                        TriggerClientEvent("fivez:AddInventoryNotification", source, false, json.encode(plyChar.inventory.items[fromSlot]))
-                        if plyChar.inventory.items[fromSlot].count > 1 then
-                            plyChar.inventory.items[fromSlot].count = plyChar.inventory.items[fromSlot].count - 1
-                            SQL_UpdateItemCountInCharacterInventory(plyChar.Id, fromSlot, plyChar.inventory.items[fromSlot].count)
-                        elseif plyChar.inventory.items[fromSlot].count == 1 then
-                            plyChar.inventory.items[fromSlot] = EmptySlot()
-                            SQL_RemoveItemFromCharacterInventory(plyChar.Id, fromSlot)
+                        if not hasClientFunc then
+                            TriggerClientEvent("fivez:AddInventoryNotification", source, false, json.encode(plyChar.inventory.items[fromSlot]))
+                            if plyChar.inventory.items[fromSlot].count > 1 then
+                                plyChar.inventory.items[fromSlot].count = plyChar.inventory.items[fromSlot].count - 1
+                                SQL_UpdateItemCountInCharacterInventory(plyChar.Id, fromSlot, plyChar.inventory.items[fromSlot].count)
+                            elseif plyChar.inventory.items[fromSlot].count == 1 then
+                                plyChar.inventory.items[fromSlot] = EmptySlot()
+                                SQL_RemoveItemFromCharacterInventory(plyChar.Id, fromSlot)
+                            end
+                            TriggerClientEvent("fivez:UpdateCharacterInventoryItems", source, json.encode(plyChar.inventory.items), nil)
                         end
-                        TriggerClientEvent("fivez:UpdateCharacterInventoryItems", source, json.encode(plyChar.inventory.items), nil)
                     end
                 end
             end
@@ -506,26 +513,32 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
         if otherInventory then
             if otherInventory.items[fromSlot].itemId == itemId then
                 if otherInventory.items[fromSlot].count >= 0 then TriggerClientEvent("fivez:AddNotification", source, "Inventory doesn't have enough") return end
+                --Check if the item has a client function
+                local hasClientFunc = false
+                if itemData.clientfunction then
+                    hasClientFunc = true
+                    TriggerClientEvent("fivez:InventoryUseCB", source, identifier, itemId, fromSlot)
+                    Wait(50)
+                end
+
                 print("Using item from other inventory", itemData.itemId, itemData.label, itemData.serverfunction)
                 --Check if the item has a server function
                 if itemData.serverfunction then
                     local result = itemData.serverfunction(source)
 
                     if result then
-                        TriggerClientEvent("fivez:AddInventoryNotification", source, false, json.encode(otherInventory.items[fromSlot]))
-                        if otherInventory.items[fromSlot].count > 1 then
-                            otherInventory.items[fromSlot].count = otherInventory.items[fromSlot].count - 1
-                            SQL_UpdateItemCountInPersistentInventory(identifier, fromSlot, otherInventory.items[fromSlot].count)
-                        elseif otherInventory.items[fromSlot].count == 1 then
-                            otherInventory.items[fromSlot] = EmptySlot()
-                            SQL_RemoveItemFromPersistentInventory(identifier, fromSlot)
+                        if not hasClientFunc then
+                            TriggerClientEvent("fivez:AddInventoryNotification", source, false, json.encode(otherInventory.items[fromSlot]))
+                            if otherInventory.items[fromSlot].count > 1 then
+                                otherInventory.items[fromSlot].count = otherInventory.items[fromSlot].count - 1
+                                SQL_UpdateItemCountInPersistentInventory(identifier, fromSlot, otherInventory.items[fromSlot].count)
+                            elseif otherInventory.items[fromSlot].count == 1 then
+                                otherInventory.items[fromSlot] = EmptySlot()
+                                SQL_RemoveItemFromPersistentInventory(identifier, fromSlot)
+                            end
+                            TriggerClientEvent("fivez:UpdateCharacterInventoryItems", source, nil, json.encode(otherInventory.items))
                         end
-                        TriggerClientEvent("fivez:UpdateCharacterInventoryItems", source, nil, json.encode(otherInventory.items))
                     end
-                end
-                --Check if the item has a client function
-                if itemData.clientfunction then
-                    TriggerClientEvent("fivez:InventoryUseCB", source, identifier, itemId, fromSlot)
                 end
             else
                 TriggerClientEvent("fivez:AddNotification", source, "Inventory doesn't have that item")
@@ -603,7 +616,7 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                     end
                 end
             elseif plyChar.inventory.items[transferData.toSlot].itemId ~= transferData.item.itemId then
-                --Item is the exact same
+                --Item isn't the exact same
                 --Change Id of what we are moving to where we are moving it to
                 SQL_ChangeItemSlotIdInCharacterInventory(plyChar.Id, transferData.fromSlot, transferData.toSlot)
                 --Change Id of where we moved too where we were

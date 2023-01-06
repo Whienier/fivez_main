@@ -140,7 +140,7 @@ RegisterNetEvent("fivez:UpdateCharacterInventoryItems", function(charInventoryIt
         UpdateCharacterInventoryItems(updatedItems)
     end
     local charInventory = GetCharacterInventory()
-    
+    charInventory.weight = 0
     for k,v in pairs(charInventory.items) do
         if v.model ~= "empty" then
             charInventory.weight = charInventory.weight + v.weight

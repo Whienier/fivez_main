@@ -376,14 +376,27 @@ end)
 RegisterNetEvent("fivez:ItemUsed", function(itemId, slot, identifier)
     local source = source
     local reduceQualAmount = Config.QualRemPerItemUse
+    local itemData = Config.Items[itemId]
+    if not itemData then TriggerClientEvent("fivez:AddNotification", source, "Item doesn't exist!") return end
+    if itemData.qualRemPerUse then reduceQualAmount = itemData.qualRemPerUse end
+
     if identifier == nil then
         local plyChar = GetJoinedPlayer(source).characterData
-        local itemData = Config.Items[itemId]
-        if not itemData then TriggerClientEvent("fivez:AddNotification", source, "Item doesn't exist!") return end
-        if itemData.qualRemPerUse then reduceQualAmount = itemData.qualRemPerUse end
         
         if plyChar.inventory.items[slot].itemId == itemId then
-            local count = plyChar.inventory.items[slot].count
+            local quality = plyChar.inventory.items[slot].quality
+            if quality < reduceQualAmount then TriggerClientEvent("fivez:AddNotification", source, "Item doesn't have enough quality ("+reduceQualAmount+" needed)") return end
+            TriggerClientEvent("fivez:AddInventoryNotification", source, false, json.encode(plyChar.inventory.items[slot]))
+
+            if quality > reduceQualAmount then
+                plyChar.inventory.items[slot].quality = quality - reduceQualAmount
+                SQL_UpdateItemQualityInCharacterInventory(plyChar.Id, slot, plyChar.inventory.items[slot].quality)
+            elseif quality == reduceQualAmount then
+                plyChar.inventory.items[slot] = EmptySlot()
+                SQL_RemoveItemFromCharacterInventory(plyChar.Id, slot)
+            end
+            --OLD
+            --[[ local count = plyChar.inventory.items[slot].count
             local notificationItem = Config.CreateNewItemWithCountQual(plyChar.inventory.items[slot], 1, plyChar.inventory.items[slot].quality)
             TriggerClientEvent("fivez:AddInventoryNotification", source, false, json.encode(notificationItem))
             if count == 1 then
@@ -392,7 +405,7 @@ RegisterNetEvent("fivez:ItemUsed", function(itemId, slot, identifier)
             elseif count > 1 then
                 plyChar.inventory.items[slot].count = count - 1
                 SQL_UpdateItemCountInCharacterInventory(plyChar.Id, slot, count)
-            end
+            end ]]
         elseif plyChar.inventory.items[slot].itemId ~= itemId then
             TriggerClientEvent("fivez:AddNotification", source, "Item in slot isn't item you tried to use")
         end
@@ -401,8 +414,25 @@ RegisterNetEvent("fivez:ItemUsed", function(itemId, slot, identifier)
 
         if registeredInventory then
             if registeredInventory.items[slot].itemId == itemId then
+                local quality = registeredInventory.items[slot].quality
+                if quality < reduceQualAmount then TriggerClientEvent("fivez:AddNotification", source, "Item doesn't have enough quality("+reduceQualAmount+" needed)") return end
+                local isGround = false
+                if string.match(identifier, "ground") or string.match(identifier, "zombie") or string.match(identifier, "temp") then isGround = true end
 
-                local count = registeredInventory.items[slot].count
+                if quality > reduceQualAmount then
+                    registeredInventory.items[slot].quality = quality - reduceQualAmount
+                    if not isGround then
+                        SQL_UpdateItemQualityInPersistentInventory(identifier, slot, registeredInventory.items[slot].quality)
+                    end
+                elseif quality == reduceQualAmount then
+                    registeredInventory.items[slot] = EmptySlot()
+                    if not isGround then
+                        SQL_RemoveItemFromPersistentInventory(identifier, slot)
+                    end
+                end
+
+                --OLD
+--[[                 local count = registeredInventory.items[slot].count
                 TriggerClientEvent("fivez:AddInventoryNotification", source, false, json.encode(registeredInventory.items[slot]))
                 if count == 1 then
                     registeredInventory.items[slot] = EmptySlot()
@@ -414,9 +444,10 @@ RegisterNetEvent("fivez:ItemUsed", function(itemId, slot, identifier)
                     if not string.match(identifier, "ground") then
                         SQL_UpdateItemCountInPersistentInventory(identifier, slot, count)
                     end
-                end
+                end ]]
             else
-                TriggerClientEvent("fivez:AddNotification", source, GetPlayerName(source)+" tried to use an non existing item from another inventory [" + identifier+"]")
+                TriggerClientEvent("fivez:AddNotification", source, "Tried to use a non existing item from another inventory")
+                print(GetPlayerName(source)+" tried to use a non existing item from another inventory [" + identifier+"]")
                 return
             end
         end
@@ -433,11 +464,14 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
     local plyChar = GetJoinedPlayer(source).characterData
     local itemData = Config.Items[itemId]
     if not itemData then TriggerClientEvent("fivez:AddNotification", source, "Item doesn't exist") return end
-
+    local reduceQualAmount = Config.QualRemPerItemUse
+    if itemData.qualRemPerUse then reduceQualAmount = itemData.qualRemPerUse end
+    
     if identifier == plyChar.Id then
         if plyChar.inventory.items[fromSlot].itemId == itemId then
-            if plyChar.inventory.items[fromSlot].count <= 0 then TriggerClientEvent("fivez:AddNotification", source, "You don't have enough") return end
+            if plyChar.inventory.items[fromSlot].quality <= reduceQualAmount then TriggerClientEvent("fivez:AddNotification", source, "Item's quality is not high enough ("+reduceQualAmount+" needed)") return end
 
+            --If item was a weapon
             if string.match(plyChar.inventory.items[fromSlot].model, "weapon_") then
                 local plyPed = GetPlayerPed(source)
                 local hands = GetSelectedPedWeapon(plyPed)
@@ -477,8 +511,8 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                     plyChar.inventory.hands = -1
                 end
             else
+                --Item was not a weapon
                 local hasClientFunc = false
-                --Normal item with custom functions
                 --Check if the item has a client function
                 if itemData.clientfunction then
                     hasClientFunc = true
@@ -489,12 +523,13 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                 if itemData.serverfunction then
                     local result = itemData.serverfunction(source, plyChar.inventory.items[fromSlot].quality)
                     if result then
+                        --If the item doesn't have a client function then we've used the item
                         if not hasClientFunc then
                             TriggerClientEvent("fivez:AddInventoryNotification", source, false, json.encode(plyChar.inventory.items[fromSlot]))
-                            if plyChar.inventory.items[fromSlot].count > 1 then
-                                plyChar.inventory.items[fromSlot].count = plyChar.inventory.items[fromSlot].count - 1
-                                SQL_UpdateItemCountInCharacterInventory(plyChar.Id, fromSlot, plyChar.inventory.items[fromSlot].count)
-                            elseif plyChar.inventory.items[fromSlot].count == 1 then
+                            if plyChar.inventory.items[fromSlot].quality > reduceQualAmount then
+                                plyChar.inventory.items[fromSlot].quality = plyChar.inventory.items[fromSlot].quality - reduceQualAmount
+                                SQL_UpdateItemQualityInCharacterInventory(plyChar.Id, fromSlot, plyChar.inventory.items[fromSlot].quality)
+                            elseif plyChar.inventory.items[fromSlot].count == reduceQualAmount then
                                 plyChar.inventory.items[fromSlot] = EmptySlot()
                                 SQL_RemoveItemFromCharacterInventory(plyChar.Id, fromSlot)
                             end
@@ -502,8 +537,7 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                         end
                     end
                 end
-            end
-            
+            end  
         else
             TriggerClientEvent("fivez:AddNotification", source, "You don't have that item!")
         end
@@ -512,7 +546,10 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
 
         if otherInventory then
             if otherInventory.items[fromSlot].itemId == itemId then
-                if otherInventory.items[fromSlot].count >= 0 then TriggerClientEvent("fivez:AddNotification", source, "Inventory doesn't have enough") return end
+                --Check if player is trying to use weapon from other inventory
+                if string.match(plyChar.inventory.items[fromSlot].model, "weapon_") then TriggerClientEvent("fivez:AddNotification", source, "Can't use weapons from inventories that are not your own!") return end
+                --Check the other inventory actually has enough count
+                if otherInventory.items[fromSlot].quality <= reduceQualAmount then TriggerClientEvent("fivez:AddNotification", source, "Item doesn't have enough quality ("+reduceQualAmount+" needed)") return end
                 --Check if the item has a client function
                 local hasClientFunc = false
                 if itemData.clientfunction then
@@ -529,10 +566,10 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                     if result then
                         if not hasClientFunc then
                             TriggerClientEvent("fivez:AddInventoryNotification", source, false, json.encode(otherInventory.items[fromSlot]))
-                            if otherInventory.items[fromSlot].count > 1 then
-                                otherInventory.items[fromSlot].count = otherInventory.items[fromSlot].count - 1
-                                SQL_UpdateItemCountInPersistentInventory(identifier, fromSlot, otherInventory.items[fromSlot].count)
-                            elseif otherInventory.items[fromSlot].count == 1 then
+                            if otherInventory.items[fromSlot].quality > reduceQualAmount then
+                                otherInventory.items[fromSlot].quality = otherInventory.items[fromSlot].quality - reduceQualAmount
+                                SQL_UpdateItemQualityInPersistentInventory(identifier, fromSlot, otherInventory.items[fromSlot].quality)
+                            elseif otherInventory.items[fromSlot].quality == reduceQualAmount then
                                 otherInventory.items[fromSlot] = EmptySlot()
                                 SQL_RemoveItemFromPersistentInventory(identifier, fromSlot)
                             end
@@ -571,7 +608,7 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
             elseif plyChar.inventory.items[transferData.toSlot].itemId == transferData.item.itemId then
                 --If the quality is different
                 if plyChar.inventory.items[transferData.toSlot].quality ~= plyChar.inventory.items[transferData.fromSlot].quality then
-                    plyChar.inventory.items[transferData.toSlot].quality = plyChar.inventory.items[transferData.toSlot].quality + plyChar.inventory.items[transferData.fromSlot].quality
+                    --[[ plyChar.inventory.items[transferData.toSlot].quality = plyChar.inventory.items[transferData.toSlot].quality + plyChar.inventory.items[transferData.fromSlot].quality
                     
                     local leftOverQual = 0
                     if plyChar.inventory.items[transferData.toSlot].quality > 100 then
@@ -583,13 +620,14 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                         plyChar.inventory.items[transferData.fromSlot].quality = leftOverQual
                     elseif leftOverQual == 0 then
                         plyChar.inventory.items[transferData.fromSlot] = EmptySlot()
-                    end
+                    end ]]
 
-                    --[[ local tempItem = plyChar.inventory.items[transferData.toSlot]
+                    local tempItem = plyChar.inventory.items[transferData.toSlot]
                     plyChar.inventory.items[transferData.toSlot] = Config.CreateNewItemWithData(plyChar.inventory.items[transferData.fromSlot])
-                    plyChar.inventory.items[transferData.fromSlot] = Config.CreateNewItemWithData(tempItem) ]]
+                    plyChar.inventory.items[transferData.fromSlot] = Config.CreateNewItemWithData(tempItem)
                 elseif plyChar.inventory.items[transferData.toSlot].quality == plyChar.inventory.items[transferData.fromSlot].quality then
-                    --Set newCount to, to slot count plus amount transferring
+                    --SAME ITEM AND SAME QUALITY DON'T DO ANYTHING?
+                    --[[ --Set newCount to, to slot count plus amount transferring
                     local newCount = plyChar.inventory.items[transferData.toSlot].count + transferData.count
                     --If the new count is greater than the item max count
                     if newCount > itemData.maxcount then
@@ -613,7 +651,7 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                         --
                         plyChar.inventory.items[transferData.fromSlot].count = plyChar.inventory.items[transferData.fromSlot].count - transferData.count
                         SQL_UpdateItemCountInCharacterInventory(plyChar.Id, transferData.fromSlot, plyChar.inventory.items[transferData.fromSlot].count)
-                    end
+                    end ]]
                 end
             elseif plyChar.inventory.items[transferData.toSlot].itemId ~= transferData.item.itemId then
                 --Item isn't the exact same
@@ -645,16 +683,19 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
             local slotMovingFrom = inventoryData.items[transferData.fromSlot]
             --If player is moving item that doesn't exist in the from slot
             if slotMovingFrom.itemId ~= transferData.item.itemId then TriggerClientEvent("fivez:AddNotification", source, "Item doesn't exist in inventory") return end
+            local tempInventory = false
+            if string.match(transferData.id, "ground") or string.match(transferData.id, "zombie") or string.match(transferData.id, "temp") then tempInventory = true end
             --If we got slot moving onto and from
             if slotMovingOnto and slotMovingFrom then
                 --Moving onto empty slot
                 if slotMovingOnto.model == "empty" then
                     slotMovingOnto = Config.CreateNewItemWithData(slotMovingFrom)
                     slotMovingFrom = EmptySlot()
-                    if not string.match(transferData.id, "ground") and not string.match(transferData.id, "zombie") and not string.match(transferData.id, "temp") then
+                    if not tempInventory then
                         SQL_ChangeItemSlotIdInPersistentInventory(transferData.id, transferData.fromSlot, transferData.toSlot)
                     end
                 else
+                    --TODO: DO SOME THINKING HERE
                     --Moving onto non empty slot
                     --Moving onto the same item
                     if slotMovingFrom.itemId == slotMovingOnto.itemId then
@@ -663,12 +704,13 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                             slotMovingOnto = Config.CreateNewItemWithData(slotMovingFrom)
                             slotMovingFrom = Config.CreateNewItemWithData(tempItem)
 
-                            if not string.match(transferData.id, "ground") and not string.match(transferData.id, "zombie") and not string.match(transferData.id, "temp") then
+                            if not tempInventory then
                                 SQL_ChangeItemSlotIdInPersistentInventory(transferData.id, transferData.fromSlot, transferData.toSlot)
                                 SQL_ChangeItemSlotIdWithItemIdInPersistentInventory(transferData.id, transferData.toSlot, slotMovingFrom.itemId, transferData.fromSlot)
                             end
                         else
-                            local newCount = slotMovingOnto.count + transferData.count
+                            --Moving onto the same item that has the same quality
+                            --[[ local newCount = slotMovingOnto.count + transferData.count
                             if newCount > itemData.maxcount then 
                                 newCount = itemData.maxcount
                                 transferData.count = newCount - slotMovingFrom.count
@@ -680,16 +722,16 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                             if slotMovingFrom.count == transferData.count then
                                 slotMovingFrom = EmptySlot()
 
-                                if not string.match(transferData.id, "ground") and not string.match(transferData.id, "zombie") and not string.match(transferData.id, "temp") then
+                                if not tempInventory then
                                     SQL_RemoveItemFromPersistentInventory(transferData.id, transferData.fromSlot)
                                 end
                             elseif slotMovingFrom.count > transferData.count then
                                 slotMovingFrom.count = slotMovingFrom.count - transferData.count
-                                if not string.match(transferData.id, "ground") and not string.match(transferData.id, "zombie") and not string.match(transferData.id, "temp") then
+                                if not tempInventory then
                                     --Update moving from slot count
                                     SQL_UpdateItemCountInPersistentInventory(transferData.id, transferData.fromSlot, slotMovingFrom.count)
                                 end
-                            end
+                            end ]]
                         end
                     elseif slotMovingFrom.itemId ~= slotMovingOnto.itemId then
                         --Not moving onto the same item
@@ -697,7 +739,7 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                         slotMovingOnto = Config.CreateNewItemWithData(slotMovingFrom)
                         slotMovingFrom = Config.CreateNewItemWithData(tempItem)
 
-                        if not string.match(transferData.id, "ground") and not string.match(transferData.id, "zombie") and not string.match(transferData.id, "temp") then
+                        if not tempInventory then
                             SQL_ChangeItemSlotIdInPersistentInventory(transferData.id, transferData.toSlot, transferData.fromSlot)
                             SQL_ChangeItemSlotIdWithItemIdInPersistentInventory(transferData.id, transferData.fromSlot, slotMovingOnto.itemId, transferData.toSlot)
                         end
@@ -723,9 +765,10 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
         local plyChar = GetJoinedPlayer(source).characterData
         local itemData = Config.Items[transferData.item.itemId]
         if not itemData then print("Couldn't find registered item") return end
-
+        local tempInventory = false
         --Player is transferring to own inventory
         if transferData.toId == plyChar.Id then
+            if string.match(transferData.fromId, "ground") or string.match(transferData.fromId, "zombie") or string.match(transferData.fromId, "temp") then tempInventory = true end
             --Get the slot in inventory we are transferring to
             local plySlot = plyChar.inventory.items[transferData.toSlot]
             --Get the inventory we are transferring from
@@ -759,9 +802,10 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                 plySlot.count = transferData.count
                 SQL_InsertItemToCharacterInventory(plyChar.Id, transferData.toSlot, {id = plySlot.itemId, count = plySlot.count, quality = plySlot.quality, attachments = plySlot.attachments })
             elseif plySlot.itemId == invSlot.itemId then
+                --Transferring onto same item type
                 --If there is a difference in item quality
                 if invSlot.quality ~= plySlot.quality then
-                    plySlot.count = plySlot.count + transferData.count
+                    --[[ plySlot.count = plySlot.count + transferData.count
                     local leftOverCount = 0
                     if plySlot.count > itemData.maxcount then
                         leftOverCount = plySlot.count - itemData.maxcount
@@ -795,17 +839,26 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                         if not string.match(transferData.fromId, "ground") and not string.match(transferData.fromId, "zombie") and not string.match(transferData.fromId, "temp") then
                             SQL_RemoveItemFromPersistentInventory(transferData.fromId, transferData.fromSlot)
                         end
+                    end ]]
+                    local tempItem = plySlot
+                    plySlot = Config.CreateNewItemWithData(invSlot)
+                    invSlot = Config.CreateNewItemWithData(tempItem)
+                    SQL_RemoveItemFromCharacterInventory(plyChar.Id, transferData.toSlot)
+                    SQL_InsertItemToCharacterInventory(plyChar.Id, transferData.toSlot, {id = plySlot.itemId, count = plySlot.count, quality = plySlot.quality, attachments = plySlot.attachments})
+                    if not tempInventory and not transferData.fromId ~= "itemmenu:1" then
+                        SQL_RemoveItemFromPersistentInventory(transferData.fromId, transferData.fromSlot)
+                        SQL_InsertItemToPersistentInventory(transferData.fromId, transferData.fromSlot, {id = invSlot.itemId, count = invSlot.count, quality = invSlot.quality, attachments = invSlot.attachments})
                     end
-
                     swappedItems = true
                 else
-                    local newCount = plyChar.inventory.items[transferData.toSlot].count + transferData.count
+                    --Same item same quality
+                    --[[ local newCount = plyChar.inventory.items[transferData.toSlot].count + transferData.count
                     if newCount > itemData.maxcount then
                         newCount = itemData.maxcount --New count is the item max count
                         transferData.count = newCount - plyChar.inventory.items[transferData.toSlot].count --The amount we are transferring now is, max count minus cur count
                     end
                     plySlot.count = newCount
-                    SQL_UpdateItemCountInCharacterInventory(plyChar.Id, transferData.toSlot, newCount)
+                    SQL_UpdateItemCountInCharacterInventory(plyChar.Id, transferData.toSlot, newCount) ]]
                 end
             elseif plySlot.itemId ~= invSlot.itemId then
                 --Not transferring onto the same item
@@ -821,7 +874,7 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                 if transferData.fromId ~= "itemmenu:1" then
                     inventoryTransferringFrom.items[transferData.fromSlot] = Config.CreateNewItemWithData(tempItem)
 
-                    if not string.match(transferData.fromId, "ground") and not string.match(transferData.fromId, "zombie") and not string.match(transferData.fromId, "temp") then
+                    if not tempInventory then
                         --First delete them item we swapped to player inventory
                         SQL_RemoveItemFromPersistentInventory(transferData.fromId, transferData.fromSlot)
                         --Then save the new item to the slot id
@@ -837,13 +890,13 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                     inventoryTransferringFrom.items[transferData.fromSlot] = EmptySlot()
                     invSlot = inventoryTransferringFrom.items[transferData.fromSlot]
                     
-                    if (not string.match(transferData.fromId, "ground")) and (not string.match(transferData.fromId, "zombie")) and (not string.match(transferData.fromId, "temp")) then
+                    if not tempInventory then
                         SQL_RemoveItemFromPersistentInventory(transferData.fromId, transferData.fromSlot)
                     end
                 elseif invSlot.count > transferData.count then
                     inventoryTransferringFrom.items[transferData.fromSlot].count = invSlot.count - transferData.count
                     invSlot = inventoryTransferringFrom.items[transferData.fromSlot]
-                    if not string.match(transferData.fromId, "ground") and not string.match(transferData.fromId, "zombie") and not string.match(transferData.fromId, "temp") then
+                    if not tempInventory then
                         SQL_UpdateItemCountInPersistentInventory(transferData.fromId, transferData.fromSlot, invSlot.count)
                     end
                 end
@@ -863,6 +916,7 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                 print(inventoryTransferringFrom.identifier, " this inventory isn't in the open inventories table")
             end
         elseif transferData.fromId == plyChar.Id then
+            if string.match(transferData.toId, "ground") or string.match(transferData.toId, "zombie") or string.match(transferData.toId, "temp") then tempInventory = true end
             --Player is transferring out of own inventory
             local plySlot = plyChar.inventory.items[transferData.fromSlot]
             --Check character has enough of the item in the slot or if the character has less than the amount trying to be transfered
@@ -895,7 +949,7 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                 invSlot.count = transferData.count
                 plyChar.inventory.items[transferData.fromSlot] = EmptySlot()
                 plySlot = plyChar.inventory.items[transferData.fromSlot]
-                if (not string.match(transferData.toId, "ground")) and (not string.match(transferData.toId, "zombie")) and (not string.match(transferData.toId, "temp")) then
+                if not tempInventory then
                     SQL_InsertItemToPersistentInventory(transferData.toId, transferData.toSlot, {id = invSlot.itemId, count = invSlot.count, quality = invSlot.quality, attachments = invSlot.attachments})
                 end
                 SQL_RemoveItemFromCharacterInventory(plyChar.Id, transferData.fromSlot)
@@ -903,7 +957,7 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                 --If we are transferring onto the exact same item
                 --If the quality from the item slot where we are transferrinmg from is not the same as the slot we are transferring to
                 if plySlot.quality ~= invSlot.quality then
-                    invSlot.count = invSlot.count + transferData.count
+                    --[[ invSlot.count = invSlot.count + transferData.count
                     local leftOverCount = 0
                     if invSlot.count > itemData.maxcount then
                         leftOverCount = invSlot.count - itemData.maxcount
@@ -916,8 +970,10 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                         leftOverQual = invSlot.quality - 100
                         invSlot.quality = 100
                     end
-                    SQL_UpdateItemCountInPersistentInventory(transferData.toId, transferData.toSlot, invSlot.count)
-                    SQL_UpdateItemQualityInPersistentInventory(transferData.toId, transferData.toSlot, invSlot.quality)
+                    if not tempInventory then
+                        SQL_UpdateItemCountInPersistentInventory(transferData.toId, transferData.toSlot, invSlot.count)
+                        SQL_UpdateItemQualityInPersistentInventory(transferData.toId, transferData.toSlot, invSlot.quality)
+                    end
                     if leftOverQual > 0 or leftOverCount > 0 then
                         plySlot.quality = leftOverQual
                         plySlot.count = leftOverCount
@@ -927,23 +983,24 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                     elseif leftOverQual == 0 or leftOverCount == 0 then
                         plySlot = EmptySlot()
                         SQL_RemoveItemFromCharacterInventory(plyChar.Id, transferData.fromSlot)
-                    end
-                    --[[ local tempItem = invSlot
-                    inventoryTransferringTo.items[transferData.toSlot] = Config.CreateNewItemWithData(plySlot)
-                    invSlot = inventoryTransferringTo.items[transferData.toSlot]
-                    plyChar.inventory.items[transferData.fromSlot] = Config.CreateNewItemWithData(tempItem) 
-                    plySlot = plyChar.inventory.items[transferData.fromSlot]
+                    end ]]
 
-                    if not string.match(transferData.toId, "ground") and not string.match(transferData.toId, "zombie") and not string.match(transferData.toId, "temp") then
+                    local tempItem = invSlot
+                    inventoryTransferringTo.items[transferData.toSlot] = Config.CreateNewItemWithData(plySlot)
+                    --invSlot = inventoryTransferringTo.items[transferData.toSlot]
+                    plyChar.inventory.items[transferData.fromSlot] = Config.CreateNewItemWithData(tempItem)
+                    invSlot = inventoryTransferringTo.items[transferData.toSlot]
+                    plySlot = plyChar.inventory.items[transferData.fromSlot]
+                    if not tempInventory then
                         SQL_RemoveItemFromPersistentInventory(transferData.toId, transferData.toSlot)
                         SQL_InsertItemToPersistentInventory(transferData.toId, transferData.toSlot, {id = invSlot.itemId, count = invSlot.count, quality = invSlot.quality, attachments = invSlot.attachments})
                     end
 
                     SQL_RemoveItemFromCharacterInventory(plyChar.Id, transferData.fromSlot)
-                    SQL_InsertItemToCharacterInventory(plyChar.Id, transferData.fromSlot, {id = plySlot.itemId, count = plySlot.count, quality = plySlot.quality, attachments = plySlot.attachments }) ]]
+                    SQL_InsertItemToCharacterInventory(plyChar.Id, transferData.fromSlot, {id = plySlot.itemId, count = plySlot.count, quality = plySlot.quality, attachments = plySlot.attachments })
                 else
                     --Transferring the exact same item and their quality is the same
-                    local newCount = invSlot.count + transferData.count
+                    --[[ local newCount = invSlot.count + transferData.count
 
                     if newCount > itemData.maxcount then
                         newCount = itemData.maxcount
@@ -951,7 +1008,7 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                     end
                     inventoryTransferringTo.items[transferData.toSlot].count = newCount
                     invSlot = inventoryTransferringTo.items[transferData.toSlot]
-                    if not string.match(transferData.toId, "ground") and not string.match(transferData.toId, "zombie") and not string.match(transferData.toId, "temp") then
+                    if not tempInventory then
                         SQL_UpdateItemCountInPersistentInventory(transferData.toId, transferData.toSlot, newCount)
                     end
                     --Item slot count is equal to the amount character is transferring
@@ -965,7 +1022,7 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                         plyChar.inventory.items[transferData.fromSlot].count = plySlot.count - transferData.count
                         plySlot = plyChar.inventory.items[transferData.fromSlot]
                         SQL_UpdateItemCountInCharacterInventory(plyChar.Id, transferData.fromSlot, plySlot.count)
-                    end
+                    end ]]
                 end
             elseif invSlot.itemId ~= plySlot.itemId then
                 --Transferring onto a different item
@@ -975,7 +1032,7 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                 plyChar.inventory.items[transferData.fromSlot] = Config.CreateNewItemWithData(tempItem)
                 plySlot = plyChar.inventory.items[transferData.fromSlot]
 
-                if not string.match(transferData.toId, "ground") and not string.match(transferData.toId, "zombie") and not string.match(transferData.toId, "temp") then
+                if not tempInventory then
                     SQL_RemoveItemFromPersistentInventory(transferData.toId, transferData.toSlot)
                     SQL_InsertItemToPersistentInventory(transferData.toId, transferData.toSlot, {id = invSlot.itemId, count = invSlot.count, quality = invSlot.quality, attachments = invSlot.attachments})
                 end

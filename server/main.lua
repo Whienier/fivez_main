@@ -404,8 +404,8 @@ RegisterNetEvent("fivez:PlayerPedSpawned", function()
 end)
 --Also triggered when player ped has been spawned
 AddEventHandler("entityCreated", function(handle)
-    print("Entity has been created!", handle, DoesEntityExist(handle), NetworkGetNetworkIdFromEntity(handle))
     if DoesEntityExist(handle) then
+        print("Entity has been created!", handle, DoesEntityExist(handle), NetworkGetNetworkIdFromEntity(handle))
         --TODO: Maybe make server loop to set weather every so often
         if #joinedPlayers == 1 then
             TriggerEvent("weathersync:setWeather", "blizzard", 0.0, false, false)

@@ -385,7 +385,7 @@ RegisterNetEvent("fivez:ItemUsed", function(itemId, slot, identifier)
         
         if plyChar.inventory.items[slot].itemId == itemId then
             local quality = plyChar.inventory.items[slot].quality
-            if quality < reduceQualAmount then TriggerClientEvent("fivez:AddNotification", source, "Item doesn't have enough quality ("+reduceQualAmount+" needed)") return end
+            if quality < reduceQualAmount then TriggerClientEvent("fivez:AddNotification", source, "Item doesn't have enough quality ("..reduceQualAmount.." needed)") return end
             TriggerClientEvent("fivez:AddInventoryNotification", source, false, json.encode(plyChar.inventory.items[slot]))
 
             if quality > reduceQualAmount then
@@ -415,7 +415,7 @@ RegisterNetEvent("fivez:ItemUsed", function(itemId, slot, identifier)
         if registeredInventory then
             if registeredInventory.items[slot].itemId == itemId then
                 local quality = registeredInventory.items[slot].quality
-                if quality < reduceQualAmount then TriggerClientEvent("fivez:AddNotification", source, "Item doesn't have enough quality("+reduceQualAmount+" needed)") return end
+                if quality < reduceQualAmount then TriggerClientEvent("fivez:AddNotification", source, "Item doesn't have enough quality("..reduceQualAmount.." needed)") return end
                 local isGround = false
                 if string.match(identifier, "ground") or string.match(identifier, "zombie") or string.match(identifier, "temp") then isGround = true end
 
@@ -447,7 +447,7 @@ RegisterNetEvent("fivez:ItemUsed", function(itemId, slot, identifier)
                 end ]]
             else
                 TriggerClientEvent("fivez:AddNotification", source, "Tried to use a non existing item from another inventory")
-                print(GetPlayerName(source)+" tried to use a non existing item from another inventory [" + identifier+"]")
+                print(GetPlayerName(source)+" tried to use a non existing item from another inventory [" ..identifier.."]")
                 return
             end
         end
@@ -469,7 +469,7 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
     
     if identifier == plyChar.Id then
         if plyChar.inventory.items[fromSlot].itemId == itemId then
-            if plyChar.inventory.items[fromSlot].quality <= reduceQualAmount then TriggerClientEvent("fivez:AddNotification", source, "Item's quality is not high enough ("+reduceQualAmount+" needed)") return end
+            if plyChar.inventory.items[fromSlot].quality <= reduceQualAmount then TriggerClientEvent("fivez:AddNotification", source, "Item's quality is not high enough ("..reduceQualAmount.." needed)") return end
 
             --If item was a weapon
             if string.match(plyChar.inventory.items[fromSlot].model, "weapon_") then
@@ -549,7 +549,7 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                 --Check if player is trying to use weapon from other inventory
                 if string.match(plyChar.inventory.items[fromSlot].model, "weapon_") then TriggerClientEvent("fivez:AddNotification", source, "Can't use weapons from inventories that are not your own!") return end
                 --Check the other inventory actually has enough count
-                if otherInventory.items[fromSlot].quality <= reduceQualAmount then TriggerClientEvent("fivez:AddNotification", source, "Item doesn't have enough quality ("+reduceQualAmount+" needed)") return end
+                if otherInventory.items[fromSlot].quality <= reduceQualAmount then TriggerClientEvent("fivez:AddNotification", source, "Item doesn't have enough quality ("..reduceQualAmount.." needed)") return end
                 --Check if the item has a client function
                 local hasClientFunc = false
                 if itemData.clientfunction then

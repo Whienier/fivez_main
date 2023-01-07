@@ -755,7 +755,7 @@ Config.Items = {
         end,
         clientfunction = function(source)
             AteFood(5)
-            return false
+            return true
         end,
         spawnchance = 25
     },
@@ -780,7 +780,7 @@ Config.Items = {
         end,
         clientfunction = function()
             DrankWater(20)
-            return false
+            return true
         end,
         spawnchance = 25
     },
@@ -857,7 +857,7 @@ Config.Items = {
                 SetVehicleEngineHealth(vehicle, 1000.0)
                 return true
             end
-            return false
+            return true
         end
     },
     [11] = {
@@ -891,7 +891,7 @@ Config.Items = {
                     return true
                 end
             end
-            return false
+            return true
         end
     },
     [12] = {
@@ -913,7 +913,7 @@ Config.Items = {
                 SetVehicleBodyHealth(vehicle, 1000.0)
                 return true
             end
-            return false
+            return true
         end
     },
     [13] = {
@@ -1091,7 +1091,7 @@ Config.Items = {
                 end
             end
 
-            return false
+            return true
         end
     },
     [21] = {
@@ -1119,7 +1119,7 @@ Config.Items = {
                 end
             end
 
-            return false
+            return true
         end
     },
     [22] = {
@@ -1172,7 +1172,7 @@ Config.Items = {
         end,
         clientfunction = function()
             AteFood(25)
-            return false
+            return true
         end
     },
     [24] = {
@@ -1201,7 +1201,7 @@ Config.Items = {
                 end
             end
 
-            return false
+            return true
         end
     },
     [25] = {
@@ -1276,7 +1276,7 @@ Config.Items = {
         end,
         clientfunction = function()
             DrankWater(30)
-            return false
+            return true
         end,
     },
     [29] = {
@@ -1301,7 +1301,7 @@ Config.Items = {
         end,
         clientfunction = function()
             AteFood(15)
-            return false
+            return true
         end
     },
     [30] = {
@@ -1340,7 +1340,7 @@ Config.Items = {
         end,
         clientfunction = function()
             AteFood(10)
-            return false
+            return true
         end
     },
     [32] = {
@@ -1366,7 +1366,7 @@ Config.Items = {
         clientfunction = function()
             local charData = GetCharacterData()
             charData.hunger = charData.hunger + 10
-            return false
+            return true
         end
     },
     [33] = {
@@ -1418,7 +1418,7 @@ Config.Items = {
         end,
         clientfunction = function()
             DrankWater(40)
-            return false
+            return true
         end
     },
     [35] = {
@@ -1517,7 +1517,7 @@ Config.Items = {
         end,
         clientfunction = function()
             DrankWater(10)
-            return false
+            return true
         end
     },
     [41] = {
@@ -1542,7 +1542,7 @@ Config.Items = {
         end,
         clientfunction = function()
             DrankWater(10)
-            return false
+            return true
         end
     },
     [42] = {
@@ -1567,7 +1567,7 @@ Config.Items = {
         end,
         clientfunction = function()
             DrankWater(10)
-            return false
+            return true
         end
     },
     [43] = {

@@ -791,16 +791,20 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
             if invSlot.count <= 0 or invSlot.count < transferData.count then TriggerClientEvent("fivez:AddNotification", source, "Inventory transferring from doesn't have enough") return end
             --Check if the other inventory has the item
             if invSlot.itemId ~= transferData.item.itemId then TriggerClientEvent("fivez:AddNotification", source, "Inventory transferring from doesn't have that item") return end
-            local swappedItems = false
             
             --Slot transferring onto is empty
             if plySlot.model == "empty" then
                 print("Changing ply slot", plySlot.model, invSlot.quality)
                 plyChar.inventory.items[transferData.toSlot] = Config.CreateNewItemWithData(invSlot)
                 plySlot = plyChar.inventory.items[transferData.toSlot]
+                inventoryTransferringFrom.items[transferData.fromSlot] = EmptySlot()
+                invSlot = inventoryTransferringFrom.items[transferData.fromSlot]
                 print("Changed ply slot", plySlot.model, plySlot.quality)
                 plySlot.count = transferData.count
                 SQL_InsertItemToCharacterInventory(plyChar.Id, transferData.toSlot, {id = plySlot.itemId, count = plySlot.count, quality = plySlot.quality, attachments = plySlot.attachments })
+                if not tempInventory then
+                    SQL_RemoveItemFromPersistentInventory(transferData.fromId, transferData.fromSlot)
+                end
             elseif plySlot.itemId == invSlot.itemId then
                 --Transferring onto same item type
                 --If there is a difference in item quality
@@ -849,7 +853,6 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                         SQL_RemoveItemFromPersistentInventory(transferData.fromId, transferData.fromSlot)
                         SQL_InsertItemToPersistentInventory(transferData.fromId, transferData.fromSlot, {id = invSlot.itemId, count = invSlot.count, quality = invSlot.quality, attachments = invSlot.attachments})
                     end
-                    swappedItems = true
                 else
                     --Same item same quality
                     --[[ local newCount = plyChar.inventory.items[transferData.toSlot].count + transferData.count
@@ -880,27 +883,9 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                         --Then save the new item to the slot id
                         SQL_InsertItemToPersistentInventory(transferData.fromId, transferData.fromSlot, {id = invSlot.itemId, count = invSlot.count, quality = invSlot.quality, attachments = invSlot.attachments})
                     end
-                    swappedItems = true
                 end
             end
 
-            --If we didn't swap items and not transferring from admin menu, set containers item slot count
-            if not swappedItems and transferData.fromId ~= "itemmenu:1" then
-                if invSlot.quality == reduceQualAmount then
-                    inventoryTransferringFrom.items[transferData.fromSlot] = EmptySlot()
-                    invSlot = inventoryTransferringFrom.items[transferData.fromSlot]
-                    
-                    if not tempInventory then
-                        SQL_RemoveItemFromPersistentInventory(transferData.fromId, transferData.fromSlot)
-                    end
-                elseif invSlot.quality > reduceQualAmount then
-                    --[[ inventoryTransferringFrom.items[transferData.fromSlot].count = invSlot.count - transferData.count
-                    invSlot = inventoryTransferringFrom.items[transferData.fromSlot]
-                    if not tempInventory then
-                        SQL_UpdateItemCountInPersistentInventory(transferData.fromId, transferData.fromSlot, invSlot.count)
-                    end ]]
-                end
-            end
             TriggerClientEvent("fivez:PlayDroppedItemAnimation", source)
             if openInventories[inventoryTransferringFrom.identifier] ~= nil then
                 --Update any clients with the same inventory open

@@ -799,12 +799,16 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                 print("Changing ply slot", plySlot.model, invSlot.quality)
                 plyChar.inventory.items[transferData.toSlot] = Config.CreateNewItemWithData(invSlot)
                 plySlot = plyChar.inventory.items[transferData.toSlot]
-                inventoryTransferringFrom.items[transferData.fromSlot] = EmptySlot()
-                invSlot = inventoryTransferringFrom.items[transferData.fromSlot]
+                
                 print("Changed ply slot", plySlot.model, plySlot.quality)
                 plySlot.count = transferData.count
                 SQL_InsertItemToCharacterInventory(plyChar.Id, transferData.toSlot, {id = plySlot.itemId, count = plySlot.count, quality = plySlot.quality, attachments = plySlot.attachments })
                 if not tempInventory then
+                    --If we are not transferring from the admin item menu
+                    if not transferData.fromId == "itemmenu:1" then
+                        inventoryTransferringFrom.items[transferData.fromSlot] = EmptySlot()
+                        invSlot = inventoryTransferringFrom.items[transferData.fromSlot]
+                    end
                     SQL_RemoveItemFromPersistentInventory(transferData.fromId, transferData.fromSlot)
                 end
             elseif plySlot.itemId == invSlot.itemId then
@@ -847,7 +851,7 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                         end
                     end ]]
                     local tempItem = plySlot
-                    plySlot = Config.CreateNewItemWithData(invSlot)
+                    plyChar.inventory.items[transferData.toSlot] = Config.CreateNewItemWithData(invSlot)
                     invSlot = Config.CreateNewItemWithData(tempItem)
                     SQL_RemoveItemFromCharacterInventory(plyChar.Id, transferData.toSlot)
                     SQL_InsertItemToCharacterInventory(plyChar.Id, transferData.toSlot, {id = plySlot.itemId, count = plySlot.count, quality = plySlot.quality, attachments = plySlot.attachments})

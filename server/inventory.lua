@@ -386,6 +386,7 @@ RegisterNetEvent("fivez:ItemUsed", function(itemId, slot, identifier)
         if plyChar.inventory.items[slot].itemId == itemId then
             local quality = plyChar.inventory.items[slot].quality
             if quality < reduceQualAmount then TriggerClientEvent("fivez:AddNotification", source, "Item doesn't have enough quality ("..reduceQualAmount.." needed)") return end
+            local notificationItem = Config.CreateNewItemWithCountQual(plyChar.inventory.items[slot], 1, plyChar.inventory.items[slot].quality)
             TriggerClientEvent("fivez:AddInventoryNotification", source, false, json.encode(plyChar.inventory.items[slot]))
 
             if quality > reduceQualAmount then
@@ -395,6 +396,7 @@ RegisterNetEvent("fivez:ItemUsed", function(itemId, slot, identifier)
                 plyChar.inventory.items[slot] = EmptySlot()
                 SQL_RemoveItemFromCharacterInventory(plyChar.Id, slot)
             end
+            TriggerClientEvent("fivez:UpdateCharacterInventoryItems", source, json.encode(plyChar.inventory.items), nil)
             --OLD
             --[[ local count = plyChar.inventory.items[slot].count
             local notificationItem = Config.CreateNewItemWithCountQual(plyChar.inventory.items[slot], 1, plyChar.inventory.items[slot].quality)
@@ -430,7 +432,7 @@ RegisterNetEvent("fivez:ItemUsed", function(itemId, slot, identifier)
                         SQL_RemoveItemFromPersistentInventory(identifier, slot)
                     end
                 end
-
+                TriggerClientEvent("fivez:UpdateCharacterInventoryItems", source, json.encode(plyChar.inventory.items), json.encode(registeredInventory))
                 --OLD
 --[[                 local count = registeredInventory.items[slot].count
                 TriggerClientEvent("fivez:AddInventoryNotification", source, false, json.encode(registeredInventory.items[slot]))
@@ -469,7 +471,7 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
     
     if identifier == plyChar.Id then
         if plyChar.inventory.items[fromSlot].itemId == itemId then
-            if plyChar.inventory.items[fromSlot].quality <= reduceQualAmount then TriggerClientEvent("fivez:AddNotification", source, "Item's quality is not high enough ("..reduceQualAmount.." needed)") return end
+            if plyChar.inventory.items[fromSlot].quality < reduceQualAmount then TriggerClientEvent("fivez:AddNotification", source, "Item's quality is not high enough ("..reduceQualAmount.." needed)") return end
 
             --If item was a weapon
             if string.match(plyChar.inventory.items[fromSlot].model, "weapon_") then

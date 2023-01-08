@@ -168,9 +168,7 @@ function CalculateZombieLoot(zombieModel)
                         weight = weight + (rng * v.weight)
                         local itemData = v
                         itemData.count = rng
-                        local minQuality = v.minquality or Config.MinQuality
-                        rng = math.random(minQuality, v.quality or Config.MaxQuality)
-                        itemData.quality = rng
+                        itemData.quality = 100
                         items[k] = itemData
                         table.insert(lootSpawned, itemData.itemId)
                     end

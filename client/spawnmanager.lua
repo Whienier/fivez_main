@@ -79,7 +79,7 @@ function RespawnPlayer(onSpot, newGender, spawnId)
         if onSpot == false then
             respawnPos = Config.DefinedPlayerSpawns[spawnId]
             if respawnPos == nil then
-                respawnPos = Config.PlayerSpawns[math.random(#Config.PlayerSpawns)]
+                respawnPos = Config.RandomPlayerSpawns[math.random(#Config.RandomPlayerSpawns)]
             end
         elseif onSpot == true then
             respawnPos = GetEntityCoords(playerPed)

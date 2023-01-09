@@ -71,7 +71,8 @@ Config.Blips = {
     {position = vector3(440.131622, -982.410034, 31.090929), labelid = "POLICEBLIP", label = "Police Station", sprite = 60},
     {position = vector3(318.284, -593.79364, 44.02125), labelid = "HOSPITALBLIP", label = "Hospital", sprite = 61},
     {position = vector3(-2301.87622, 3150.99243, 39.83637), labelid = "MILITARYBLIP", label = "Military Base", sprite = 487},
-    {position = vector3(-183.032776, -1548.34656, 34.4813), labelid = "SAFEZONEBLIP", label = "Safe Zone", sprite = 40, radius = 100}
+    {position = vector3(-183.032776, -1548.34656, 34.4813), labelid = "SAFEZONEBLIP", label = "Safe Zone", sprite = 40, radius = 100},
+    {position = vector3(-990.96, -1104.87, 2.22), labelid = "HOUSESBLIP", label = "House Blocks", sprite = 52, radius = 150}
 }
 
 --How often to sync vehicle pos
@@ -88,6 +89,21 @@ Config.VehicleFuelTimer = 1000
 --The rate at which fuel is drained
 Config.VehicleFuelRates = {
     [GetHashKey("futo")] = {
+        [30] = 0.5,
+        [60] = 1,
+        [120] = 1.5
+    },
+    [GetHashKey("ruiner")] = {
+        [30] = 0.5,
+        [60] = 1,
+        [120] = 1.5
+    },
+    [GetHashKey("tornado4")] = {
+        [30] = 0.5,
+        [60] = 1,
+        [120] = 1.5
+    },
+    [GetHashKey("warrener")] = {
         [30] = 0.5,
         [60] = 1,
         [120] = 1.5
@@ -126,20 +142,20 @@ Config.InteriorPortals = {
 --Routing interiors
 Config.RoutingInteriors = {
     [1] = {
-        inPositions = {
-            ["house1"] = { --These portals will lead to the same routing bucket
+        inPositions = { --All enter portals tables will exit the same out portal but different routing buckets
+            ["house1"] = {
                 [1] = vector3(-990.96, -1104.87, 2.22),
                 [2] = vector3(-1001.46, -1086.85, 2.1),
                 [3] = vector3(-989.49, -1105.96, 7.15)
             },
-            ["house2"] = { --These portals will lead to a different routing bucket
+            ["house2"] = { 
                 [1] = vector3(-1035.55, -1145.91, 2.61),
                 [2] = vector3(-1024.21, -1164.67, 2.71),
                 [3] = vector3(-1037.12, -1144.48, 7.6)
             }
         },
-        outPosition = vector3(346.68, -1006, -98.87), --Multiple in positions for one as routing buckets will be assigned to each in position
-        lootableAreas = {
+        outPosition = vector3(346.68, -1006, -98.87), --Multiple in positions for one as routing buckets will be assigned to each table
+        lootableAreas = { --Lootable areas for the interior
             [1] = {
                 position = vector3(346.68, -1006, -98.87),
                 lootGrade = 0
@@ -163,7 +179,7 @@ Config.DefinedPlayerSpawns = {
 }
 
 --Random spawns for players
-Config.PlayerSpawns = {
+Config.RandomPlayerSpawns = {
     vector3(-951.0881, -1079.3075, 2.5),
     vector3(-1047.66492, -1152.7428, 2.5),
     vector3(-1031.24109, -1109.09021, 2.5),

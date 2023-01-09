@@ -68,11 +68,11 @@ Config.HighRiskZones = {
 
 --Blips to be created
 Config.Blips = {
-    {position = vector3(440.131622, -982.410034, 31.090929), labelid = "POLICEBLIP", label = "Police Station", sprite = 60},
-    {position = vector3(318.284, -593.79364, 44.02125), labelid = "HOSPITALBLIP", label = "Hospital", sprite = 61},
-    {position = vector3(-2301.87622, 3150.99243, 39.83637), labelid = "MILITARYBLIP", label = "Military Base", sprite = 487},
-    {position = vector3(-183.032776, -1548.34656, 34.4813), labelid = "SAFEZONEBLIP", label = "Safe Zone", sprite = 40, radius = 100},
-    {position = vector3(-990.96, -1104.87, 2.22), labelid = "HOUSESBLIP", label = "House Blocks", sprite = 52, radius = 150}
+    {position = vector3(440.131622, -982.410034, 31.090929), label = "Police Station", sprite = 60, radius = 0},
+    {position = vector3(318.284, -593.79364, 44.02125), label = "Hospital", sprite = 61, radius = 0},
+    {position = vector3(-2301.87622, 3150.99243, 39.83637), label = "Military Base", sprite = 487, radius = 0},
+    {position = vector3(-183.032776, -1548.34656, 34.4813), label = "Safe Zone", sprite = 40, radius = 100},
+    {position = vector3(-990.96, -1104.87, 2.22), label = "House Blocks", sprite = 52, radius = 150}
 }
 
 --How often to sync vehicle pos
@@ -167,8 +167,8 @@ Config.RoutingInteriors = {
 Config.DefinedPlayerSpawnsCamPositions = {
     [1] = nil,
     [2] = vector3(-187.5851, -1559.849, 35.75613), --Safezone camera
-    [3] = vector3(296.36, -584.86, 43.61), --Hospital camera
-    [4] = vector3(432.01, -982.19, 31.39) --Police department camera
+    [3] = vector3(281.02, -575.93, 44.41), --Hospital camera
+    [4] = vector3(421.89, -961.85, 31.28) --Police department camera
 }
 --Locations players can choose to spawn using the spawn menu
 Config.DefinedPlayerSpawns = {

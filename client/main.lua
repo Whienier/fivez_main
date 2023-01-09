@@ -5,7 +5,7 @@ local isShooting = false
 local startedShooting = GetGameTimer()
 local updatedAmmo = false
 
---Disable ambient sounds
+--Disable ambient sounds, music
 Citizen.CreateThread(function()
     StartAudioScene("DLC_MPHEIST_TRANSITION_TO_APT_FADE_IN_RADIO_SCENE")
     SetStaticEmitterEnabled("LOS_SANTOS_VANILLA_UNICORN_01_STAGE",false)
@@ -37,10 +37,9 @@ end)
 --Thread for creating config POI blips
 Citizen.CreateThread(function()
     for k,v in pairs(Config.Blips) do
-        AddTextEntry(v.labelid, v.label)
         local blip = AddBlipForCoord(v.position.x, v.position.y, v.position.z)
         SetBlipSprite(blip, v.sprite)
-        if v.radius then
+        if v.radius > 0 then
             AddBlipForRadius(v.position.x, v.position.y, v.position.z, v.radius)
         end
         BeginTextCommandSetBlipName("STRING")

@@ -43,6 +43,9 @@ Citizen.CreateThread(function()
         AddTextComponentSubstringBlipName(blip)
         EndTextCommandSetBlipName(blip)
         SetBlipSprite(blip, v.sprite)
+        if v.radius then
+            AddBlipForRadius(v.position.x, v.position.y, v.position.z, v.radius)
+        end
     end
 end)
 
@@ -66,7 +69,8 @@ end
 
 RegisterNUICallback("nui_loaded", function(data, cb)
     ShutdownLoadingScreen()
-    
+    --Disable radar mini map
+    DisplayRadar(false)
     local camRot = Config.CharacterMenuCamera.rotation
     local camPos = Config.CharacterMenuCamera.position
     ClearFocus()
@@ -167,8 +171,7 @@ RegisterNetEvent("fivez:LoadCharacterData", function(charData)
     })
     --Allow players to stand ontop of vehicles
     OverridePedsCanStandOnTopFlag(true)
-    --Disable radar mini map
-    DisplayRadar(false)
+
     startThreads = true
 end)
 

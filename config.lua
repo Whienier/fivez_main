@@ -36,6 +36,7 @@ Config.SafeZones = {
     ["The Last Hold"] = {
         position = vector3(-183.032776, -1548.34656, 34.4813),
         color = vector4(0, 0, 255, 255),
+        radius = 100,
         traders = {
             barber = {markerlabel = "Use Barber", position = vector3(-186.8689, -1533.475, 33.73635), heading = 0.0, pedId = -1, pedModel = GetHashKey("A_M_M_StudioParty_01")}, --Position of the trader
             clothes = {markerlabel = "Use Clothes Shop", position = vector3(-173.7581, -1529.785, 34.35387), heading = 0.0, pedId = -1, pedModel = GetHashKey("A_M_M_StudioParty_01")},
@@ -43,6 +44,8 @@ Config.SafeZones = {
         }
     }
 }
+
+Config.DefaultSafeZoneRadius = 50
 
 Config.DecayStatsInSafeZone = false
 
@@ -67,7 +70,8 @@ Config.HighRiskZones = {
 Config.Blips = {
     {position = vector3(440.131622, -982.410034, 31.090929), labelid = "POLICEBLIP", label = "Police Station", sprite = 60},
     {position = vector3(318.284, -593.79364, 44.02125), labelid = "HOSPITALBLIP", label = "Hospital", sprite = 61},
-    {position = vector3(-2301.87622, 3150.99243, 39.83637), labelid = "MILITARYBLIP", label = "Military Base", sprite = 487}
+    {position = vector3(-2301.87622, 3150.99243, 39.83637), labelid = "MILITARYBLIP", label = "Military Base", sprite = 487},
+    {position = vector3(-183.032776, -1548.34656, 34.4813), labelid = "SAFEZONEBLIP", label = "Safe Zone", sprite = 40, radius = 100}
 }
 
 --How often to sync vehicle pos

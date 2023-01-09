@@ -19,19 +19,19 @@ Citizen.CreateThread(function()
                 tempZoneId = k
             end
         end
-        if dist < 50 and inZone == false then
+        local safeZoneRadius = Config.SafeZones[tempZoneId].radius or Config.DefaultSafeZoneRadius
+        if dist < safeZoneRadius and inZone == false then
             inZone = true
             safeZoneId = tempZoneId
-        elseif dist > 50 and inZone == true then
+        elseif dist > safeZoneRadius and inZone == true then
             inZone = false
-            safeZoneId = nil
         end
         --If we are far away increase wait time since it'll take the player some time to get in range anyway 
-        if dist >= 75 and dist <= 149 then
+        if dist >= safeZoneRadius + 75 and dist <= safeZoneRadius + 149 then
             Citizen.Wait(5000)
-        elseif dist >= 150 and dist <= 199 then
+        elseif dist >= safeZoneRadius + 150 and dist <= safeZoneRadius + 199 then
             Citizen.Wait(10000)
-        elseif dist >= 200 then
+        elseif dist >= safeZoneRadius + 200 then
             Citizen.Wait(20000)
         end
         Citizen.Wait(1500)
@@ -125,6 +125,7 @@ Citizen.CreateThread(function()
             DisableControlAction(0, 264, false)
             zoneTriggered = false
             TriggerEvent("fivez:AddNotification", "Leaving "..safeZoneId)
+            safeZoneId = nil
             Citizen.Wait(1000)
         end
         Citizen.Wait(1)

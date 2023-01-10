@@ -39,9 +39,7 @@ Citizen.CreateThread(function()
     for k,v in pairs(Config.Blips) do
         local blip = AddBlipForCoord(v.position.x, v.position.y, v.position.z)
         SetBlipSprite(blip, v.sprite)
-        if v.radius > 0 then
-            AddBlipForRadius(v.position.x, v.position.y, v.position.z, v.radius)
-        end
+        AddBlipForRadius(v.position.x, v.position.y, v.position.z, v.radius)
         BeginTextCommandSetBlipName("STRING")
         AddTextComponentString(v.label)
         EndTextCommandSetBlipName(blip)

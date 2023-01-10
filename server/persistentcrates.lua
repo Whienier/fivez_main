@@ -440,8 +440,7 @@ function CalculateLootableContainer(model)
                             rng = math.random(1, item.maxcount)
                             item.count = rng
                             item.weight = item.weight * rng
-                            rng = math.random(item.minquality or Config.MinQuality, item.quality or Config.MaxQuality)
-                            item.quality = rng
+                            item.quality = 100
                             
                             if inventoryWeight + item.weight > container.maxweight then print("Container at max weight, can't spawn more items in it") break end
 

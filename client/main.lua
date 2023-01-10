@@ -264,7 +264,7 @@ AddEventHandler("fivez:OpenCharacterCustomizer", function()
         ped = false,
         headBlend = true,
         faceFeatures = true,
-        headOverlays = false,
+        headOverlays = true,
         components = false,
         props = false,
         tattoos = false
@@ -400,7 +400,7 @@ Citizen.CreateThread(function()
         while not startThreads do Citizen.Wait(1) end
         local vehicles = GetGamePool("CVehicle")
         for k,v in pairs(vehicles) do
-            if DoesEntityExist(v) then
+            if DoesEntityExist(v) and GetEntityModel(v) ~= GetHashKey("bmx") then
                 local netId = NetworkGetNetworkIdFromEntity(v)
                 if NetworkDoesEntityExistWithNetworkId(netId) then
                     TriggerServerEvent("fivez:SyncVehicleState", netId)

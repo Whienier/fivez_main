@@ -788,6 +788,7 @@ Config.Items = {
         maxcount = 1,
         count = 0,
         quality = 100,
+        qualRemPerUse = 50,
         attachments = {},
         zombiespawn = true,
         containerspawn = true,

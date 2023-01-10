@@ -531,7 +531,7 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                             if plyChar.inventory.items[fromSlot].quality > reduceQualAmount then
                                 plyChar.inventory.items[fromSlot].quality = plyChar.inventory.items[fromSlot].quality - reduceQualAmount
                                 SQL_UpdateItemQualityInCharacterInventory(plyChar.Id, fromSlot, plyChar.inventory.items[fromSlot].quality)
-                            elseif plyChar.inventory.items[fromSlot].count == reduceQualAmount then
+                            elseif plyChar.inventory.items[fromSlot].quality == reduceQualAmount then
                                 plyChar.inventory.items[fromSlot] = EmptySlot()
                                 SQL_RemoveItemFromCharacterInventory(plyChar.Id, fromSlot)
                             end

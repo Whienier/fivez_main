@@ -37,9 +37,9 @@ end)
 --Thread for creating config POI blips
 Citizen.CreateThread(function()
     for k,v in pairs(Config.Blips) do
+        AddBlipForRadius(v.position.x, v.position.y, v.position.z, v.radius)
         local blip = AddBlipForCoord(v.position.x, v.position.y, v.position.z)
         SetBlipSprite(blip, v.sprite)
-        AddBlipForRadius(v.position.x, v.position.y, v.position.z, v.radius)
         BeginTextCommandSetBlipName("STRING")
         AddTextComponentString(v.label)
         EndTextCommandSetBlipName(blip)

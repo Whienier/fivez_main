@@ -1279,7 +1279,7 @@ Config.Items = {
         itemId = 28,
         label = "Ice-Tea",
         model = "icetea",
-        description = "Not cold ice tea but will get the job done",
+        description = "Warm to the touch but will get the job done",
         weight = 1,
         maxcount = 1,
         count = 0,
@@ -1292,6 +1292,12 @@ Config.Items = {
             local playerData = GetJoinedPlayer(source)
             if playerData then
                 playerData.characterData.thirst = playerData.characterData.thirst + 30
+                --[[ RequestAnimDict("pickup_object")
+                while not HasAnimDictLoaded("pickup_object") do
+                    RequestAnimDict("pickup_object")
+                    Citizen.Wait(1)
+                end ]]
+                TaskPlayAnim(GetPlayerPed(source), "amb@world_human_drinking@beer@male@enter", "enter", 5.0, 1.0, 500, 50, 0, 0, 0, 0)
                 return true
             end
         end,
@@ -1317,6 +1323,7 @@ Config.Items = {
             local playerData = GetJoinedPlayer(source)
             if playerData then
                 playerData.characterData.hunger = playerData.characterData.hunger + 15
+                TaskPlayAnim(GetPlayerPed(source), "amb@code_human_wander_eating_donut@male@base", "base", 5.0, 1.0, 500, 50, 0, 0, 0, 0)
                 return true
             end
         end,

@@ -19,7 +19,9 @@ client_scripts {
     'client/airdrop.lua',
     --'client/interiorportals.lua',
     'client/routingportals.lua',
-    'client/zonemanager.lua'
+    'client/zonemanager.lua',
+    'client/playertrading.lua',
+    'client/injury.lua'
 }
 
 server_scripts { 
@@ -39,7 +41,8 @@ server_scripts {
     'server/persistentobjects.lua',
     'server/airdrop.lua',
     'server/characterproficiency.lua',
-    'server/routingmanager.lua'
+    'server/routingmanager.lua',
+    'server/playertrading.lua'
 }
 
 ui_page 'interface/index.html'

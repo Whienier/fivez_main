@@ -71,8 +71,8 @@ Config.Blips = {
     {position = vector3(440.131622, -982.410034, 31.090929), label = "Police Station", sprite = 60, radius = 0},
     {position = vector3(318.284, -593.79364, 44.02125), label = "Hospital", sprite = 61, radius = 0},
     {position = vector3(-2301.87622, 3150.99243, 39.83637), label = "Military Base", sprite = 487, radius = 0},
-    {position = vector3(-183.032776, -1548.34656, 34.4813), label = "Safe Zone", sprite = 40, radius = 100},
-    {position = vector3(-990.96, -1104.87, 2.22), label = "House Blocks", sprite = 52, radius = 150}
+    {position = vector3(-183.032776, -1548.34656, 34.4813), label = "Safe Zone", sprite = 40, radius = 100.0},
+    {position = vector3(-990.96, -1104.87, 2.22), label = "House Blocks", sprite = 52, radius = 150.0}
 }
 
 --How often to sync vehicle pos
@@ -690,6 +690,7 @@ Config.Items = {
         maxcount = 1,
         count = 0,
         quality = 100,
+        qualRemPerUse = 25,
         attachments = {},
         containerspawn = true,
         zombiespawn = true,
@@ -710,6 +711,7 @@ Config.Items = {
         maxcount = 1,
         count = 0,
         quality = 100,
+        qualRemPerUse = 100,
         attachments = {},
         zombiespawn = true,
         spawnchance = 1,
@@ -729,6 +731,7 @@ Config.Items = {
         maxcount = 1,
         count = 0,
         quality = 100,
+        qualRemPerUse = 100,
         attachments = {},
         zombiespawn = true,
         spawnchance = 1,
@@ -743,7 +746,7 @@ Config.Items = {
         itemId = 4,
         label = "Pistol",
         model = "weapon_pistol",
-        description = "Basic 9mm pistol",
+        description = ".45 ACP pistol",
         weight = 5,
         maxcount = 1,
         count = 0,
@@ -762,6 +765,7 @@ Config.Items = {
         maxcount = 1,
         count = 0,
         quality = 100,
+        qualRemPerUse = 50,
         attachments = {},
         zombiespawn = true,
         containerspawn = true,
@@ -807,15 +811,33 @@ Config.Items = {
     },
     [7] = {
         itemId = 7,
-        label = "Pistol Ammo",
-        model = "ammunition_pistol",
-        description = "Box of 9mm ammunition (25)",
+        label = ".45 ACP Mag (12)",
+        model = "45acpmag12",
+        description = "A .45 ACP pistol magazine with a capacity of 12 rounds",
         weight = 1,
         maxcount = 1,
         count = 0,
         quality = 100,
-        attachments = {},
+        attachments = {["45acp"] = 0},
         containerspawn = true,
+        isMag = true,
+        combiningfunction = function(itemMovingOnto, selfItem)
+            if itemMovingOnto.model == "weapon_pistol" then
+                if #itemMovingOnto.attachments >= 1 then
+                    if itemMovingOnto.attachments["45acpmag12"] then
+                        return {false, "Mag already loaded"}
+                    else
+                        itemMovingOnto.attachments["45acpmag12"] = selfItem.attachments["45acp"] or 0
+                        selfItem.count = 0
+                        return {itemMovingOnto, selfItem}
+                    end
+                elseif #itemMovingOnto.attachments == 0 then
+                    itemMovingOnto.attachments["45acpmag12"] = selfItem.attachments["45acp"] or 0
+                    selfItem.count = 0
+                    return {itemMovingOnto, selfItem}
+                end
+            end
+        end,
         serverfunction = function(source)
             local playerData = GetJoinedPlayer(source)
             if playerData then
@@ -838,6 +860,7 @@ Config.Items = {
         count = 0,
         quality = 100,
         attachments = {},
+        qualRemPerUse = 50,
         clientfunction = function()
             local plyPed = GetPlayerPed(-1)
             if GetEntityMaxHealth(plyPed) < GetEntityHealth(plyPed) + 40 then SetEntityHealth(plyPed, GetEntityMaxHealth(plyPed)) return true end
@@ -2421,6 +2444,57 @@ Config.Items = {
         quality = 100,
         spawnchance = 10,
         attachments = {}
+    },
+    [92] = {
+        itemId = 92,
+        label = ".45 ACP",
+        model = "45acp",
+        description = ".45 ACP rounds",
+        weight = 1,
+        maxcount = 50,
+        count = 0,
+        quality = 100,
+        spawnchance = 10,
+        isAmmo = true,
+        attachments = {},
+        combiningfunction = function(itemMovedOnto, selfItem)
+            if itemMovedOnto.model == "45acpmag12" then
+                local itemCount = selfItem.count
+                local roundsInMag = -1
+                for k,v in pairs(itemMovedOnto.attachments) do
+                    if k == "45acp" then
+                        roundsInMag = v
+                    end
+                end
+                if roundsInMag >= 0 then
+                    local roundDif = 12 - roundsInMag --12 being the max
+                    if roundDif > 0 then
+                        if itemCount >= roundDif then
+                            local newItemCount = itemCount - roundDif
+                            for k,v in pairs(itemMovedOnto.attachments) do
+                                if k == "45acp" then
+                                    v = roundsInMag + roundDif
+                                end
+                            end
+
+                            return {itemMovedOnto, newItemCount}
+                        elseif itemCount < roundDif then
+                            for k,v in pairs(itemMovedOnto.attachments) do
+                                if k == "45acp" then
+                                    v = roundsInMag + itemCount
+                                end
+                            end
+
+                            return {itemMovedOnto, 0}
+                        end
+                    elseif roundDif == 0 then
+                        return false
+                    end
+                else
+                    return nil
+                end
+            end
+        end
     }
 }
 

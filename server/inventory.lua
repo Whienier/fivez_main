@@ -657,13 +657,45 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                 end
             elseif plyChar.inventory.items[transferData.toSlot].itemId ~= transferData.item.itemId then
                 --Item isn't the exact same
-                --Change Id of what we are moving to where we are moving it to
-                SQL_ChangeItemSlotIdInCharacterInventory(plyChar.Id, transferData.fromSlot, transferData.toSlot)
-                --Change Id of where we moved too where we were
-                SQL_ChangeItemSlotIdWithItemIdInCharacterInventory(plyChar.Id, transferData.toSlot, plyChar.inventory.items[transferData.toSlot].itemId, transferData.fromSlot)
-                local tempItem = plyChar.inventory.items[transferData.toSlot]
-                plyChar.inventory.items[transferData.toSlot] = Config.CreateNewItemWithData(plyChar.inventory.items[transferData.fromSlot])
-                plyChar.inventory.items[transferData.fromSlot] = Config.CreateNewItemWithData(tempItem)
+                local combined = false
+                if itemData.isAmmo then
+                    if itemData.combiningfunction then
+                        local result = itemData.combiningfunction(slotMovingOnto, slotMovingFrom)
+
+                        if result == nil then
+                            print("[ERROR] Tried combining function of item -", itemData.itemId," returned nil -")
+                        elseif result == false then
+                            print("[ERROR] Tried combining function of item -", itemData.itemId, " returned false -", itemData.count)
+                        elseif result[1] == false then
+                            TriggerClientEvent("fivez:AddNotification", source, result[2])
+                        else
+                            slotMovingOnto = result[1]
+                            slotMovingFrom = result[2]
+                            if slotMovingFrom.count == 0 then
+                                plyChar.inventory.items[transferData.fromSlot] = EmptySlot()
+                                SQL_RemoveItemFromCharacterInventory(plyChar.Id, transferData.fromSlot)
+                            else
+                                SQL_UpdateItemCountInCharacterInventory(plyChar.Id, transferData.fromSlot, slotMovingFrom.count)
+                                plyChar.inventory.items[transferData.fromSlot].count = slotMovingFrom.count
+                            end
+
+                            plyChar.inventory.items[transferData.toSlot] = slotMovingOnto
+                            SQL_UpdateItemAttachmentsInCharacterInventory(plyChar.Id, transferData.toSlot, slotMovingOnto.attachments)
+                            
+                        end
+                        
+                        combined = true
+                    end
+                end
+                if not combined then
+                    --Change Id of what we are moving to where we are moving it to
+                    SQL_ChangeItemSlotIdInCharacterInventory(plyChar.Id, transferData.fromSlot, transferData.toSlot)
+                    --Change Id of where we moved too where we were
+                    SQL_ChangeItemSlotIdWithItemIdInCharacterInventory(plyChar.Id, transferData.toSlot, plyChar.inventory.items[transferData.toSlot].itemId, transferData.fromSlot)
+                    local tempItem = plyChar.inventory.items[transferData.toSlot]
+                    plyChar.inventory.items[transferData.toSlot] = Config.CreateNewItemWithData(plyChar.inventory.items[transferData.fromSlot])
+                    plyChar.inventory.items[transferData.fromSlot] = Config.CreateNewItemWithData(tempItem)
+                end
             end
             TriggerClientEvent("fivez:UpdateCharacterInventoryItems", source, json.encode(plyChar.inventory.items), nil)
         else

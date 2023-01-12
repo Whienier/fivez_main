@@ -339,9 +339,12 @@ function Inventory(type,identifier,label,data) {
     } else if (this.type == "combining") {
         this.container.style.gridTemplateRows = `repeat(${Math.ceil(2/5)}, 150px)`;
         this.container.style.gridTemplateColumns = "repeat(5, 19.5%)";
-        for (vari=0;i<2;i++){
+        for (var i=0;i<2;i++){
+            var combiningSlot = document.createElement("DIV");
+            combiningSlot.className = "combining-slot";
+
             var slot = document.createElement("DIV");
-            slot.className = "combining-slot";
+            slot.className = "grid-slot";
 
             var item = document.createElement("DIV");
             item.className = "item";
@@ -354,18 +357,18 @@ function Inventory(type,identifier,label,data) {
             slot.appendChild(item);
             slot.appendChild(info);
 
-            slot.itemIndex = i;
-            slot.item = [];
-            slot.type = this.type;
-            slot.identifier = this.identifier;
+            combiningSlot.itemIndex = i;
+            combiningSlot.item = [];
+            combiningSlot.type = this.type;
+            combiningSlot.identifier = this.identifier;
 
-            slot.onmouseenter = function(e){
+            combiningSlot.onmouseenter = function(e){
                 if (this.classList.containers("selected")){
                     this.classList.add('hovered');
                 }
             }
 
-            slot.onmousedown = function(e){
+            combiningSlot.onmousedown = function(e){
                 if (toolTip){
                     removeTooltip();
                 }
@@ -396,7 +399,7 @@ function Inventory(type,identifier,label,data) {
                 }
             }
 
-            slot.onmouseup = function(){
+            combiningSlot.onmouseup = function(){
                 if (draggingSlot){
                     if (this == draggingSlot.slot){
                         if (draggingSlot.cop){

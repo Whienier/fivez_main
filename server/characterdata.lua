@@ -126,6 +126,28 @@ function SQL_UpdateItemQualityInCharacterInventory(playerId, slotId, newQuality)
     return changedQuality
 end
 
+function SQL_UpdateItemAttachmentsInCharacterInventory(playerId, slotId, newAttachments)
+    local updatedAttachment = nil
+    MySQL.ready(function()
+        MySQL.Async.execute("UPDATE inventory_items SET item_attachments = @newAttachments WHERE character_player_dataid = @playerId AND item_slotid = @slotId", {
+            ["playerId"] = playerId,
+            ["slotId"] = slotId,
+            ["newAttachments"] = json.encode(newAttachments)
+        }, function(result)
+            if result then
+                updatedAttachment = true
+            else
+                updatedAttachment = false
+            end
+        end)
+    end)
+    while updatedAttachment == nil do
+        Citizen.Wait(1)
+    end
+
+    return updatedAttachments
+end
+
 function SQL_CreateCharacterInventoryData(playerId)
     local createdInventoryData = nil
 

@@ -1154,6 +1154,43 @@ RegisterNetEvent("fivez:AttemptCraft", function(recipeId)
     end
 end)
 
+RegisterNetEvent("fivez:AttemptCombine", function(firstSlotId, secondSlotId, slotDraggedOnto)
+    local source = source
+    local playerData = GetJoinedPlayer(source)
+
+    if IsPedDeadOrDying(GetPlayerPed(source), 1) then return end
+
+    if playerData then
+        local inventoryData = playerData.characterData.inventory
+
+        if inventoryData.items[slotDraggedOnto].model ~= "empty" then TriggerClientEvent("fivez:AddNotification", source, "Drag the combined item onto an empty slot!") return end
+        
+        if inventoryData.items[firstSlotId].itemId == inventoryData.items[secondSlotId].itemId then
+            local combinedQuality = inventoryData.items[firstSlotId].quality + inventoryData.items[secondSlotId].quality
+
+            if combinedQuality > 100 then combinedQuality = 100 end
+
+            playerData.characterData.inventory.items[slotDraggedOnto] = inventoryData.items[firstSlotId]
+            playerData.characterData.inventory.items[slotDraggedOnto].quality = combinedQuality
+
+            playerData.characterData.inventory.items[firstSlotId] = EmptySlot()
+
+            playerData.characterData.inventory.items[secondSlotId] = EmptySlot()
+
+            SQL_RemoveItemFromCharacterInventory(playerData.Id, firstSlotId)
+            SQL_RemoveItemFromCharacterInventory(playerData.Id, secondSlotId)
+            SQL_InsertItemToCharacterInventory(playerData.Id, slotDraggedOnto, playerData.characterData.inventory.items[slotDraggedOnto])
+
+            local combineInventory = {
+                type = "combining",
+                identifier = "combining",
+                label = "Combining"
+            }
+            TriggerClientEvent("fivez:UpdateCharacterInventoryItems", source, json.encode(playerData.characterData.inventory.items), json.encode(combineInventory))
+        end
+    end
+end)
+
 RegisterCommand("bag", function(source)
     local playerPed = GetPlayerPed(source)
     if IsPedDeadOrDying(playerPed, 1) then return end

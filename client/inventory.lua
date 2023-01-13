@@ -562,22 +562,41 @@ RegisterNUICallback("craft", function(data, cb)
 end)
 
 RegisterCommand("combine", function()
+    local charInventory = GetCharacterInventory()
     SendNUIMessage({
         type = "message",
         message = "openInventory",
         playerInventory = {
-
+            type = "inventory",
+            identifier = charInventory.Id,
+            label = "Inventory",
+            weight = charInventory.weight,
+            maxWeight = charInventory.maxWeight,
+            maxSlots = charInventory.slots,
+            items = charInventory.items
         },
         otherInventory = {
             type = "combining",
             identifier = "combining",
-            label = "Inventory Combining"
+            label = "Item Combining"
         }
     })
     SetNuiFocus(true, true)
 end)
 
-RegisterNUICallback("combine", function(data, cb)
+RegisterNUICallback("combine_items", function(data, cb)
+    local firstSlotId = data.firstSlotId
+    local secondSlotId = data.secondSlotId
+    local slotDraggedOnto = data.slotDraggedOnto
 
+    local charInventory = GetCharacterInventory()
+
+    local firstItem = charInventory.items[firstSlotId]
+    local secondItem = charInventory.items[secondSlotId]
+
+    if firstItem.model == "empty" or secondItem.model == "empty" then return end
+    if firstItem.itemId != secondItem.itemId then return end
+
+    TriggerServerEvent("fivez:AttemptCombine", firstSlotId, secondSlotId, slotDraggedOnto)
     cb('ok')
 end)

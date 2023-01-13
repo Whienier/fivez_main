@@ -331,44 +331,58 @@ function Inventory(type,identifier,label,data) {
             this.classList.remove("hovered");  
         }
 
-        craftingSlot.appendChild(slot)
-        craftingSlot.appendChild(recipeSlot)
+        craftingSlot.appendChild(slot);
+        craftingSlot.appendChild(recipeSlot);
         this.container.appendChild(craftingSlot);
         }
 
     } else if (this.type == "combining") {
-        this.container.style.gridTemplateRows = `repeat(${Math.ceil(2/5)}, 150px)`;
-        this.container.style.gridTemplateColumns = "repeat(5, 19.5%)";
-        for (var i=0;i<2;i++){
-            var combiningSlot = document.createElement("DIV");
-            combiningSlot.className = "combining-slot";
+        this.container.style.gridTemplateRows = `repeat(${Math.ceil(2/2)}, 150px)`;
+        this.container.style.gridTemplateColumns = "33.3% 33.3% 33.3%";
 
+        for (var i=0;i<2;i++){
             var slot = document.createElement("DIV");
             slot.className = "grid-slot";
 
             var item = document.createElement("DIV");
             item.className = "item";
 
+            var itemLabel = document.createElement("SPAN");
+            itemLabel.textContent = `EMPTY`
+
+            var itemQuality = document.createElement("DIV");
+            itemQuality.className = "quality";
+            itemQuality.style.width = 0;
+            itemQuality.style.backgroundColor = getQualityBarColor(0);
+
+            var count = document.createElement("DIV");
+            count.className = "weight";
+
             var info = document.createElement("DIV");
             info.className = "info";
 
             slot.className += " combining-grid-slot";
 
+            info.appendChild(itemLabel);
+            info.appendChild(itemQuality);
+            item.appendChild(count);
+            
             slot.appendChild(item);
             slot.appendChild(info);
 
-            combiningSlot.itemIndex = i;
-            combiningSlot.item = [];
-            combiningSlot.type = this.type;
-            combiningSlot.identifier = this.identifier;
+            slot.itemInfo = {itemLabel:itemLabel, itemQuality:itemQuality};
+            slot.itemIndex = i;
+            slot.item = [];
+            slot.type = this.type;
+            slot.identifier = this.identifier;
 
-            combiningSlot.onmouseenter = function(e){
-                if (this.classList.containers("selected")){
+            slot.onmouseenter = function(e){
+                if (!this.classList.contains("selected")){
                     this.classList.add('hovered');
                 }
             }
 
-            combiningSlot.onmousedown = function(e){
+            slot.onmousedown = function(e){
                 if (toolTip){
                     removeTooltip();
                 }
@@ -399,10 +413,10 @@ function Inventory(type,identifier,label,data) {
                 }
             }
 
-            combiningSlot.onmouseup = function(){
+            slot.onmouseup = function(){
                 if (draggingSlot){
                     if (this == draggingSlot.slot){
-                        if (draggingSlot.cop){
+                        if (draggingSlot.copy){
                             draggingSlot.copy.remove();
                         }
                         draggingSlot = undefined;
@@ -414,12 +428,138 @@ function Inventory(type,identifier,label,data) {
                             var count = Math.floor(parseInt(document.getElementById('amount').value));
                             count = (count > 0 ? count : (selectedSlot.item.count ? selectedSlot.item.count : 1));
 
-                            
+                            this.item = selectedSlot.item;
+                            this.itemIndex = selectedSlot.itemIndex;
+                            this.itemInfo.itemQuality.style.width = `${selectedSlot.item.quality}%`;
+                            this.itemInfo.itemQuality.style.backgroundColor = getQualityBarColor(selectedSlot.item.quality);
+                            this.itemInfo.itemLabel.textContent = selectedSlot.item.label;
+
+                            var firstSlot = this.parentElement.childNodes[0];
+                            var secondSlot = this.parentElement.childNodes[1];
+                            if (firstSlot.item.model && secondSlot.item.model) {
+                                var outputSlot = this.parentElement.childNodes[2];
+
+                                var combinedQuality = (firstSlot.item.quality + secondSlot.item.quality) > 100 ? 100 : firstSlot.item.quality+secondSlot.item.quality;
+                                outputSlot.firstItemIndex = firstSlot.itemIndex;
+                                outputSlot.secondItemIndex = secondSlot.itemIndex;
+                                outputSlot.item = firstSlot.item;
+                                outputSlot.item.quality = combinedQuality;
+
+                                outputSlot.itemInfo.itemQuality.style.width = `${combinedQuality}%`;
+                                outputSlot.itemInfo.itemQuality.style.backgroundColor = getQualityBarColor(combinedQuality);
+                                outputSlot.itemInfo.itemLabel.textContent = `${firstSlot.item.label}`;
+                            }
                         }
                     }
                 }
             }
+            slot.onmousemove = function(e){
+                if (draggingSlot){
+                    if (!draggingSlot.copy && pointDist(draggingSlot.x, draggingSlot.y, e.x, e.y) >= 5){
+                        createDragCopy(this);
+                        removeTooltip();
+                    }
+                }
+            }
+
+            slot.onmouseleave = function(){
+                if (toolTip){
+                    removeTooltip();
+                }
+
+                this.classList.remove("hovered");
+            }
+
+            this.container.appendChild(slot);
         }
+        var outputSlot = document.createElement("DIV");
+        outputSlot.className = "grid-slot";
+
+        var item = document.createElement("DIV");
+        item.className = "item";
+
+        var itemLabel = document.createElement("SPAN");
+        itemLabel.textContent = ``;
+
+        var itemQuality = document.createElement("DIV");
+        itemQuality.className = "quality";
+        itemQuality.style.width = 0;
+        var info = document.createElement("DIV");
+        info.className = "info";
+
+        outputSlot.className += " combining-grid-slot";
+
+        info.appendChild(itemLabel);
+        info.appendChild(itemQuality);
+
+        outputSlot.appendChild(item);
+        outputSlot.appendChild(info);
+
+        outputSlot.itemInfo = {itemLabel:itemLabel, itemQuality:itemQuality};
+        outputSlot.itemIndex = 3;
+        outputSlot.firstItemIndex = -1;
+        outputSlot.secondItemIndex = -1;
+        outputSlot.item = [];
+        outputSlot.type = this.type;
+        outputSlot.identifier = this.identifier;
+
+        outputSlot.onmouseenter = function(e) {
+            if (!this.classList.contains("selected") && this.item.model){
+                this.classList.add("hovered");
+            }
+        }
+
+        outputSlot.onmousedown = function(e) {
+            if (toolTip){
+                removeTooltip();
+            }
+
+            if (selectedSlot){
+                selectedSlot.slot.classList.remove("selected");
+            }
+
+            if (this.item && this.item.model){
+                selectedSlot = {
+                    slot:this,
+                    type:this.type,
+                    identifier:this.identifier,
+                    itemIndex:this.itemIndex,
+                    item:this.item,
+                    firstItemIndex:this.firstItemIndex,
+                    secondItemIndex:this.secondItemIndex
+                }
+
+                selectedSlot.slot.classList.add("selected");
+                selectedSlot.slot.classList.remove("hovered");
+
+                constructTooltip(this, this.type, this.item);
+
+                draggingSlot = {
+                    slot:this,
+                    x:e.x,
+                    y:e.y
+                }
+            }
+        }
+
+        outputSlot.onmousemove = function(e) {
+            if (draggingSlot){
+                if (!draggingSlot.copy && pointDist(draggingSlot.x, draggingSlot.y, e.x, e.y) >= 5){
+                    createDragCopy(this);
+                    removeTooltip();
+                }
+            }
+        }
+
+        outputSlot.onmouseleave = function() {
+            if (toolTip){
+                removeTooltip();
+            }
+            this.classList.remove("hovered");
+        }
+
+        this.container.appendChild(outputSlot);
+        
     } else {
         this.container.style.gridTemplateRows = `repeat(${Math.ceil(this.data.maxSlots / 5)},150px)`;
         this.container.style.gridTemplateColumns = "repeat(5,19.5%)";
@@ -562,10 +702,12 @@ function Inventory(type,identifier,label,data) {
                 var count = Math.floor(parseInt(document.getElementById('amount').value));
                 count = (count > 0 ? count : (selectedSlot.item.count ? selectedSlot.item.count : 1));
 
-                if ((selectedSlot.type != "crafting") || selectedSlot.item.buyPrice) {
+                if ((selectedSlot.type != "crafting" && selectedSlot.type != "combining") || selectedSlot.item.buyPrice) {
                     transferItems(selectedSlot.identifier,otherIdentifier,selectedSlot.type,otherType,count,selectedSlot.item,selectedSlot.itemIndex,this.itemIndex);
                 } else if (selectedSlot.type == "crafting") {
                     craftItem(selectedSlot.identifier,selectedSlot.item);
+                } else if (selectedSlot.type == "combining") {
+                    combineItems(selectedSlot.firstItemIndex, selectedSlot.secondItemIndex, this.itemIndex);
                 } 
 
                 if (draggingSlot.copy) {
@@ -902,7 +1044,7 @@ closeMinigame = function() {
 
 window.addEventListener('keydown',function(e) { 
     pressedKeys[" "] = true;
-})
+});
 
 window.addEventListener('keyup',function(e) { 
     pressedKeys[" "] = false;
@@ -912,6 +1054,14 @@ window.addEventListener('keyup',function(e) {
 //CRAFTING WIP NOT SURE IF WE WANNA DO IT LIKE THIS
 craftItem = function(identifier,recipe) {
     $.post(`https://${resourceName}/craft`,JSON.stringify({identifier:identifier,recipe:recipe}));
+}
+
+combineItems = function(firstItemIndex, secondItemIndex, slotDraggedOnto) {
+    $.post(`https://${resourceName}/combine_items`, JSON.stringify({
+        firstSlotId:firstItemIndex,
+        secondSlotId:secondItemIndex,
+        slotDraggedOnto:slotDraggedOnto
+    }))
 }
 
 transferItems = function(fromIdentifier,toIdentifier,fromType,toType,count,item,fromItemIndex,toItemIndex) {

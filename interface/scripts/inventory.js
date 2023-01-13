@@ -436,6 +436,7 @@ function Inventory(type,identifier,label,data) {
                                     outputSlot.firstItemIndex = firstSlot.itemIndex;
                                     outputSlot.secondItemIndex = secondSlot.itemIndex;
                                     outputSlot.item = Object.assign({}, firstSlot.item);
+                                    outputSlot.item.style.backgroundImage = `url(assets/inventory/${outputSlot.item.model}.png)`;
                                     outputSlot.item.quality = combinedQuality;
 
                                     outputSlot.itemInfo.itemQuality.style.width = `${combinedQuality}%`;

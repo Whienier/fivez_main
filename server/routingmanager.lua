@@ -108,6 +108,11 @@ function RemovePlayerFromActiveInterior(interiorId, source)
                     --Remove player from the players table
                     table.remove(activeInteriors[activeInteriorId].players, k)
 
+                    --If the last person in the interior left, remove it from active interiors
+                    if #activeInteriors[activeInteriorId].players <= 0 then
+                        --TODO: Add removal of all registered inventories linking to this interior
+                        table.remove(activeInteriors, activeInteriorId)
+                    end
                     return true
                 end
             end
@@ -126,12 +131,17 @@ RegisterNetEvent("fivez:EnterRoutingPortal", function(routingId, interiorId, por
     if #(GetEntityCoords(playerPed) - routingPortal) <= 3 then
         --Get any active interiors with the same interiorId
         local activeInterior = GetActiveInterior(interiorId)
-        if activeInterior ~= nil then
+        --Found an active interior and the routing interior is NOT unique
+        if activeInterior ~= nil and not Config.RoutingInteriors[routingId].isUnique then
             --If we find an active interior that is available add player to it
             AddPlayerToActiveInterior(interiorId, source)
-        else
-            --If we didn't find an active interior, create one for the player
+        elseif activeInterior == nil or Config.RoutingInteriors[routingId].isUnique then
+            --If we didn't find an active interior or the routing interior IS unique, create one for the player
             AddActiveInterior(routingId, interiorId, source)
+
+            for k,v in pairs(Config.RoutingInteriors[routingId].lootableAreas) do
+                RegisterNewInventory("routinginterior:"..GetPlayerRoutingBucket(source), "inventory", "Lootable Area", 0, 100, 30, InventoryFillEmpty(30), v.position, GetPlayerRoutingBucket(source))
+            end
         end
         --Get the location of the exit portal
         local exitPortal = Config.RoutingInteriors[routingId].outPosition
@@ -153,6 +163,7 @@ RegisterNetEvent("fivez:ExitRoutingPortal", function(routingId, interiorId, port
             local entryPortal = Config.RoutingInteriors[routingId].inPositions[interiorId][portalId]
             SetEntityCoords(GetPlayerPed(source), entryPortal.x, entryPortal.y, entryPortal.z, true, false, false, false)
         else
+            TriggerClientEvent("fivez:AddNotification", source, "Error removing you from the active interiors, contact staff")
             print(source, GetPlayerIdentifier(source, 3), "Player didn't exist in an active interior")
         end
     else

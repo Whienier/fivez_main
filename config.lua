@@ -143,12 +143,12 @@ Config.InteriorPortals = {
 Config.RoutingInteriors = {
     [1] = {
         inPositions = { --All enter portals tables will exit the same out portal but different routing buckets
-            ["house1"] = {
+            ["house1"] = { --Example, all these portals will go to routing bucket 2
                 [1] = vector3(-990.96, -1104.87, 2.22),
                 [2] = vector3(-1001.46, -1086.85, 2.1),
                 [3] = vector3(-989.49, -1105.96, 7.15)
             },
-            ["house2"] = { 
+            ["house2"] = { --While these portals would go to routing bucket 3
                 [1] = vector3(-1035.55, -1145.91, 2.61),
                 [2] = vector3(-1024.21, -1164.67, 2.71),
                 [3] = vector3(-1037.12, -1144.48, 7.6)
@@ -160,7 +160,8 @@ Config.RoutingInteriors = {
                 position = vector3(346.68, -1006, -98.87),
                 lootGrade = 0
             }
-        }
+        },
+        isUnique = false --If true then all portals will route to a different bucket for each player
     }
 }
 --Locations of the camera for each defined spawn, if nil will use the spawn position vector

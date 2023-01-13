@@ -1191,6 +1191,110 @@ RegisterNetEvent("fivez:AttemptCombine", function(firstSlotId, secondSlotId, slo
     end
 end)
 
+RegisterNetEvent("fivez:AttemptReload", function()
+    local source = source
+    local playerData = GetJoinedPlayer(source)
+    if playerData then
+        local currentWeapon = GetSelectedPedWeapon(GetPlayerPed(source))
+
+        if currentWeapon ~= GetHashKey("weapon_unarmed") then
+            local inventoryData = playerData.characterData.inventory
+            if inventoryData then
+                for k,v in pairs(inventoryData.items) do
+                    if v.model ~= "empty" then
+                        local item = v
+                        local itemSlot = k
+                        local configItem = Config.Item[item.itemId]
+                        if configItem then
+                            if configItem.isMag then
+                                local ammoInMag = -1
+                                for k,v in pairs(item.attachments) do
+                                    ammoInMag = v
+                                end
+                                if ammoInMag ~= -1 then
+                                    for k,v in pairs(configItem.compatibleWeapons) do
+                                        if v == currentWeapon then
+                                            local hands = inventoryData.hands
+                                            if hands > 0 then
+                                                if inventoryData.items[hands].attachments then
+                                                    local hasAttachments = false
+                                                    local hasMag = false
+                                                    local attachmentModel = nil
+                                                    if #inventoryData.items[hands].attachments > 0 then
+                                                        hasAttachments = true
+                                                        for k,v in pairs(inventoryData.items[hands].attachments) do
+                                                            if string.match(v, "mag") then
+                                                                hasMag = true
+                                                                attachmentModel = k
+                                                            end
+                                                        end
+                                                    end
+
+                                                    --If the gun doesn't have a mag attachment
+                                                    if not hasMag then
+                                                        --If the gun has no attachments at all
+                                                        if not hasAttachments then
+                                                            inventoryData.items[hands].attachments[configItem.model] = ammoInMag
+
+                                                            item = EmptySlot()
+                                                            SQL_RemoveItemFromCharacterInventory(playerData.Id, itemSlot)
+                                                        else
+                                                            local tempAttachments = {}
+                                                            for k,v in pairs(inventoryData.items[hands].attachments) do
+                                                                tempAttachments[k] = v
+                                                            end
+                                                            tempAttachments[configItem.model] = ammoInMag
+
+                                                            inventoryData.items[hands].attachments = tempAttachments
+
+                                                            item = EmptySlot()
+                                                            SQL_RemoveItemFromCharacterInventory(playerData.Id, itemSlot)
+                                                        end
+                                                    else
+                                                        if attachmentModel ~= nil then
+                                                            if attachmentModel == configItem.model then
+                                                                local tempAmmo = inventoryData.items[hands].attachments[attachmentModel]
+                                                                inventoryData.items[hands].attachments[attachmentModel] = ammoInMag
+                                                                for k,v in pairs(item.attachments) do
+                                                                    item.attachments[k] = tempAmmo
+                                                                end
+                                                                SQL_UpdateItemAttachmentsInCharacterInventory(playerData.Id, itemSlot, item.attachments)
+                                                            else
+                                                                --TODO: Swap over the different mags
+                                                                local tempAttachments = {}
+                                                                for k,v in pairs(inventoryData.items[hands].attachments) do
+                                                                    if k ~= attachmentModel then
+                                                                        tempAttachments[k] = v
+                                                                    end
+                                                                end
+                                                                tempAttachments[configItem.model] = ammoInMag
+                                                                local tempItem = Config.GetItemWithModel(attachmentModel)
+                                                                for k,v in pairs(tempItem.attachments) do
+                                                                    tempItem.attachments[k] = inventoryData.items[hands].attachments[attachmentModel]
+                                                                end
+                                                                
+                                                                inventoryData.items[itemSlot] = tempItem
+
+                                                                SQL_InsertItemToCharacterInventory(playerData.Id, itemSlot, tempItem)
+                                                            end
+                                                        end
+                                                    end
+
+                                                    SQL_UpdateItemAttachmentsInCharacterInventory(playerData.Id, hands, inventoryData.items[hands].attachments)
+                                                end
+                                            end
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end)
+
 RegisterCommand("bag", function(source)
     local playerPed = GetPlayerPed(source)
     if IsPedDeadOrDying(playerPed, 1) then return end

@@ -402,24 +402,6 @@ function Inventory(type,identifier,label,data) {
                         combineSlot.itemInfo.itemLabel.textContent = ``;
                         combineSlot.itemInfo.itemQuality.style.width = 0;
                     }
-                    /* selectedSlot = {
-                        slot:this,
-                        type:this.type,
-                        identifier:this.identifier,
-                        itemIndex:this.itemIndex,
-                        item:this.item
-                    }
-
-                    selectedSlot.slot.classList.add("selected");
-                    selectedSlot.slot.classList.remove("hovered");
-
-                    constructTooltip(this, this.type, this.item);
-
-                    draggingSlot = {
-                        slot:this,
-                        x:e.x,
-                        y:e.y
-                    } */
                 }
             }
 

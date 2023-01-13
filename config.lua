@@ -753,7 +753,7 @@ Config.Items = {
         quality = 100,
         decay = false,
         militaryspawn = true,
-        attachments = {},
+        attachments = {["45acpmag12"] = 0},
         spawnchance = 1
     },
     [5] = {
@@ -819,6 +819,7 @@ Config.Items = {
         count = 0,
         quality = 100,
         attachments = {["45acp"] = 0},
+        compatibleWeapons = {GetHashKey("weapon_pistol")},
         containerspawn = true,
         isMag = true,
         combiningfunction = function(itemMovingOnto, selfItem)

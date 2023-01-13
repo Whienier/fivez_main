@@ -53,17 +53,22 @@ Citizen.CreateThread(function()
             --If the player doesn't have invincibility but is in the zone
             if not GetPlayerInvincible(-1) then SetPlayerInvincible(PlayerId(), true) end
             DisablePlayerFiring(PlayerId(), true)
-            DisableControlAction(0, 25, true)
-            DisableControlAction(0, 106, true)
-            DisableControlAction(0, 140, true)
-            DisableControlAction(0, 141, true)
-            DisableControlAction(0, 142, true)
-            DisableControlAction(0, 263, true)
-            DisableControlAction(0, 264, true)
-            if GetGameTimer() + 5000 > lastNotif and (IsDisabledControlJustPressed(0, 25) or IsDisabledControlJustPressed(0, 106) or IsDisabledControlJustPressed(0, 140) or IsDisabledControlJustPressed(0, 141) or IsDisabledControlJustPressed(0, 142) or IsDisabledControlJustPressed(0, 263) or IsDisabledControlJustPressed(0, 264)) then
-                TriggerEvent("fivez:AddNotification", "Using weapons is restricted!")
-                lastNotif = GetGameTimer()
+            --If player is in pause menu don't tell them weapons are restricted
+            if not IsPauseMenuActive() then
+                DisableControlAction(0, 25, true)
+                DisableControlAction(0, 106, true)
+                DisableControlAction(0, 140, true)
+                DisableControlAction(0, 141, true)
+                DisableControlAction(0, 142, true)
+                DisableControlAction(0, 263, true)
+                DisableControlAction(0, 264, true)
+            
+                if GetGameTimer() + 5000 > lastNotif and (IsDisabledControlJustPressed(0, 25) or IsDisabledControlJustPressed(0, 106) or IsDisabledControlJustPressed(0, 140) or IsDisabledControlJustPressed(0, 141) or IsDisabledControlJustPressed(0, 142) or IsDisabledControlJustPressed(0, 263) or IsDisabledControlJustPressed(0, 264)) then
+                    TriggerEvent("fivez:AddNotification", "Using weapons is restricted!")
+                    lastNotif = GetGameTimer()
+                end
             end
+
             local pedCoords = GetEntityCoords(GetPlayerPed(-1))
             if Config.SafeZones[safeZoneId].traders.barber then
                 local barberPos = Config.SafeZones[safeZoneId].traders.barber.position

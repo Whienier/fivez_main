@@ -392,7 +392,17 @@ function Inventory(type,identifier,label,data) {
                 }
 
                 if (this.item && this.item.model) {
-                    selectedSlot = {
+                    this.item = [];
+                    this.itemInfo.itemLabel.textContent = ``;
+                    this.itemInfo.itemQuality.style.width = 0;
+                    
+                    var combineSlot = this.parentElement.childNodes[2]
+                    if (combineSlot.item && combineSlot.item.model){
+                        combineSlot.item = []
+                        combineSlot.itemInfo.itemLabel.textContent = ``;
+                        combineSlot.itemInfo.itemQuality.style.width = 0;
+                    }
+                    /* selectedSlot = {
                         slot:this,
                         type:this.type,
                         identifier:this.identifier,
@@ -409,7 +419,7 @@ function Inventory(type,identifier,label,data) {
                         slot:this,
                         x:e.x,
                         y:e.y
-                    }
+                    } */
                 }
             }
 
@@ -422,32 +432,34 @@ function Inventory(type,identifier,label,data) {
                         draggingSlot = undefined;
                     } else{
                         if (this.identifier != selectedSlot.identifier) {
-                            var otherIdentifier = this.identifier;
-                            var otherType = this.type;
+                            if (this.type == "combining") {
+                                var otherIdentifier = this.identifier;
+                                var otherType = this.type;
 
-                            var count = Math.floor(parseInt(document.getElementById('amount').value));
-                            count = (count > 0 ? count : (selectedSlot.item.count ? selectedSlot.item.count : 1));
+                                var count = Math.floor(parseInt(document.getElementById('amount').value));
+                                count = (count > 0 ? count : (selectedSlot.item.count ? selectedSlot.item.count : 1));
 
-                            this.item = selectedSlot.item;
-                            this.itemIndex = selectedSlot.itemIndex;
-                            this.itemInfo.itemQuality.style.width = `${selectedSlot.item.quality}%`;
-                            this.itemInfo.itemQuality.style.backgroundColor = getQualityBarColor(selectedSlot.item.quality);
-                            this.itemInfo.itemLabel.textContent = selectedSlot.item.label;
+                                this.item = selectedSlot.item;
+                                this.itemIndex = selectedSlot.itemIndex;
+                                this.itemInfo.itemQuality.style.width = `${selectedSlot.item.quality}%`;
+                                this.itemInfo.itemQuality.style.backgroundColor = getQualityBarColor(selectedSlot.item.quality);
+                                this.itemInfo.itemLabel.textContent = selectedSlot.item.label;
 
-                            var firstSlot = this.parentElement.childNodes[0];
-                            var secondSlot = this.parentElement.childNodes[1];
-                            if (firstSlot.item.model && secondSlot.item.model) {
-                                var outputSlot = this.parentElement.childNodes[2];
+                                var firstSlot = this.parentElement.childNodes[0];
+                                var secondSlot = this.parentElement.childNodes[1];
+                                if (firstSlot.item.model && secondSlot.item.model) {
+                                    var outputSlot = this.parentElement.childNodes[2];
 
-                                var combinedQuality = (firstSlot.item.quality + secondSlot.item.quality) > 100 ? 100 : firstSlot.item.quality+secondSlot.item.quality;
-                                outputSlot.firstItemIndex = firstSlot.itemIndex;
-                                outputSlot.secondItemIndex = secondSlot.itemIndex;
-                                outputSlot.item = firstSlot.item;
-                                outputSlot.item.quality = combinedQuality;
+                                    var combinedQuality = (firstSlot.item.quality + secondSlot.item.quality) > 100 ? 100 : firstSlot.item.quality+secondSlot.item.quality;
+                                    outputSlot.firstItemIndex = firstSlot.itemIndex;
+                                    outputSlot.secondItemIndex = secondSlot.itemIndex;
+                                    outputSlot.item = Object.assign({}, firstSlot.item);
+                                    outputSlot.item.quality = combinedQuality;
 
-                                outputSlot.itemInfo.itemQuality.style.width = `${combinedQuality}%`;
-                                outputSlot.itemInfo.itemQuality.style.backgroundColor = getQualityBarColor(combinedQuality);
-                                outputSlot.itemInfo.itemLabel.textContent = `${firstSlot.item.label}`;
+                                    outputSlot.itemInfo.itemQuality.style.width = `${combinedQuality}%`;
+                                    outputSlot.itemInfo.itemQuality.style.backgroundColor = getQualityBarColor(combinedQuality);
+                                    outputSlot.itemInfo.itemLabel.textContent = `${firstSlot.item.label}`;
+                                }
                             }
                         }
                     }
@@ -538,6 +550,17 @@ function Inventory(type,identifier,label,data) {
                     slot:this,
                     x:e.x,
                     y:e.y
+                }
+            }
+        }
+
+        outputSlot.onmouseup = function() {
+            if (draggingSlot) {
+                if (this == draggingSlot.slot) {
+                    if (draggingSlot.copy) {
+                        draggingSlot.copy.remove();
+                    }
+                    draggingSlot = undefined;
                 }
             }
         }
@@ -706,7 +729,7 @@ function Inventory(type,identifier,label,data) {
                     transferItems(selectedSlot.identifier,otherIdentifier,selectedSlot.type,otherType,count,selectedSlot.item,selectedSlot.itemIndex,this.itemIndex);
                 } else if (selectedSlot.type == "crafting") {
                     craftItem(selectedSlot.identifier,selectedSlot.item);
-                } else if (selectedSlot.type == "combining") {
+                } else if (selectedSlot.type == "combining" && selectedSlot.itemIndex == 3) {
                     combineItems(selectedSlot.firstItemIndex, selectedSlot.secondItemIndex, this.itemIndex);
                 } 
 
@@ -1057,6 +1080,7 @@ craftItem = function(identifier,recipe) {
 }
 
 combineItems = function(firstItemIndex, secondItemIndex, slotDraggedOnto) {
+    if (firstItemIndex == secondItemIndex) { return; }
     $.post(`https://${resourceName}/combine_items`, JSON.stringify({
         firstSlotId:firstItemIndex,
         secondSlotId:secondItemIndex,

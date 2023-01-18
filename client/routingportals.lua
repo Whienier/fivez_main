@@ -56,23 +56,21 @@ Citizen.CreateThread(function()
 
         if usedRoutingId ~= nil then
             local playerPos = GetEntityCoords(GetPlayerPed(-1))
-            for k,v in pairs(Config.RoutingInteriors[usedRoutingId]) do
-                local outPos = v.outPosition
-                local distance = #(playerPos - outPos)
-                if distance <= 15 then
-                    DrawMarker(1, outPos.x, outPos.y, outPos.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0, 255, 0, 255, false, false, 2, false, nil, nil, false)
-                end
+            local outPos = Config.RoutingInteriors[usedRoutingId].outPosition
+            local distance = #(playerPos - outPos)
+            if distance <= 15 then
+                DrawMarker(1, outPos.x, outPos.y, outPos.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0, 255, 0, 255, false, false, 2, false, nil, nil, false)
+            end
 
-                if distance <= 3 then
-                    Draw3DText(outPos.x, outPos.y, outPos.z, "[ENTER]", 7, 0.1, 0.25)
-                    if IsControlJustPressed(0, 191) then
-                        TriggerServerEvent("fivez:ExitRoutingPortal", k, usedInteriorId, usedPortalId)
-                        usedInteriorId = nil
-                        usedRoutingId = nil
-                        usedPortalid = nil
-                        insideRoutingInterior = false
-                        Citizen.Wait(500)
-                    end
+            if distance <= 3 then
+                Draw3DText(outPos.x, outPos.y, outPos.z, "[ENTER]", 7, 0.1, 0.25)
+                if IsControlJustPressed(0, 191) then
+                    TriggerServerEvent("fivez:ExitRoutingPortal", k, usedInteriorId, usedPortalId)
+                    usedInteriorId = nil
+                    usedRoutingId = nil
+                    usedPortalid = nil
+                    insideRoutingInterior = false
+                    Citizen.Wait(500)
                 end
             end
         end

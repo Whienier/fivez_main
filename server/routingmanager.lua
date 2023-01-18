@@ -112,6 +112,7 @@ function RemovePlayerFromActiveInterior(interiorId, source)
                     if #activeInteriors[activeInteriorId].players <= 0 then
                         --TODO: Add removal of all registered inventories linking to this interior
                         DeleteRegisteredInventory("routinginterior:"..activeInteriors[activeInteriorId].routingBucket..":"..activeInteriorId)
+                        DeleteAllGroundInventoriesWithBucket(activeInteriors[activeInteriorId].routingBucket)
                         table.remove(activeInteriors, activeInteriorId)
                     end
                     return true
@@ -121,6 +122,45 @@ function RemovePlayerFromActiveInterior(interiorId, source)
     end
 
     return false
+end
+
+function CalculateLootableAreaItems(routingId lootableAreaId)
+    if Config.RoutingInteriors[routingId] then
+        if Config.RoutingInteriors[routingId].lootableAreas[lootableAreaId] then
+            local inventoryItems = InventoryFillEmpty(30)
+            local weight = 0
+            local lootAreaInfo = Config.RoutingInteriors[routingId].lootableAreas[lootableAreaId]
+            if Config.LootGrades[lootAreaInfo.lootGrade] then
+                local potentialItems = {}
+                for k,v in pairs(Config.LootGrades[lootAreaInfo.lootGrade]) do
+                    local itemModel = v
+                    for k,v in pairs(Config.ItemsWithoutFunctions) do
+                        if v.model == itemModel then
+                            table.insert(potentialItems, v)
+                        end
+                    end
+                end
+
+                if #potentialItems >= 1 then
+                    local defItems = {}
+                    for k,v in pairs(potentialItems) do
+                        local potentialItem = v
+                        local spawnChance = math.random(0, 100)
+                        if spawnChance >= 50 then
+                            for k,v in pairs(inventoryItems) do
+                                if v.itemId == -1 then
+                                    weight = weight + potentialItem.weight
+                                    v = potentialItem
+                                end
+                            end
+                        end
+                    end
+
+                    return weight, inventoryItems
+                end
+            end
+        end
+    end
 end
 
 RegisterNetEvent("fivez:EnterRoutingPortal", function(routingId, interiorId, portalId)
@@ -141,7 +181,9 @@ RegisterNetEvent("fivez:EnterRoutingPortal", function(routingId, interiorId, por
             AddActiveInterior(routingId, interiorId, source)
 
             for k,v in pairs(Config.RoutingInteriors[routingId].lootableAreas) do
-                RegisterNewInventory("routinginterior:"..GetPlayerRoutingBucket(source)..":"..interiorId, "inventory", "Lootable Area", 0, 100, 30, InventoryFillEmpty(30), v.position, GetPlayerRoutingBucket(source))
+                local weight, items = CalculateLootableAreaItems(routingId, k)
+
+                local inventory = RegisterNewInventory("routinginterior:"..GetPlayerRoutingBucket(source)..":"..interiorId, "inventory", "Lootable Area", weight, v.maxWeight, v.maxSlots, items, v.position, GetPlayerRoutingBucket(source))
             end
         end
         --Get the location of the exit portal

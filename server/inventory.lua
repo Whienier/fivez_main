@@ -181,6 +181,20 @@ function DeleteRegisteredInventory(id)
     end
 end
 
+function DeleteAllGroundInventories(routingBucket)
+    for k,v in pairs(RegisteredInventories) do
+        if v.routingBucket == routingBucket then
+            table.remove(RegisteredInventories, k)
+        end
+    end
+
+    for k,v in pairs(TempInventories) do
+        if v.routingBucket == routingBucket then
+            table.remove(TempInventories, k)
+        end
+    end
+end
+
 RegisterNetEvent("fivez:PackBike", function(bikeEntity)
     local source = source
     local bike = NetworkGetEntityFromNetworkId(bikeEntity)
@@ -1085,8 +1099,9 @@ end)
 function InventoryFillEmpty(maxSlots)
     local items = {}
     for i=1, maxSlots do
-        table.insert(items, {label = "Empty", model = "empty", weight = 0, count = 0, maxcount = 0, quality = 0, attachments = {}})
+        table.insert(items, {itemId = -1, label = "Empty", model = "empty", weight = 0, count = 0, maxcount = 0, quality = 0, attachments = {}})
     end
+
     return items
 end
 

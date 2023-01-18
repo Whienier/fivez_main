@@ -139,6 +139,40 @@ Config.InteriorPortals = {
     }
 }
 
+Config.LootGrades = {
+    [0] = {
+        "snickers",
+        "water",
+        "mars",
+        "burger",
+        "zipties",
+        "icetea",
+        "potatochips",
+        "vinegarchips",
+        "limonade",
+        "energy",
+        "drpepper",
+        "drink_coke",
+        "drink_sprite",
+        "lighter",
+        "cigarettepack",
+        "scrapmetal",
+        "hammer",
+        "cloth",
+        "paper",
+        "pen",
+        "cigarett",
+        "beer",
+        "weapon_crowbar",
+        "weapon_flashlight",
+        "weapon_machete"
+        "weapon_knife",
+    },
+    [1] = {
+        "weapon_pistol"
+    }
+}
+
 --Routing interiors
 Config.RoutingInteriors = {
     [1] = {
@@ -158,6 +192,8 @@ Config.RoutingInteriors = {
         lootableAreas = { --Lootable areas for the interior
             [1] = {
                 position = vector3(339.5698, -996.7064, -99.19627),
+                maxSlots = 30,
+                maxWeight = 100,
                 lootGrade = 0
             }
         },

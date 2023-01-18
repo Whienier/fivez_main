@@ -595,7 +595,7 @@ RegisterNUICallback("combine_items", function(data, cb)
     local secondItem = charInventory.items[secondSlotId]
 
     if firstItem.model == "empty" or secondItem.model == "empty" then return end
-    if firstItem.itemId != secondItem.itemId then return end
+    if firstItem.itemId ~= secondItem.itemId then return end
 
     TriggerServerEvent("fivez:AttemptCombine", firstSlotId, secondSlotId, slotDraggedOnto)
     cb('ok')

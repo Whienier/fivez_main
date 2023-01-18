@@ -12,7 +12,13 @@ RegisterNetEvent("fivez:SyncMarkers", function()
     local pedCoords = GetEntityCoords(GetPlayerPed(-1))
     local markersToSend = {}
     for k,v in pairs(inventoryMarkers) do
-        if #(v.position - pedCoords) <= Config.InventoryMarkersSyncDistance then
+        local sameRoutingBucket = false
+        if v.routingBucket then
+            if v.routingBucket == GetPlayerRoutingBucket(source) then
+                sameRoutingBucket = true
+            end
+        end
+        if #(v.position - pedCoords) <= Config.InventoryMarkersSyncDistance and sameRoutingBucket then
             table.insert(markersToSend, v.position)
         end
     end

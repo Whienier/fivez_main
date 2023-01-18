@@ -111,6 +111,7 @@ function RemovePlayerFromActiveInterior(interiorId, source)
                     --If the last person in the interior left, remove it from active interiors
                     if #activeInteriors[activeInteriorId].players <= 0 then
                         --TODO: Add removal of all registered inventories linking to this interior
+                        DeleteRegisteredInventory("routinginterior:"..v.routingBucket..":"..v.interiorId)
                         table.remove(activeInteriors, activeInteriorId)
                     end
                     return true
@@ -140,7 +141,7 @@ RegisterNetEvent("fivez:EnterRoutingPortal", function(routingId, interiorId, por
             AddActiveInterior(routingId, interiorId, source)
 
             for k,v in pairs(Config.RoutingInteriors[routingId].lootableAreas) do
-                RegisterNewInventory("routinginterior:"..GetPlayerRoutingBucket(source), "inventory", "Lootable Area", 0, 100, 30, InventoryFillEmpty(30), v.position, GetPlayerRoutingBucket(source))
+                RegisterNewInventory("routinginterior:"..GetPlayerRoutingBucket(source)..":"..interiorId, "inventory", "Lootable Area", 0, 100, 30, InventoryFillEmpty(30), v.position, GetPlayerRoutingBucket(source))
             end
         end
         --Get the location of the exit portal

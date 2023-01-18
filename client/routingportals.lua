@@ -103,7 +103,7 @@ Citizen.CreateThread(function()
 end)
 
 RegisterCommand("getinteriorname", function()
-    local pedCoords = GetPlayerPed(-1)
+    local pedCoords = GetEntityCoords(GetPlayerPed(-1))
     local interiorId = GetInteriorAtCoords(pedCoords.x, pedCoords.y, pedCoords.z)
 
     if interiorId > 0 then

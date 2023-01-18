@@ -95,7 +95,8 @@ function ProcessRunStuff(ped)
         if wasOnPainKillers then
             SetPedToRagdoll(ped, 1500, 2000, 3, true, true, false)
             wasOnPainKillers = false
-            exports['mythic_notify']:SendAlert('inform', 'You\'ve Realized Doing Drugs Does Not Fix All Your Problems', 5000, { ['background-color'] = '#760036' })
+            AddNotification("You've realized doing drugs does not fix all your problems")
+            --exports['mythic_notify']:SendAlert('inform', 'You\'ve Realized Doing Drugs Does Not Fix All Your Problems', 5000, { ['background-color'] = '#760036' })
         end
     else
         SetPedMoveRateOverride(ped, 1.0)
@@ -118,13 +119,15 @@ function ProcessDamage(ped)
                         local chance = math.random(100)
                         if (IsPedRunning(ped) or IsPedSprinting(ped)) then
                             if chance <= Config.LegInjuryChance.Running then
-                                exports['mythic_notify']:SendAlert('inform', 'You\'re Having A Hard Time Running', 5000, { ['background-color'] = '#760036' })
+                                AddNotification("You're having a hard time running")
+                                --exports['mythic_notify']:SendAlert('inform', 'You\'re Having A Hard Time Running', 5000, { ['background-color'] = '#760036' })
                                 ShakeGameplayCam('SMALL_EXPLOSION_SHAKE', 0.08) -- change this float to increase/decrease camera shake
                                 SetPedToRagdollWithFall(ped, 1500, 2000, 1, GetEntityForwardVector(ped), 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
                             end
                         else
                             if chance <= Config.LegInjuryChance.Walking then
-                                exports['mythic_notify']:SendAlert('inform', 'You\'re Having A Hard Using Your Legs', 5000, { ['background-color'] = '#760036' })
+                                AddNotification("You're having a hard time using your legs")
+                                --exports['mythic_notify']:SendAlert('inform', 'You\'re Having A Hard Using Your Legs', 5000, { ['background-color'] = '#760036' })
                                 ShakeGameplayCam('SMALL_EXPLOSION_SHAKE', 0.08) -- change this float to increase/decrease camera shake
                                 SetPedToRagdollWithFall(ped, 1500, 2000, 1, GetEntityForwardVector(ped), 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
                             end
@@ -181,7 +184,8 @@ function ProcessDamage(ped)
                     local chance = math.random(100)
 
                     if chance <= Config.HeadInjuryChance then
-                        exports['mythic_notify']:SendAlert('inform', 'You Suddenly Black Out', 5000, { ['background-color'] = '#760036' })
+                        AddNotification("You suddenly black out")
+                        --exports['mythic_notify']:SendAlert('inform', 'You Suddenly Black Out', 5000, { ['background-color'] = '#760036' })
                         SetFlash(0, 0, 100, 10000, 100)
 
                         DoScreenFadeOut(100)
@@ -207,7 +211,8 @@ function ProcessDamage(ped)
         if wasOnDrugs then
             SetPedToRagdoll(ped, 1500, 2000, 3, true, true, false)
             wasOnDrugs = false
-            exports['mythic_notify']:SendAlert('inform', 'You\'ve Realized Doing Drugs Does Not Fix All Your Problems', 5000, { ['background-color'] = '#760036' })
+            AddNotification("You've realized doing drugs does not fix all your problems")
+            --exports['mythic_notify']:SendAlert('inform', 'You\'ve Realized Doing Drugs Does Not Fix All Your Problems', 5000, { ['background-color'] = '#760036' })
         end
     else
         onDrugs = onDrugs - 1
@@ -274,10 +279,10 @@ function CheckDamage(ped, bone, weapon)
                 severity = BodyParts[Config.Bones[bone]].severity
             })
 
-            TriggerServerEvent('mythic_hospital:server:SyncInjuries', {
+            --[[ TriggerServerEvent('mythic_hospital:server:SyncInjuries', {
                 limbs = BodyParts,
                 isBleeding = tonumber(isBleeding)
-            })
+            }) ]]
 
             ProcessRunStuff(ped)
             DoLimbAlert()
@@ -328,10 +333,10 @@ function CheckDamage(ped, bone, weapon)
 
             if BodyParts[Config.Bones[bone]].severity < 4 then
                 BodyParts[Config.Bones[bone]].severity = BodyParts[Config.Bones[bone]].severity + 1
-                TriggerServerEvent('mythic_hospital:server:SyncInjuries', {
+                --[[ TriggerServerEvent('mythic_hospital:server:SyncInjuries', {
                     limbs = BodyParts,
                     isBleeding = tonumber(isBleeding)
-                })
+                }) ]]
 
                 for k, v in pairs(injured) do
                     if v.part == Config.Bones[bone] then
@@ -377,21 +382,23 @@ function DoLimbAlert()
                 limbDamageMsg = 'Your ' .. injured[1].label .. ' feels ' .. Config.WoundStates[injured[1].severity]
             end
 
-            exports['mythic_notify']:PersistentAlert('start', limbNotifId, 'inform', limbDamageMsg, { ['background-color'] = '#760036' })
+            AddNotification(limbDamageMsg)
+            --exports['mythic_notify']:PersistentAlert('start', limbNotifId, 'inform', limbDamageMsg, { ['background-color'] = '#760036' })
         else
-            exports['mythic_notify']:PersistentAlert('end', limbNotifId)
+            --exports['mythic_notify']:PersistentAlert('end', limbNotifId)
         end
     else
-        exports['mythic_notify']:PersistentAlert('end', limbNotifId)
+        --exports['mythic_notify']:PersistentAlert('end', limbNotifId)
     end
 end
 
 function DoBleedAlert()
     local player = PlayerPedId()
     if not IsEntityDead(player) and isBleeding > 0 then
-        exports['mythic_notify']:PersistentAlert('start', bleedNotifId, 'inform', 'You Have ' .. Config.BleedingStates[isBleeding], { ['background-color'] = '#760036' })
+        AddNotification("You have "..Config.Bleeding[isBleeding])
+        --exports['mythic_notify']:PersistentAlert('start', bleedNotifId, 'inform', 'You Have ' .. Config.BleedingStates[isBleeding], { ['background-color'] = '#760036' })
     else
-        exports['mythic_notify']:PersistentAlert('end', bleedNotifId)
+        --exports['mythic_notify']:PersistentAlert('end', bleedNotifId)
     end
 end
 
@@ -414,10 +421,10 @@ AddEventHandler('mythic_hospital:client:FieldTreatLimbs', function()
         end
     end
 
-    TriggerServerEvent('mythic_hospital:server:SyncInjuries', {
+    --[[ TriggerServerEvent('mythic_hospital:server:SyncInjuries', {
         limbs = BodyParts,
         isBleeding = tonumber(isBleeding)
-    })
+    }) ]]
 
     ProcessRunStuff(PlayerPedId())
     DoLimbAlert()
@@ -427,10 +434,10 @@ AddEventHandler('mythic_hospital:client:FieldTreatBleed', function()
     if isBleeding > 1 then
         isBleeding = tonumber(isBleeding) - 1
 
-        TriggerServerEvent('mythic_hospital:server:SyncInjuries', {
+        --[[ TriggerServerEvent('mythic_hospital:server:SyncInjuries', {
             limbs = BodyParts,
             isBleeding = tonumber(isBleeding)
-        })
+        }) ]]
 
         ProcessRunStuff(PlayerPedId())
         DoBleedAlert()
@@ -442,10 +449,10 @@ AddEventHandler('mythic_hospital:client:ReduceBleed', function()
     if isBleeding > 0 then
         isBleeding = tonumber(isBleeding) - 1
 
-        TriggerServerEvent('mythic_hospital:server:SyncInjuries', {
+        --[[ TriggerServerEvent('mythic_hospital:server:SyncInjuries', {
             limbs = BodyParts,
             isBleeding = tonumber(isBleeding)
-        })
+        }) ]]
 
         ProcessRunStuff(PlayerPedId())
         DoBleedAlert()
@@ -461,10 +468,10 @@ AddEventHandler('mythic_hospital:client:ResetLimbs', function()
     end
     injured = {}
 
-    TriggerServerEvent('mythic_hospital:server:SyncInjuries', {
+    --[[ TriggerServerEvent('mythic_hospital:server:SyncInjuries', {
         limbs = BodyParts,
         isBleeding = tonumber(isBleeding)
-    })
+    }) ]]
 
     ProcessRunStuff(PlayerPedId())
     DoLimbAlert()
@@ -474,10 +481,10 @@ RegisterNetEvent('mythic_hospital:client:RemoveBleed')
 AddEventHandler('mythic_hospital:client:RemoveBleed', function()
     isBleeding = 0
 
-    TriggerServerEvent('mythic_hospital:server:SyncInjuries', {
+    --[[ TriggerServerEvent('mythic_hospital:server:SyncInjuries', {
         limbs = BodyParts,
         isBleeding = tonumber(isBleeding)
-    })
+    }) ]]
 
     ProcessRunStuff(PlayerPedId())
     DoBleedAlert()
@@ -489,7 +496,8 @@ AddEventHandler('mythic_hospital:client:UsePainKiller', function(tier)
         onPainKiller = 90 * tier
     end
 
-    exports['mythic_notify']:SendAlert('inform', 'You feel the pain subside temporarily', 5000)
+    AddNotification("You feel the pain subside temporarily")
+    --exports['mythic_notify']:SendAlert('inform', 'You feel the pain subside temporarily', 5000)
     ProcessRunStuff(PlayerPedId())
 end)
 
@@ -499,7 +507,8 @@ AddEventHandler('mythic_hospital:client:UseAdrenaline', function(tier)
         onDrugs = 180 * tier
     end
 
-    exports['mythic_notify']:SendAlert('inform', 'You\'re Able To Ignore Your Body Failing', 5000)
+    AddNotification("You're able to ignore your body failing")
+    --exports['mythic_notify']:SendAlert('inform', 'You\'re Able To Ignore Your Body Failing', 5000)
     ProcessRunStuff(PlayerPedId())
 end)
 
@@ -526,7 +535,8 @@ Citizen.CreateThread(function()
 
                     if fadeOutTimer % Config.FadeOutTimer == 0 then
                         if blackoutTimer >= Config.BlackoutTimer then
-                            exports['mythic_notify']:SendAlert('inform', 'You Suddenly Black Out', 5000)
+                            AddNotification("You suddenly black out")
+                            --exports['mythic_notify']:SendAlert('inform', 'You Suddenly Black Out', 5000)
                             SetFlash(0, 0, 100, 7000, 100)
 
                             DoScreenFadeOut(500)
@@ -559,6 +569,7 @@ Citizen.CreateThread(function()
                         fadeOutTimer = fadeOutTimer + 1
                     end
 
+                    AddNotification("You have "..Config.BleedingStates[isBleeding])
                     --exports['mythic_notify']:SendAlert('inform', 'You Have ' .. Config.BleedingStates[isBleeding], 25000)
                     local bleedDamage = tonumber(isBleeding) * Config.BleedTickDamage
                     ApplyDamageToPed(player, bleedDamage, false)
@@ -578,12 +589,13 @@ Citizen.CreateThread(function()
                 local currPos = GetEntityCoords(player, true)
                 local moving = #(vector2(prevPos.x, prevPos.y) - vector2(currPos.x, currPos.y))
                 if (moving > 1 and not IsPedInAnyVehicle(player)) and isBleeding > 2 then
-                    exports['mythic_notify']:PersistentAlert('start', bleedMoveNotifId, 'inform', 'You notice blood oozing from your wounds faster when you\'re moving', { ['background-color'] = '#4d0e96' })
+                    AddNotification("You notice blood oozing from your wounds faster when you're moving")
+                    --exports['mythic_notify']:PersistentAlert('start', bleedMoveNotifId, 'inform', 'You notice blood oozing from your wounds faster when you\'re moving', { ['background-color'] = '#4d0e96' })
                     advanceBleedTimer = advanceBleedTimer + Config.BleedMovementAdvance
                     bleedTickTimer = bleedTickTimer + Config.BleedMovementTick
                     prevPos = currPos
                 else
-                    exports['mythic_notify']:PersistentAlert('end', bleedMoveNotifId)
+                    --exports['mythic_notify']:PersistentAlert('end', bleedMoveNotifId)
                     advanceBleedTimer = advanceBleedTimer + 1
                     bleedTickTimer = bleedTickTimer + 1
                 end

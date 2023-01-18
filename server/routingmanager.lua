@@ -111,7 +111,7 @@ function RemovePlayerFromActiveInterior(interiorId, source)
                     --If the last person in the interior left, remove it from active interiors
                     if #activeInteriors[activeInteriorId].players <= 0 then
                         --TODO: Add removal of all registered inventories linking to this interior
-                        DeleteRegisteredInventory("routinginterior:"..activateInteriors[activeInteriorId].routingBucket..":"..activeInteriorId)
+                        DeleteRegisteredInventory("routinginterior:"..activeInteriors[activeInteriorId].routingBucket..":"..activeInteriorId)
                         table.remove(activeInteriors, activeInteriorId)
                     end
                     return true

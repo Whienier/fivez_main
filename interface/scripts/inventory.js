@@ -930,8 +930,17 @@ function constructTooltip(slot,type,item) {
     if (item.description) {
     var desc = document.createElement('DIV');
     desc.className = "description";
-    desc.innerHTML = `<hr><i>${item.description}</i>`;
+    desc.innerHTML = `<hr><i>${item.description}</i><hr>`;
     toolTip.appendChild(desc);
+    }
+
+    if (item.attachments) {
+        for (var key in item.attachments) {
+            var attachment = document.createElement("DIV");
+            attachment = "attachment";
+            attachment.innerHTML = `<b>${key}</b><b>${item.attachments[key]}</b>`;
+            toolTip.appendChild(attachment);
+        }
     }
 
     document.body.appendChild(toolTip);   

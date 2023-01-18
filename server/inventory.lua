@@ -689,12 +689,6 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                         elseif result[1] == false then
                             TriggerClientEvent("fivez:AddNotification", source, result[2])
                         else
-                            for k,v in pairs(result[1]) do
-                                print("result1 -", k, v)
-                            end
-                            for k,v in pairs(result[2]) do
-                                print("result2 -", k, v)
-                            end
                             plyChar.inventory.items[transferData.toSlot] = result[1]
                             plyChar.inventory.items[transferData.fromSlot] = result[2]
                             if plyChar.inventory.items[transferData.fromSlot].count == 0 then

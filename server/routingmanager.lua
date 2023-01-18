@@ -124,7 +124,7 @@ function RemovePlayerFromActiveInterior(interiorId, source)
     return false
 end
 
-function CalculateLootableAreaItems(routingId lootableAreaId)
+function CalculateLootableAreaItems(routingId, lootableAreaId)
     if Config.RoutingInteriors[routingId] then
         if Config.RoutingInteriors[routingId].lootableAreas[lootableAreaId] then
             local inventoryItems = InventoryFillEmpty(30)

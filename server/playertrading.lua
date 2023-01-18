@@ -77,7 +77,8 @@ function RemoveOpenTrade(source)
     return false
 end
 
-RegisterNetEvent("fivez:RequestTrade", function(source, targetsource)
+RegisterNetEvent("fivez:RequestTrade", function(targetsource)
+    local source = source
     local existingRequest = CheckForExistingRequest(source, targetsource)
     if not existingRequest then
         AddTradeRequest(source, targetsource)
@@ -90,7 +91,8 @@ RegisterNetEvent("fivez:RequestTrade", function(source, targetsource)
     end
 end)
 
-RegisterNetEvent("fivez:AcceptTradeRequest", function(source)
+RegisterNetEvent("fivez:AcceptTradeRequest", function()
+    local source = source
     local existingRequest = CheckForExistingRequest(-1, source)
     if existingRequest then
         local traderSource = GetTraderFromRequest(source)
@@ -100,14 +102,15 @@ RegisterNetEvent("fivez:AcceptTradeRequest", function(source)
         TriggerClientEvent("fivez:AddNotification", traderSource, playerData.name.." has accepted your trade request")
 
         table.insert(openTrades, {trader = traderSource, target = source, traderAccepted = false, targetAccepted = false})
-        TriggerClientEvent("fivez:StartTrade", source, )
-        TriggerClientEvent("fivez:StartTrade", traderSource, )
+        TriggerClientEvent("fivez:StartTrade", source)
+        TriggerClientEvent("fivez:StartTrade", traderSource)
     else
         TriggerClientEvent("fivez:AddNotification", source, "You don't have an existing trade request!")
     end
 end)
 
-RegisterNetEvent("fivez:DeclineTradeRequest", function(source)
+RegisterNetEvent("fivez:DeclineTradeRequest", function()
+    local source = source
     local existingRequest = CheckForExistingRequest(-1, source)
 
     if existingRequest then
@@ -124,7 +127,8 @@ RegisterNetEvent("fivez:DeclineTradeRequest", function(source)
     end
 end)
 
-RegisterNetEvent("fivez:CancelTradeRequest", function(source)
+RegisterNetEvent("fivez:CancelTradeRequest", function()
+    local source = source
     local existingRequest = CheckForExistingRequest(source, -1)
 
     if existingRequest then
@@ -140,7 +144,8 @@ RegisterNetEvent("fivez:CancelTradeRequest", function(source)
     end
 end)
 
-RegisterNetEvent("fivez:AcceptTrade", function(source)
+RegisterNetEvent("fivez:AcceptTrade", function()
+    local source = source
     local existingRequest = CheckForExistingRequest(source, source)
 
     if existingRequest then
@@ -170,7 +175,8 @@ RegisterNetEvent("fivez:AcceptTrade", function(source)
     end
 end)
 
-RegisterNetEvent("fivez:CancelTrade", function(source)
+RegisterNetEvent("fivez:CancelTrade", function()
+    local source = source
     local existingRequest = CheckForExistingRequest(source, source)
 
     if existingRequest then

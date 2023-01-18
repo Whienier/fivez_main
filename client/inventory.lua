@@ -589,8 +589,8 @@ RegisterCommand("combine", function()
 end)
 
 RegisterNUICallback("combine_items", function(data, cb)
-    local firstSlotId = data.firstSlotId
-    local secondSlotId = data.secondSlotId
+    local firstSlotId = data.firstSlotId + 1
+    local secondSlotId = data.secondSlotId + 1
     local slotDraggedOnto = data.slotDraggedOnto
 
     local charInventory = GetCharacterInventory()
@@ -598,8 +598,8 @@ RegisterNUICallback("combine_items", function(data, cb)
     local firstItem = charInventory.items[firstSlotId]
     local secondItem = charInventory.items[secondSlotId]
 
-    if firstItem.model == "empty" or secondItem.model == "empty" then return end
-    if firstItem.itemId ~= secondItem.itemId then return end
+    if firstItem.model == "empty" or secondItem.model == "empty" then AddNotification("Can't combine empty slots!") return end
+    if firstItem.itemId ~= secondItem.itemId then AddNotification("Can't combine different items ("..firstItem.model.." "..secondItem.model.."!") return end
 
     TriggerServerEvent("fivez:AttemptCombine", firstSlotId, secondSlotId, slotDraggedOnto)
     cb('ok')

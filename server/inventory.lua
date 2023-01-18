@@ -1363,9 +1363,9 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                 if freeInvSlot then
                                     local tempItem = Config.CreateNewItemWithData(Config.GetItemWithModel(attachmentModel))
                                     tempItem.count = 1
-                                    local strPos = strfind(tempItem.model, "mag")
+                                    local strPos = string.find(tempItem.model, "mag")
                                     if strPos ~= nil then
-                                        local ammoModel = strsub(tempItem.model, 1, strPos-1)
+                                        local ammoModel = string.sub(tempItem.model, 1, strPos-1)
                                         tempItem.attachments[ammoModel] = ammoInMag
                                     end
                                 else

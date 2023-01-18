@@ -144,11 +144,11 @@ function CalculateLootableAreaItems(routingId, lootableAreaId)
                 end
 
                 if #potentialItems >= 1 then
-                    local defItems = {}
                     for k,v in pairs(potentialItems) do
-                        local potentialItem = v
                         local spawnChance = math.random(0, 100)
                         if spawnChance >= 50 then
+                            print("Spawning", v.model)
+                            local potentialItem = v
                             for k,v in pairs(inventoryItems) do
                                 if v.itemId == -1 then
                                     weight = weight + potentialItem.weight
@@ -156,8 +156,8 @@ function CalculateLootableAreaItems(routingId, lootableAreaId)
                                     inventoryItems[k] = potentialItem
                                 end
                             end
-                            table.remove(potentialItems, k)
                         end
+                        table.remove(potentialItems, k)
                     end
 
                     return weight, inventoryItems

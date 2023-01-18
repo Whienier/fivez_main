@@ -150,7 +150,7 @@ function CalculateLootableAreaItems(routingId, lootableAreaId)
                             for k,v in pairs(inventoryItems) do
                                 if v.itemId == -1 then
                                     weight = weight + potentialItem.weight
-                                    v = potentialItem
+                                    inventoryItems[k] = potentialItem
                                 end
                             end
                         end

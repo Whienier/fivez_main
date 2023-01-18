@@ -182,16 +182,20 @@ function DeleteRegisteredInventory(id)
 end
 
 function DeleteAllGroundInventoriesWithBucket(routingBucket)
+    local regInvId = 0
     for k,v in pairs(RegisteredInventories) do
         if v.routingBucket == routingBucket then
-            table.remove(RegisteredInventories, k)
+            table.remove(RegisteredInventories, regInvId)
         end
+        regInvId = regInvId + 1
     end
 
+    local tempInvId = 0
     for k,v in pairs(TempInventories) do
         if v.routingBucket == routingBucket then
-            table.remove(TempInventories, k)
+            table.remove(TempInventories, tempInvId)
         end
+        tempInvId = tempInvId + 1
     end
 end
 

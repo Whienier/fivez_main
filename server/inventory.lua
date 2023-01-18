@@ -680,7 +680,7 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                 local combined = false
                 if itemData.isAmmo then
                     if itemData.combiningfunction then
-                        local result = itemData.combiningfunction(slotMovingOnto, slotMovingFrom)
+                        local result = itemData.combiningfunction(plyChar.inventory.items[transferData.toSlot], plyChar.inventory.items[transferData.fromSlot])
 
                         if result == nil then
                             print("[ERROR] Tried combining function of item -", itemData.itemId," returned nil -")
@@ -689,19 +689,16 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                         elseif result[1] == false then
                             TriggerClientEvent("fivez:AddNotification", source, result[2])
                         else
-                            slotMovingOnto = result[1]
-                            slotMovingFrom = result[2]
-                            if slotMovingFrom.count == 0 then
+                            plyChar.inventory.items[transferData.toSlot] = result[1]
+                            plyChar.inventory.items[transferData.fromSlot] = result[2]
+                            if plyChar.inventory.items[transferData.fromSlot].count == 0 then
                                 plyChar.inventory.items[transferData.fromSlot] = EmptySlot()
                                 SQL_RemoveItemFromCharacterInventory(plyChar.Id, transferData.fromSlot)
                             else
-                                SQL_UpdateItemCountInCharacterInventory(plyChar.Id, transferData.fromSlot, slotMovingFrom.count)
-                                plyChar.inventory.items[transferData.fromSlot].count = slotMovingFrom.count
+                                SQL_UpdateItemCountInCharacterInventory(plyChar.Id, transferData.fromSlot, plyChar.inventory.items[transferData.fromSlot])
                             end
 
-                            plyChar.inventory.items[transferData.toSlot] = slotMovingOnto
                             SQL_UpdateItemAttachmentsInCharacterInventory(plyChar.Id, transferData.toSlot, slotMovingOnto.attachments)
-                            
                         end
                         
                         combined = true

@@ -423,7 +423,7 @@ function Inventory(type,identifier,label,data) {
                                 count = (count > 0 ? count : (selectedSlot.item.count ? selectedSlot.item.count : 1));
 
                                 this.item = selectedSlot.item;
-                                this.parentElement.style.backgroundImage = `url(assets/inventory/${this.item.model}.png)`;
+                                this.toElement.style.backgroundImage = `url(assets/inventory/${this.item.model}.png)`;
                                 this.itemIndex = selectedSlot.itemIndex;
                                 this.itemInfo.itemQuality.style.width = `${selectedSlot.item.quality}%`;
                                 this.itemInfo.itemQuality.style.backgroundColor = getQualityBarColor(selectedSlot.item.quality);

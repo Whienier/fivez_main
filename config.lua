@@ -157,7 +157,7 @@ Config.RoutingInteriors = {
         outPosition = vector3(346.68, -1006, -98.87), --Multiple in positions for one as routing buckets will be assigned to each table
         lootableAreas = { --Lootable areas for the interior
             [1] = {
-                position = vector3(346.68, -1006, -98.87),
+                position = vector3(339.5698, -996.7064, -99.19627),
                 lootGrade = 0
             }
         },

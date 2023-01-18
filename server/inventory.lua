@@ -1341,6 +1341,9 @@ RegisterNetEvent("fivez:AttemptReload", function()
                     local hands = inventoryData.hands
                     if hands > 0 then
                         print(#inventoryData.items[hands].attachments)
+                        for k,v in pairs(inventoryData.items[hands].attachments) do
+                            print(k,v)
+                        end
                         if inventoryData.items[hands].attachments then
                             local hasMag = false
                             local ammoInMag = -1

@@ -165,8 +165,8 @@ Config.LootGrades = {
         "beer",
         "weapon_crowbar",
         "weapon_flashlight",
-        "weapon_machete"
-        "weapon_knife",
+        "weapon_machete",
+        "weapon_knife"
     },
     [1] = {
         "weapon_pistol"

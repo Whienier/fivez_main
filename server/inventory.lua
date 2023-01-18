@@ -819,7 +819,7 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
         local tempInventory = false
         --Player is transferring to own inventory
         if transferData.toId == plyChar.Id then
-            if string.match(transferData.fromId, "ground") or string.match(transferData.fromId, "zombie") or string.match(transferData.fromId, "temp") then tempInventory = true end
+            if string.match(transferData.fromId, "routinginterior") or string.match(transferData.fromId, "ground") or string.match(transferData.fromId, "zombie") or string.match(transferData.fromId, "temp") then tempInventory = true end
             --Get the slot in inventory we are transferring to
             local plySlot = plyChar.inventory.items[transferData.toSlot]
             --Get the inventory we are transferring from
@@ -853,7 +853,7 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                 plySlot.count = transferData.count
                 SQL_InsertItemToCharacterInventory(plyChar.Id, transferData.toSlot, {id = plySlot.itemId, count = plySlot.count, quality = plySlot.quality, attachments = plySlot.attachments })
                 --If we are not transferring from the admin item menu
-                if not transferData.fromId == "itemmenu:1" then
+                if transferData.fromId ~= "itemmenu:1" then
                     inventoryTransferringFrom.items[transferData.fromSlot] = EmptySlot()
                     invSlot = inventoryTransferringFrom.items[transferData.fromSlot]
                 end

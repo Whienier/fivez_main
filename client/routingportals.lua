@@ -65,7 +65,7 @@ Citizen.CreateThread(function()
             if distance <= 3 then
                 Draw3DText(outPos.x, outPos.y, outPos.z, "[ENTER]", 7, 0.1, 0.25)
                 if IsControlJustPressed(0, 191) then
-                    TriggerServerEvent("fivez:ExitRoutingPortal", k, usedInteriorId, usedPortalId)
+                    TriggerServerEvent("fivez:ExitRoutingPortal", usedRoutingId, usedInteriorId, usedPortalId)
                     usedInteriorId = nil
                     usedRoutingId = nil
                     usedPortalid = nil

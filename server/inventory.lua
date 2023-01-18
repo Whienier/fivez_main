@@ -1340,21 +1340,15 @@ RegisterNetEvent("fivez:AttemptReload", function()
                 if not magInInv then
                     local hands = inventoryData.hands
                     if hands > 0 then
-                        print(#inventoryData.items[hands].attachments)
-                        for k,v in pairs(inventoryData.items[hands].attachments) do
-                            print(k,v)
-                        end
-                        if inventoryData.items[hands].attachments then
+                        if inventoryData.items[hands].attachments ~= nil then
                             local hasMag = false
                             local ammoInMag = -1
                             local attachmentModel = ""
-                            if #inventoryData.items[hands].attachments > 0 then
-                                for k,v in pairs(inventoryData.items[hands].attachments) do
-                                    if string.match(k, "mag") then
-                                        hasMag = true
-                                        ammoInMag = v
-                                        attachmentModel = k
-                                    end
+                            for k,v in pairs(inventoryData.items[hands].attachments) do
+                                if string.match(k, "mag") then
+                                    hasMag = true
+                                    ammoInMag = v
+                                    attachmentModel = k
                                 end
                             end
 
@@ -1371,8 +1365,8 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                     tempItem.count = 1
                                     local strPos = strfind(tempItem.model, "mag")
                                     if strPos ~= nil then
-                                        local magModel = strsub(tempItem.model, 1, strPos-1)
-                                        tempItem.attachments[magModel] = ammoInMag
+                                        local ammoModel = strsub(tempItem.model, 1, strPos-1)
+                                        tempItem.attachments[ammoModel] = ammoInMag
                                     end
                                 else
                                     TriggerClientEvent("fivez:AddNotification", source, "No room for mag!")

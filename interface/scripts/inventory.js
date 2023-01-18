@@ -438,7 +438,7 @@ function Inventory(type,identifier,label,data) {
                                     outputSlot.firstItemIndex = firstSlot.itemIndex;
                                     outputSlot.secondItemIndex = secondSlot.itemIndex;
                                     outputSlot.item = Object.assign({}, firstSlot.item);
-                                    outputSlot.parentElement.style.backgroundImage = `url(assets/inventory/${outputSlot.item.model}.png)`;
+                                    outputSlot.parentElement.childNodes[3].style.backgroundImage = `url(assets/inventory/${outputSlot.item.model}.png)`;
                                     outputSlot.item.quality = combinedQuality;
 
                                     outputSlot.itemInfo.itemQuality.style.width = `${combinedQuality}%`;
@@ -1075,6 +1075,7 @@ craftItem = function(identifier,recipe) {
 }
 
 combineItems = function(firstItemIndex, secondItemIndex, slotDraggedOnto) {
+    console.log("Combining Items "+firstItemIndex+" "+secondItemIndex);
     if (firstItemIndex == secondItemIndex) { return; }
     $.post(`https://${resourceName}/combine_items`, JSON.stringify({
         firstSlotId:firstItemIndex,

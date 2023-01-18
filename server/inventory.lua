@@ -1228,6 +1228,8 @@ RegisterNetEvent("fivez:AttemptCombine", function(firstSlotId, secondSlotId, slo
                 label = "Combining"
             }
             TriggerClientEvent("fivez:UpdateCharacterInventoryItems", source, json.encode(playerData.characterData.inventory.items), json.encode(combineInventory))
+        else
+            TriggerClientEvent("fivez:AddNotification", source, "Not combining the same item!")
         end
     end
 end)
@@ -1371,8 +1373,14 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                 else
                                     TriggerClientEvent("fivez:AddNotification", source, "No room for mag!")
                                 end
+                            else
+                                TriggerClientEvent("fivez:AddNotification", source, "Gun doesn't have mag!")
                             end
+                        else
+                            TriggerClientEvent("fivez:AddNotification", source, "Gun doesn't have mag!")
                         end
+                    else
+                        TriggerClientEvent("fivez:AddNotification", source, "Not holding a gun!")
                     end
                 end
             end

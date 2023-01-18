@@ -346,6 +346,7 @@ function Inventory(type,identifier,label,data) {
 
             var item = document.createElement("DIV");
             item.className = "item";
+            item.style.backgroundImage = ``;
 
             var itemLabel = document.createElement("SPAN");
             itemLabel.textContent = `EMPTY`
@@ -422,6 +423,7 @@ function Inventory(type,identifier,label,data) {
                                 count = (count > 0 ? count : (selectedSlot.item.count ? selectedSlot.item.count : 1));
 
                                 this.item = selectedSlot.item;
+                                this.item.style.backgroundImage = `url(assets/inventory/${this.item.model}.png)`;
                                 this.itemIndex = selectedSlot.itemIndex;
                                 this.itemInfo.itemQuality.style.width = `${selectedSlot.item.quality}%`;
                                 this.itemInfo.itemQuality.style.backgroundColor = getQualityBarColor(selectedSlot.item.quality);
@@ -472,6 +474,7 @@ function Inventory(type,identifier,label,data) {
 
         var item = document.createElement("DIV");
         item.className = "item";
+        item.style.backgroundImage = ``;
 
         var itemLabel = document.createElement("SPAN");
         itemLabel.textContent = ``;

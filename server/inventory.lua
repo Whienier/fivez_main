@@ -1199,8 +1199,6 @@ RegisterNetEvent("fivez:AttemptCombine", function(firstSlotId, secondSlotId, slo
     local source = source
     local playerData = GetJoinedPlayer(source)
 
-    if IsPedDeadOrDying(GetPlayerPed(source), 1) then return end
-
     if playerData then
         local inventoryData = playerData.characterData.inventory
 
@@ -1366,9 +1364,13 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                     local strPos = string.find(tempItem.model, "mag")
                                     if strPos ~= nil then
                                         local ammoModel = string.sub(tempItem.model, 1, strPos-1)
+                                        print("Creating mag item", attachmentModel, ammoModel)
                                         tempItem.attachments[ammoModel] = ammoInMag
                                         inventoryData.items[freeInvSlot] = tempItem
+                                        inventoryData.items[hands].attachments = {}
                                         SQL_InsertItemToCharacterInventory(playerData.Id, freeInvSlot, tempItem)
+                                        SQL_UpdateItemAttachmentsInCharacterInventory(playerData.Id, hands, {})
+                                        TriggerClientEvent("fivez:UpdateCharacterInventoryItems", source, json.encode(inventoryData.items), nil)
                                     end
                                 else
                                     TriggerClientEvent("fivez:AddNotification", source, "No room for mag!")

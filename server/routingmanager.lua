@@ -136,7 +136,9 @@ function CalculateLootableAreaItems(routingId, lootableAreaId)
                     local itemModel = v
                     for k,v in pairs(Config.ItemsWithoutFunctions()) do
                         if v.model == itemModel then
-                            table.insert(potentialItems, v)
+                            local itemData = v
+                            itemData.count = 1
+                            table.insert(potentialItems, itemData)
                         end
                     end
                 end
@@ -150,6 +152,7 @@ function CalculateLootableAreaItems(routingId, lootableAreaId)
                             for k,v in pairs(inventoryItems) do
                                 if v.itemId == -1 then
                                     weight = weight + potentialItem.weight
+                                    
                                     inventoryItems[k] = potentialItem
                                 end
                             end

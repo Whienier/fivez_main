@@ -499,11 +499,13 @@ RegisterNetEvent("fivez:DecayCharacter", function(runningAmount)
         if plyChar.hunger then
             plyChar.hunger = plyChar.hunger - (Config.HungerDecay + runningAmount)
         else
-            print(GetPlayerName(source), " character had nil hunger!")
+            plyChar.hunger = 0
+            print(GetPlayerName(source), " character had nil hunger, assuming 0!")
         end
         if plyChar.thirst then
             plyChar.thirst = plyChar.thirst - (Config.ThirstDecay + runningAmount)
         else
+            plyChar.thirst = 0
             print(GetPlayerName(source), "character had nil thirst!")
         end
     end

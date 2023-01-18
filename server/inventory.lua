@@ -181,7 +181,7 @@ function DeleteRegisteredInventory(id)
     end
 end
 
-function DeleteAllGroundInventories(routingBucket)
+function DeleteAllGroundInventoriesWithBucket(routingBucket)
     for k,v in pairs(RegisteredInventories) do
         if v.routingBucket == routingBucket then
             table.remove(RegisteredInventories, k)

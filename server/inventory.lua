@@ -1245,11 +1245,11 @@ RegisterNetEvent("fivez:AttemptReload", function()
                     if v.model ~= "empty" then
                         local item = v
                         local itemSlot = k
-                        local configItem = Config.Item[item.itemId]
+                        local configItem = Config.Item[v.itemId]
                         if configItem then
                             if configItem.isMag then
                                 local ammoInMag = -1
-                                for k,v in pairs(item.attachments) do
+                                for k,v in pairs(v.attachments) do
                                     ammoInMag = v
                                 end
                                 if ammoInMag ~= -1 then

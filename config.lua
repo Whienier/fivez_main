@@ -2515,7 +2515,7 @@ Config.Items = {
                                 end
                             end
                             selfItem.count = newItemCount
-                            return {itemMovedOnto, newItemCount}
+                            return {itemMovedOnto, selfItem}
                         elseif itemCount < roundDif then
                             for k,v in pairs(itemMovedOnto.attachments) do
                                 if k == "45acp" then

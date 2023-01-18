@@ -154,6 +154,7 @@ function CalculateLootableAreaItems(routingId, lootableAreaId)
                                     weight = weight + potentialItem.weight
 
                                     inventoryItems[k] = potentialItem
+                                    break
                                 end
                             end
                         end

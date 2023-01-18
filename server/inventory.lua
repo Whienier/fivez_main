@@ -852,12 +852,12 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                 print("Changed ply slot", plySlot.model, plySlot.quality)
                 plySlot.count = transferData.count
                 SQL_InsertItemToCharacterInventory(plyChar.Id, transferData.toSlot, {id = plySlot.itemId, count = plySlot.count, quality = plySlot.quality, attachments = plySlot.attachments })
+                --If we are not transferring from the admin item menu
+                if not transferData.fromId == "itemmenu:1" then
+                    inventoryTransferringFrom.items[transferData.fromSlot] = EmptySlot()
+                    invSlot = inventoryTransferringFrom.items[transferData.fromSlot]
+                end
                 if not tempInventory then
-                    --If we are not transferring from the admin item menu
-                    if not transferData.fromId == "itemmenu:1" then
-                        inventoryTransferringFrom.items[transferData.fromSlot] = EmptySlot()
-                        invSlot = inventoryTransferringFrom.items[transferData.fromSlot]
-                    end
                     SQL_RemoveItemFromPersistentInventory(transferData.fromId, transferData.fromSlot)
                 end
             elseif plySlot.itemId == invSlot.itemId then
@@ -901,7 +901,7 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                     end ]]
                     local tempItem = plySlot
                     plyChar.inventory.items[transferData.toSlot] = Config.CreateNewItemWithData(invSlot)
-                    invSlot = Config.CreateNewItemWithData(tempItem)
+                    inventoryTransferringFrom.items[transferData.fromSlot] = Config.CreateNewItemWithData(tempItem)
                     SQL_RemoveItemFromCharacterInventory(plyChar.Id, transferData.toSlot)
                     SQL_InsertItemToCharacterInventory(plyChar.Id, transferData.toSlot, {id = plySlot.itemId, count = plySlot.count, quality = plySlot.quality, attachments = plySlot.attachments})
                     if not tempInventory and not transferData.fromId ~= "itemmenu:1" then

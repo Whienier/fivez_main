@@ -2523,7 +2523,7 @@ Config.Items = {
                                 end
                             end
                             selfItem.count = 0
-                            return {itemMovedOnto, selfItem.count}
+                            return {itemMovedOnto, selfItem}
                         end
                     elseif roundDif == 0 then
                         return {false, "Mag doesn't need any bullets"}

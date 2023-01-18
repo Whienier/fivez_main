@@ -1229,7 +1229,7 @@ RegisterNetEvent("fivez:AttemptCombine", function(firstSlotId, secondSlotId, slo
             }
             TriggerClientEvent("fivez:UpdateCharacterInventoryItems", source, json.encode(playerData.characterData.inventory.items), json.encode(combineInventory))
         else
-            TriggerClientEvent("fivez:AddNotification", source, "Not combining the same item!")
+            TriggerClientEvent("fivez:AddNotification", source, "Cannot combine"..playerData.characterData.inventory.items[firstSlotId].name.." and "..playerData.characterData.inventory.items[secondSlotId].name)
         end
     end
 end)
@@ -1340,6 +1340,7 @@ RegisterNetEvent("fivez:AttemptReload", function()
                 if not magInInv then
                     local hands = inventoryData.hands
                     if hands > 0 then
+                        print(inventoryData.items[hands].model)
                         if inventoryData.items[hands].attachments then
                             local hasMag = false
                             local ammoInMag = -1

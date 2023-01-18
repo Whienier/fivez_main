@@ -423,7 +423,7 @@ function Inventory(type,identifier,label,data) {
                                 count = (count > 0 ? count : (selectedSlot.item.count ? selectedSlot.item.count : 1));
 
                                 this.item = selectedSlot.item;
-                                this.item.style.backgroundImage = `url(assets/inventory/${this.item.model}.png)`;
+                                this.parentElement.style.backgroundImage = `url(assets/inventory/${this.item.model}.png)`;
                                 this.itemIndex = selectedSlot.itemIndex;
                                 this.itemInfo.itemQuality.style.width = `${selectedSlot.item.quality}%`;
                                 this.itemInfo.itemQuality.style.backgroundColor = getQualityBarColor(selectedSlot.item.quality);
@@ -438,7 +438,7 @@ function Inventory(type,identifier,label,data) {
                                     outputSlot.firstItemIndex = firstSlot.itemIndex;
                                     outputSlot.secondItemIndex = secondSlot.itemIndex;
                                     outputSlot.item = Object.assign({}, firstSlot.item);
-                                    outputSlot.item.style.backgroundImage = `url(assets/inventory/${outputSlot.item.model}.png)`;
+                                    outputSlot.parentElement.style.backgroundImage = `url(assets/inventory/${outputSlot.item.model}.png)`;
                                     outputSlot.item.quality = combinedQuality;
 
                                     outputSlot.itemInfo.itemQuality.style.width = `${combinedQuality}%`;

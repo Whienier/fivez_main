@@ -2511,7 +2511,7 @@ Config.Items = {
                             local newItemCount = itemCount - roundDif
                             for k,v in pairs(itemMovedOnto.attachments) do
                                 if k == "45acp" then
-                                    v = roundsInMag + roundDif
+                                    itemMovedOnto.attachments[k] = roundsInMag + roundDif
                                 end
                             end
                             selfItem.count = newItemCount
@@ -2519,7 +2519,7 @@ Config.Items = {
                         elseif itemCount < roundDif then
                             for k,v in pairs(itemMovedOnto.attachments) do
                                 if k == "45acp" then
-                                    v = roundsInMag + itemCount
+                                    itemMovedOnto.attachments[k] = roundsInMag + itemCount
                                 end
                             end
                             selfItem.count = 0

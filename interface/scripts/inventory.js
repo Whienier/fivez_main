@@ -938,7 +938,7 @@ function constructTooltip(slot,type,item) {
         for (var key in item.attachments) {
             var attachment = document.createElement("DIV");
             attachment.className = "attachment";
-            attachment.innerHTML = `<b>${key}</b><b>${item.attachments[key]}</b>`;
+            attachment.innerHTML = `<b>${key}</b>-${item.attachments[key]}`;
             toolTip.appendChild(attachment);
         }
     }

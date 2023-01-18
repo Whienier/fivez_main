@@ -622,10 +622,24 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
             if plyChar.inventory.items[transferData.fromSlot].itemId ~= transferData.item.itemId then TriggerClientEvent("fivez:AddNotification", source, "Item doesn't exist in your inventory") return end
             --Item to slot is empty
             if plyChar.inventory.items[transferData.toSlot].model == "empty" then
-                plyChar.inventory.items[transferData.toSlot] = Config.CreateNewItemWithData(plyChar.inventory.items[transferData.fromSlot])
-                plyChar.inventory.items[transferData.fromSlot] = EmptySlot()
-                --Update database
-                SQL_ChangeItemSlotIdInCharacterInventory(plyChar.Id, transferData.fromSlot, transferData.toSlot)
+                if transferData.count > 0 then
+                    if plyChar.inventory.items[transferData.fromSlot].count <= transferData.count then TriggerClientEvent("fivez:AddNotification", source, "Don't have enough to split") return end
+                    local tempItem = plyChar.inventory.items[transferData.toSlot]
+                    tempItem = transferData.count
+                    plyChar.inventory.items[transferData.toSlot] = Config.CreateNewItemWithData(tempItem)
+                    local newCount = plyChar.inventory.items[transferData.fromSlot].count - tempItem.count
+                    if newCount == 0 then
+                        plyChar.inventory.items[transferData.fromSlot] = EmptySlot()
+                    else
+                        plyChar.inventory.items[transferData.fromSlot].count = newCount
+                    end
+                elseif transferData.count == 0 then
+                    --If player is moving the whole stack of items
+                    plyChar.inventory.items[transferData.toSlot] = Config.CreateNewItemWithData(plyChar.inventory.items[transferData.fromSlot])
+                    plyChar.inventory.items[transferData.fromSlot] = EmptySlot()
+                    --Update database
+                    SQL_ChangeItemSlotIdInCharacterInventory(plyChar.Id, transferData.fromSlot, transferData.toSlot)
+                end
             --If the item is the same
             elseif plyChar.inventory.items[transferData.toSlot].itemId == transferData.item.itemId then
                 --If the quality is different
@@ -644,9 +658,18 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                         plyChar.inventory.items[transferData.fromSlot] = EmptySlot()
                     end ]]
 
-                    local tempItem = plyChar.inventory.items[transferData.toSlot]
-                    plyChar.inventory.items[transferData.toSlot] = Config.CreateNewItemWithData(plyChar.inventory.items[transferData.fromSlot])
-                    plyChar.inventory.items[transferData.fromSlot] = Config.CreateNewItemWithData(tempItem)
+                    if transferData.count > 0 then
+                        if plyChar.inventory.items[transferData.fromSlot].count <= transferData.count then TriggerClientEvent("fivez:AddNotification", source, "Don't have enough to split!") return end
+                        plyChar.inventory.items[transferData.toSlot].count = plyChar.inventory.items[transferData.toSlot].count + transferData.count
+                        plyChar.inventory.items[transferData.fromSlot].count = plyChar.inventory.items[transferData.fromSlot].count - transferData.count
+                        if plyChar.inventory.items[transferData.fromSlot].count == 0 then
+                            plyChar.inventory.items[transferData.fromSlot] = EmptySlot()
+                        end
+                    else
+                        local tempItem = plyChar.inventory.items[transferData.toSlot]
+                        plyChar.inventory.items[transferData.toSlot] = Config.CreateNewItemWithData(plyChar.inventory.items[transferData.fromSlot])
+                        plyChar.inventory.items[transferData.fromSlot] = Config.CreateNewItemWithData(tempItem)
+                    end
                 elseif plyChar.inventory.items[transferData.toSlot].quality == plyChar.inventory.items[transferData.fromSlot].quality then
                     --SAME ITEM AND SAME QUALITY DON'T DO ANYTHING?
                     --[[ --Set newCount to, to slot count plus amount transferring
@@ -698,7 +721,7 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                                 SQL_UpdateItemCountInCharacterInventory(plyChar.Id, transferData.fromSlot, plyChar.inventory.items[transferData.fromSlot].count)
                             end
 
-                            SQL_UpdateItemAttachmentsInCharacterInventory(plyChar.Id, transferData.toSlot, plyChar.inventory.items[transferData.toSlot])
+                            SQL_UpdateItemAttachmentsInCharacterInventory(plyChar.Id, transferData.toSlot, plyChar.inventory.items[transferData.toSlot].attachments)
                         end
                         
                         combined = true

@@ -704,7 +704,7 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                                 SQL_UpdateItemCountInCharacterInventory(plyChar.Id, transferData.fromSlot, plyChar.inventory.items[transferData.fromSlot].count)
                             end
 
-                            SQL_UpdateItemAttachmentsInCharacterInventory(plyChar.Id, transferData.toSlot, slotMovingOnto.attachments)
+                            SQL_UpdateItemAttachmentsInCharacterInventory(plyChar.Id, transferData.toSlot, plyChar.inventory.items[transferData.toSlot])
                         end
                         
                         combined = true

@@ -2514,7 +2514,7 @@ Config.Items = {
                                     v = roundsInMag + roundDif
                                 end
                             end
-
+                            selfItem.count = newItemCount
                             return {itemMovedOnto, newItemCount}
                         elseif itemCount < roundDif then
                             for k,v in pairs(itemMovedOnto.attachments) do
@@ -2522,11 +2522,11 @@ Config.Items = {
                                     v = roundsInMag + itemCount
                                 end
                             end
-
-                            return {itemMovedOnto, 0}
+                            selfItem.count = 0
+                            return {itemMovedOnto, selfItem.count}
                         end
                     elseif roundDif == 0 then
-                        return false
+                        return {false, "Mag doesn't need any bullets"}
                     end
                 else
                     return nil

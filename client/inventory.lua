@@ -1,6 +1,10 @@
 local inventories = {}
 inventoryOpen = false
 
+function ClearInventoryMarkers()
+    inventories = {}
+    TriggerServerEvent("fivez:SyncMarkers")
+end
 RegisterNetEvent("fivez:LoadInventoryMarkers", function(markers)
     inventories = json.decode(markers)
 end)

@@ -695,7 +695,7 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                                 plyChar.inventory.items[transferData.fromSlot] = EmptySlot()
                                 SQL_RemoveItemFromCharacterInventory(plyChar.Id, transferData.fromSlot)
                             else
-                                SQL_UpdateItemCountInCharacterInventory(plyChar.Id, transferData.fromSlot, plyChar.inventory.items[transferData.fromSlot])
+                                SQL_UpdateItemCountInCharacterInventory(plyChar.Id, transferData.fromSlot, plyChar.inventory.items[transferData.fromSlot].count)
                             end
 
                             SQL_UpdateItemAttachmentsInCharacterInventory(plyChar.Id, transferData.toSlot, slotMovingOnto.attachments)

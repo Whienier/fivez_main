@@ -134,7 +134,7 @@ function CalculateLootableAreaItems(routingId, lootableAreaId)
                 local potentialItems = {}
                 for k,v in pairs(Config.LootGrades[lootAreaInfo.lootGrade]) do
                     local itemModel = v
-                    for k,v in pairs(Config.ItemsWithoutFunctions) do
+                    for k,v in pairs(Config.ItemsWithoutFunctions()) do
                         if v.model == itemModel then
                             table.insert(potentialItems, v)
                         end

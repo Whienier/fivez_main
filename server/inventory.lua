@@ -701,7 +701,7 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
             elseif plyChar.inventory.items[transferData.toSlot].itemId ~= transferData.item.itemId then
                 --Item isn't the exact same
                 local combined = false
-                if itemData.isAmmo then
+                if itemData.isAmmo or itemData.isMag then
                     if itemData.combiningfunction then
                         local result = itemData.combiningfunction(plyChar.inventory.items[transferData.toSlot], plyChar.inventory.items[transferData.fromSlot])
 
@@ -1240,9 +1240,10 @@ RegisterNetEvent("fivez:AttemptReload", function()
 
         if currentWeapon ~= GetHashKey("weapon_unarmed") then
             local inventoryData = playerData.characterData.inventory
+            local magInInv = false
             if inventoryData then
                 for k,v in pairs(inventoryData.items) do
-                    if v.model ~= "empty" then
+                    if v.itemId ~= -1 then
                         local item = v
                         local itemSlot = k
                         local configItem = Config.Items[item.itemId]
@@ -1255,6 +1256,7 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                 if ammoInMag ~= -1 then
                                     for k,v in pairs(configItem.compatibleWeapons) do
                                         if v == currentWeapon then
+                                            magInInv = true
                                             local hands = inventoryData.hands
                                             if hands > 0 then
                                                 if inventoryData.items[hands].attachments then
@@ -1326,6 +1328,48 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                             end
                                         end
                                     end
+                                end
+                            end
+                        end
+                    end
+                end
+
+                --If we couldn't find a compatiable mag in the players inventory
+                if not magInInv then
+                    local hands = inventoryData.hands
+                    if hands > 0 then
+                        if inventoryData.items[hands].attachments then
+                            local hasMag = false
+                            local ammoInMag = -1
+                            local attachmentModel = ""
+                            if #inventoryData.items[hands].attachments > 0 then
+                                for k,v in pairs(inventoryData.items[hands].attachments) do
+                                    if string.match(k, "mag") then
+                                        hasMag = true
+                                        ammoInMag = v
+                                        attachmentModel = k
+                                    end
+                                end
+                            end
+
+                            if hasMag then
+                                local freeInvSlot = -1
+                                for k,v in pairs(inventoryData.items) do
+                                    if v.itemId == -1 then
+                                        freeInvSlot = k
+                                    end
+                                end
+
+                                if freeInvSlot then
+                                    local tempItem = Config.CreateNewItemWithData(Config.GetItemWithModel(attachmentModel))
+                                    tempItem.count = 1
+                                    local strPos = strfind(tempItem.model, "mag")
+                                    if strPos ~= nil then
+                                        local magModel = strsub(tempItem.model, 1, strPos-1)
+                                        tempItem.attachments[magModel] = ammoInMag
+                                    end
+                                else
+                                    TriggerClientEvent("fivez:AddNotification", source, "No room for mag!")
                                 end
                             end
                         end

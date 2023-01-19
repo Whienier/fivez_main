@@ -896,16 +896,6 @@ Config.Items = {
                 return {false, itemMovingOnto.label.." is not compatible with this magazine!"}
             end
         end,
-        serverfunction = function(source)
-            local playerData = GetJoinedPlayer(source)
-            if playerData then
-                local plyPed = GetPlayerPed(source)
-                local curAmmoCount = SQL_GetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_pistol"))
-                SQL_SetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_pistol"), curAmmoCount + 25)
-                GiveAmmoToPlayer(source, GetHashKey("weapon_pistol"), 25)
-                return true
-            end
-        end,
         spawnchance = 1
     },
     [8] = {
@@ -1130,9 +1120,57 @@ Config.Items = {
         quality = 100,
         attachments = {},
         isAmmo = true,
-        compatibleMagazines = {"12gamag6", "12gamag8", "12gamag12", "weapon_dbshotgun"},
+        compatibleMagazines = {["12gamag6"] = 6, ["12gamag8"] = 8, ["12gamag12"] = 12, ["weapon_dbshotgun"] = 2},
         spawnchance = 5,
-        militaryspawn = true
+        militaryspawn = true,
+        combiningfunction = function(plySource, itemMovedOnto, selfItem)
+            local compatiableMag = false
+            local magMax = 0
+            for k,v in pairs(Config.Items[selfItem.itemId].compatibleMagazines) do
+                if k == itemMovedOnto.model then
+                    compatiableMag = true
+                    magMax = v
+                    break
+                end
+            end
+            if compatiableMag then
+                local itemCount = selfItem.count
+                local roundsInMag = -1
+                for k,v in pairs(itemMovedOnto.attachments) do
+                    if k == selfItem.model then
+                        roundsInMag = v
+                    end
+                end
+                if roundsInMag >= 0 then
+                    local startp, endp = string.find(itemMovedOnto.model, "mag")
+                    local roundDif = magMax - roundsInMag --12 being the max
+                    if roundDif > 0 then
+                        if itemCount >= roundDif then
+                            local newItemCount = itemCount - roundDif
+                            for k,v in pairs(itemMovedOnto.attachments) do
+                                if k == selfItem.model then
+                                    itemMovedOnto.attachments[k] = roundsInMag + roundDif
+                                end
+                            end
+                            selfItem.count = newItemCount
+                            return {itemMovedOnto, selfItem}
+                        elseif itemCount < roundDif then
+                            for k,v in pairs(itemMovedOnto.attachments) do
+                                if k == selfItem.model then
+                                    itemMovedOnto.attachments[k] = roundsInMag + itemCount
+                                end
+                            end
+                            selfItem.count = 0
+                            return {itemMovedOnto, selfItem}
+                        end
+                    elseif roundDif == 0 then
+                        return {false, "Mag doesn't need any bullets"}
+                    end
+                else
+                    return nil
+                end
+            end
+        end
     },
     [19] = {
         itemId = 19,
@@ -1145,9 +1183,57 @@ Config.Items = {
         quality = 100,
         attachments = {},
         isAmmo = true,
-        compatibleMagazines = {"556mmmag10", "556mmmag20", "556mmmag30"},
+        compatibleMagazines = {["556mmmag10"] = 10, ["556mmmag20"] = 20, ["556mmmag30"] = 30},
         spawnchance = 3,
-        militaryspawn = true
+        militaryspawn = true,
+        combiningfunction = function(plySource, itemMovedOnto, selfItem)
+            local compatiableMag = false
+            local magMax = 0
+            for k,v in pairs(Config.Items[selfItem.itemId].compatibleMagazines) do
+                if k == itemMovedOnto.model then
+                    compatiableMag = true
+                    magMax = v
+                    break
+                end
+            end
+            if compatiableMag then
+                local itemCount = selfItem.count
+                local roundsInMag = -1
+                for k,v in pairs(itemMovedOnto.attachments) do
+                    if k == selfItem.model then
+                        roundsInMag = v
+                    end
+                end
+                if roundsInMag >= 0 then
+                    local startp, endp = string.find(itemMovedOnto.model, "mag")
+                    local roundDif = magMax - roundsInMag --12 being the max
+                    if roundDif > 0 then
+                        if itemCount >= roundDif then
+                            local newItemCount = itemCount - roundDif
+                            for k,v in pairs(itemMovedOnto.attachments) do
+                                if k == selfItem.model then
+                                    itemMovedOnto.attachments[k] = roundsInMag + roundDif
+                                end
+                            end
+                            selfItem.count = newItemCount
+                            return {itemMovedOnto, selfItem}
+                        elseif itemCount < roundDif then
+                            for k,v in pairs(itemMovedOnto.attachments) do
+                                if k == selfItem.model then
+                                    itemMovedOnto.attachments[k] = roundsInMag + itemCount
+                                end
+                            end
+                            selfItem.count = 0
+                            return {itemMovedOnto, selfItem}
+                        end
+                    elseif roundDif == 0 then
+                        return {false, "Mag doesn't need any bullets"}
+                    end
+                else
+                    return nil
+                end
+            end
+        end
     },
     [20] = {
         itemId = 20,
@@ -1326,8 +1412,57 @@ Config.Items = {
         quality = 100,
         attachments = {},
         isAmmo = true,
+        compatibleMagazines = {["9mmmag18"] = 18, ["9mmmag20"] = 20, ["9mmmag30"] = 30}
         spawnchance = 15,
-        militaryspawn = true
+        militaryspawn = true,
+        combiningfunction = function(plySource, itemMovedOnto, selfItem)
+            local compatiableMag = false
+            local magMax = 0
+            for k,v in pairs(Config.Items[selfItem.itemId].compatibleMagazines) do
+                if k == itemMovedOnto.model then
+                    compatiableMag = true
+                    magMax = v
+                    break
+                end
+            end
+            if compatiableMag then
+                local itemCount = selfItem.count
+                local roundsInMag = -1
+                for k,v in pairs(itemMovedOnto.attachments) do
+                    if k == selfItem.model then
+                        roundsInMag = v
+                    end
+                end
+                if roundsInMag >= 0 then
+                    local startp, endp = string.find(itemMovedOnto.model, "mag")
+                    local roundDif = magMax - roundsInMag --12 being the max
+                    if roundDif > 0 then
+                        if itemCount >= roundDif then
+                            local newItemCount = itemCount - roundDif
+                            for k,v in pairs(itemMovedOnto.attachments) do
+                                if k == selfItem.model then
+                                    itemMovedOnto.attachments[k] = roundsInMag + roundDif
+                                end
+                            end
+                            selfItem.count = newItemCount
+                            return {itemMovedOnto, selfItem}
+                        elseif itemCount < roundDif then
+                            for k,v in pairs(itemMovedOnto.attachments) do
+                                if k == selfItem.model then
+                                    itemMovedOnto.attachments[k] = roundsInMag + itemCount
+                                end
+                            end
+                            selfItem.count = 0
+                            return {itemMovedOnto, selfItem}
+                        end
+                    elseif roundDif == 0 then
+                        return {false, "Mag doesn't need any bullets"}
+                    end
+                else
+                    return nil
+                end
+            end
+        end
     },
     [28] = {
         itemId = 28,
@@ -1765,9 +1900,46 @@ Config.Items = {
         quality = 100,
         spawnchance = 2,
         attachments = {["9mm"] = 0},
-        compatibleWeapons = {"weapon_appistol"},
+        compatibleWeapons = {GetHashKey("weapon_appistol")},
         isMag = true,
-        militaryspawn = true
+        militaryspawn = true,
+        combiningfunction = function(plySource, itemMovingOnto, selfItem)
+            local itemMovedOntoIsCompat = false
+            for k,v in pairs(Config.Items[selfItem.itemId].compatibleWeapons) do
+                if v == GetHashKey(itemMovingOnto.model) then
+                    itemMovedOntoIsCompat = true
+                    break
+                end
+            end
+            if itemMovedOntoIsCompat then
+                if itemMovingOnto.attachments ~= nil then
+                    local hasMag = false
+                    local magAttachmentModel = nil
+                    for k,v in pairs(itemMovingOnto.attachments) do
+                        if string.match(k, "mag") then
+                            hasMag = true
+                            magAttachmentModel = k
+                        end
+                    end
+                    local bulletModel = nil
+                    for k,v in pairs(selfItem.attachments) do
+                        bulletModel = k
+                    end
+                    if not hasMag then
+                        itemMovingOnto.attachments[selfItem.model] = selfItem.attachments[bulletModel]
+                        selfItem.count = 0
+                        return {itemMovingOnto, selfItem}
+                    else
+                        local ammoInMag = itemMovingOnto.attachments[magAttachmentModel]
+                        itemMovingOnto.attachments[magAttachmentModel] = selfItem.attachments[bulletModel]
+                        selfItem.attachments[bulletModel] = ammoInMag
+                        return {itemMovingOnto, selfItem}
+                    end
+                end
+            else
+                return {false, itemMovingOnto.label.." is not compatible with this magazine!"}
+            end
+        end
     },
     [50] = {
         itemId = 50,
@@ -1780,9 +1952,46 @@ Config.Items = {
         quality = 100,
         spawnchance = 2,
         attachments = {["9mm"] = 0},
-        compatibleWeapons = {"weapon_minismg"},
+        compatibleWeapons = {GetHashKey("weapon_minismg")},
         isMag = true,
-        militaryspawn = true
+        militaryspawn = true,
+        combiningfunction = function(plySource, itemMovingOnto, selfItem)
+            local itemMovedOntoIsCompat = false
+            for k,v in pairs(Config.Items[selfItem.itemId].compatibleWeapons) do
+                if v == GetHashKey(itemMovingOnto.model) then
+                    itemMovedOntoIsCompat = true
+                    break
+                end
+            end
+            if itemMovedOntoIsCompat then
+                if itemMovingOnto.attachments ~= nil then
+                    local hasMag = false
+                    local magAttachmentModel = nil
+                    for k,v in pairs(itemMovingOnto.attachments) do
+                        if string.match(k, "mag") then
+                            hasMag = true
+                            magAttachmentModel = k
+                        end
+                    end
+                    local bulletModel = nil
+                    for k,v in pairs(selfItem.attachments) do
+                        bulletModel = k
+                    end
+                    if not hasMag then
+                        itemMovingOnto.attachments[selfItem.model] = selfItem.attachments[bulletModel]
+                        selfItem.count = 0
+                        return {itemMovingOnto, selfItem}
+                    else
+                        local ammoInMag = itemMovingOnto.attachments[magAttachmentModel]
+                        itemMovingOnto.attachments[magAttachmentModel] = selfItem.attachments[bulletModel]
+                        selfItem.attachments[bulletModel] = ammoInMag
+                        return {itemMovingOnto, selfItem}
+                    end
+                end
+            else
+                return {false, itemMovingOnto.label.." is not compatible with this magazine!"}
+            end
+        end
     },
     [51] = {
         itemId = 51,
@@ -1796,7 +2005,56 @@ Config.Items = {
         spawnchance = 2,
         attachments = {},
         isAmmo = true,
-        militaryspawn = true
+        compatibleMagazines = {["50calmag8"] = 8}
+        militaryspawn = true,
+        combiningfunction = function(plySource, itemMovedOnto, selfItem)
+            local compatiableMag = false
+            local magMax = 0
+            for k,v in pairs(Config.Items[selfItem.itemId].compatibleMagazines) do
+                if k == itemMovedOnto.model then
+                    compatiableMag = true
+                    magMax = v
+                    break
+                end
+            end
+            if compatiableMag then
+                local itemCount = selfItem.count
+                local roundsInMag = -1
+                for k,v in pairs(itemMovedOnto.attachments) do
+                    if k == selfItem.model then
+                        roundsInMag = v
+                    end
+                end
+                if roundsInMag >= 0 then
+                    local startp, endp = string.find(itemMovedOnto.model, "mag")
+                    local roundDif = magMax - roundsInMag --12 being the max
+                    if roundDif > 0 then
+                        if itemCount >= roundDif then
+                            local newItemCount = itemCount - roundDif
+                            for k,v in pairs(itemMovedOnto.attachments) do
+                                if k == selfItem.model then
+                                    itemMovedOnto.attachments[k] = roundsInMag + roundDif
+                                end
+                            end
+                            selfItem.count = newItemCount
+                            return {itemMovedOnto, selfItem}
+                        elseif itemCount < roundDif then
+                            for k,v in pairs(itemMovedOnto.attachments) do
+                                if k == selfItem.model then
+                                    itemMovedOnto.attachments[k] = roundsInMag + itemCount
+                                end
+                            end
+                            selfItem.count = 0
+                            return {itemMovedOnto, selfItem}
+                        end
+                    elseif roundDif == 0 then
+                        return {false, "Mag doesn't need any bullets"}
+                    end
+                else
+                    return nil
+                end
+            end
+        end
     },
     [52] = {
         itemId = 52,
@@ -2067,7 +2325,44 @@ Config.Items = {
         spawnchance = 0,
         attachments = {},
         isMag = true,
-        compatibleWeapons = {"weapon_assaultrifle"}
+        compatibleWeapons = {GetHashKey("weapon_assaultrifle")},
+        combiningfunction = function(plySource, itemMovingOnto, selfItem)
+            local itemMovedOntoIsCompat = false
+            for k,v in pairs(Config.Items[selfItem.itemId].compatibleWeapons) do
+                if v == GetHashKey(itemMovingOnto.model) then
+                    itemMovedOntoIsCompat = true
+                    break
+                end
+            end
+            if itemMovedOntoIsCompat then
+                if itemMovingOnto.attachments ~= nil then
+                    local hasMag = false
+                    local magAttachmentModel = nil
+                    for k,v in pairs(itemMovingOnto.attachments) do
+                        if string.match(k, "mag") then
+                            hasMag = true
+                            magAttachmentModel = k
+                        end
+                    end
+                    local bulletModel = nil
+                    for k,v in pairs(selfItem.attachments) do
+                        bulletModel = k
+                    end
+                    if not hasMag then
+                        itemMovingOnto.attachments[selfItem.model] = selfItem.attachments[bulletModel]
+                        selfItem.count = 0
+                        return {itemMovingOnto, selfItem}
+                    else
+                        local ammoInMag = itemMovingOnto.attachments[magAttachmentModel]
+                        itemMovingOnto.attachments[magAttachmentModel] = selfItem.attachments[bulletModel]
+                        selfItem.attachments[bulletModel] = ammoInMag
+                        return {itemMovingOnto, selfItem}
+                    end
+                end
+            else
+                return {false, itemMovingOnto.label.." is not compatible with this magazine!"}
+            end
+        end
     },
     [71] = {
         itemId = 71,
@@ -2526,12 +2821,12 @@ Config.Items = {
         quality = 100,
         spawnchance = 10,
         isMag = true,
-        compatibleWeapons = {"weapon_smg"},
+        compatibleWeapons = {GetHashKey("weapon_smg")},
         attachments = {["9mm"] = 0},
         combiningfunction = function(plySource, itemMovingOnto, selfItem)
             local itemMovedOntoIsCompat = false
-            for k,v in pairs(Config.Items[selfItem.itemId]) do
-                if v == itemMovingOnto.model then
+            for k,v in pairs(Config.Items[selfItem.itemId].compatibleWeapons) do
+                if v == GetHashKey(itemMovingOnto.model) then
                     itemMovedOntoIsCompat = true
                     break
                 end
@@ -2553,16 +2848,16 @@ Config.Items = {
                     if not hasMag then
                         itemMovingOnto.attachments[selfItem.model] = selfItem.attachments[bulletModel]
                         selfItem.count = 0
-                        TriggerClientEvent("fivez:SetAmmoInClip", plySource, GetJoinedPlayer(plySource).characterData.inventory.hands)
                         return {itemMovingOnto, selfItem}
                     else
                         local ammoInMag = itemMovingOnto.attachments[magAttachmentModel]
                         itemMovingOnto.attachments[magAttachmentModel] = selfItem.attachments[bulletModel]
                         selfItem.attachments[bulletModel] = ammoInMag
-                        TriggerClientEvent("fivez:SetAmmoInClip", plySource, GetJoinedPlayer(plySource).characterData.inventory.hands)
                         return {itemMovingOnto, selfItem}
                     end
                 end
+            else
+                return {false, itemMovingOnto.label.." is not compatible with this magazine!"}
             end
         end
     },
@@ -2577,12 +2872,12 @@ Config.Items = {
         quality = 100,
         spawnchance = 10,
         isMag = true,
-        compatibleWeapons = {"weapon_pumpshotgun"},
+        compatibleWeapons = {GetHashKey("weapon_pumpshotgun")},
         attachments = {["12ga"] = 0},
         combiningfunction = function(plySource, itemMovingOnto, selfItem)
             local itemMovedOntoIsCompat = false
-            for k,v in pairs(Config.Items[selfItem.itemId]) do
-                if v == itemMovingOnto.model then
+            for k,v in pairs(Config.Items[selfItem.itemId].compatibleWeapons) do
+                if v == GetHashKey(itemMovingOnto.model) then
                     itemMovedOntoIsCompat = true
                     break
                 end
@@ -2604,16 +2899,16 @@ Config.Items = {
                     if not hasMag then
                         itemMovingOnto.attachments[selfItem.model] = selfItem.attachments[bulletModel]
                         selfItem.count = 0
-                        TriggerClientEvent("fivez:SetAmmoInClip", plySource, GetJoinedPlayer(plySource).characterData.inventory.hands)
                         return {itemMovingOnto, selfItem}
                     else
                         local ammoInMag = itemMovingOnto.attachments[magAttachmentModel]
                         itemMovingOnto.attachments[magAttachmentModel] = selfItem.attachments[bulletModel]
                         selfItem.attachments[bulletModel] = ammoInMag
-                        TriggerClientEvent("fivez:SetAmmoInClip", plySource, GetJoinedPlayer(plySource).characterData.inventory.hands)
                         return {itemMovingOnto, selfItem}
                     end
                 end
+            else
+                return {false, itemMovingOnto.label.." is not compatible with this magazine!"}
             end
         end
     },
@@ -2628,12 +2923,12 @@ Config.Items = {
         quality = 100,
         spawnchance = 10,
         isMag = true,
-        compatibleWeapons = {"weapon_pumpshotgun"},
+        compatibleWeapons = {GetHashKey("weapon_pumpshotgun")},
         attachments = {["12ga"] = 0},
         combiningfunction = function(plySource, itemMovingOnto, selfItem)
             local itemMovedOntoIsCompat = false
-            for k,v in pairs(Config.Items[selfItem.itemId]) do
-                if v == itemMovingOnto.model then
+            for k,v in pairs(Config.Items[selfItem.itemId].compatibleWeapons) do
+                if v == GetHashKey(itemMovingOnto.model) then
                     itemMovedOntoIsCompat = true
                     break
                 end
@@ -2655,21 +2950,21 @@ Config.Items = {
                     if not hasMag then
                         itemMovingOnto.attachments[selfItem.model] = selfItem.attachments[bulletModel]
                         selfItem.count = 0
-                        TriggerClientEvent("fivez:SetAmmoInClip", plySource, GetJoinedPlayer(plySource).characterData.inventory.hands)
                         return {itemMovingOnto, selfItem}
                     else
                         local ammoInMag = itemMovingOnto.attachments[magAttachmentModel]
                         itemMovingOnto.attachments[magAttachmentModel] = selfItem.attachments[bulletModel]
                         selfItem.attachments[bulletModel] = ammoInMag
-                        TriggerClientEvent("fivez:SetAmmoInClip", plySource, GetJoinedPlayer(plySource).characterData.inventory.hands)
                         return {itemMovingOnto, selfItem}
                     end
                 end
+            else
+                return {false, itemMovingOnto.label.." is not compatible with this magazine!"}
             end
         end
     },
     [96] = {
-        itemId = 94,
+        itemId = 96,
         label = "12GA 12 round mag",
         model = "12gamag12",
         description = "Magazine that holds 12ga ammunition (12)",
@@ -2679,12 +2974,12 @@ Config.Items = {
         quality = 100,
         spawnchance = 10,
         isMag = true,
-        compatibleWeapons = {"weapon_pumpshotgun"},
+        compatibleWeapons = {GetHashKey("weapon_pumpshotgun")},
         attachments = {["12ga"] = 0},
         combiningfunction = function(plySource, itemMovingOnto, selfItem)
             local itemMovedOntoIsCompat = false
-            for k,v in pairs(Config.Items[selfItem.itemId]) do
-                if v == itemMovingOnto.model then
+            for k,v in pairs(Config.Items[selfItem.itemId].compatibleWeapons) do
+                if v == GetHashKey(itemMovingOnto.model) then
                     itemMovedOntoIsCompat = true
                     break
                 end
@@ -2706,16 +3001,118 @@ Config.Items = {
                     if not hasMag then
                         itemMovingOnto.attachments[selfItem.model] = selfItem.attachments[bulletModel]
                         selfItem.count = 0
-                        TriggerClientEvent("fivez:SetAmmoInClip", plySource, GetJoinedPlayer(plySource).characterData.inventory.hands)
                         return {itemMovingOnto, selfItem}
                     else
                         local ammoInMag = itemMovingOnto.attachments[magAttachmentModel]
                         itemMovingOnto.attachments[magAttachmentModel] = selfItem.attachments[bulletModel]
                         selfItem.attachments[bulletModel] = ammoInMag
-                        TriggerClientEvent("fivez:SetAmmoInClip", plySource, GetJoinedPlayer(plySource).characterData.inventory.hands)
                         return {itemMovingOnto, selfItem}
                     end
                 end
+            else
+                return {false, itemMovingOnto.label.." is not compatible with this magazine!"}
+            end
+        end
+    },
+    [97] = {
+        itemId = 97,
+        label = "5.56mm 10 round mag",
+        model = "556mmmag10",
+        description = "Magazine that holds 5.56mm ammunition (10)",
+        weight = 1,
+        maxcount = 1,
+        count = 0,
+        quality = 100,
+        spawnchance = 10,
+        isMag = true,
+        compatibleWeapons = {GetHashKey("weapon_assaultrifle")},
+        attachments = {["556mm"] = 0},
+        combiningfunction = function(plySource, itemMovingOnto, selfItem)
+            local itemMovedOntoIsCompat = false
+            for k,v in pairs(Config.Items[selfItem.itemId].compatibleWeapons) do
+                if v == GetHashKey(itemMovingOnto.model) then
+                    itemMovedOntoIsCompat = true
+                    break
+                end
+            end
+            if itemMovedOntoIsCompat then
+                if itemMovingOnto.attachments ~= nil then
+                    local hasMag = false
+                    local magAttachmentModel = nil
+                    for k,v in pairs(itemMovingOnto.attachments) do
+                        if string.match(k, "mag") then
+                            hasMag = true
+                            magAttachmentModel = k
+                        end
+                    end
+                    local bulletModel = nil
+                    for k,v in pairs(selfItem.attachments) do
+                        bulletModel = k
+                    end
+                    if not hasMag then
+                        itemMovingOnto.attachments[selfItem.model] = selfItem.attachments[bulletModel]
+                        selfItem.count = 0
+                        return {itemMovingOnto, selfItem}
+                    else
+                        local ammoInMag = itemMovingOnto.attachments[magAttachmentModel]
+                        itemMovingOnto.attachments[magAttachmentModel] = selfItem.attachments[bulletModel]
+                        selfItem.attachments[bulletModel] = ammoInMag
+                        return {itemMovingOnto, selfItem}
+                    end
+                end
+            else
+                return {false, itemMovingOnto.label.." is not compatible with this magazine!"}
+            end
+        end
+    },
+    [98] = {
+        itemId = 98,
+        label = "5.56mm 20 round mag",
+        model = "556mmmag20",
+        description = "Magazine that holds 5.56mm ammunition (20)",
+        weight = 1,
+        maxcount = 1,
+        count = 0,
+        quality = 100,
+        spawnchance = 10,
+        isMag = true,
+        compatibleWeapons = {GetHashKey("weapon_pumpshotgun")},
+        attachments = {["556mm"] = 0},
+        combiningfunction = function(plySource, itemMovingOnto, selfItem)
+            local itemMovedOntoIsCompat = false
+            for k,v in pairs(Config.Items[selfItem.itemId].compatibleWeapons) do
+                if v == GetHashKey(itemMovingOnto.model) then
+                    itemMovedOntoIsCompat = true
+                    break
+                end
+            end
+            if itemMovedOntoIsCompat then
+                if itemMovingOnto.attachments ~= nil then
+                    local hasMag = false
+                    local magAttachmentModel = nil
+                    for k,v in pairs(itemMovingOnto.attachments) do
+                        if string.match(k, "mag") then
+                            hasMag = true
+                            magAttachmentModel = k
+                        end
+                    end
+                    local bulletModel = nil
+                    for k,v in pairs(selfItem.attachments) do
+                        bulletModel = k
+                    end
+                    if not hasMag then
+                        itemMovingOnto.attachments[selfItem.model] = selfItem.attachments[bulletModel]
+                        selfItem.count = 0
+                        return {itemMovingOnto, selfItem}
+                    else
+                        local ammoInMag = itemMovingOnto.attachments[magAttachmentModel]
+                        itemMovingOnto.attachments[magAttachmentModel] = selfItem.attachments[bulletModel]
+                        selfItem.attachments[bulletModel] = ammoInMag
+                        return {itemMovingOnto, selfItem}
+                    end
+                end
+            else
+                return {false, itemMovingOnto.label.." is not compatible with this magazine!"}
             end
         end
     }

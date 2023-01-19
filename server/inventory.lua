@@ -1253,6 +1253,7 @@ RegisterNetEvent("fivez:AttemptReload", function()
                         local itemSlot = k
                         local configItem = Config.Items[item.itemId]
                         if configItem then
+                            print("Config Item", configItem.isMag)
                             if configItem.isMag then
                                 local ammoInMag = -1
                                 for k,v in pairs(item.attachments) do

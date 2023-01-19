@@ -758,6 +758,9 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                         else
                             plyChar.inventory.items[transferData.toSlot] = result[1]
                             plyChar.inventory.items[transferData.fromSlot] = result[2]
+                            if string.match(plyChar.inventory.items[transferData.toSlot].model, "weapon_") then
+                                TriggerClientEvent("fivez:SetAmmoInClip", source, transferData.toSlot)
+                            end
                             if plyChar.inventory.items[transferData.fromSlot].count == 0 then
                                 plyChar.inventory.items[transferData.fromSlot] = EmptySlot()
                                 SQL_RemoveItemFromCharacterInventory(plyChar.Id, transferData.fromSlot)

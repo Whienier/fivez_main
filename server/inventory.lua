@@ -627,6 +627,7 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
             if plyChar.inventory.items[transferData.fromSlot].itemId ~= transferData.item.itemId then TriggerClientEvent("fivez:AddNotification", source, "Item doesn't exist in your inventory") return end
             --Item to slot is empty
             if plyChar.inventory.items[transferData.toSlot].model == "empty" then
+                print(transferData.count)
                 if transferData.count > 0 then
                     if plyChar.inventory.items[transferData.fromSlot].count <= transferData.count then TriggerClientEvent("fivez:AddNotification", source, "Don't have enough to split") return end
                     local tempItem = plyChar.inventory.items[transferData.toSlot]
@@ -1280,6 +1281,7 @@ RegisterNetEvent("fivez:AttemptReload", function()
 
                                                     --If the gun doesn't have a mag attachment
                                                     if not hasMag then
+                                                        print("No mag in gun")
                                                         playerData.characterData.inventory.items[hands].attachments[configItem.model] = ammoInMag
                                                         SetPedAmmo(GetPlayerPed(source), currentWeapon, ammoInMag)
                                                         playerData.characterData.inventory.items[itemSlot] = EmptySlot()

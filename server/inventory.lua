@@ -1273,6 +1273,7 @@ RegisterNetEvent("fivez:AttemptReload", function()
 
                                                     --If the gun doesn't have a mag attachment
                                                     if hasMag == false then
+                                                        print("Attempted reload: Gun didn't have mag")
                                                         playerData.characterData.inventory.items[hands].attachments[configItem.model] = ammoInMag
 
                                                         playerData.characterData.inventory.items[itemSlot] = EmptySlot()

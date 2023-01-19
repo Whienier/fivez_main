@@ -627,6 +627,7 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
             if plyChar.inventory.items[transferData.fromSlot].itemId ~= transferData.item.itemId then TriggerClientEvent("fivez:AddNotification", source, "Item doesn't exist in your inventory") return end
             --Item to slot is empty
             if plyChar.inventory.items[transferData.toSlot].model == "empty" then
+                print(transferData.count)
                 if transferData.count > 0 then
                     if plyChar.inventory.items[transferData.fromSlot].count <= transferData.count then TriggerClientEvent("fivez:AddNotification", source, "Don't have enough to split") return end
                     local tempItem = plyChar.inventory.items[transferData.toSlot]
@@ -1288,12 +1289,12 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                                         if attachmentModel ~= nil then
                                                             if attachmentModel == configItem.model then
                                                                 local tempAmmo = inventoryData.items[hands].attachments[attachmentModel]
-                                                                inventoryData.items[hands].attachments[attachmentModel] = ammoInMag
+                                                                playerData.characterData.inventory.items[hands].attachments[attachmentModel] = ammoInMag
                                                                 for k,v in pairs(item.attachments) do
-                                                                    item.attachments[k] = tempAmmo
+                                                                    playerData.inventory.items[itemSlot].attachments[k] = tempAmmo
                                                                 end
                                                                 SetPedAmmo(GetPlayerPed(source), currentWeapon, ammoInMag)
-                                                                SQL_UpdateItemAttachmentsInCharacterInventory(playerData.Id, itemSlot, item.attachments)
+                                                                SQL_UpdateItemAttachmentsInCharacterInventory(playerData.Id, itemSlot, playerData.inventory.items[itemSlot].attachments)
                                                             else
                                                                 --TODO: Swap over the different mags
                                                                 local tempAttachments = {}

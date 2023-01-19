@@ -502,7 +502,7 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                 if hands == GetHashKey("weapon_unarmed") then
                     TriggerClientEvent("fivez:PlayUnholsterAnimation", source)
                     GiveWeaponToPed(plyPed, GetHashKey(itemData.model), 0.0, false, true)
-                    SetCurrentPedWeapon(plyPed, GetHashKey(itemData.model), true)
+                    SetPedAmmo(plyPed, GetHashKey(itemData.model), 0)
                     TriggerClientEvent("fivez:SetAmmoInClip", source, fromSlot)
                 elseif hands == GetHashKey(itemData.model) then
                     if plyChar.inventory.hands == fromSlot then
@@ -513,12 +513,12 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                         TriggerClientEvent("fivez:PlayHolsterAnimation", source)
                         Citizen.Wait(50)
                         TriggerClientEvent("fivez:PlayUnholsterAnimation", source)
-                        SetCurrentPedWeapon(plyPed, GetHashKey(itemData.model), true)
+                        GiveWeaponToPed(plyPed, GetHashKey(itemData.model), 0.0, false, true)
                         TriggerClientEvent("fivez:SetAmmoInClip", source, fromSlot)
                     end
                 else
                     TriggerClientEvent("fivez:PlayUnholsterAnimation", source)
-                    SetCurrentPedWeapon(plyPed, GetHashKey(itemData.model), true)
+                    GiveWeaponToPed(plyPed, GetHashKey(itemData.model), 0.0, false, true)
                     TriggerClientEvent("fivez:SetAmmoInClip", source, fromSlot)
                 end
 

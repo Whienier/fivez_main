@@ -1265,7 +1265,7 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                                     local hasMag = false
                                                     local attachmentModel = nil
                                                     for k,v in pairs(playerData.characterData.inventory.items[hands].attachments) do
-                                                        if string.match(v, "mag") then
+                                                        if string.match(k, "mag") then
                                                             hasMag = true
                                                             attachmentModel = k
                                                         end

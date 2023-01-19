@@ -1270,8 +1270,8 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                                     local hasMag = false
                                                     local attachmentModel = nil
                                                     for k,v in pairs(inventoryData.items[hands].attachments) do
+                                                        hasAttachments = true
                                                         if string.match(v, "mag") then
-                                                            hasAttachments = true
                                                             hasMag = true
                                                             attachmentModel = k
                                                         end
@@ -1279,25 +1279,10 @@ RegisterNetEvent("fivez:AttemptReload", function()
 
                                                     --If the gun doesn't have a mag attachment
                                                     if not hasMag then
-                                                        --If the gun has no attachments at all
-                                                        if not hasAttachments then
-                                                            inventoryData.items[hands].attachments[configItem.model] = ammoInMag
-                                                            SetPedAmmo(GetPlayerPed(source), currentWeapon, ammoInMag)
-                                                            item = EmptySlot()
-                                                            SQL_RemoveItemFromCharacterInventory(playerData.Id, itemSlot)
-                                                        else
-                                                            local tempAttachments = {}
-                                                            for k,v in pairs(inventoryData.items[hands].attachments) do
-                                                                tempAttachments[k] = v
-                                                            end
-                                                            tempAttachments[configItem.model] = ammoInMag
-                                                            
-                                                            inventoryData.items[hands].attachments = tempAttachments
-                                                            SetPedAmmo(GetPlayerPed(source), currentWeapon, ammoInMag)
-                                                            item = EmptySlot()
-                                                            SQL_RemoveItemFromCharacterInventory(playerData.Id, itemSlot)
-                                                            break
-                                                        end
+                                                        inventoryData.items[hands].attachments[configItem.model] = ammoInMag
+                                                        SetPedAmmo(GetPlayerPed(source), currentWeapon, ammoInMag)
+                                                        item = EmptySlot()
+                                                        SQL_RemoveItemFromCharacterInventory(playerData.Id, itemSlot)
                                                     else
                                                         if attachmentModel ~= nil then
                                                             if attachmentModel == configItem.model then

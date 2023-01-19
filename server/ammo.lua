@@ -71,6 +71,11 @@ RegisterNetEvent("fivez:ShootingWeapon", function(weaponHash)
         local usingSlot = playerData.characterData.inventory.hands
         if GetHashKey(playerData.characterData.inventory.items[usingSlot].model) == weaponHash then
             playerData.characterData.inventory.items[usingSlot].quality = playerData.characterData.inventory.items[usingSlot].quality - 1
+            if playerData.characterData.inventory.items[usingSlot].quality <= 0 then
+                playerData.characterData.inventory.items[usingSlot].quality = 0
+                playerData.characterData.inventory.hands = -1
+                SetCurrentPedWeapon(GetPlayerPed(source), GetHashKey("weapon_unarmed"), true)
+            end
             SQL_UpdateItemQualityInCharacterInventory(playerData.Id, usingSlot, playerData.characterData.inventory.items[usingSlot].quality)
             TriggerClientEvent("fivez:UpdateInventoryItemQuality", source, usingSlot, playerData.characterData.inventory.items[usingSlot].quality)
         end

@@ -389,6 +389,8 @@ end)
 
 RegisterNetEvent("fivez:GetAmmoCount", function(weaponHash)
     local ammoCount = GetAmmoInPedWeapon(GetPlayerPed(-1), weaponHash)
+    print("Get ammo count", ammoCount)
+
     TriggerServerEvent("fivez:GetAmmoCountCB", ammoCount)
 end)
 

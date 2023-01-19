@@ -1259,23 +1259,21 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                 for k,v in pairs(item.attachments) do
                                     ammoInMag = v
                                 end
-                                if ammoInMag ~= -1 then
+                                if ammoInMag >= 0 then
                                     for k,v in pairs(configItem.compatibleWeapons) do
                                         if v == currentWeapon then
                                             magInInv = true
                                             local hands = inventoryData.hands
                                             if hands > 0 then
-                                                if inventoryData.items[hands].attachments then
+                                                if inventoryData.items[hands].attachments ~= nil then
                                                     local hasAttachments = false
                                                     local hasMag = false
                                                     local attachmentModel = nil
-                                                    if #inventoryData.items[hands].attachments > 0 then
-                                                        hasAttachments = true
-                                                        for k,v in pairs(inventoryData.items[hands].attachments) do
-                                                            if string.match(v, "mag") then
-                                                                hasMag = true
-                                                                attachmentModel = k
-                                                            end
+                                                    for k,v in pairs(inventoryData.items[hands].attachments) do
+                                                        if string.match(v, "mag") then
+                                                            hasAttachments = true
+                                                            hasMag = true
+                                                            attachmentModel = k
                                                         end
                                                     end
 
@@ -1298,6 +1296,7 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                                             SetPedAmmo(GetPlayerPed(source), currentWeapon, ammoInMag)
                                                             item = EmptySlot()
                                                             SQL_RemoveItemFromCharacterInventory(playerData.Id, itemSlot)
+                                                            break
                                                         end
                                                     else
                                                         if attachmentModel ~= nil then
@@ -1331,6 +1330,7 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                                     end
 
                                                     SQL_UpdateItemAttachmentsInCharacterInventory(playerData.Id, hands, inventoryData.items[hands].attachments)
+                                                    break
                                                 end
                                             end
                                         end

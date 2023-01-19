@@ -1229,6 +1229,11 @@ RegisterNetEvent("fivez:AttemptCombine", function(firstSlotId, secondSlotId, slo
     end
 end)
 
+local reloadAmmoInClip = -1
+RegisterNetEvent("fivez:GetAmmoInClipCB", function(ammo)
+    reloadAmmoInClip = ammo
+end)
+
 RegisterNetEvent("fivez:AttemptReload", function()
     local source = source
     local playerData = GetJoinedPlayer(source)
@@ -1277,12 +1282,18 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                                         SQL_RemoveItemFromCharacterInventory(playerData.Id, itemSlot)
                                                         SQL_UpdateItemAttachmentsInCharacterInventory(playerData.Id, hands, playerData.characterData.inventory.items[hands].attachments)
                                                     else
+                                                        reloadAmmoInClip = nil
+                                                        TriggerClientEvent("fivez:GetAmmoInClip", source)
+                                                        while reloadAmmoInClip == nil do
+                                                            Citizen.Wait(1)
+                                                        end
+
                                                         if attachmentModel ~= nil then
                                                             if attachmentModel == configItem.model then
                                                                 local tempAmmo = inventoryData.items[hands].attachments[attachmentModel]
                                                                 playerData.characterData.inventory.items[hands].attachments[attachmentModel] = ammoInMag
                                                                 for k,v in pairs(item.attachments) do
-                                                                    playerData.inventory.items[itemSlot].attachments[k] = tempAmmo
+                                                                    playerData.inventory.items[itemSlot].attachments[k] = reloadAmmoInClip
                                                                 end
                                                                 SQL_UpdateItemAttachmentsInCharacterInventory(playerData.Id, hands, playerData.characterData.inventory.items[hands].attachments)
                                                                 SQL_UpdateItemAttachmentsInCharacterInventory(playerData.Id, itemSlot, playerData.inventory.items[itemSlot].attachments)
@@ -1323,6 +1334,11 @@ RegisterNetEvent("fivez:AttemptReload", function()
 
                 --If we couldn't find a compatiable mag in the players inventory
                 if not magInInv then
+                    reloadAmmoInClip = nil
+                    TriggerClientEvent("fivez:GetAmmoInClip", source)
+                    while reloadAmmoInClip == nil do
+                        Citizen.Wait(1)
+                    end
                     local hands = inventoryData.hands
                     if hands > 0 then
                         if inventoryData.items[hands].attachments ~= nil then
@@ -1352,7 +1368,7 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                     local strPos = string.find(tempItem.model, "mag")
                                     if strPos ~= nil then
                                         local ammoModel = string.sub(tempItem.model, 1, strPos-1)
-                                        tempItem.attachments[ammoModel] = ammoInMag
+                                        tempItem.attachments[ammoModel] = reloadAmmoInClip
                                         SetPedAmmo(GetPlayerPed(source), currentWeapon, 0.0)
                                         playerData.characterData.inventory.items[freeInvSlot] = tempItem
                                         playerData.characterData.inventory.items[hands].attachments = {}

@@ -394,6 +394,11 @@ RegisterNetEvent("fivez:GetAmmoCount", function(weaponHash)
     TriggerServerEvent("fivez:GetAmmoCountCB", ammoCount)
 end)
 
+RegisterNetEvent("fivez:GetAmmoInClip", function()
+    local bool, ammoCount = GetAmmoInClip(GetPlayerPed(-1), GetSelectedPedWeapon(GetPlayerPed(-1)))
+    TriggerServerEvent("fivez:GetAmmoInClipCB", ammoCount)
+end)
+
 RegisterNetEvent("fivez:SetAmmoInClip", function(hands)
     local playerPed = GetPlayerPed(-1)
     local ammo = 0

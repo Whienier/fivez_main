@@ -1412,7 +1412,7 @@ Config.Items = {
         quality = 100,
         attachments = {},
         isAmmo = true,
-        compatibleMagazines = {["9mmmag18"] = 18, ["9mmmag20"] = 20, ["9mmmag30"] = 30}
+        compatibleMagazines = {["9mmmag18"] = 18, ["9mmmag20"] = 20, ["9mmmag30"] = 30},
         spawnchance = 15,
         militaryspawn = true,
         combiningfunction = function(plySource, itemMovedOnto, selfItem)

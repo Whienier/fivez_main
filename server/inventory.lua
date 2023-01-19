@@ -500,7 +500,7 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                 local holstered = false
                 --Has no weapon equip
                 if hands == GetHashKey("weapon_unarmed") then
-                    local amountCount = nil
+                    local ammoCount = nil
                     if itemData.melee == nil then
                         for k,v in pairs(itemData.attachments) do
                             if string.match(k, "mag") then
@@ -1132,7 +1132,7 @@ function InventoryFillEmpty(maxSlots)
 end
 
 function EmptySlot()
-    return {label = "Empty", model = "empty", weight = 0, count = 0, maxcount = 0, quality = 0, attachments = {}}
+    return {itemId = -1, label = "Empty", model = "empty", weight = 0, count = 0, maxcount = 0, quality = 0, attachments = {}}
 end
 
 RegisterNetEvent("fivez:AttemptCraft", function(recipeId)
@@ -1313,7 +1313,7 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                                                 inventoryData.items[itemSlot] = tempItem
 
                                                                 SQL_InsertItemToCharacterInventory(playerData.Id, itemSlot, tempItem)
-                                                                SetPedAmmo(GetPlayerPed(-1), currentWeapon, 0.0)
+                                                                SetPedAmmo(GetPlayerPed(source), currentWeapon, 0.0)
                                                             end
                                                         end
                                                     end
@@ -1363,7 +1363,7 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                     if strPos ~= nil then
                                         local ammoModel = string.sub(tempItem.model, 1, strPos-1)
                                         tempItem.attachments[ammoModel] = ammoInMag
-                                        SetPedAmmo(GetPlayerPed(-1), currentWeapon, 0.0)
+                                        SetPedAmmo(GetPlayerPed(source), currentWeapon, 0.0)
                                         playerData.characterData.inventory.items[freeInvSlot] = tempItem
                                         playerData.characterData.inventory.items[hands].attachments = {}
                                         SQL_InsertItemToCharacterInventory(playerData.Id, freeInvSlot, tempItem)

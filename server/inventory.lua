@@ -989,7 +989,7 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
             --Player is transferring out of own inventory
             local plySlot = plyChar.inventory.items[transferData.fromSlot]
             --Check character has enough of the item in the slot or if the character has less than the amount trying to be transfered
-            if plySlot.quality <= 0 then TriggerClientEvent("fivez:AddNotification", source, "Item doesn't have enough quality ("..reduceQualAmount.." needed)") return end
+            --if plySlot.quality <= 0 then TriggerClientEvent("fivez:AddNotification", source, "Item doesn't have enough quality ("..reduceQualAmount.." needed)") return end
             --Check if the item transferring is an item the character has
             if plySlot.itemId ~= itemData.itemId then TriggerClientEvent("fivez:AddNotification", source, "You don't have that item!") return end
             --Find the other inventory we have open

@@ -502,7 +502,7 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                 if hands == GetHashKey("weapon_unarmed") then
                     local ammoCount = nil
                     if itemData.melee == nil then
-                        for k,v in pairs(itemData.attachments) do
+                        for k,v in pairs(plyChar.inventory.items[fromSlot].attachments) do
                             if string.match(k, "mag") then
                                 ammoCount = v
                             end

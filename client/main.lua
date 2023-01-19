@@ -410,7 +410,7 @@ RegisterNetEvent("fivez:SetAmmoInClip", function(hands)
             ammo = v
         end
     end
-    print("Setting ammo in clip", ammo, charInventory.items[hands].model)
+    print("Setting ammo in clip", ammo)
     SetAmmoInClip(GetPlayerPed(-1), GetHashKey(charInventory.items[hands].model), ammo)
 end)
 

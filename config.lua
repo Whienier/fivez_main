@@ -873,11 +873,13 @@ Config.Items = {
                     if not hasMag then
                         itemMovingOnto.attachments["45acpmag12"] = selfItem.attachments["45acp"]
                         selfItem.count = 0
+                        TriggerClientEvent("fivez:SetAmmoInClip", plySource, GetJoinedPlayer(plySource).characterData.inventory.hands)
                         return {itemMovingOnto, selfItem}
                     else
                         local ammoInMag = itemMovingOnto.attachments[magAttachmentModel]
                         itemMovingOnto.attachments[magAttachmentModel] = selfItem.attachments["45acp"]
                         selfItem.attachments["45acp"] = ammoInMag
+                        TriggerClientEvent("fivez:SetAmmoInClip", plySource, GetJoinedPlayer(plySource).characterData.inventory.hands)
                         return {itemMovingOnto, selfItem}
                     end
                 end

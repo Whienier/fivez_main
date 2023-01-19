@@ -666,8 +666,13 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                         plyChar.inventory.items[transferData.toSlot] = Config.CreateNewItemWithData(plyChar.inventory.items[transferData.fromSlot])
                         plyChar.inventory.items[transferData.fromSlot] = Config.CreateNewItemWithData(tempItem)
                     end
-                elseif plyChar.inventory.items[transferData.toSlot].quality == plyChar.inventory.items[transferData.fromSlot].quality then
+                elseif itemData.isBullet and plyChar.inventory.items[transferData.toSlot].quality == plyChar.inventory.items[transferData.fromSlot].quality then
                     --SAME ITEM AND SAME QUALITY DON'T DO ANYTHING?
+                    if transferData.count > 0 then
+
+                    else
+                        
+                    end
                     --[[ --Set newCount to, to slot count plus amount transferring
                     local newCount = plyChar.inventory.items[transferData.toSlot].count + transferData.count
                     --If the new count is greater than the item max count

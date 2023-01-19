@@ -1092,7 +1092,7 @@ Config.Items = {
         maxcount = 1,
         count = 0,
         quality = 100,
-        attachments = {},
+        attachments = {["12gamag6"] = 0},
         spawnchance = 1,
         militaryspawn = true
     },
@@ -1105,7 +1105,7 @@ Config.Items = {
         maxcount = 1,
         count = 0,
         quality = 100,
-        attachments = {},
+        attachments = {["556mag10"] = 0},
         spawnchance = 1,
         militaryspawn = true
     },
@@ -1858,7 +1858,7 @@ Config.Items = {
         weight = 15,
         maxcount = 1,
         count = 0,
-        qualtiy = 100,
+        quality = 100,
         spawnchance = 1,
         attachments = {["9mmmag18"] = 0},
         militaryspawn = true
@@ -2311,7 +2311,7 @@ Config.Items = {
         count = 0,
         qualtity = 100,
         spawnchance = 0,
-        attachments = {}
+        attachments = {["12ga"] = 0}
     },
     [70] = {
         itemId = 70,

@@ -731,7 +731,7 @@ function Inventory(type,identifier,label,data) {
                 var otherType = this.type;
 
                 if (otherType != "shop" && otherIdentifier != "ground") {
-                    transferLocalItems(otherIdentifier,draggingSlot.count,draggingSlot.item,draggingSlot.itemIndex,this.itemIndex);
+                    transferLocalItems(otherIdentifier,count,draggingSlot.item,draggingSlot.itemIndex,this.itemIndex);
                 }
                 }
             }

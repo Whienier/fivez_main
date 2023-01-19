@@ -1255,7 +1255,6 @@ RegisterNetEvent("fivez:AttemptReload", function()
                         local itemSlot = k
                         local configItem = Config.Items[item.itemId]
                         if configItem then
-                            print("Config Item", configItem.isMag)
                             if configItem.isMag then
                                 local ammoInMag = -1
                                 for k,v in pairs(item.attachments) do
@@ -1281,7 +1280,6 @@ RegisterNetEvent("fivez:AttemptReload", function()
 
                                                     --If the gun doesn't have a mag attachment
                                                     if not hasMag then
-                                                        print("No mag in gun")
                                                         playerData.characterData.inventory.items[hands].attachments[configItem.model] = ammoInMag
                                                         SetPedAmmo(GetPlayerPed(source), currentWeapon, ammoInMag)
                                                         playerData.characterData.inventory.items[itemSlot] = EmptySlot()
@@ -1319,6 +1317,7 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                                     end
 
                                                     SQL_UpdateItemAttachmentsInCharacterInventory(playerData.Id, hands, inventoryData.items[hands].attachments)
+                                                    TriggerClientEvent("fivez:UpdateCharacterInventoryItems", source, json.encode(playerData.characterData.inventory.items), nil)
                                                     break
                                                 end
                                             end

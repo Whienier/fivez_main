@@ -394,6 +394,17 @@ RegisterNetEvent("fivez:GetAmmoCount", function(weaponHash)
     TriggerServerEvent("fivez:GetAmmoCountCB", ammoCount)
 end)
 
+RegisterNetEvent("fivez:SetAmmoInClip", function(hands)
+    local playerPed = GetPlayerPed(-1)
+    local ammo = 0
+    for k,v in pairs(GetCharacterInventory().items[hands].attachments) do
+        if string.match(k, "mag") then
+            ammo = v
+        end
+    end
+    SetAmmoInClip(playerPed, GetSelectedPedWeapon(playerPed), ammo)
+end)
+
 RegisterNetEvent("fivez:IsPlayerDucking", function()
     TriggerServerEvent("fivez:IsPlayerDuckingCB", IsPedDucking(GetPlayerPed(-1)))
 end)

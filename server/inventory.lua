@@ -509,8 +509,9 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                         end
                         --ammoCount = SQL_GetWeaponAmmoCount(plyChar.Id, GetHashKey(itemData.model))
                     end
+                    print("Equip weapon", ammoCount)
                     TriggerClientEvent("fivez:PlayUnholsterAnimation", source)
-                    GiveWeaponToPed(plyPed, GetHashKey(itemData.model), ammoCount or 0, false, true)
+                    GiveWeaponToPed(plyPed, GetHashKey(itemData.model), (ammoCount + 0.0) or 0, false, true)
                 elseif hands == GetHashKey(itemData.model) then
                     SetPedAmmo(plyPed, GetHashKey(itemData.model), 0.0)
                     TriggerClientEvent("fivez:PlayHolsterAnimation", source)
@@ -709,7 +710,7 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                 local combined = false
                 if itemData.isAmmo or itemData.isMag then
                     if itemData.combiningfunction then
-                        local result = itemData.combiningfunction(plyChar.inventory.items[transferData.toSlot], plyChar.inventory.items[transferData.fromSlot])
+                        local result = itemData.combiningfunction(source, plyChar.inventory.items[transferData.toSlot], plyChar.inventory.items[transferData.fromSlot])
 
                         if result == nil then
                             print("[ERROR] Tried combining function of item -", itemData.itemId," returned nil -")
@@ -1281,7 +1282,7 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                                     --If the gun doesn't have a mag attachment
                                                     if not hasMag then
                                                         playerData.characterData.inventory.items[hands].attachments[configItem.model] = ammoInMag
-                                                        SetPedAmmo(GetPlayerPed(source), currentWeapon, ammoInMag)
+                                                        GiveWeaponToPed(GetPlayerPed(source), currentWeapon, ammoInMag, false, true)
                                                         playerData.characterData.inventory.items[itemSlot] = EmptySlot()
                                                         SQL_RemoveItemFromCharacterInventory(playerData.Id, itemSlot)
                                                         SQL_UpdateItemAttachmentsInCharacterInventory(playerData.Id, hands, playerData.characterData.inventory.items[hands].attachments)

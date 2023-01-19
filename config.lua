@@ -859,7 +859,7 @@ Config.Items = {
         compatibleWeapons = {GetHashKey("weapon_pistol")},
         containerspawn = true,
         isMag = true,
-        combiningfunction = function(itemMovingOnto, selfItem)
+        combiningfunction = function(plySource, itemMovingOnto, selfItem)
             if itemMovingOnto.model == "weapon_pistol" then
                 if #itemMovingOnto.attachments >= 1 then
                     if itemMovingOnto.attachments["45acpmag12"] then
@@ -867,11 +867,13 @@ Config.Items = {
                     else
                         itemMovingOnto.attachments["45acpmag12"] = selfItem.attachments["45acp"] or 0
                         selfItem.count = 0
+                        SetPedAmmo(GetPlayerPed(plySource), GetHashKey("weapon_pistol"), itemMovingOnto.attachments["45acpmag12"])
                         return {itemMovingOnto, selfItem}
                     end
                 elseif #itemMovingOnto.attachments == 0 then
                     itemMovingOnto.attachments["45acpmag12"] = selfItem.attachments["45acp"] or 0
                     selfItem.count = 0
+                    SetPedAmmo(GetPlayerPed(plySource), GetHashKey("weapon_pistol"), itemMovingOnto.attachments["45acpmag12"])
                     return {itemMovingOnto, selfItem}
                 end
             end
@@ -2495,7 +2497,7 @@ Config.Items = {
         spawnchance = 10,
         isAmmo = true,
         attachments = {},
-        combiningfunction = function(itemMovedOnto, selfItem)
+        combiningfunction = function(plySource, itemMovedOnto, selfItem)
             if itemMovedOnto.model == "45acpmag12" then
                 local itemCount = selfItem.count
                 local roundsInMag = -1

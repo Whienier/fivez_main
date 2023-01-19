@@ -861,7 +861,7 @@ Config.Items = {
         isMag = true,
         combiningfunction = function(plySource, itemMovingOnto, selfItem)
             local itemMovedOntoIsCompat = false
-            for k,v in pairs(Config.Items[selfItem.itemId].compatiableWeapons) do
+            for k,v in pairs(Config.Items[selfItem.itemId].compatibleWeapons) do
                 if v == itemMovingOnto.model then
                     itemMovedOntoIsCompat = true
                     break
@@ -1132,7 +1132,7 @@ Config.Items = {
         quality = 100,
         attachments = {},
         isAmmo = true,
-        compatiableMagazines = {"12gamag6", "12gamag8", "12gamag12", "weapon_dbshotgun"},
+        compatibleMagazines = {"12gamag6", "12gamag8", "12gamag12", "weapon_dbshotgun"},
         spawnchance = 5,
         militaryspawn = true
     },
@@ -1147,7 +1147,7 @@ Config.Items = {
         quality = 100,
         attachments = {},
         isAmmo = true,
-        compatiableMagazines = {"556mmmag10", "556mmmag20", "556mmmag30"},
+        compatibleMagazines = {"556mmmag10", "556mmmag20", "556mmmag30"},
         spawnchance = 3,
         militaryspawn = true
     },
@@ -1767,7 +1767,7 @@ Config.Items = {
         quality = 100,
         spawnchance = 2,
         attachments = {["9mm"] = 0},
-        compatiableWeapons = {"weapon_appistol"},
+        compatibleWeapons = {"weapon_appistol"},
         isMag = true,
         militaryspawn = true
     },
@@ -1782,7 +1782,7 @@ Config.Items = {
         quality = 100,
         spawnchance = 2,
         attachments = {["9mm"] = 0},
-        compatiableWeapons = {"weapon_minismg"},
+        compatibleWeapons = {"weapon_minismg"},
         isMag = true,
         militaryspawn = true
     },
@@ -2069,7 +2069,7 @@ Config.Items = {
         spawnchance = 0,
         attachments = {},
         isMag = true,
-        compatiableWeapons = {"weapon_assaultrifle"}
+        compatibleWeapons = {"weapon_assaultrifle"}
     },
     [71] = {
         itemId = 71,
@@ -2466,11 +2466,11 @@ Config.Items = {
         quality = 100,
         spawnchance = 10,
         isAmmo = true,
-        compatiableMagazines = {"45acpmag12", "45acpmag"},
+        compatibleMagazines = {"45acpmag12", "45acpmag"},
         attachments = {},
         combiningfunction = function(plySource, itemMovedOnto, selfItem)
             local compatiableMag = false
-            for k,v in pairs(Config.Items[selfItem.itemId].compatiableMagazines) do
+            for k,v in pairs(Config.Items[selfItem.itemId].compatibleMagazines) do
                 if v == itemMovedOnto.model then
                     compatiableMag = true
                     break
@@ -2533,7 +2533,7 @@ Config.Items = {
         quality = 100,
         spawnchance = 10,
         isMag = true,
-        compatiableWeapons = {"weapon_smg"},
+        compatibleWeapons = {"weapon_smg"},
         attachments = {["9mm"] = 0},
         combiningfunction = function(plySource, itemMovingOnto, selfItem)
             local itemMovedOntoIsCompat = false
@@ -2584,7 +2584,7 @@ Config.Items = {
         quality = 100,
         spawnchance = 10,
         isMag = true,
-        compatiableWeapons = {"weapon_pumpshotgun"},
+        compatibleWeapons = {"weapon_pumpshotgun"},
         attachments = {["12ga"] = 0},
         combiningfunction = function(plySource, itemMovingOnto, selfItem)
             local itemMovedOntoIsCompat = false
@@ -2635,7 +2635,7 @@ Config.Items = {
         quality = 100,
         spawnchance = 10,
         isMag = true,
-        compatiableWeapons = {"weapon_pumpshotgun"},
+        compatibleWeapons = {"weapon_pumpshotgun"},
         attachments = {["12ga"] = 0},
         combiningfunction = function(plySource, itemMovingOnto, selfItem)
             local itemMovedOntoIsCompat = false
@@ -2686,7 +2686,7 @@ Config.Items = {
         quality = 100,
         spawnchance = 10,
         isMag = true,
-        compatiableWeapons = {"weapon_pumpshotgun"},
+        compatibleWeapons = {"weapon_pumpshotgun"},
         attachments = {["12ga"] = 0},
         combiningfunction = function(plySource, itemMovingOnto, selfItem)
             local itemMovedOntoIsCompat = false

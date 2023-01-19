@@ -679,8 +679,24 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                     local maxCount = itemData.maxcount
                     if maxCount == 1 then TriggerClientEvent("fivez:AddNotification", source, "Can't stack item!") return end
                     if transferData.count > 0 then
-                        local count = plyChar.inventory.items[transferData.toSlot].count
+                        local count = plyChar.inventory.items[transferData.fromSlot].count
+                        if count < transferData.count then TriggerClientEvent("fivez:AddNotification", source, "Not enough to split that many!") return end
+                        local newCount = plyChar.inventory.items[transferData.toSlot].count + count
+                        local leftOverCount = 0
+                        if newCount > maxCount then
+                            leftOverCount = newCount - maxCount
+                            newCount = maxCount
+                        end
+                        plyChar.inventory.items[transferData.fromSlot].count = leftOverCount
+                        plyChar.inventory.items[transferData.toSlot].count = newCount
+                        SQL_UpdateItemCountInCharacterInventory(plyChar.Id, transferData.toSlot, newCount)
 
+                        if leftOverCount == 0 then
+                            plyChar.inventory.items[transferData.fromSlot] = EmptySlot()
+                            SQL_RemoveItemFromCharacterInventory(plyChar.Id, transferData.fromSlot)
+                        else
+                            SQL_UpdateItemCountInCharacterInventory(plyChar.Id, transferData.fromSlot, leftOverCount)
+                        end
                     elseif transferData.count == 0 then
                         
                         local count = plyChar.inventory.items[transferData.fromSlot].count
@@ -694,12 +710,12 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                         plyChar.inventory.items[transferData.toSlot].count = newCount
                         if plyChar.inventory.items[transferData.fromSlot].count == 0 then
                             plyChar.inventory.items[transferData.fromSlot] = EmptySlot()
-                            SQL_RemoveItemFromCharacterInventory(playerData.Id, transferData.fromSlot)
+                            SQL_RemoveItemFromCharacterInventory(plyChar.Id, transferData.fromSlot)
                         else
-                            SQL_UpdateItemCountInCharacterInventory(playerData.Id, transferData.fromSlot, leftOverCount)
+                            SQL_UpdateItemCountInCharacterInventory(plyChar.Id, transferData.fromSlot, leftOverCount)
                         end
 
-                        SQL_UpdateItemCountInCharacterInventory(playerData.Id, transferData.toSlot, newCount)
+                        SQL_UpdateItemCountInCharacterInventory(plyChar.Id, transferData.toSlot, newCount)
                     end
                     --[[ --Set newCount to, to slot count plus amount transferring
                     local newCount = plyChar.inventory.items[transferData.toSlot].count + transferData.count

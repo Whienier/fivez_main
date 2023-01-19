@@ -22,6 +22,7 @@ Citizen.CreateThread(function()
 end)
 RegisterNetEvent("fivez:SyncMarkersCB", function(encodedMarkers)
     local decodedMarkers = json.decode(encodedMarkers)
+    inventories = {}
     for k,v in pairs(decodedMarkers) do
         table.insert(inventories, vector3(v.x, v.y, v.z))
     end

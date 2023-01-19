@@ -698,7 +698,6 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                             SQL_UpdateItemCountInCharacterInventory(plyChar.Id, transferData.fromSlot, leftOverCount)
                         end
                     elseif transferData.count == 0 then
-                        
                         local count = plyChar.inventory.items[transferData.fromSlot].count
                         local newCount = plyChar.inventory.items[transferData.toSlot].count + count
                         local leftOverCount = 0

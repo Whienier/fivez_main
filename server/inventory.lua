@@ -609,6 +609,7 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
 
     if transferData then
         local plyChar = GetJoinedPlayer(source).characterData
+        if transferData.item == nil then return end
         local itemData = Config.Items[transferData.item.itemId]
         if not itemData then TriggerClientEvent("fivez:AddNotification", source, "Item doesn't exist") return end
         --If player is moving items in own inventory
@@ -621,7 +622,7 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                 if transferData.count > 0 then
                     if plyChar.inventory.items[transferData.fromSlot].count <= transferData.count then TriggerClientEvent("fivez:AddNotification", source, "Don't have enough to split") return end
                     local tempItem = plyChar.inventory.items[transferData.toSlot]
-                    tempItem = transferData.count
+                    tempItem.count = transferData.count
                     plyChar.inventory.items[transferData.toSlot] = Config.CreateNewItemWithData(tempItem)
                     local newCount = plyChar.inventory.items[transferData.fromSlot].count - tempItem.count
                     if newCount == 0 then

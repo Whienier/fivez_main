@@ -500,18 +500,8 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                 local holstered = false
                 --Has no weapon equip
                 if hands == GetHashKey("weapon_unarmed") then
-                    local ammoCount = nil
-                    if itemData.melee == nil then
-                        for k,v in pairs(plyChar.inventory.items[fromSlot].attachments) do
-                            if string.match(k, "mag") then
-                                ammoCount = v
-                            end
-                        end
-                        --ammoCount = SQL_GetWeaponAmmoCount(plyChar.Id, GetHashKey(itemData.model))
-                    end
-                    print("Equip weapon", ammoCount)
                     TriggerClientEvent("fivez:PlayUnholsterAnimation", source)
-                    GiveWeaponToPed(plyPed, GetHashKey(itemData.model), (ammoCount + 0.0) or 0, false, true)
+                    GiveWeaponToPed(plyPed, GetHashKey(itemData.model), 0, false, true)
                 elseif hands == GetHashKey(itemData.model) then
                     SetPedAmmo(plyPed, GetHashKey(itemData.model), 0.0)
                     TriggerClientEvent("fivez:PlayHolsterAnimation", source)
@@ -528,13 +518,13 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                         SQL_SetWeaponAmmoCount(plyChar.Id, hands, gotAmmoCountCB)
                         ammoCount = SQL_GetWeaponAmmoCount(plyChar.Id, GetHashKey(itemData.model))
                     end
-                    SetPedAmmo(plyPed, hands, 0.0)
                     TriggerClientEvent("fivez:PlayUnholsterAnimation", source)
                     GiveWeaponToPed(plyPed, GetHashKey(itemData.model), ammoCount or 0, false, true)
                 end
 
                 if not holstered then
                     plyChar.inventory.hands = fromSlot
+                    TriggerClientEvent("fivez:SetAmmoInClip", source, fromSlot)
                 else
                     plyChar.inventory.hands = -1
                 end
@@ -1282,7 +1272,6 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                                     --If the gun doesn't have a mag attachment
                                                     if not hasMag then
                                                         playerData.characterData.inventory.items[hands].attachments[configItem.model] = ammoInMag
-                                                        SetPedAmmo(GetPlayerPed(source), currentWeapon, ammoInMag)
 
                                                         playerData.characterData.inventory.items[itemSlot] = EmptySlot()
                                                         SQL_RemoveItemFromCharacterInventory(playerData.Id, itemSlot)
@@ -1295,7 +1284,6 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                                                 for k,v in pairs(item.attachments) do
                                                                     playerData.inventory.items[itemSlot].attachments[k] = tempAmmo
                                                                 end
-                                                                SetPedAmmo(GetPlayerPed(source), currentWeapon, ammoInMag)
                                                                 SQL_UpdateItemAttachmentsInCharacterInventory(playerData.Id, hands, playerData.characterData.inventory.items[hands].attachments)
                                                                 SQL_UpdateItemAttachmentsInCharacterInventory(playerData.Id, itemSlot, playerData.inventory.items[itemSlot].attachments)
                                                             else
@@ -1315,7 +1303,6 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                                                 inventoryData.items[itemSlot] = tempItem
 
                                                                 SQL_InsertItemToCharacterInventory(playerData.Id, itemSlot, tempItem)
-                                                                SetPedAmmo(GetPlayerPed(source), currentWeapon, 0.0)
                                                             end
                                                         end
                                                     end

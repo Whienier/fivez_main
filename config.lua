@@ -2483,10 +2483,10 @@ Config.Items = {
                     end
                 end
                 if roundsInMag >= 0 then
-                    local magMax = 0
+                    local magMax = ""
                     local startp, endp = string.find(itemMovedOnto.model, "mag")
                     if itemMovedOnto.model[endp+2] ~= nil then
-                        magMax = itemMovedOnto.model[endp+1]..itemMovedOnto.model[endp+2]
+                        magMax = itemMovedOnto.model[endp+1]..""..itemMovedOnto.model[endp+2]
                     else
                         magMax = itemMovedOnto.model[endp+1]
                     end

@@ -1295,7 +1295,7 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                                                 print(ammoInMag, reloadingAmmoInMag)
                                                                 playerData.characterData.inventory.items[hands].attachments[attachmentModel] = ammoInMag
                                                                 playerData.characterData.inventory.items[itemSlot].attachments[bulletModel] = reloadingAmmoInMag
-
+                                                                
                                                                 SQL_UpdateItemAttachmentsInCharacterInventory(playerData.Id, hands, playerData.characterData.inventory.items[hands].attachments)
                                                                 SQL_UpdateItemAttachmentsInCharacterInventory(playerData.Id, itemSlot, playerData.characterData.inventory.items[itemSlot].attachments)
                                                             else

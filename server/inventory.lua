@@ -1292,6 +1292,7 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                                                 SQL_UpdateItemAttachmentsInCharacterInventory(playerData.Id, hands, playerData.characterData.inventory.items[hands].attachments)
                                                                 SQL_UpdateItemAttachmentsInCharacterInventory(playerData.Id, itemSlot, playerData.inventory.items[itemSlot].attachments)
                                                             else
+                                                                print("Attempted reload: Found mag not the same type that is in the gun")
                                                                 --TODO: Swap over the different mags
                                                                 local tempAttachments = {}
                                                                 for k,v in pairs(inventoryData.items[hands].attachments) do
@@ -1303,7 +1304,7 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                                                 local tempItem = Config.GetItemWithModel(attachmentModel)
                                                                 
                                                                 for k,v in pairs(tempItem.attachments) do
-                                                                    tempItem.attachments[k] = inventoryData.items[hands].attachments[attachmentModel]
+                                                                    tempItem.attachments[k] = reloadingAmmoInMag
                                                                 end
                                                                 
                                                                 inventoryData.items[itemSlot] = tempItem

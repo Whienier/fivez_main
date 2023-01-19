@@ -2005,7 +2005,7 @@ Config.Items = {
         spawnchance = 2,
         attachments = {},
         isAmmo = true,
-        compatibleMagazines = {["50calmag8"] = 8}
+        compatibleMagazines = {["50calmag8"] = 8},
         militaryspawn = true,
         combiningfunction = function(plySource, itemMovedOnto, selfItem)
             local compatiableMag = false

@@ -502,7 +502,12 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                 if hands == GetHashKey("weapon_unarmed") then
                     local amountCount = nil
                     if itemData.melee == nil then
-                        ammoCount = SQL_GetWeaponAmmoCount(plyChar.Id, GetHashKey(itemData.model))
+                        for k,v in pairs(itemData.attachments) do
+                            if string.match(k, "mag") then
+                                ammoCount = v
+                            end
+                        end
+                        --ammoCount = SQL_GetWeaponAmmoCount(plyChar.Id, GetHashKey(itemData.model))
                     end
                     TriggerClientEvent("fivez:PlayUnholsterAnimation", source)
                     GiveWeaponToPed(plyPed, GetHashKey(itemData.model), ammoCount or 0, false, true)

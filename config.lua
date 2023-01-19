@@ -860,7 +860,14 @@ Config.Items = {
         containerspawn = true,
         isMag = true,
         combiningfunction = function(plySource, itemMovingOnto, selfItem)
-            if itemMovingOnto.model == "weapon_pistol" then
+            local itemMovedOntoIsCompat = false
+            for k,v in pairs(Config.Items[selfItem.itemId]) do
+                if v == itemMovingOnto.model then
+                    itemMovedOntoIsCompat = true
+                    break
+                end
+            end
+            if itemMovedOntoIsCompat then
                 if itemMovingOnto.attachments ~= nil then
                     local hasMag = false
                     local magAttachmentModel = nil
@@ -870,15 +877,19 @@ Config.Items = {
                             magAttachmentModel = k
                         end
                     end
+                    local bulletModel = nil
+                    for k,v in pairs(selfItem.attachments) do
+                        bulletModel = k
+                    end
                     if not hasMag then
-                        itemMovingOnto.attachments["45acpmag12"] = selfItem.attachments["45acp"]
+                        itemMovingOnto.attachments[selfItem.model] = selfItem.attachments[bulletModel]
                         selfItem.count = 0
                         TriggerClientEvent("fivez:SetAmmoInClip", plySource, GetJoinedPlayer(plySource).characterData.inventory.hands)
                         return {itemMovingOnto, selfItem}
                     else
                         local ammoInMag = itemMovingOnto.attachments[magAttachmentModel]
-                        itemMovingOnto.attachments[magAttachmentModel] = selfItem.attachments["45acp"]
-                        selfItem.attachments["45acp"] = ammoInMag
+                        itemMovingOnto.attachments[magAttachmentModel] = selfItem.attachments[bulletModel]
+                        selfItem.attachments[bulletModel] = ammoInMag
                         TriggerClientEvent("fivez:SetAmmoInClip", plySource, GetJoinedPlayer(plySource).characterData.inventory.hands)
                         return {itemMovingOnto, selfItem}
                     end
@@ -1110,51 +1121,33 @@ Config.Items = {
     },
     [18] = {
         itemId = 18,
-        label = "Shotgun Ammo",
-        model = "ammunition_shotgun",
-        description = "12GA Ammunition (25)",
-        weight = 2,
-        maxcount = 1,
+        label = "12GA Ammo",
+        model = "12ga",
+        description = "12GA Ammunition",
+        weight = 1,
+        maxcount = 50,
         count = 0,
         quality = 100,
         attachments = {},
+        isAmmo = true,
+        compatiableMagazines = {"12gamag6", "12gamag8", "12gamag12", "weapon_dbshotgun"},
         spawnchance = 5,
-        militaryspawn = true,
-        serverfunction = function(source)
-            local playerData = GetJoinedPlayer(source)
-
-            if playerData then
-                local plyPed = GetPlayerPed(source)
-                local curAmmoCount = SQL_GetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_pumpshotgun"))
-                SQL_SetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_pumpshotgun"), curAmmoCount + 25)
-                GiveAmmoToPlayer(source, GetHashKey("weapon_pumpshotgun"), curAmmoCount + 25)
-                return true
-            end
-        end
+        militaryspawn = true
     },
     [19] = {
         itemId = 19,
         label = "Assault Rifle Ammo",
-        model = "ammunition_rifle",
-        description = "5.56mm Ammunition (25)",
-        weight = 3,
-        maxcount = 1,
+        model = "556mm",
+        description = "5.56mm Ammunition",
+        weight = 1,
+        maxcount = 50,
         count = 0,
         quality = 100,
         attachments = {},
+        isAmmo = true,
+        compatiableMagazines = {"556mmmag10", "556mmmag20", "556mmmag30"},
         spawnchance = 3,
-        militaryspawn = true,
-        serverfunction = function(source)
-            local playerData = GetJoinedPlayer(source)
-
-            if playerData then
-                local plyPed = GetPlayerPed(source)
-                local curAmmoCount = SQL_GetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_assaultrifle"))
-                SQL_SetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_assaultrifle"), curAmmoCount + 25)
-                GiveAmmoToPlayer(source, GetHashKey("weapon_assaultrifle"), curAmmoCount + 25)
-                return true
-            end
-        end
+        militaryspawn = true
     },
     [20] = {
         itemId = 20,
@@ -1318,32 +1311,23 @@ Config.Items = {
         maxcount = 1,
         count = 0,
         quality = 100,
-        attachments = {},
+        attachments = {["45acpmag30"] = 0},
         spawnchance = 15,
         militaryspawn = true
     },
     [27] = {
         itemId = 27,
-        label = "SMG Ammo",
-        model = "ammunition_smg",
-        description = ".45 ACP Ammunition (25)",
+        label = "9mm Ammo",
+        model = "9mm",
+        description = "9mm Ammunition",
         weight = 2,
-        maxcount = 1,
+        maxcount = 50,
         count = 0,
         quality = 100,
         attachments = {},
+        isAmmo = true,
         spawnchance = 15,
-        militaryspawn = true,
-        serverfunction = function(source)
-            local playerData = GetJoinedPlayer(source)
-            if playerData then
-                local plyPed = GetPlayerPed(source)
-                local curAmmoCount = SQL_GetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_smg"))
-                SQL_SetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_smg"), curAmmoCount + 25)
-                GiveAmmoToPlayer(source, GetHashKey("weapon_smg"), curAmmoCount + 25)
-                return true
-            end
-        end
+        militaryspawn = true
     },
     [28] = {
         itemId = 28,
@@ -1741,103 +1725,78 @@ Config.Items = {
         count = 0,
         qualtiy = 100,
         spawnchance = 1,
-        attachments = {},
+        attachments = {["9mmmag18"] = 0},
         militaryspawn = true
     },
     [47] = {
         itemId = 47,
         label = "Mini SMG",
         model = "weapon_minismg",
-        description = "Fully Automatic Mini-SMG",
+        description = "Fully Automatic Mini-SMG firing 9mm ammo",
         weight = 18,
         maxcount = 1,
         count = 0,
         quality = 100,
         spawnchance = 1,
-        attachments = {},
+        attachments = {["9mmmag20"] = 0},
         militaryspawn = true
     },
     [48] = {
         itemId = 48,
         label = "Pistol .50",
         model = "weapon_pistol50",
-        description = "A handcannon",
+        description = "A handcannon that shoots .50cal",
         weight = 17,
         maxcount = 1,
         count = 0,
         quality = 100,
         spawnchance = 1,
-        attachments = {},
+        attachments = {["50calmag8"] = 0},
         militaryspawn = true
     },
     [49] = {
         itemId = 49,
-        label = "AP Pistol Ammo",
-        model = "ammunition_pistol",
-        description = "Ammunition for AP Pistol (25)",
+        label = "9mm 18 round mag",
+        model = "9mmmag18",
+        description = "Magazine that holds 9mm ammunition (18)",
         weight = 2,
         maxcount = 1,
         count = 0,
         quality = 100,
         spawnchance = 2,
-        attachments = {},
-        militaryspawn = true,
-        serverfunction = function(source)
-            local playerData = GetJoinedPlayer(source)
-            if playerData then
-                local plyPed = GetPlayerPed(source)
-                local curAmmoCount = SQL_GetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_appistol"))
-                SQL_SetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_appistol"), curAmmoCount + 25)
-                GiveAmmoToPlayer(source, GetHashKey("weapon_appistol"), curAmmoCount + 25)
-                return true
-            end
-        end
+        attachments = {["9mm"] = 0},
+        compatiableWeapons = {"weapon_appistol"},
+        isMag = true,
+        militaryspawn = true
     },
     [50] = {
         itemId = 50,
-        label = "Mini SMG Ammo",
-        model = "ammunition_smg",
-        description = "Ammunition for Mini SMG (25)",
+        label = "9mm 20 round mag",
+        model = "9mmmag20",
+        description = "Magazine that holds 9mm ammunition (20)",
         weight = 2,
         maxcount = 1,
         count = 0,
         quality = 100,
         spawnchance = 2,
-        attachments = {},
-        militaryspawn = true,
-        serverfunction = function(source)
-            local playerData = GetJoinedPlayer(source)
-            if playerData then
-                local plyPed = GetPlayerPed(source)
-                local curAmmoCount = SQL_GetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_minismg"))
-                SQL_SetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_minismg"), curAmmoCount + 25)
-                GiveAmmoToPlayer(source, GetHashKey("weapon_minismg"), curAmmoCount + 25)
-                return true
-            end
-        end
+        attachments = {["9mm"] = 0},
+        compatiableWeapons = {"weapon_minismg"},
+        isMag = true,
+        militaryspawn = true
     },
     [51] = {
         itemId = 51,
-        label = "Pistol 50. Ammo",
-        model = "ammunition_pistol",
-        description = "Ammunition for .50 cal pistol",
+        label = "50.cal",
+        model = "50cal",
+        description = ".50 cal",
         weight = 2,
-        maxcount = 1,
+        maxcount = 50,
         count = 0,
         quality = 100,
         spawnchance = 2,
         attachments = {},
-        militaryspawn = true,
-        serverfunction = function(source)
-            local playerData = GetJoinedPlayer(source)
-            if playerData then
-                local plyPed = GetPlayerPed(source)
-                local curAmmoCount = SQL_GetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_pistol50"))
-                SQL_SetWeaponAmmoCount(playerData.Id, GetHashKey("weapon_pistol50"), curAmmoCount + 25)
-                GiveAmmoToPlayer(source, GetHashKey("weapon_pistol50"), curAmmoCount + 25)
-                return true
-            end
-        end
+        isAmmo = true,
+        militaryspawn = true
     },
     [52] = {
         itemId = 52,
@@ -2098,15 +2057,17 @@ Config.Items = {
     },
     [70] = {
         itemId = 70,
-        label = "DB Rounds",
-        model = "ammunition_shotgun",
-        description = "Ammunition for double barrel shotgun",
+        label = "5.56mm 30 round mag",
+        model = "556mmmag30",
+        description = "Magazine that holds 5.56 rounds (30)",
         weight = 2,
         maxcount = 1,
         count = 0,
         quality = 100,
         spawnchance = 0,
-        attachments = {}
+        attachments = {},
+        isMag = true,
+        compatiableWeapons = {"weapon_assaultrifle"}
     },
     [71] = {
         itemId = 71,
@@ -2503,23 +2464,39 @@ Config.Items = {
         quality = 100,
         spawnchance = 10,
         isAmmo = true,
+        compatiableMagazines = {"45acpmag12", "45acpmag"}
         attachments = {},
         combiningfunction = function(plySource, itemMovedOnto, selfItem)
-            if itemMovedOnto.model == "45acpmag12" then
+            local compatiableMag = false
+            for k,v in pairs(Config.Items[selfItem.itemId].compatiableMagazines) do
+                if v == itemMovedOnto.model then
+                    compatiableMag = true
+                    break
+                end
+            end
+            if compatiableMag then
                 local itemCount = selfItem.count
                 local roundsInMag = -1
                 for k,v in pairs(itemMovedOnto.attachments) do
-                    if k == "45acp" then
+                    if k == selfItem.model then
                         roundsInMag = v
                     end
                 end
                 if roundsInMag >= 0 then
-                    local roundDif = 12 - roundsInMag --12 being the max
+                    local magMax = 0
+                    local startp, endp = string.find(itemMovedOnto.model, "mag")
+                    if itemMovedOnto.model[endp+2] ~= nil then
+                        magMax = itemMovedOnto.model[endp+1]..itemMovedOnto.model[endp+2]
+                    else
+                        magMax = itemMovedOnto.model[endp+1]
+                    end
+                    magMax = tonumber(magMax)
+                    local roundDif = magMax - roundsInMag --12 being the max
                     if roundDif > 0 then
                         if itemCount >= roundDif then
                             local newItemCount = itemCount - roundDif
                             for k,v in pairs(itemMovedOnto.attachments) do
-                                if k == "45acp" then
+                                if k == selfItem.model then
                                     itemMovedOnto.attachments[k] = roundsInMag + roundDif
                                 end
                             end
@@ -2527,7 +2504,7 @@ Config.Items = {
                             return {itemMovedOnto, selfItem}
                         elseif itemCount < roundDif then
                             for k,v in pairs(itemMovedOnto.attachments) do
-                                if k == "45acp" then
+                                if k == selfItem.model then
                                     itemMovedOnto.attachments[k] = roundsInMag + itemCount
                                 end
                             end
@@ -2539,6 +2516,210 @@ Config.Items = {
                     end
                 else
                     return nil
+                end
+            end
+        end
+    },
+    [93] = {
+        itemId = 93,
+        label = "9mm 30 round mag",
+        model = "9mmmag30",
+        description = "Magazine that holds 9mm ammunition (30)",
+        weight = 1,
+        maxcount = 1,
+        count = 0,
+        quality = 100,
+        spawnchance = 10,
+        isMag = true,
+        compatiableWeapons = {"weapon_smg"},
+        attachments = {["9mm"] = 0},
+        combiningfunction = function(plySource, itemMovingOnto, selfItem)
+            local itemMovedOntoIsCompat = false
+            for k,v in pairs(Config.Items[selfItem.itemId]) do
+                if v == itemMovingOnto.model then
+                    itemMovedOntoIsCompat = true
+                    break
+                end
+            end
+            if itemMovedOntoIsCompat then
+                if itemMovingOnto.attachments ~= nil then
+                    local hasMag = false
+                    local magAttachmentModel = nil
+                    for k,v in pairs(itemMovingOnto.attachments) do
+                        if string.match(k, "mag") then
+                            hasMag = true
+                            magAttachmentModel = k
+                        end
+                    end
+                    local bulletModel = nil
+                    for k,v in pairs(selfItem.attachments) do
+                        bulletModel = k
+                    end
+                    if not hasMag then
+                        itemMovingOnto.attachments[selfItem.model] = selfItem.attachments[bulletModel]
+                        selfItem.count = 0
+                        TriggerClientEvent("fivez:SetAmmoInClip", plySource, GetJoinedPlayer(plySource).characterData.inventory.hands)
+                        return {itemMovingOnto, selfItem}
+                    else
+                        local ammoInMag = itemMovingOnto.attachments[magAttachmentModel]
+                        itemMovingOnto.attachments[magAttachmentModel] = selfItem.attachments[bulletModel]
+                        selfItem.attachments[bulletModel] = ammoInMag
+                        TriggerClientEvent("fivez:SetAmmoInClip", plySource, GetJoinedPlayer(plySource).characterData.inventory.hands)
+                        return {itemMovingOnto, selfItem}
+                    end
+                end
+            end
+        end
+    },
+    [94] = {
+        itemId = 94,
+        label = "12GA 6 round mag",
+        model = "12gamag6",
+        description = "Magazine that holds 12ga ammunition (6)",
+        weight = 1,
+        maxcount = 1,
+        count = 0,
+        quality = 100,
+        spawnchance = 10,
+        isMag = true,
+        compatiableWeapons = {"weapon_pumpshotgun"},
+        attachments = {["12ga"] = 0},
+        combiningfunction = function(plySource, itemMovingOnto, selfItem)
+            local itemMovedOntoIsCompat = false
+            for k,v in pairs(Config.Items[selfItem.itemId]) do
+                if v == itemMovingOnto.model then
+                    itemMovedOntoIsCompat = true
+                    break
+                end
+            end
+            if itemMovedOntoIsCompat then
+                if itemMovingOnto.attachments ~= nil then
+                    local hasMag = false
+                    local magAttachmentModel = nil
+                    for k,v in pairs(itemMovingOnto.attachments) do
+                        if string.match(k, "mag") then
+                            hasMag = true
+                            magAttachmentModel = k
+                        end
+                    end
+                    local bulletModel = nil
+                    for k,v in pairs(selfItem.attachments) do
+                        bulletModel = k
+                    end
+                    if not hasMag then
+                        itemMovingOnto.attachments[selfItem.model] = selfItem.attachments[bulletModel]
+                        selfItem.count = 0
+                        TriggerClientEvent("fivez:SetAmmoInClip", plySource, GetJoinedPlayer(plySource).characterData.inventory.hands)
+                        return {itemMovingOnto, selfItem}
+                    else
+                        local ammoInMag = itemMovingOnto.attachments[magAttachmentModel]
+                        itemMovingOnto.attachments[magAttachmentModel] = selfItem.attachments[bulletModel]
+                        selfItem.attachments[bulletModel] = ammoInMag
+                        TriggerClientEvent("fivez:SetAmmoInClip", plySource, GetJoinedPlayer(plySource).characterData.inventory.hands)
+                        return {itemMovingOnto, selfItem}
+                    end
+                end
+            end
+        end
+    },
+    [95] = {
+        itemId = 95,
+        label = "12GA 8 round mag",
+        model = "12gamag8",
+        description = "Magazine that holds 12ga ammunition (8)",
+        weight = 1,
+        maxcount = 1,
+        count = 0,
+        quality = 100,
+        spawnchance = 10,
+        isMag = true,
+        compatiableWeapons = {"weapon_pumpshotgun"},
+        attachments = {["12ga"] = 0},
+        combiningfunction = function(plySource, itemMovingOnto, selfItem)
+            local itemMovedOntoIsCompat = false
+            for k,v in pairs(Config.Items[selfItem.itemId]) do
+                if v == itemMovingOnto.model then
+                    itemMovedOntoIsCompat = true
+                    break
+                end
+            end
+            if itemMovedOntoIsCompat then
+                if itemMovingOnto.attachments ~= nil then
+                    local hasMag = false
+                    local magAttachmentModel = nil
+                    for k,v in pairs(itemMovingOnto.attachments) do
+                        if string.match(k, "mag") then
+                            hasMag = true
+                            magAttachmentModel = k
+                        end
+                    end
+                    local bulletModel = nil
+                    for k,v in pairs(selfItem.attachments) do
+                        bulletModel = k
+                    end
+                    if not hasMag then
+                        itemMovingOnto.attachments[selfItem.model] = selfItem.attachments[bulletModel]
+                        selfItem.count = 0
+                        TriggerClientEvent("fivez:SetAmmoInClip", plySource, GetJoinedPlayer(plySource).characterData.inventory.hands)
+                        return {itemMovingOnto, selfItem}
+                    else
+                        local ammoInMag = itemMovingOnto.attachments[magAttachmentModel]
+                        itemMovingOnto.attachments[magAttachmentModel] = selfItem.attachments[bulletModel]
+                        selfItem.attachments[bulletModel] = ammoInMag
+                        TriggerClientEvent("fivez:SetAmmoInClip", plySource, GetJoinedPlayer(plySource).characterData.inventory.hands)
+                        return {itemMovingOnto, selfItem}
+                    end
+                end
+            end
+        end
+    },
+    [96] = {
+        itemId = 94,
+        label = "12GA 12 round mag",
+        model = "12gamag12",
+        description = "Magazine that holds 12ga ammunition (12)",
+        weight = 1,
+        maxcount = 1,
+        count = 0,
+        quality = 100,
+        spawnchance = 10,
+        isMag = true,
+        compatiableWeapons = {"weapon_pumpshotgun"},
+        attachments = {["12ga"] = 0},
+        combiningfunction = function(plySource, itemMovingOnto, selfItem)
+            local itemMovedOntoIsCompat = false
+            for k,v in pairs(Config.Items[selfItem.itemId]) do
+                if v == itemMovingOnto.model then
+                    itemMovedOntoIsCompat = true
+                    break
+                end
+            end
+            if itemMovedOntoIsCompat then
+                if itemMovingOnto.attachments ~= nil then
+                    local hasMag = false
+                    local magAttachmentModel = nil
+                    for k,v in pairs(itemMovingOnto.attachments) do
+                        if string.match(k, "mag") then
+                            hasMag = true
+                            magAttachmentModel = k
+                        end
+                    end
+                    local bulletModel = nil
+                    for k,v in pairs(selfItem.attachments) do
+                        bulletModel = k
+                    end
+                    if not hasMag then
+                        itemMovingOnto.attachments[selfItem.model] = selfItem.attachments[bulletModel]
+                        selfItem.count = 0
+                        TriggerClientEvent("fivez:SetAmmoInClip", plySource, GetJoinedPlayer(plySource).characterData.inventory.hands)
+                        return {itemMovingOnto, selfItem}
+                    else
+                        local ammoInMag = itemMovingOnto.attachments[magAttachmentModel]
+                        itemMovingOnto.attachments[magAttachmentModel] = selfItem.attachments[bulletModel]
+                        selfItem.attachments[bulletModel] = ammoInMag
+                        TriggerClientEvent("fivez:SetAmmoInClip", plySource, GetJoinedPlayer(plySource).characterData.inventory.hands)
+                        return {itemMovingOnto, selfItem}
+                    end
                 end
             end
         end

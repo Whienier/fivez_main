@@ -1302,7 +1302,7 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                                                     end
                                                                 end
                                                                 tempAttachments[configItem.model] = ammoInMag
-                                                                local tempItem = Config.GetItemWithModel(attachmentModel)
+                                                                local tempItem = Config.CreateNewItemWithData(Config.GetItemWithModel(attachmentModel))
                                                                 
                                                                 for k,v in pairs(tempItem.attachments) do
                                                                     tempItem.attachments[k] = reloadingAmmoInMag

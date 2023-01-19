@@ -412,8 +412,7 @@ RegisterNetEvent("fivez:SetAmmoInClip", function(hands)
     end
     print("Setting ammo in clip", ammo)
     Citizen.Wait(150)
-    SetAmmoInClip(GetPlayerPed(-1), GetHashKey(charInventory.items[hands].model), 0)
-    SetAmmoInClip(GetPlayerPed(-1), GetHashKey(charInventory.items[hands].model), ammo+0.0)
+    SetAmmoInClip(GetPlayerPed(-1), GetHashKey(charInventory.items[hands].model), ammo)
 end)
 
 RegisterNetEvent("fivez:IsPlayerDucking", function()

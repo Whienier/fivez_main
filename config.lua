@@ -867,13 +867,13 @@ Config.Items = {
                     else
                         itemMovingOnto.attachments["45acpmag12"] = selfItem.attachments["45acp"] or 0
                         selfItem.count = 0
-                        SetPedAmmo(GetPlayerPed(plySource), GetHashKey("weapon_pistol"), itemMovingOnto.attachments["45acpmag12"])
+                        TriggerClientEvent("fivez:SetAmmoInClip", source, GetJoinedPlayer(source).characterData.inventory.hands)
                         return {itemMovingOnto, selfItem}
                     end
                 elseif #itemMovingOnto.attachments == 0 then
                     itemMovingOnto.attachments["45acpmag12"] = selfItem.attachments["45acp"] or 0
                     selfItem.count = 0
-                    SetPedAmmo(GetPlayerPed(plySource), GetHashKey("weapon_pistol"), itemMovingOnto.attachments["45acpmag12"])
+                    TriggerClientEvent("fivez:SetAmmoInClip", source, GetJoinedPlayer(source).characterData.inventory.hands)
                     return {itemMovingOnto, selfItem}
                 end
             end

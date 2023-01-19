@@ -1278,7 +1278,7 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                                         --If the gun has no attachments at all
                                                         if not hasAttachments then
                                                             inventoryData.items[hands].attachments[configItem.model] = ammoInMag
-
+                                                            SetPedAmmo(GetPlayerPed(source), currentWeapon, ammoInMag)
                                                             item = EmptySlot()
                                                             SQL_RemoveItemFromCharacterInventory(playerData.Id, itemSlot)
                                                         else
@@ -1287,9 +1287,9 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                                                 tempAttachments[k] = v
                                                             end
                                                             tempAttachments[configItem.model] = ammoInMag
-
+                                                            
                                                             inventoryData.items[hands].attachments = tempAttachments
-
+                                                            SetPedAmmo(GetPlayerPed(source), currentWeapon, ammoInMag)
                                                             item = EmptySlot()
                                                             SQL_RemoveItemFromCharacterInventory(playerData.Id, itemSlot)
                                                         end
@@ -1301,6 +1301,7 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                                                 for k,v in pairs(item.attachments) do
                                                                     item.attachments[k] = tempAmmo
                                                                 end
+                                                                SetPedAmmo(GetPlayerPed(source), currentWeapon, ammoInMag)
                                                                 SQL_UpdateItemAttachmentsInCharacterInventory(playerData.Id, itemSlot, item.attachments)
                                                             else
                                                                 --TODO: Swap over the different mags
@@ -1355,6 +1356,7 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                 for k,v in pairs(inventoryData.items) do
                                     if v.itemId == -1 then
                                         freeInvSlot = k
+                                        break
                                     end
                                 end
 
@@ -1364,7 +1366,6 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                     local strPos = string.find(tempItem.model, "mag")
                                     if strPos ~= nil then
                                         local ammoModel = string.sub(tempItem.model, 1, strPos-1)
-                                        print("Creating mag item", attachmentModel, ammoModel)
                                         tempItem.attachments[ammoModel] = ammoInMag
                                         inventoryData.items[freeInvSlot] = tempItem
                                         inventoryData.items[hands].attachments = {}

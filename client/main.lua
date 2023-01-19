@@ -49,6 +49,9 @@ end)
 Citizen.CreateThread(function()
     --Stop health regen
     SetPlayerHealthRechargeMultiplier(PlayerId(), 0.0)
+
+    SetWeaponsNoAutoreload(true)
+    SetWeaponsNoAutoswap(true)
 end)
 
 RegisterNetEvent("fivez:GetHeadingFromVector", function(x, y)

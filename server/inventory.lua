@@ -622,6 +622,7 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
                 if transferData.count > 0 then
                     if plyChar.inventory.items[transferData.fromSlot].count <= transferData.count then TriggerClientEvent("fivez:AddNotification", source, "Don't have enough to split") return end
                     local tempItem = plyChar.inventory.items[transferData.toSlot]
+                    tempItem.itemId = itemData.itemId
                     tempItem.count = transferData.count
                     plyChar.inventory.items[transferData.toSlot] = Config.CreateNewItemWithData(tempItem)
                     local newCount = plyChar.inventory.items[transferData.fromSlot].count - tempItem.count
@@ -1253,6 +1254,10 @@ RegisterNetEvent("fivez:AttemptReload", function()
                         if configItem then
                             if configItem.isMag then
                                 local ammoInMag = -1
+                                local bulletModel = nil
+                                for k,v in pairs(configItem.attachments) do
+                                    bulletModel = k
+                                end
                                 for k,v in pairs(item.attachments) do
                                     ammoInMag = v
                                 end
@@ -1290,7 +1295,7 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                                                 if reloadingAmmoInMag == nil then TriggerClientEvent("fivez:AddNotification", source, "Couldn't get ammo in clip!") return end
                                                                 print(ammoInMag, reloadingAmmoInMag)
                                                                 playerData.characterData.inventory.items[hands].attachments[attachmentModel] = ammoInMag
-                                                                playerData.characterData.inventory.items[itemSlot].attachments[attachmentModel] = reloadingAmmoInMag
+                                                                playerData.characterData.inventory.items[itemSlot].attachments[bulletModel] = reloadingAmmoInMag
 
                                                                 SQL_UpdateItemAttachmentsInCharacterInventory(playerData.Id, hands, playerData.characterData.inventory.items[hands].attachments)
                                                                 SQL_UpdateItemAttachmentsInCharacterInventory(playerData.Id, itemSlot, playerData.characterData.inventory.items[itemSlot].attachments)

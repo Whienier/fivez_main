@@ -862,7 +862,7 @@ Config.Items = {
         combiningfunction = function(plySource, itemMovingOnto, selfItem)
             local itemMovedOntoIsCompat = false
             for k,v in pairs(Config.Items[selfItem.itemId].compatibleWeapons) do
-                if v == itemMovingOnto.model then
+                if v == GetHashKey(itemMovingOnto.model) then
                     itemMovedOntoIsCompat = true
                     break
                 end
@@ -895,7 +895,7 @@ Config.Items = {
                     end
                 end
             else
-                return {false, "Couldn't find compatiable magazine"}
+                return {false, itemMovingOnto.label.." is not compatible with this magazine!"}
             end
         end,
         serverfunction = function(source)

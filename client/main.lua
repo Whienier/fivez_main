@@ -407,6 +407,7 @@ RegisterNetEvent("fivez:SetAmmoInClip", function(hands)
             ammo = v
         end
     end
+    print("Setting ammo in clip", ammo)
     SetAmmoInClip(playerPed, GetSelectedPedWeapon(playerPed), ammo)
 end)
 

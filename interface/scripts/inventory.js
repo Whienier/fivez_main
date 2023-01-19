@@ -731,7 +731,6 @@ function Inventory(type,identifier,label,data) {
                 var otherType = this.type;
 
                 var count = Math.floor(parseInt(document.getElementById('amount').value));
-                count = (count > 0 ? count : (selectedSlot.item.count ? selectedSlot.item.count : 0));
                 if (otherType != "shop" && otherIdentifier != "ground") {
                     transferLocalItems(otherIdentifier,count,draggingSlot.item,draggingSlot.itemIndex,this.itemIndex);
                 }

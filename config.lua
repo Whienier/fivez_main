@@ -861,20 +861,25 @@ Config.Items = {
         isMag = true,
         combiningfunction = function(plySource, itemMovingOnto, selfItem)
             if itemMovingOnto.model == "weapon_pistol" then
-                if #itemMovingOnto.attachments >= 1 then
-                    if itemMovingOnto.attachments["45acpmag12"] then
-                        return {false, "Mag already loaded"}
-                    else
-                        itemMovingOnto.attachments["45acpmag12"] = selfItem.attachments["45acp"] or 0
+                if itemMovingOnto.attachments ~= nil then
+                    local hasMag = false
+                    local magAttachmentModel = nil
+                    for k,v in pairs(itemMovingOnto.attachments) do
+                        if string.match(k, "mag") then
+                            hasMag = true
+                            magAttachmentModel = k
+                        end
+                    end
+                    if not hasMag then
+                        itemMovingOnto.attachments["45acpmag12"] = selfItem.attachments["45acp"]
                         selfItem.count = 0
-                        TriggerClientEvent("fivez:SetAmmoInClip", source, GetJoinedPlayer(source).characterData.inventory.hands)
+                        return {itemMovingOnto, selfItem}
+                    else
+                        local ammoInMag = itemMovingOnto.attachments[magAttachmentModel]
+                        itemMovingOnto.attachments[magAttachmentModel] = selfItem.attachments["45acp"]
+                        selfItem.attachments["45acp"] = ammoInMag
                         return {itemMovingOnto, selfItem}
                     end
-                elseif #itemMovingOnto.attachments == 0 then
-                    itemMovingOnto.attachments["45acpmag12"] = selfItem.attachments["45acp"] or 0
-                    selfItem.count = 0
-                    TriggerClientEvent("fivez:SetAmmoInClip", source, GetJoinedPlayer(source).characterData.inventory.hands)
-                    return {itemMovingOnto, selfItem}
                 end
             end
         end,

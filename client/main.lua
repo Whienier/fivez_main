@@ -408,7 +408,7 @@ RegisterNetEvent("fivez:SetAmmoInClip", function(hands)
     end
     print("Setting ammo in clip", ammo)
     Citizen.Wait(50)
-    SetAmmoInClip(GetPlayerPed(-1), GetSelectedPedWeapon(GetPlayerPed(-1)), ammo)
+    SetAmmoInClip(GetPlayerPed(-1), GetSelectedPedWeapon(GetPlayerPed(-1)), ammo+0.0)
 end)
 
 RegisterNetEvent("fivez:IsPlayerDucking", function()

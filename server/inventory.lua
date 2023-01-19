@@ -501,7 +501,15 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                 --Has no weapon equip
                 if hands == GetHashKey("weapon_unarmed") then
                     TriggerClientEvent("fivez:PlayUnholsterAnimation", source)
-                    GiveWeaponToPed(plyPed, GetHashKey(itemData.model), 0, false, true)
+                    local ammo = 0
+                    for k,v in pairs(plyChar.inventory.items[fromSlot].attachments) do
+                        if string.match(k, "mag") then
+                            ammo = v
+                        end
+                    end
+                    print("Giving weapon to ped", ammo)
+                    GiveWeaponToPed(plyPed, GetHashKey(itemData.model), ammo, false, true)
+                    SetPedAmmo(plyPed, GetHashKey(itemData.model), ammo)
                     TriggerClientEvent("fivez:SetAmmoInClip", source, fromSlot)
                 elseif hands == GetHashKey(itemData.model) then
                     if plyChar.inventory.hands == fromSlot then

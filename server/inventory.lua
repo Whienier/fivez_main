@@ -1282,7 +1282,9 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                                     elseif hasMag == true then
                                                         reloadingAmmoInMag = nil
                                                         TriggerClientEvent("fivez:GetAmmoInClip", source)
-
+                                                        while reloadingAmmoInMag == nil do
+                                                            Citizen.Wait(1)
+                                                        end
                                                         if attachmentModel ~= nil then
                                                             if attachmentModel == configItem.model then
                                                                 print("Attempted Reload: Found mag is the same type that is in the gun")

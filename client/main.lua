@@ -401,14 +401,15 @@ end)
 
 RegisterNetEvent("fivez:SetAmmoInClip", function(hands)
     local ammo = 0
-    for k,v in pairs(GetCharacterInventory().items[hands].attachments) do
+    local charInventory = GetCharacterInventory()
+    for k,v in pairs(charInventory.items[hands].attachments) do
         if string.match(k, "mag") then
             ammo = v
         end
     end
     print("Setting ammo in clip", ammo)
-    Citizen.Wait(50)
-    SetAmmoInClip(GetPlayerPed(-1), GetSelectedPedWeapon(GetPlayerPed(-1)), ammo+0.0)
+    Citizen.Wait(150)
+    SetAmmoInClip(GetPlayerPed(-1), GetHashKey(charInventory.items[hands].model), ammo+0.0)
 end)
 
 RegisterNetEvent("fivez:IsPlayerDucking", function()

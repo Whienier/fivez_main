@@ -135,6 +135,16 @@ RegisterNUICallback("close_inventory", function(data, cb)
     cb('ok')
 end)
 
+function CloseInventory()
+    SetNuiFocus(false, false)
+    TriggerServerEvent("fivez:CloseInventory")
+    inventoryOpen = false
+    SendNUIMessage({
+        type = "message",
+        message = "closeInventory"
+    })
+end
+
 local otherInventory = nil
 
 RegisterNetEvent("fivez:UpdateCharacterInventoryItems", function(charInventoryItems, otherInventoryItems)

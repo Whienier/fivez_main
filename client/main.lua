@@ -588,10 +588,15 @@ Citizen.CreateThread(function()
         DisableControlAction(0, 164, true) --4
         DisableControlAction(0, 165, true) --5
         
-        DisableControlAction(0, 45, true)
-        if IsDisabledControlJustReleased(0, 45) and GetSelectedPedWeapon(GetPlayerPed(-1)) ~= GetHashKey("weapon_unarmed") then
-            --Trigger reloading
-            TriggerServerEvent("fivez:AttemptReload")
+        if GetSelectedPedWeapon(GetPlayerPed(-1)) ~= GetHashKey("weapon_unarmed") then
+            DisableControlAction(0, 45, true) --Input Reload
+            DisableControlAction(0, 140, true) --Light melee
+            DisableControlAction(0, 263, true) --Melee attack1
+            if IsDisabledControlJustReleased(0, 45) and GetSelectedPedWeapon(GetPlayerPed(-1)) ~= GetHashKey("weapon_unarmed") then
+                --Trigger reloading
+                print(GetWeapontypeGroup(GetSelectedPedWeapon(GetPlayerPed(-1))))
+                TriggerServerEvent("fivez:AttemptReload")
+            end
         end
         Citizen.Wait(1)
     end

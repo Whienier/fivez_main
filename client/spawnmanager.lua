@@ -276,6 +276,9 @@ Citizen.CreateThread(function()
 
         if IsPedDeadOrDying(GetPlayerPed(-1), 1) or GetEntityHealth(GetPlayerPed(-1)) <= 0 then
             if not playerDied and not spawnMenuOpened then
+                if inventoryOpen then
+                    CloseInventory()
+                end
                 local deathTime = Config.RespawnTimer/1000
                 deathTimestamp = GetGameTimer()
                 AddNotification("Please wait "..tostring(deathTime).." seconds for respawn, or press ENTER to respawn")

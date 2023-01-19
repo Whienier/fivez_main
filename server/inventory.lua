@@ -1372,11 +1372,11 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                     if strPos ~= nil then
                                         local ammoModel = string.sub(tempItem.model, 1, strPos-1)
                                         tempItem.attachments[ammoModel] = ammoInMag
-                                        inventoryData.items[freeInvSlot] = tempItem
-                                        inventoryData.items[hands].attachments = {}
+                                        playerData.characterData.inventory.items[freeInvSlot] = tempItem
+                                        playerData.characterData.inventory.items[hands].attachments = {}
                                         SQL_InsertItemToCharacterInventory(playerData.Id, freeInvSlot, tempItem)
                                         SQL_UpdateItemAttachmentsInCharacterInventory(playerData.Id, hands, {})
-                                        TriggerClientEvent("fivez:UpdateCharacterInventoryItems", source, json.encode(inventoryData.items), nil)
+                                        TriggerClientEvent("fivez:UpdateCharacterInventoryItems", source, json.encode(playerData.characterData.inventory.items), nil)
                                     end
                                 else
                                     TriggerClientEvent("fivez:AddNotification", source, "No room for mag!")

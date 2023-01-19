@@ -601,7 +601,7 @@ end)
 RegisterNUICallback("combine_items", function(data, cb)
     local firstSlotId = data.firstSlotId + 1
     local secondSlotId = data.secondSlotId + 1
-    local slotDraggedOnto = data.slotDraggedOnto
+    local slotDraggedOnto = data.slotDraggedOnto + 1
 
     local charInventory = GetCharacterInventory()
 

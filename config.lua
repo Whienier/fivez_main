@@ -2464,13 +2464,15 @@ Config.Items = {
         quality = 100,
         spawnchance = 10,
         isAmmo = true,
-        compatibleMagazines = {"45acpmag12", "45acpmag"},
+        compatibleMagazines = {["45acpmag12"] = 12, ["45acpmag16"] = 16},
         attachments = {},
         combiningfunction = function(plySource, itemMovedOnto, selfItem)
             local compatiableMag = false
+            local magMax = 0
             for k,v in pairs(Config.Items[selfItem.itemId].compatibleMagazines) do
-                if v == itemMovedOnto.model then
+                if k == itemMovedOnto.model then
                     compatiableMag = true
+                    magMax = v
                     break
                 end
             end
@@ -2483,14 +2485,7 @@ Config.Items = {
                     end
                 end
                 if roundsInMag >= 0 then
-                    local magMax = ""
                     local startp, endp = string.find(itemMovedOnto.model, "mag")
-                    if itemMovedOnto.model[endp+2] ~= nil then
-                        magMax = itemMovedOnto.model[endp+1]..""..itemMovedOnto.model[endp+2]
-                    else
-                        magMax = itemMovedOnto.model[endp+1]
-                    end
-                    magMax = tonumber(magMax)
                     local roundDif = magMax - roundsInMag --12 being the max
                     if roundDif > 0 then
                         if itemCount >= roundDif then

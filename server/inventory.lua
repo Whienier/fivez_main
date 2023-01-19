@@ -1273,7 +1273,6 @@ RegisterNetEvent("fivez:AttemptReload", function()
 
                                                     --If the gun doesn't have a mag attachment
                                                     if hasMag == false then
-                                                        print("Attempted reload: Gun didn't have mag")
                                                         playerData.characterData.inventory.items[hands].attachments[configItem.model] = ammoInMag
 
                                                         playerData.characterData.inventory.items[itemSlot] = EmptySlot()
@@ -1287,15 +1286,14 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                                         end
                                                         if attachmentModel ~= nil then
                                                             if attachmentModel == configItem.model then
-                                                                print("Attempted Reload: Found mag is the same type that is in the gun")
                                                                 if reloadingAmmoInMag == nil then TriggerClientEvent("fivez:AddNotification", source, "Couldn't get ammo in clip!") return end
+                                                                print(ammoInMag, reloadingAmmoInMag)
                                                                 playerData.characterData.inventory.items[hands].attachments[attachmentModel] = ammoInMag
                                                                 playerData.characterData.inventory.items[itemSlot].attachments[attachmentModel] = reloadingAmmoInMag
 
                                                                 SQL_UpdateItemAttachmentsInCharacterInventory(playerData.Id, hands, playerData.characterData.inventory.items[hands].attachments)
                                                                 SQL_UpdateItemAttachmentsInCharacterInventory(playerData.Id, itemSlot, playerData.characterData.inventory.items[itemSlot].attachments)
                                                             else
-                                                                print("Attempted reload: Found mag not the same type that is in the gun")
                                                                 --TODO: Swap over the different mags
                                                                 local tempAttachments = {}
                                                                 for k,v in pairs(inventoryData.items[hands].attachments) do

@@ -72,6 +72,8 @@ var otherInv;
 var inventoryOpen;
 var resourceName;
 
+var contextMenu;
+
 /* INVENTORY OBJECT */
 
 function closeInventory() {
@@ -655,6 +657,13 @@ function Inventory(type,identifier,label,data) {
         slot.type = this.type;
         slot.identifier = this.identifier;
 
+        slot.oncontextmenu = function(e) {
+            if (contextMenu) {
+                removeContextMenu();
+            }
+            createContextMenu(this);
+        }
+
         slot.onmouseenter = function(e) {
             if (!this.classList.contains("selected")) {
             this.classList.add("hovered");   
@@ -662,12 +671,18 @@ function Inventory(type,identifier,label,data) {
         }
 
         slot.onmousedown = function(e) {
+            if (e.button == 2 ){
+                return;
+            }
             if (this.item.model == "Empty") {
                 return;
             }
 
             if (toolTip) {
             removeTooltip();
+            }
+            if (contextMenu){
+                removeContextMenu();
             }
 
             if (selectedSlot) {
@@ -814,6 +829,123 @@ function lerpColor(a, b, amount) {
     return '#' + ((1 << 24) + (rr << 16) + (rg << 8) + rb | 0).toString(16).slice(1);
 }
 
+function removeContextMenu(){
+    if (contextMenu){
+        contextMenu.remove();
+        contextMenu = false;
+    }
+}
+
+/* DROP DOWN OBJECT */
+function createContextMenu(ele) {
+    var rect = ele.getBoundingClientRect();
+
+    contextMenu = document.createElement("DIV");
+    contextMenu.className = "drop-down-container";
+    contextMenu.style.left = (rect.x + rect.width)+"px";
+    contextMenu.style.top = (rect.y+10)+"px";
+
+    var match = ele.item.model.match("weapon_");
+
+    if (match != null) {
+        var attachments = ele.item.attachments;
+        if (attachments != null){
+            var attachmentMenu = document.createElement("DIV");
+            attachmentMenu.className = "option";
+            attachmentMenu.innerHTML = "<b>Attachments</b>";
+            
+            var attachmentMenuContainer = document.createElement("DIV");
+            attachmentMenuContainer.className = "drop-down-container";
+            attachmentMenuContainer.style.width = "135px";
+            attachmentMenuContainer.style.left = "121px";
+            attachmentMenuContainer.style.display = "none";
+            attachmentMenuContainer.style.top = "0px";
+
+            var i = 0
+            attachmentMenuContainer.items = [];
+            for(var key in attachments){
+                i++;
+                var attachmentItem = document.createElement("DIV");
+                attachmentItem.className = "item";
+                attachmentItem.innerHTML = "<b>Remove</b> "+key;
+                attachmentItem.style.width = "135px";
+
+                attachmentItem.attachment = key;
+                attachmentItem.item = ele.item;
+                attachmentItem.itemIndex = ele.itemIndex;
+                attachmentItem.identifier = ele.identifier;
+                attachmentMenuContainer.items.push(attachmentItem);
+                attachmentMenuContainer.appendChild(attachmentItem);
+
+                attachmentItem.onmouseover = function(){
+                    this.classList.add("hovered");
+                }
+
+                attachmentItem.onmouseleave = function() {
+                    if (this.classList.contains("hovered")){
+                        this.classList.remove("hovered");
+                    }
+                }
+
+                attachmentItem.onmouseup = function(e) {
+                    if (!draggingSlot && contextMenu){
+                        removeContextMenu();
+                        removeAttachment(this.identifier, this.attachment, this.item, this.itemIndex);
+                    }
+                }
+            }
+            attachmentMenuContainer.style.gridTemplateRows = `repeat(${i}, 30px)`;
+            attachmentMenu.menus = []
+            attachmentMenu.menus.push(attachmentMenuContainer);
+            attachmentMenu.appendChild(attachmentMenuContainer);
+            contextMenu.appendChild(attachmentMenu);
+
+            attachmentMenu.onmouseenter = function(e) {
+                this.classList.add("hovered");
+                this.menus[0].style.display = "block";
+            }
+
+            attachmentMenu.onmouseleave = function(e){
+                if (this.classList.contains("hovered")) {
+                    this.classList.remove("hovered");
+                    this.menus[0].style.display = "none";
+                }
+            }
+        }
+    }
+
+    var useItemButton = document.createElement("DIV");
+    useItemButton.className = "option";
+    useItemButton.innerHTML = "<b>USE</b>";
+
+    useItemButton.item = ele.item;
+    useItemButton.itemIndex = ele.itemIndex;
+    useItemButton.identifier = ele.identifier;
+
+    contextMenu.appendChild(useItemButton);
+    document.body.appendChild(contextMenu);
+
+    useItemButton.onmouseup = function() {
+        if (contextMenu){
+            removeContextMenu();
+        }
+        $.post(`https://${resourceName}/inventory_useItem`, JSON.stringify({
+            fromIdentifier:this.identifier,
+            item:this.item,
+            fromIndex:this.itemIndex
+        }));
+    }
+    
+    useItemButton.onmouseenter = function() {
+        this.classList.add("hovered");
+    }
+
+    useItemButton.onmouseleave = function() {
+        if (this.classList.contains("hovered")) {
+            this.classList.remove("hovered");
+        }
+    }
+}
 /* DRAG OBJECT */
 
 function createDragCopy(ele) {
@@ -1005,7 +1137,6 @@ function startMinigame(length,s) {
     setTarget(target,15);
     //See the target rotation plus the offset result
     //190 + 51 = 241
-    console.log(target + (15 / 100 * circumference));
     pressedKeys[" "] = undefined;
 
     let result;
@@ -1122,6 +1253,15 @@ transferLocalItems = function(identifier,count,item,fromItemIndex,toItemIndex) {
     toIndex:toItemIndex+1,
     count:count,
     item:item
+    }));
+}
+
+removeAttachment = function(identifier,attachmentModel, item, itemIndex) {
+    $.post(`https://${resourceName}/inventory_removeattach`, JSON.stringify({
+        identifier:identifier,
+        attachmentModel:attachmentModel,
+        item:item,
+        itemIndex:itemIndex+1
     }));
 }
 
@@ -1310,7 +1450,6 @@ window.addEventListener('keyup',function(e) {
         removeTooltip();
         }
         closeInventory();
-        console.log("Closing Inv");
         $.post(`https://${this.resourceName}/close_inventory`);
     }
     }

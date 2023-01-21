@@ -78,6 +78,31 @@
       word-wrap: wrap;      
     }
 
+
+    .drop-down-container {
+      position:absolute;
+
+      background-color: rgba(48,48,48,0.95);
+      width:125px;
+      height:100px;
+      display:grid;
+      grid-template-columns: 120px;
+      grid-template-rows: repeat(1, 30px);
+    }
+
+    .drop-down-container > .option {
+      position:relative;
+      left:5px;
+      top:5px;
+      height:30px;
+    }
+
+    .drop-down-container > .option > .item {
+      position: relative;
+      left:5px;
+      top:5px;
+      height: 30px;
+    }
     /* INVENTORY GRID */
 
     .inventory-grid {

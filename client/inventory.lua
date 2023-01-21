@@ -80,6 +80,23 @@ RegisterNetEvent("fivez:UpdateInventoryItemQuality", function(slot, newQual)
     end
 end)
 
+--Removing attachment from weapon
+RegisterNUICallback("inventory_removeattach", function(data, cb)
+    local identifier = data.identifier
+    local attachmentModel = data.attachmentModel
+    local item = data.item
+    local itemSlot = data.itemIndex
+    if identifier == "itemmenu:1" then return end
+    local attachmentInfo = {
+        id = identifier,
+        item = item,
+        slot = itemSlot,
+        attachmentModel = attachmentModel
+    }
+    TriggerServerEvent("fivez:RemoveAttachment", json.encode(attachmentInfo))
+    cb('ok')
+end)
+
 --Moving items inside inventory
 RegisterNUICallback("inventory_move", function(data, cb)
     local identifier = data.identifier

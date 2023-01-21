@@ -1294,9 +1294,9 @@ Config.Items = {
     },
     [22] = {
         itemId = 22,
-        label = "Suppressor",
-        model = "suppressor",
-        description = "A all-in-one suppressor",
+        label = ".45ACP Suppressor",
+        model = "45acpsuppressor",
+        description = "A .45 ACP suppressor",
         weight = 1,
         maxcount = 1,
         count = 0,
@@ -1304,18 +1304,21 @@ Config.Items = {
         attachments = {},
         spawnchance = 1,
         militaryspawn = true,
-        serverfunction = function(source)
-            local playerData = GetJoinedPlayer(source)
-
-            if playerData then
-                local plyChar = playerData.characterData
-                --If we are holding a weapon
-                if plyChar.inventory.hands ~= -1 then
-                    --Figure out how to add attachments to guns
-                    local weaponInHand = plyChar.inventory.items[plyChar.inventory.hands].model
-                    --GetHashNameForComponent()
-                    
+        compatibleWeapons = {"weapon_pistol"},
+        combiningfunction = function(plySource, itemMovedOnto, selfItem)
+            local compatibleWeapon = false
+            for k,v in pairs(Config.Items[selfItem.itemId].compatibleWeapons) do
+                if v == compatibleWeapon then
+                    compatibleWeapon = true
                 end
+            end
+            if compatibleWeapon then
+                if itemMovedOnto.attachments[selfItem.model] ~= nil then return {false, itemMovedOnto.model.." already has a suppresor!"} end
+                itemMovedOnto.atachments[selfItem.model] = selfItem.quality
+                selfItem.count = 0
+                return {itemMovedOnto, selfItem}
+            else
+                return {false, "Can't put this suppressor onto "..itemMovedOnto.model}
             end
         end
     },
@@ -3115,6 +3118,9 @@ Config.Items = {
                 return {false, itemMovingOnto.label.." is not compatible with this magazine!"}
             end
         end
+    },
+    [99] = {
+        itemId
     }
 }
 

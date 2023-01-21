@@ -1164,6 +1164,73 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
     end
 end)
 
+RegisterNetEvent("fivez:RemoveAttachment", function(data)
+    local source = source
+    local attachmentData = json.decode(data)
+    local playerData = GetJoinedPlayer(source)
+    --Check player has character data
+    if playerData.characterData then
+        if attachmentData.id ~= playerData.Id then TriggerClientEvent("fivez:AddNotification", source, "Can't remove attachments from other inventories. yet") return end
+        --Check the slot player tried to remove an attachment from isn't empty
+        if playerData.characterData.inventory.items[attachmentData.slot].itemId ~= -1 then
+            local configItem = Config.Items[attachmentData.item.itemId]
+            --Check the item they are trying to remove from exists in config
+            if configItem ~= nil then
+                --Check the item in slot is the item the player is trying to remove from
+                if playerData.characterData.inventory.items[attachmentData.slot].itemId == configItem.itemId then
+                    --Check the item player is trying to remove from is a weapon
+                    if string.match(configItem.model, "weapon_") then
+                        local hasAttachment = false
+                        --Check the item in inventory slot has the attachment player is trying to remove
+                        for k,v in pairs(playerData.characterData.inventory.items[attachmentData.slot].attachments) do
+                            if k == attachmentData.attachmentModel then
+                                hasAttachment = true
+                            end
+                        end
+
+                        --If the weapon has the attachment player is removing
+                        if hasAttachment then
+                            --Get a free slot in the players inventory
+                            local freeSlot = -1
+                            for k,v in pairs(playerData.characterData.inventory.items) do
+                                if v.itemId == -1 then
+                                    freeSlot = k
+                                end
+                            end
+                            if freeSlot ~= -1 then
+                                --Get the attachments quality before removing
+                                local attachmentQuality = playerData.characterData.inventory.items[attachmentData.slot].attachments[attachmentData.attachmentModel]
+                                --Set the attachment to nil
+                                playerData.characterData.inventory.items[attachmentData.slot].attachments[attachmentData.attachmentModel] = nil
+
+                                playerData.characterData.inventory.items[freeSlot] = Config.CreateNewItemWithData(Config.GetItemWithModel(attachmentData.attachmentModel))
+                                playerData.characterData.inventory.items[freeSlot].quality = attachmentQuality
+
+                                SQL_UpdateItemAttachmentsInCharacterInventory(playerData.Id, attachmentData.slot, playerData.characterData.inventory.items[attachmentData.slot].attachments)
+                                SQL_InsertItemToCharacterInventory(playerData.Id, freeSlot, playerData.characterData.inventory.items[freeSlot])
+
+                                TriggerClientEvent("fivez:UpdateCharacterInventoryItems", source, json.encode(playerData.characterData.inventory.items), nil)
+                            else
+                                TriggerClientEvent("fivez:AddNotification", source, "Couldn't find a free slot to put attachment")
+                            end
+                        else
+                            TriggerClientEvent("fivez:AddNotification", source, "Weapon doens't have that attachment!")
+                        end
+                    else
+                        TriggerClientEvent("fivez:AddNotification", source, "Item isn't a weapon")
+                    end
+                else
+                    TriggerClientEvent("fivez:AddNotification", source, "Item tried to remove from isn't the item in the slot!")
+                end
+            else
+                TriggerClientEvent("fivez:AddNotification", source, "Item doesn't exist in config!")
+            end
+        else
+            TriggerClientEvent("fivez:AddNotification", source, "Can't remove attachment from nothing!")
+        end
+    end
+end)
+
 function InventoryFillEmpty(maxSlots)
     local items = {}
     for i=1, maxSlots do

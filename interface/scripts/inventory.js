@@ -767,6 +767,9 @@ function Inventory(type,identifier,label,data) {
             if (toolTip) {
             removeTooltip();
             }
+            if (contextMenu) {
+                removeContextMenu();
+            }
 
             this.classList.remove("hovered");  
         }
@@ -843,7 +846,7 @@ function createContextMenu(ele) {
     contextMenu = document.createElement("DIV");
     contextMenu.className = "drop-down-container";
     contextMenu.style.left = (rect.x + rect.width)+"px";
-    contextMenu.style.top = "50px";
+    contextMenu.style.top = (rect.y)+"px";
 
     var match = ele.item.model.match("weapon_");
 
@@ -947,7 +950,7 @@ function createContextMenu(ele) {
         $.post(`https://${resourceName}/inventory_useItem`, JSON.stringify({
             fromIdentifier:this.identifier,
             item:this.item,
-            fromIndex:this.itemIndex
+            fromIndex:this.itemIndex+1
         }));
     }
     

@@ -767,9 +767,6 @@ function Inventory(type,identifier,label,data) {
             if (toolTip) {
             removeTooltip();
             }
-            if (contextMenu) {
-                removeContextMenu();
-            }
 
             this.classList.remove("hovered");  
         }

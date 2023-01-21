@@ -79,6 +79,9 @@ var contextMenu;
 function closeInventory() {
     document.getElementById('container').style.display = "none";
     inventoryOpen = false;
+    if (contextMenu){
+        removeContextMenu();
+    }
     $.post(`https://${resourceName}/close_inventory`, {})
 }
 
@@ -1463,6 +1466,9 @@ window.addEventListener('keyup',function(e) {
     } else if (inventoryOpen) {
         if (toolTip) {
         removeTooltip();
+        }
+        if (contextMenu){
+            removeContextMenu();
         }
         closeInventory();
         $.post(`https://${this.resourceName}/close_inventory`);

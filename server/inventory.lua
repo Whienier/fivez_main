@@ -1204,8 +1204,15 @@ RegisterNetEvent("fivez:RemoveAttachment", function(data)
                                 playerData.characterData.inventory.items[attachmentData.slot].attachments[attachmentData.attachmentModel] = nil
 
                                 playerData.characterData.inventory.items[freeSlot] = Config.CreateNewItemWithData(Config.GetItemWithModel(attachmentData.attachmentModel))
-                                playerData.characterData.inventory.items[freeSlot].quality = attachmentQuality
-
+                                if configItem.isMag then
+                                    local bulletModel = nil
+                                    for k,v in pairs(configItem.attachments) do
+                                        bulletModel = k
+                                    end
+                                    playerData.characterData.inventory.items[freeSlot].attachments[bulletModel] = attachmentQuality
+                                else
+                                    playerData.characterData.inventory.items[freeSlot].quality = attachmentQuality
+                                end
                                 SQL_UpdateItemAttachmentsInCharacterInventory(playerData.Id, attachmentData.slot, playerData.characterData.inventory.items[attachmentData.slot].attachments)
                                 SQL_InsertItemToCharacterInventory(playerData.Id, freeSlot, playerData.characterData.inventory.items[freeSlot])
 

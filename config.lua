@@ -1304,7 +1304,7 @@ Config.Items = {
         attachments = {},
         spawnchance = 1,
         militaryspawn = true,
-        compatibleWeapons = {"weapon_pistol"},
+        compatibleWeapons = {"weapon_pistol", "weapon_smg"},
         combiningfunction = function(plySource, itemMovedOnto, selfItem)
             local compatibleWeapon = false
             for k,v in pairs(Config.Items[selfItem.itemId].compatibleWeapons) do
@@ -3120,7 +3120,124 @@ Config.Items = {
         end
     },
     [99] = {
-        itemId
+        itemId = 99,
+        label = "5.56mm Suppressor",
+        model = "556mmsuppressor",
+        description = "A 5.56mm suppressor",
+        weight = 1,
+        maxcount = 1,
+        count = 0,
+        quality  = 100,
+        attachments = {},
+        spawnchance = 1,
+        militaryspawn = true,
+        compatibleWeapons = {"weapon_assaultrifle"},
+        combiningfunction = function(plySource, itemMovedOnto, selfItem)
+            local compatibleWeapon = false
+            for k,v in pairs(Config.Items[selfItem.itemId].compatibleWeapons) do
+                if v == compatibleWeapon then
+                    compatibleWeapon = true
+                end
+            end
+            if compatibleWeapon then
+                if itemMovedOnto.attachments[selfItem.model] ~= nil then return {false, itemMovedOnto.model.." already has a suppresor!"} end
+                itemMovedOnto.atachments[selfItem.model] = selfItem.quality
+                selfItem.count = 0
+                return {itemMovedOnto, selfItem}
+            else
+                return {false, "Can't put this suppressor onto "..itemMovedOnto.model}
+            end
+        end
+    },
+    [100] = {
+        itemId = 100,
+        label = "12GA Suppressor",
+        model = "12gasuppressor",
+        description = "A 12GA suppressor",
+        weight = 1,
+        maxcount = 1,
+        count = 0,
+        quality  = 100,
+        attachments = {},
+        spawnchance = 1,
+        militaryspawn = true,
+        compatibleWeapons = {"weapon_pumpshotgun"},
+        combiningfunction = function(plySource, itemMovedOnto, selfItem)
+            local compatibleWeapon = false
+            for k,v in pairs(Config.Items[selfItem.itemId].compatibleWeapons) do
+                if v == compatibleWeapon then
+                    compatibleWeapon = true
+                end
+            end
+            if compatibleWeapon then
+                if itemMovedOnto.attachments[selfItem.model] ~= nil then return {false, itemMovedOnto.model.." already has a suppresor!"} end
+                itemMovedOnto.atachments[selfItem.model] = selfItem.quality
+                selfItem.count = 0
+                return {itemMovedOnto, selfItem}
+            else
+                return {false, "Can't put this suppressor onto "..itemMovedOnto.model}
+            end
+        end
+    },
+    [101] = {
+        itemId = 101,
+        label = "9mm Suppressor",
+        model = "9mmsuppressor",
+        description = "A 9mm suppressor",
+        weight = 1,
+        maxcount = 1,
+        count = 0,
+        quality  = 100,
+        attachments = {},
+        spawnchance = 1,
+        militaryspawn = true,
+        compatibleWeapons = {"weapon_appistol", "weapon_minismg"},
+        combiningfunction = function(plySource, itemMovedOnto, selfItem)
+            local compatibleWeapon = false
+            for k,v in pairs(Config.Items[selfItem.itemId].compatibleWeapons) do
+                if v == compatibleWeapon then
+                    compatibleWeapon = true
+                end
+            end
+            if compatibleWeapon then
+                if itemMovedOnto.attachments[selfItem.model] ~= nil then return {false, itemMovedOnto.model.." already has a suppresor!"} end
+                itemMovedOnto.atachments[selfItem.model] = selfItem.quality
+                selfItem.count = 0
+                return {itemMovedOnto, selfItem}
+            else
+                return {false, "Can't put this suppressor onto "..itemMovedOnto.model}
+            end
+        end
+    },
+    [102] = {
+        itemId = 102,
+        label = ".50cal Suppressor",
+        model = "50calsuppressor",
+        description = "A .50cal suppressor",
+        weight = 1,
+        maxcount = 1,
+        count = 0,
+        quality  = 100,
+        attachments = {},
+        spawnchance = 1,
+        militaryspawn = true,
+        compatibleWeapons = {"weapon_pistol50"},
+        combiningfunction = function(plySource, itemMovedOnto, selfItem)
+            local compatibleWeapon = false
+            for k,v in pairs(Config.Items[selfItem.itemId].compatibleWeapons) do
+                if v == compatibleWeapon then
+                    compatibleWeapon = true
+                end
+            end
+            if compatibleWeapon then
+                if itemMovedOnto.attachments[selfItem.model] ~= nil then return {false, itemMovedOnto.model.." already has a suppresor!"} end
+                itemMovedOnto.atachments[selfItem.model] = selfItem.quality
+                selfItem.count = 0
+                return {itemMovedOnto, selfItem}
+            else
+                return {false, "Can't put this suppressor onto "..itemMovedOnto.model}
+            end
+        end
     }
 }
 

@@ -843,7 +843,7 @@ function createContextMenu(ele) {
     contextMenu = document.createElement("DIV");
     contextMenu.className = "drop-down-container";
     contextMenu.style.left = (rect.x + rect.width)+"px";
-    contextMenu.style.top = (rect.y+10)+"px";
+    contextMenu.style.top = "50px";
 
     var match = ele.item.model.match("weapon_");
 
@@ -852,12 +852,16 @@ function createContextMenu(ele) {
         if (attachments != null){
             var attachmentMenu = document.createElement("DIV");
             attachmentMenu.className = "option";
-            attachmentMenu.innerHTML = "<b>Attachments</b>";
-            
+            var attachmentMenuText = document.createElement("SPAN");
+            attachmentMenuText.className = "text";
+            attachmentMenuText.style.paddingTop = "5px";
+            attachmentMenuText.innerHTML = "<b>Attachments</b>";
+            attachmentMenuText.style.paddingLeft = "17px";
+
             var attachmentMenuContainer = document.createElement("DIV");
             attachmentMenuContainer.className = "drop-down-container";
             attachmentMenuContainer.style.width = "135px";
-            attachmentMenuContainer.style.left = "121px";
+            attachmentMenuContainer.style.left = "125.5px";
             attachmentMenuContainer.style.display = "none";
             attachmentMenuContainer.style.top = "0px";
 
@@ -869,6 +873,9 @@ function createContextMenu(ele) {
                 attachmentItem.className = "item";
                 attachmentItem.innerHTML = "<b>Remove</b> "+key;
                 attachmentItem.style.width = "135px";
+                attachmentItem.style.height = "30px";
+                attachmentItem.style.paddingLeft = "7px";
+                attachmentItem.style.paddingTop = "5px";
 
                 attachmentItem.attachment = key;
                 attachmentItem.item = ele.item;
@@ -897,8 +904,8 @@ function createContextMenu(ele) {
             attachmentMenuContainer.style.gridTemplateRows = `repeat(${i}, 30px)`;
             attachmentMenu.menus = []
             attachmentMenu.menus.push(attachmentMenuContainer);
+            attachmentMenu.appendChild(attachmentMenuText);
             attachmentMenu.appendChild(attachmentMenuContainer);
-            contextMenu.appendChild(attachmentMenu);
 
             attachmentMenu.onmouseenter = function(e) {
                 this.classList.add("hovered");
@@ -916,15 +923,23 @@ function createContextMenu(ele) {
 
     var useItemButton = document.createElement("DIV");
     useItemButton.className = "option";
-    useItemButton.innerHTML = "<b>USE</b>";
+    var useItemText = document.createElement("DIV");
+    useItemText.className = "option-text";
+    useItemText.innerHTML = "<b>USE</b>";
+    useItemText.style.paddingTop = "5px";
+    useItemText.style.paddingLeft = "50px";
 
     useItemButton.item = ele.item;
     useItemButton.itemIndex = ele.itemIndex;
     useItemButton.identifier = ele.identifier;
-
+    
+    useItemButton.appendChild(useItemText);
     contextMenu.appendChild(useItemButton);
+    if (attachmentMenu) {
+        contextMenu.appendChild(attachmentMenu);
+    }
     document.body.appendChild(contextMenu);
-
+    
     useItemButton.onmouseup = function() {
         if (contextMenu){
             removeContextMenu();

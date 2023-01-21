@@ -1204,7 +1204,8 @@ RegisterNetEvent("fivez:RemoveAttachment", function(data)
                                 playerData.characterData.inventory.items[attachmentData.slot].attachments[attachmentData.attachmentModel] = nil
 
                                 playerData.characterData.inventory.items[freeSlot] = Config.CreateNewItemWithData(Config.GetItemWithModel(attachmentData.attachmentModel))
-                                if configItem.isMag then
+                                print(configItem.isMag, configItem.model)
+                                if configItem.isMag == true then
                                     local bulletModel = nil
                                     for k,v in pairs(configItem.attachments) do
                                         bulletModel = k

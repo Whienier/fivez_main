@@ -1202,10 +1202,9 @@ RegisterNetEvent("fivez:RemoveAttachment", function(data)
                                 local attachmentQuality = playerData.characterData.inventory.items[attachmentData.slot].attachments[attachmentData.attachmentModel]
                                 --Set the attachment to nil
                                 playerData.characterData.inventory.items[attachmentData.slot].attachments[attachmentData.attachmentModel] = nil
-                                local attachmentItem = Config.CreateNewItemWithData(Config.GetItemWithModel(attachmentData.attachmentModel))
-                                playerData.characterData.inventory.items[freeSlot] = attachmentItem
-                                print(attachmentItem.isMag, attachmentItem.model)
-                                if attachmentItem.isMag == true then
+                                local attachmentItem = Config.GetItemWithModel(attachmentData.attachmentModel)
+                                playerData.characterData.inventory.items[freeSlot] = Config.CreateNewItemWithData(attachmentItem)
+                                if Config.Items[attachmentItem.itemId].isMag == true then
                                     local bulletModel = nil
                                     for k,v in pairs(attachmentItem.attachments) do
                                         bulletModel = k

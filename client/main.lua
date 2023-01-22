@@ -177,6 +177,15 @@ RegisterNetEvent("fivez:LoadCharacterData", function(charData)
     startThreads = true
 end)
 
+RegisterNetEvent("fivez:PlayAnimationOnNetworkPlayer", function(pedNetId, animDict, animName)
+    RequestAnimDict(animDict)
+    while not HasAnimDictLoaded(animDict) do
+        RequestAnimDict(animDict)
+        Citizen.Wait(1)
+    end
+    TaskPlayAnim(NetworkGetEntityFromNetworkId(pedNetId), animDict, animName, 8.0, 8.0, 0.0, 50, 0.0, 0, 0, 0)
+end)
+
 RegisterNetEvent("fivez:GiveBag", function(bagId)
     SetPedComponentVariation(GetPlayerPed(-1), 5, 40, 1, 0)
     print("Give bag")

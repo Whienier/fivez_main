@@ -26,7 +26,8 @@ client_scripts {
 
 server_scripts { 
     'config.lua', 
-    '@mysql-async/lib/mysql.lua', 
+    '@mysql-async/lib/mysql.lua',
+    "server/animations.lua",
     'server/main.lua',
     'server/connectionmanager.lua',
     'server/playerdata.lua',

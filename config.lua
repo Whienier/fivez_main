@@ -1315,7 +1315,7 @@ Config.Items = {
             end
             if compatibleWeapon then
                 if itemMovedOnto.attachments[selfItem.model] ~= nil then return {false, itemMovedOnto.model.." already has a suppresor!"} end
-                itemMovedOnto.atachments[selfItem.model] = selfItem.quality
+                itemMovedOnto.attachments[selfItem.model] = selfItem.quality
                 selfItem.count = 0
                 return {itemMovedOnto, selfItem}
             else
@@ -3137,13 +3137,13 @@ Config.Items = {
         combiningfunction = function(plySource, itemMovedOnto, selfItem)
             local compatibleWeapon = false
             for k,v in pairs(Config.Items[selfItem.itemId].compatibleWeapons) do
-                if v == compatibleWeapon then
+                if v == itemMovedOnto.model then
                     compatibleWeapon = true
                 end
             end
             if compatibleWeapon then
                 if itemMovedOnto.attachments[selfItem.model] ~= nil then return {false, itemMovedOnto.model.." already has a suppresor!"} end
-                itemMovedOnto.atachments[selfItem.model] = selfItem.quality
+                itemMovedOnto.attachments[selfItem.model] = selfItem.quality
                 selfItem.count = 0
                 return {itemMovedOnto, selfItem}
             else
@@ -3168,13 +3168,13 @@ Config.Items = {
         combiningfunction = function(plySource, itemMovedOnto, selfItem)
             local compatibleWeapon = false
             for k,v in pairs(Config.Items[selfItem.itemId].compatibleWeapons) do
-                if v == compatibleWeapon then
+                if v == itemMovedOnto.model then
                     compatibleWeapon = true
                 end
             end
             if compatibleWeapon then
                 if itemMovedOnto.attachments[selfItem.model] ~= nil then return {false, itemMovedOnto.model.." already has a suppresor!"} end
-                itemMovedOnto.atachments[selfItem.model] = selfItem.quality
+                itemMovedOnto.attachments[selfItem.model] = selfItem.quality
                 selfItem.count = 0
                 return {itemMovedOnto, selfItem}
             else
@@ -3199,13 +3199,13 @@ Config.Items = {
         combiningfunction = function(plySource, itemMovedOnto, selfItem)
             local compatibleWeapon = false
             for k,v in pairs(Config.Items[selfItem.itemId].compatibleWeapons) do
-                if v == compatibleWeapon then
+                if v == itemMovedOnto.model then
                     compatibleWeapon = true
                 end
             end
             if compatibleWeapon then
                 if itemMovedOnto.attachments[selfItem.model] ~= nil then return {false, itemMovedOnto.model.." already has a suppresor!"} end
-                itemMovedOnto.atachments[selfItem.model] = selfItem.quality
+                itemMovedOnto.attachments[selfItem.model] = selfItem.quality
                 selfItem.count = 0
                 return {itemMovedOnto, selfItem}
             else
@@ -3230,13 +3230,13 @@ Config.Items = {
         combiningfunction = function(plySource, itemMovedOnto, selfItem)
             local compatibleWeapon = false
             for k,v in pairs(Config.Items[selfItem.itemId].compatibleWeapons) do
-                if v == compatibleWeapon then
+                if v == itemMovedOnto.model then
                     compatibleWeapon = true
                 end
             end
             if compatibleWeapon then
                 if itemMovedOnto.attachments[selfItem.model] ~= nil then return {false, itemMovedOnto.model.." already has a suppresor!"} end
-                itemMovedOnto.atachments[selfItem.model] = selfItem.quality
+                itemMovedOnto.attachments[selfItem.model] = selfItem.quality
                 selfItem.count = 0
                 return {itemMovedOnto, selfItem}
             else

@@ -51,6 +51,7 @@ Citizen.CreateThread(function()
     --Stop health regen
     SetPlayerHealthRechargeMultiplier(PlayerId(), 0.0)
 
+    SetMaxWantedLevel(0)
     SetWeaponsNoAutoreload(true)
     SetWeaponsNoAutoswap(true)
 end)

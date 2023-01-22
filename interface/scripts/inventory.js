@@ -863,7 +863,7 @@ function createContextMenu(ele) {
 
             var attachmentMenuContainer = document.createElement("DIV");
             attachmentMenuContainer.className = "drop-down-container";
-            attachmentMenuContainer.style.width = "175px";
+            attachmentMenuContainer.style.width = "180px";
             attachmentMenuContainer.style.left = "125px";
             attachmentMenuContainer.style.display = "none";
             attachmentMenuContainer.style.top = "0px";

@@ -350,6 +350,33 @@ RegisterNetEvent("fivez:PlayDroppedItemAnimation", function()
     TaskPlayAnim(GetPlayerPed(-1), "pickup_object", "putdown_low", 5.0, 1.0, 500, 50, 0, 0, 0, 0)
 end)
 
+RegisterNetEvent("fivez:PlayReloadAnimation", function()
+    RequestAnimDict("cover@weapon@reloads@pistol@pistol")
+    while not HasAnimDictLoaded("cover@weapon@reloads@pistol@pistol") do
+        RequestAnimDict("cover@weapon@reloads@pistol@pistol")
+        Citizen.Wait(1)
+    end
+    TaskPlayAnim(GetPlayerPed(-1), "cover@weapon@reloads@pistol@pistol", "reload_low_left", 8.0, 8.0, 0.0, 50, 0.0, 0, 0, 0)
+end)
+
+RegisterNetEvent("fivez:PlayEatingAnimation", function()
+    RequestAnimDict("amb@code_human_wander_eating_donut@male@base")
+    while not HasAnimDictLoaded("amb@code_human_wander_eating_dnout@male@base") do
+        RequestAnimDict("amb@code_human_wander_eating_donut@male@base")
+        Citizen.Wait(1)
+    end
+    TaskPlayAnim(GetPlayerPed(-1), "amb@code_human_wander_eating_donut@male@base", "base", 8.0, 8.0, 0.0, 50, 0.0, 0, 0, 0)
+end)
+
+RegisterNetEvent("fivez:PlayDrinkingAnimation", function()
+    RequestAnimDict("amb@world_human_drinking@beer@male@enter")
+    while not HasAnimDictLoaded("amb@world_human_drinking@beer@male@enter") do
+        RequestAnimDict("amb@world_human_drinking@beer@male@enter")
+        Citizen.Wait(1)
+    end
+    TaskPlayAnim(GetPlayerPed(-1), "amb@world_human_drinking@beer@male@enter", "enter", 8.0, 8.0, 0.0, 50, 0.0, 0, 0, 0)
+end)
+
 RegisterCommand("+inventory", function()
     if GetEntityHealth(PlayerPedId()) <= 0 then return end
     local charInventory = GetCharacterInventory()

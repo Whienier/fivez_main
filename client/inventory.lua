@@ -356,7 +356,7 @@ RegisterNetEvent("fivez:PlayReloadAnimation", function()
         RequestAnimDict("weapons@pistol_1h@pistol_1h_str")
         Citizen.Wait(1)
     end
-    TaskPlayAnim(GetPlayerPed(-1), "weapons@pistol_1h@pistol_1h_str", "w_reload_aim", 8.0, -8.0, -1, 49, 0.0, 0, 0, 0)
+    TaskPlayAnim(GetPlayerPed(-1), "weapons@pistol_1h@pistol_1h_str", "reload_aim", 8.0, -8.0, 1.0, 50, 0.0, 0, 0, 0)
     print("Played reloading animation")
 end)
 
@@ -367,6 +367,8 @@ RegisterNetEvent("fivez:PlayBurgerEatingAnimation", function()
         Citizen.Wait(1)
     end
     TaskPlayAnim(GetPlayerPed(-1), "mp_player_inteat@burger", "mp_player_int_eat_burger_fp", 8.0, -8.0, 1.0, 49, 0.0, 0, 0, 0)
+    Citizen.Wait(2000)
+    ClearPedTasks(GetPlayerPed(-1))
 end)
 
 RegisterNetEvent("fivez:PlayBagEatingAnimation", function()
@@ -375,7 +377,9 @@ RegisterNetEvent("fivez:PlayBagEatingAnimation", function()
         RequestAnimDict("mp_player_inteat@pnq")
         Citizen.Wait(1)
     end
-    TaskPlayAnim(GetPlayerPed(-1), "mp_player_inteat@pnq", "intro", 8.0, -8.0, 1.0, 49, 0.0, 0, 0, 0)
+    TaskPlayAnim(GetPlayerPed(-1), "mp_player_inteat@pnq", "loop_fp", 8.0, -8.0, 1.0, 49, 0.0, 0, 0, 0)
+    Citizen.Wait(2000)
+    ClearPedTasks(GetPlayerPed(-1))
 end)
 
 RegisterNetEvent("fivez:PlayDrinkingAnimation", function()

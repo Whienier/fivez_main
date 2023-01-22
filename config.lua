@@ -1516,7 +1516,7 @@ Config.Items = {
             if playerData then
                 playerData.characterData.hunger = playerData.characterData.hunger + 15
 
-                PlayAnimationOnPlayer(source, "mp_player_inteat@pnq", "intro")
+                PlayAnimationOnPlayer(source, "mp_player_inteat@pnq", "loop_fp")
                 return true
             end
         end,

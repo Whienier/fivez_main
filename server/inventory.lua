@@ -1471,6 +1471,7 @@ RegisterNetEvent("fivez:AttemptReload", function()
                                                         end
                                                     end
 
+                                                    TriggerClientEvent("fivez:PlayReloadAnimation", source)
                                                     TriggerClientEvent("fivez:UpdateCharacterInventoryItems", source, json.encode(playerData.characterData.inventory.items), nil)
                                                     TriggerClientEvent("fivez:SetAmmoInClip", source, hands)
                                                     break

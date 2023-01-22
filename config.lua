@@ -1305,18 +1305,21 @@ Config.Items = {
         spawnchance = 1,
         militaryspawn = true,
         isAttachment = true,
-        compatibleWeapons = {"weapon_pistol", "weapon_smg"},
+        compatibleWeapons = {["weapon_pistol"] = "COMPONENT_AT_PI_SUPP_02", ["weapon_smg"] = "COMPONENT_AT_PI_SUPP"},
         combiningfunction = function(plySource, itemMovedOnto, selfItem)
             local compatibleWeapon = false
+            local componentName = nil
             for k,v in pairs(Config.Items[selfItem.itemId].compatibleWeapons) do
-                if v == itemMovedOnto.model then
+                if k == itemMovedOnto.model then
                     compatibleWeapon = true
+                    componentName = v
                 end
             end
             if compatibleWeapon then
                 if itemMovedOnto.attachments[selfItem.model] ~= nil then return {false, itemMovedOnto.model.." already has a suppresor!"} end
                 itemMovedOnto.attachments[selfItem.model] = selfItem.quality
                 selfItem.count = 0
+                GiveWeaponComponentToPed(GetPlayerPed(source), GetHashKey(itemMovedOnto.model), GetHashKey(componentName))
                 return {itemMovedOnto, selfItem}
             else
                 return {false, "Can't put this suppressor onto "..itemMovedOnto.model}

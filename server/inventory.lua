@@ -510,7 +510,7 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                         if string.match(k, "suppressor") then
                             local attachmentItem = Config.GetItemWithModel(k)
                             for k,v in pairs(attachmentItem.compatibleWeapons) do
-                                if v == itemData.model then
+                                if k == itemData.model then
                                     suppressorComponent = v
                                 end
                             end
@@ -521,7 +521,6 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                     SetPedAmmo(plyPed, GetHashKey(itemData.model), ammo)
                     TriggerClientEvent("fivez:SetAmmoInClip", source, fromSlot)
                     if suppressorComponent ~= nil then
-                        print("Giving suppressor component to ped")
                         GiveWeaponComponentToPed(plyPed, GetHashKey(itemData.model), GetHashKey(suppressorComponent))
                     end
                 elseif hands == GetHashKey(itemData.model) then

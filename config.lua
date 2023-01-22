@@ -309,7 +309,7 @@ Config.WeaponNoise = {
         silenced = 20,
         unsilenced = 50
     },
-    [GetHashKey("weapon_minismg")] = {
+    [GetHashKey("weapon_microsmg")] = {
         silenced = 15,
         unsilenced = 30
     },
@@ -1873,8 +1873,8 @@ Config.Items = {
     [47] = {
         itemId = 47,
         label = "Mini SMG",
-        model = "weapon_minismg",
-        description = "Fully Automatic Mini-SMG firing 9mm ammo",
+        model = "weapon_microsmg",
+        description = "Fully Automatic Micro-SMG firing 9mm ammo",
         weight = 18,
         maxcount = 1,
         count = 0,
@@ -1959,7 +1959,7 @@ Config.Items = {
         quality = 100,
         spawnchance = 2,
         attachments = {["9mm"] = 0},
-        compatibleWeapons = {GetHashKey("weapon_minismg")},
+        compatibleWeapons = {GetHashKey("weapon_microsmg")},
         isMag = true,
         militaryspawn = true,
         combiningfunction = function(plySource, itemMovingOnto, selfItem)
@@ -3136,7 +3136,7 @@ Config.Items = {
         spawnchance = 1,
         militaryspawn = true,
         isAttachment = true,
-        compatibleWeapons = {"weapon_assaultrifle"},
+        compatibleWeapons = {["weapon_assaultrifle"] = "COMPONENT_AT_AR_SUPP_02"},
         combiningfunction = function(plySource, itemMovedOnto, selfItem)
             local compatibleWeapon = false
             for k,v in pairs(Config.Items[selfItem.itemId].compatibleWeapons) do
@@ -3167,7 +3167,7 @@ Config.Items = {
         spawnchance = 1,
         militaryspawn = true,
         isAttachment = true,
-        compatibleWeapons = {"weapon_pumpshotgun"},
+        compatibleWeapons = {["weapon_pumpshotgun"] = "COMPONENT_AT_SR_SUPP"},
         combiningfunction = function(plySource, itemMovedOnto, selfItem)
             local compatibleWeapon = false
             for k,v in pairs(Config.Items[selfItem.itemId].compatibleWeapons) do
@@ -3198,7 +3198,7 @@ Config.Items = {
         spawnchance = 1,
         militaryspawn = true,
         isAttachment = true,
-        compatibleWeapons = {"weapon_appistol", "weapon_minismg"},
+        compatibleWeapons = {["weapon_appistol"] = "COMPONENT_AT_PI_SUPP", ["weapon_microsmg"] = "COMPONENT_AT_AR_SUPP_02"},
         combiningfunction = function(plySource, itemMovedOnto, selfItem)
             local compatibleWeapon = false
             for k,v in pairs(Config.Items[selfItem.itemId].compatibleWeapons) do
@@ -3481,8 +3481,8 @@ Config.Recipes = {
         }
     },
     {
-        label = "Craft Mini-SMG",
-        model = "weapon_minismg",
+        label = "Craft Micro-SMG",
+        model = "weapon_microsmg",
         count = 1,
         weight = 20,
         required = {

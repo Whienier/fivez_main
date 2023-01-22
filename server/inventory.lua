@@ -1198,6 +1198,7 @@ RegisterNetEvent("fivez:RemoveAttachment", function(data)
                                 end
                             end
                             if freeSlot ~= -1 then
+                                local isMag = false
                                 --Get the attachments quality before removing
                                 local attachmentQuality = playerData.characterData.inventory.items[attachmentData.slot].attachments[attachmentData.attachmentModel]
                                 --Set the attachment to nil
@@ -1205,6 +1206,7 @@ RegisterNetEvent("fivez:RemoveAttachment", function(data)
                                 local attachmentItem = Config.GetItemWithModel(attachmentData.attachmentModel)
                                 playerData.characterData.inventory.items[freeSlot] = Config.CreateNewItemWithData(attachmentItem)
                                 if Config.Items[attachmentItem.itemId].isMag == true then
+                                    isMag = true
                                     local bulletModel = nil
                                     for k,v in pairs(attachmentItem.attachments) do
                                         bulletModel = k
@@ -1217,6 +1219,9 @@ RegisterNetEvent("fivez:RemoveAttachment", function(data)
                                 SQL_InsertItemToCharacterInventory(playerData.Id, freeSlot, playerData.characterData.inventory.items[freeSlot])
 
                                 TriggerClientEvent("fivez:UpdateCharacterInventoryItems", source, json.encode(playerData.characterData.inventory.items), nil)
+                                if isMag then
+                                    TriggerClientEvent("fivez:SetAmmoInClip", source, attachmentData.slot)
+                                end
                             else
                                 TriggerClientEvent("fivez:AddNotification", source, "Couldn't find a free slot to put attachment")
                             end

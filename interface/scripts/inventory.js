@@ -863,7 +863,7 @@ function createContextMenu(ele) {
 
             var attachmentMenuContainer = document.createElement("DIV");
             attachmentMenuContainer.className = "drop-down-container";
-            attachmentMenuContainer.style.width = "180px";
+            attachmentMenuContainer.style.width = "200px";
             attachmentMenuContainer.style.left = "125px";
             attachmentMenuContainer.style.display = "none";
             attachmentMenuContainer.style.top = "0px";
@@ -875,7 +875,7 @@ function createContextMenu(ele) {
                 var attachmentItem = document.createElement("DIV");
                 attachmentItem.className = "item";
                 attachmentItem.innerHTML = "<b>Remove</b> "+key;
-                attachmentItem.style.width = "175px";
+                attachmentItem.style.width = "195px";
                 attachmentItem.style.height = "30px";
                 attachmentItem.style.paddingLeft = "7px";
                 attachmentItem.style.paddingTop = "5px";

@@ -351,22 +351,31 @@ RegisterNetEvent("fivez:PlayDroppedItemAnimation", function()
 end)
 
 RegisterNetEvent("fivez:PlayReloadAnimation", function()
-    RequestAnimDict("cover@weapon@reloads@pistol@pistol")
-    while not HasAnimDictLoaded("cover@weapon@reloads@pistol@pistol") do
-        RequestAnimDict("cover@weapon@reloads@pistol@pistol")
+    RequestAnimDict("weapons@pistol_1h@pistol_1h_str")
+    while not HasAnimDictLoaded("weapons@pistol_1h@pistol_1h_str") do
+        RequestAnimDict("weapons@pistol_1h@pistol_1h_str")
         Citizen.Wait(1)
     end
-    TaskPlayAnim(GetPlayerPed(-1), "cover@weapon@reloads@pistol@pistol", "reload_low_left", 8.0, -8.0, -1, 49, 0.0, 0, 0, 0)
+    TaskPlayAnim(GetPlayerPed(-1), "weapons@pistol_1h@pistol_1h_str", "w_reload_aim", 8.0, -8.0, -1, 49, 0.0, 0, 0, 0)
     print("Played reloading animation")
 end)
 
-RegisterNetEvent("fivez:PlayEatingAnimation", function()
+RegisterNetEvent("fivez:PlayBurgerEatingAnimation", function()
     RequestAnimDict("mp_player_inteat@burger")
     while not HasAnimDictLoaded("mp_player_inteat@burger") do
         RequestAnimDict("mp_player_inteat@burger")
         Citizen.Wait(1)
     end
-    TaskPlayAnim(GetPlayerPed(-1), "mp_player_inteat@burger", "mp_player_int_eat_burger_fp", 8.0, -8.0, 3.0, 49, 0.0, 0, 0, 0)
+    TaskPlayAnim(GetPlayerPed(-1), "mp_player_inteat@burger", "mp_player_int_eat_burger_fp", 8.0, -8.0, 1.0, 49, 0.0, 0, 0, 0)
+end)
+
+RegisterNetEvent("fivez:PlayBagEatingAnimation", function()
+    RequestAnimDict("mp_player_inteat@pnq")
+    while not HasAnimDictLoaded("mp_player_inteat@pnq") do
+        RequestAnimDict("mp_player_inteat@pnq")
+        Citizen.Wait(1)
+    end
+    TaskPlayAnim(GetPlayerPed(-1), "mp_player_inteat@pnq", "intro", 8.0, -8.0, 1.0, 49, 0.0, 0, 0, 0)
 end)
 
 RegisterNetEvent("fivez:PlayDrinkingAnimation", function()
@@ -375,7 +384,10 @@ RegisterNetEvent("fivez:PlayDrinkingAnimation", function()
         RequestAnimDict("mp_player_intdrink")
         Citizen.Wait(1)
     end
-    TaskPlayAnim(GetPlayerPed(-1), "mp_player_intdrink", "loop_bottle", 8.0, -8.0, 3.0, 49, 0.0, 0, 0, 0)
+    TaskPlayAnim(GetPlayerPed(-1), "mp_player_intdrink", "loop_bottle", 8.0, -8.0, 1.0, 49, 0.0, 0, 0, 0)
+
+    Citizen.Wait(2000)
+    ClearPedTasks(GetPlayerPed(-1))
     print("played drinking animation")
 end)
 

@@ -361,21 +361,21 @@ RegisterNetEvent("fivez:PlayReloadAnimation", function()
 end)
 
 RegisterNetEvent("fivez:PlayEatingAnimation", function()
-    RequestAnimDict("amb@code_human_wander_eating_donut@male@base")
-    while not HasAnimDictLoaded("amb@code_human_wander_eating_dnout@male@base") do
-        RequestAnimDict("amb@code_human_wander_eating_donut@male@base")
+    RequestAnimDict("mp_player_inteat@burger")
+    while not HasAnimDictLoaded("mp_player_inteat@burger") do
+        RequestAnimDict("mp_player_inteat@burger")
         Citizen.Wait(1)
     end
-    TaskPlayAnim(GetPlayerPed(-1), "amb@code_human_wander_eating_donut@male@base", "base", 8.0, 8.0, 0.0, 50, 0.0, 0, 0, 0)
+    TaskPlayAnim(GetPlayerPed(-1), "mp_player_inteat@burger", "mp_player_int_eat_burger_fp", 8.0, 8.0, 0.0, 50, 0.0, 0, 0, 0)
 end)
 
 RegisterNetEvent("fivez:PlayDrinkingAnimation", function()
-    RequestAnimDict("mp_safehousewine@")
-    while not HasAnimDictLoaded("mp_safehousewine@") do
-        RequestAnimDict("mp_safehousewine@")
+    RequestAnimDict("mp_player_intdrink")
+    while not HasAnimDictLoaded("mp_player_intdrink") do
+        RequestAnimDict("mp_player_intdrink")
         Citizen.Wait(1)
     end
-    TaskPlayAnim(GetPlayerPed(-1), "mp_safehousewine@", "drinking_wine_bottle", 8.0, 8.0, 0.0, 50, 0.0, 0, 0, 0)
+    TaskPlayAnim(GetPlayerPed(-1), "mp_player_intdrink", "mp_player_int_eat_burger_fp", 8.0, 8.0, 0.0, 50, 0.0, 0, 0, 0)
     print("played drinking animation")
 end)
 

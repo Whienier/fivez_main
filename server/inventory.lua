@@ -502,13 +502,25 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                 if hands == GetHashKey("weapon_unarmed") then
                     TriggerClientEvent("fivez:PlayUnholsterAnimation", source)
                     local ammo = 0
+                    local suppressorComponent = nil
                     for k,v in pairs(plyChar.inventory.items[fromSlot].attachments) do
                         if string.match(k, "mag") then
                             ammo = v
                         end
+                        if string.match(k, "suppressor") then
+                            local attachmentItem = Config.GetItemWithModel(k)
+                            for k,v in pairs(attachmentItem.compatibleWeapons) do
+                                if v == itemData.model then
+                                    suppressorComponent = v
+                                end
+                            end
+                        end
                     end
                     print("Giving weapon to ped", ammo)
                     GiveWeaponToPed(plyPed, GetHashKey(itemData.model), ammo, false, true)
+                    if suppressorComponent ~= nil then
+                        GiveWeaponComponentToPed(plyPed, GetHashKey(itemData.model), GetHashKey(suppressorComponent))
+                    end
                     SetPedAmmo(plyPed, GetHashKey(itemData.model), ammo)
                     TriggerClientEvent("fivez:SetAmmoInClip", source, fromSlot)
                 elseif hands == GetHashKey(itemData.model) then
@@ -1213,6 +1225,13 @@ RegisterNetEvent("fivez:RemoveAttachment", function(data)
                                     end
                                     playerData.characterData.inventory.items[freeSlot].attachments[bulletModel] = attachmentQuality
                                 else
+                                    local componentName = nil
+                                    for k,v in pairs(attachmentItem.compatibleWeapons) do
+                                        if k == configItem.model then
+                                            componentName = v
+                                        end
+                                    end
+                                    RemoveWeaponComponentFromPed(GetPlayerPed(source), GetHashKey(configItem.model), GetHashKey(componentName))
                                     playerData.characterData.inventory.items[freeSlot].quality = attachmentQuality
                                 end
                                 SQL_UpdateItemAttachmentsInCharacterInventory(playerData.Id, attachmentData.slot, playerData.characterData.inventory.items[attachmentData.slot].attachments)

@@ -1493,7 +1493,7 @@ Config.Items = {
                     RequestAnimDict("pickup_object")
                     Citizen.Wait(1)
                 end ]]
-                TaskPlayAnim(GetPlayerPed(source), "amb@world_human_drinking@beer@male@enter", "enter", 5.0, 1.0, 500, 50, 0, 0, 0, 0)
+                TaskPlayAnim(GetPlayerPed(source), "amb@world_human_drinking@beer@male@enter", "enter", 5.0, 1.0, 500, 50, 0.0, 0, 0, 0)
                 return true
             end
         end,
@@ -1519,12 +1519,12 @@ Config.Items = {
             local playerData = GetJoinedPlayer(source)
             if playerData then
                 playerData.characterData.hunger = playerData.characterData.hunger + 15
-                TaskPlayAnim(GetPlayerPed(source), "amb@code_human_wander_eating_donut@male@base", "base", 5.0, 1.0, 500, 50, 0, 0, 0, 0)
                 return true
             end
         end,
         clientfunction = function()
             AteFood(15)
+            TaskPlayAnim(GetPlayerPed(source), "amb@code_human_wander_eating_donut@male@base", "base", 5.0, 1.0, 500, 50, 0, 0, 0, 0)
             return true
         end
     },
@@ -1540,6 +1540,9 @@ Config.Items = {
         spawnchance = 0,
         serverfunction = function(source)
             TriggerClientEvent("fivez:AddNotification", source, "Maybe I can chop this")
+            local playerPed = GetPlayerPed(source)
+            local pedCoords = GetEntityCoords(playerPed)
+            TaskPlayAnimAdvanced(playerPed, "amb@code_human_wander_eating_donut@male@base", "base", pedCoords.x, pedCoords.y, pedCoords.z, 0.0, 0.0, 0.0, 5.0, 1.0, 0, 50, 0.0, 0, 0)
         end
     },
     [31] = {

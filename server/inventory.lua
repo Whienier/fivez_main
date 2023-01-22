@@ -745,7 +745,7 @@ RegisterNetEvent("fivez:InventoryMove", function(transferData)
             elseif plyChar.inventory.items[transferData.toSlot].itemId ~= transferData.item.itemId then
                 --Item isn't the exact same
                 local combined = false
-                if itemData.isAmmo or itemData.isMag then
+                if itemData.isAmmo or itemData.isMag or itemData.isAttachment then
                     if itemData.combiningfunction then
                         local result = itemData.combiningfunction(source, plyChar.inventory.items[transferData.toSlot], plyChar.inventory.items[transferData.fromSlot])
 

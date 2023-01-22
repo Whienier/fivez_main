@@ -1309,7 +1309,7 @@ Config.Items = {
         combiningfunction = function(plySource, itemMovedOnto, selfItem)
             local compatibleWeapon = false
             for k,v in pairs(Config.Items[selfItem.itemId].compatibleWeapons) do
-                if v == compatibleWeapon then
+                if v == itemMovedOnto.model then
                     compatibleWeapon = true
                 end
             end

@@ -1517,12 +1517,12 @@ Config.Items = {
                 playerData.characterData.hunger = playerData.characterData.hunger + 15
 
                 PlayAnimationOnPlayer(source, "amb@code_human_wander_eating_donut@male@base", "base")
-                TriggerClientEvent("fivez:PlayEatingAnimation", source)
                 return true
             end
         end,
         clientfunction = function()
             AteFood(15)
+            TriggerEvent("fivez:PlayEatingAnimation")
             return true
         end
     },

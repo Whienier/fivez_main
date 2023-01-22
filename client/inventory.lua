@@ -357,6 +357,7 @@ RegisterNetEvent("fivez:PlayReloadAnimation", function()
         Citizen.Wait(1)
     end
     TaskPlayAnim(GetPlayerPed(-1), "cover@weapon@reloads@pistol@pistol", "reload_low_left", 8.0, 8.0, 0.0, 50, 0.0, 0, 0, 0)
+    print("Played reloading animation")
 end)
 
 RegisterNetEvent("fivez:PlayEatingAnimation", function()
@@ -369,12 +370,13 @@ RegisterNetEvent("fivez:PlayEatingAnimation", function()
 end)
 
 RegisterNetEvent("fivez:PlayDrinkingAnimation", function()
-    RequestAnimDict("amb@world_human_drinking@beer@male@enter")
-    while not HasAnimDictLoaded("amb@world_human_drinking@beer@male@enter") do
-        RequestAnimDict("amb@world_human_drinking@beer@male@enter")
+    RequestAnimDict("mp_safehousewine@")
+    while not HasAnimDictLoaded("mp_safehousewine@") do
+        RequestAnimDict("mp_safehousewine@")
         Citizen.Wait(1)
     end
-    TaskPlayAnim(GetPlayerPed(-1), "amb@world_human_drinking@beer@male@enter", "enter", 8.0, 8.0, 0.0, 50, 0.0, 0, 0, 0)
+    TaskPlayAnim(GetPlayerPed(-1), "mp_safehousewine@", "drinking_wine_bottle", 8.0, 8.0, 0.0, 50, 0.0, 0, 0, 0)
+    print("played drinking animation")
 end)
 
 RegisterCommand("+inventory", function()

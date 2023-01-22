@@ -1524,7 +1524,12 @@ Config.Items = {
         end,
         clientfunction = function()
             AteFood(15)
-            TaskPlayAnim(GetPlayerPed(source), "amb@code_human_wander_eating_donut@male@base", "base", 5.0, 1.0, 500, 50, 0, 0, 0, 0)
+            RequestAnimDict("amb@code_human_wander_eating_donut@male@base")
+            while not HasAnimDictLoaded("amb@code_human_wander_eating_donut@male@base") do
+                RequestAnimDict("amb@code_human_wander_eating_donut@male@base")
+                Citizen.Wait(1)
+            end
+            TaskPlayAnim(GetPlayerPed(source), "amb@code_human_wander_eating_donut@male@base", "base", 5.0, 1.0, 500, 50, 0.0, 0, 0, 0)
             return true
         end
     },

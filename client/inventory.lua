@@ -357,7 +357,8 @@ RegisterNetEvent("fivez:PlayReloadAnimation", function()
         Citizen.Wait(1)
     end
     TaskPlayAnim(GetPlayerPed(-1), "weapons@pistol_1h@pistol_1h_str", "reload_aim", 8.0, -8.0, 1.0, 50, 0.0, 0, 0, 0)
-    print("Played reloading animation")
+    Citizen.Wait(2500)
+    ClearPedTasks(GetPlayerPed(-1))
 end)
 
 RegisterNetEvent("fivez:PlayBurgerEatingAnimation", function()

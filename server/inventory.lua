@@ -518,11 +518,12 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
                     end
                     print("Giving weapon to ped", ammo)
                     GiveWeaponToPed(plyPed, GetHashKey(itemData.model), ammo, false, true)
-                    if suppressorComponent ~= nil then
-                        GiveWeaponComponentToPed(plyPed, GetHashKey(itemData.model), GetHashKey(suppressorComponent))
-                    end
                     SetPedAmmo(plyPed, GetHashKey(itemData.model), ammo)
                     TriggerClientEvent("fivez:SetAmmoInClip", source, fromSlot)
+                    if suppressorComponent ~= nil then
+                        print("Giving suppressor component to ped")
+                        GiveWeaponComponentToPed(plyPed, GetHashKey(itemData.model), GetHashKey(suppressorComponent))
+                    end
                 elseif hands == GetHashKey(itemData.model) then
                     if plyChar.inventory.hands == fromSlot then
                         TriggerClientEvent("fivez:PlayHolsterAnimation", source)

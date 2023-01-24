@@ -1036,7 +1036,7 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                 end
             end
             if transferData.fromId == "itemmenu:1" then
-                TriggerClientEvent("fivez:UpdateCharacterInventoryItems", source, json.encode(plyChar.inventory.items), json.encode(inventoryTransferringTo.items))
+                TriggerClientEvent("fivez:UpdateCharacterInventoryItems", source, json.encode(plyChar.inventory.items), nil)
             end
         elseif transferData.fromId == plyChar.Id then
             if string.match(transferData.toId, "ground") or string.match(transferData.toId, "zombie") or string.match(transferData.toId, "temp") then tempInventory = true end

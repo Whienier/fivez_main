@@ -3396,9 +3396,20 @@ Config.GetItemWithModel = function(itemModel)
     end
 end
 
+Config.Kits = {
+    [0] = {},
+    [1] = {
+        {
+            itemId = 43,
+            count = 1,
+            quality = 100
+        }
+    }
+}
+
 --Items players will respawn with
 Config.StartingItems = {
-    {
+    [0] = {
         slot = 1, --The slot the item should be spawned in
         item = Config.CreateNewItemWithCountQual(Config.Items[43], 1, 100) --Bike kit
     }
@@ -4613,7 +4624,7 @@ Config.CustomSkills = {
                     local skills = playerData.characterData.skills
                     if skills[1] then
                         local xpToNextLvl = Config.CustomSkills[1].expperlevel * playerData.characterData.skills[1].Level
-                        playerData.characterData.skills[1].Xp = playerData.characterData.skills[1].Xp + 1
+                        playerData.characterData.skills[1].Xp = playerData.characterData.skills[1].Xp + (1 * (playerData.donatorRank + 1))
                         if playerData.characterData.skills[1].Xp >= xpToNextLvl then
                             --Players level plus one is lower than skills max level
                             if playerData.characterData.skills[1].Level + 1 < Config.CustomSkills[1].maxlevel then

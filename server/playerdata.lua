@@ -54,6 +54,7 @@ function SQL_GetPlayerData(ply, steamIdentifier)
             if result[1] then
                 local tempplayerData = {
                     Id = result[1].player_dataid,
+                    donatorRank = 0,
                     characterData = {},
                     playerSpawned = false
                 }

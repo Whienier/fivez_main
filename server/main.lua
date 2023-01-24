@@ -186,7 +186,7 @@ Citizen.CreateThread(function()
                                     playerData.characterData.inventory.items[k] = EmptySlot()
                                 end
                             end
-                            for k,v in pairs(Config.StartingItems) do
+                            for k,v in pairs(Config.StartingItems[playerData.donatorRank]) do
                                 playerData.characterData.inventory.items[v.slot] = v.item
                                 SQL_InsertItemToCharacterInventory(playerData.characterData.Id, v.slot, v.item)
                             end
@@ -236,7 +236,7 @@ RegisterNetEvent("fivez:DeathRespawnNow", function()
                             playerData.characterData.inventory.items[k] = EmptySlot()
                         end
                     end
-                    for k,v in pairs(Config.StartingItems) do
+                    for k,v in pairs(Config.StartingItems[playerData.donatorRank]) do
                         playerData.characterData.inventory.items[k] = v.item
                         SQL_InsertItemToCharacterInventory(playerData.characterData.Id, v.slot, v.item)
                     end
@@ -251,9 +251,28 @@ RegisterNetEvent("fivez:DeathRespawnNow", function()
                 playerData.characterData.thirst = 100
                 playerData.characterData.stress = 0
                 playerData.characterData.humanity = 0
-                for k,v in pairs(playerData.characterData.skills) do
-                    v.Xp = 0
-                    v.Level = 1
+                --TODO: Maybe negate level loss on higher donator ranks and reduce xp loss overall
+                if playerData.donatorRank == 0 then
+                    for k,v in pairs(playerData.characterData.skills) do
+                        v.Xp = 0
+                        v.Level = 1
+                    end
+                elseif playerData.donatorRank == 1 then
+                    for k,v in pairs(playerData.characterData.skills) do
+                        local xp = v.Xp/2
+                        v.Xp = v.Xp - xp
+                        v.Level = 1
+                    end
+                elseif playerData.donatorRank == 3 then
+                    for k,v in pairs(playerData.characterData.skills) do
+                        local level = v.Level
+                        local xp = v.Xp/4
+                        v.Xp = v.Xp - xp
+                        v.Level = level - 1
+                        if v.Level == 0 then
+                            v.Level = 1
+                        end
+                    end
                 end
                 SQL_ResetCharacterStats(playerData.characterData.Id, playerData.characterData.gender)
                 table.remove(deadPlayers, k)

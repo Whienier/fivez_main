@@ -664,6 +664,36 @@ Citizen.CreateThread(function()
         Citizen.Wait(450)
     end
 end)
+local lastArmor = 0
+--Thread to change armor depending on armor value
+Citizen.CreateThread(function()
+    while true do
+        while not startThreads do Citizen.Wait(1) end
+        if characterData then
+            if characterData.armor then
+                if characterData.armor >= 1 or characterData.armor <= 40 then
+                    if lastArmor ~= 1 then
+                        --TODO: Add animation for changing armor
+                    end
+                    lastArmor = 1
+                    SetPedComponentVariation(GetPlayerPed(-1), 9, 1, 0, 0)
+                elseif characterData.armor >= 41 or characterData.armor <= 74 then
+                    if lastArmor ~= 2 then
+                        --TODO: Add animation for changing armor
+                    end
+                    lastArmor = 2
+                    SetPedComponentVariation(GetPlayerPed(-1), 9, 15, 0, 0)
+                elseif characterData.armor >= 75 then
+                    if lastArmor ~= 3 then
+                        --TODO: Add animation for changing armor
+                    end
+                    lastArmor = 3
+                    SetPedComponentVariation(GetPlayerPed(-1), 9, 16, 0, 0)
+                end
+            end
+        end
+    end
+end)
 local hudShown = false
 --Thread loop for knowing when ped is in car
 Citizen.CreateThread(function()

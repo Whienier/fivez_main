@@ -60,6 +60,7 @@ RegisterCommand("setroutingbucket", function(source, args)
     local target = tonumber(args[1])
     local destRouting = tonumber(args[2])
     SetPlayerRoutingBucket(target, destRouting)
+    SetRoutingBucketPopulationEnabled(destRouting, false)
 end, true)
 
 RegisterCommand("fakeinteriorplayer", function(source, args)

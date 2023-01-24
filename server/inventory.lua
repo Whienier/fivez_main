@@ -1035,6 +1035,9 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                     TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v, nil, json.encode(inventoryTransferringFrom.items))
                 end
             end
+            if transferData.fromId == "itemmenu:1" then
+                TriggerClientEvent("fivez:UpdateCharacterInventoryItems", source, json.encode(plyChar.inventory.items), json.encode(inventoryTransferringTo.items))
+            end
         elseif transferData.fromId == plyChar.Id then
             if string.match(transferData.toId, "ground") or string.match(transferData.toId, "zombie") or string.match(transferData.toId, "temp") then tempInventory = true end
             --Player is transferring out of own inventory
@@ -1171,7 +1174,7 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                     TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v, nil, json.encode(inventoryTransferringTo.items))
                 end
             end
-        end        
+        end
     end
 end)
 

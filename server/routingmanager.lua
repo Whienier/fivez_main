@@ -53,7 +53,7 @@ RegisterCommand("getroutingbucket", function(source, args)
     if args[1] ~= nil then
         target = args[1]
     end
-    TriggerClientEvent("fivez:AddNotification", source, "Routing Bucket of player is: "..GetPlayerRoutingBucket(tonumber(target))
+    TriggerClientEvent("fivez:AddNotification", source, "Routing Bucket of player is: "..GetPlayerRoutingBucket(tonumber(target)))
 end, true)
 
 RegisterCommand("setroutingbucket", function(source, args)

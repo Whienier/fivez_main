@@ -1170,7 +1170,7 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                 else
                     TriggerClientEvent("fivez:AddInventoryNotification", v, true, json.encode(inventoryTransferringTo.items[transferData.toSlot]))
                 end
-                TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v, json.encode(plyChar.inventory.items), json.encode(inventoryTransferringTo.items))
+                TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v, nil, json.encode(inventoryTransferringTo.items))
             end
         end
     end

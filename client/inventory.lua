@@ -166,10 +166,12 @@ end
 local otherInventory = nil
 
 RegisterNetEvent("fivez:UpdateCharacterInventoryItems", function(charInventoryItems, otherInventoryItems)
-    local updatedItems = json.decode(charInventoryItems)
-    if updatedItems then
-        print(updatedItems[1].model)
-        UpdateCharacterInventoryItems(updatedItems)
+    if charInventoryItems ~= nil then
+        local updatedItems = json.decode(charInventoryItems)
+        if updatedItems then
+            print(updatedItems[1].model)
+            UpdateCharacterInventoryItems(updatedItems)
+        end
     end
     local charInventory = GetCharacterInventory()
     charInventory.weight = 0

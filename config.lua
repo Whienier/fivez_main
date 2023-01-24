@@ -71,6 +71,7 @@ Config.ShopStocks = {
         }
     }
 }
+
 --REMEMBER TO UPDATE CARWRECKS AND CONTAINERS STREAM FILE
 --Used mainly for a player hangout and customization
 Config.SafeZones = {

@@ -71,7 +71,7 @@ Config.ShopStocks = {
                     {
                         label = "Zombie Ear",
                         itemId = 103,
-                        count = 2
+                        count = 2,
                         quality = 1
                     }
                 }

@@ -48,6 +48,20 @@ function GetRoutingBucket()
     end
 end
 
+RegisterCommand("getroutingbucket", function(source, args)
+    local target = source
+    if args[1] ~= nil then
+        target = args[1]
+    end
+    TriggerClientEvent("fivez:AddNotification", source, "Routing Bucket of player is: "..GetPlayerRoutingBucket(tonumber(target))
+end, true)
+
+RegisterCommand("setroutingbucket", function(source, args)
+    local target = tonumber(args[1])
+    local destRouting = tonumber(args[2])
+    SetPlayerRoutingBucket(target, destRouting)
+end, true)
+
 RegisterCommand("fakeinteriorplayer", function(source, args)
     local routingId = args[1]
     local interiorId = args[2]

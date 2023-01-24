@@ -327,7 +327,7 @@ RegisterNetEvent("fivez:GetClosestInventory", function(closestObject)
     end
     --Check dead players and see if we are near any
     if not closestInventory then
-        local closestDist, deadPlayer = GetClosestDeadPlayer()
+        local closestDist, deadPlayer = GetClosestDeadPlayer(pedCoords)
 
         if closestDist <= Config.InteractWithPlayersDistance then
             local playerData = GetJoinedPlayer(deadPlayer)
@@ -1023,21 +1023,6 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                     end
                 end
             end
-
-            TriggerClientEvent("fivez:PlayDroppedItemAnimation", source)
-            if openInventories[inventoryTransferringFrom.identifier] ~= nil then
-                --Update any clients with the same inventory open
-                for k,v in pairs(openInventories[inventoryTransferringFrom.identifier]) do
-                    if v == source then
-                        TriggerClientEvent("fivez:AddInventoryNotification", v, true, json.encode(plySlot))
-                    else
-                        TriggerClientEvent("fivez:AddInventoryNotification", v, false, json.encode(invSlot))
-                    end
-                    TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v, json.encode(plyChar.inventory.items), json.encode(inventoryTransferringFrom.items))
-                end
-            elseif openInventories[inventoryTransferringFrom.identifier] == nil then
-                print(inventoryTransferringFrom.identifier, " this inventory isn't in the open inventories table")
-            end
         elseif transferData.fromId == plyChar.Id then
             if string.match(transferData.toId, "ground") or string.match(transferData.toId, "zombie") or string.match(transferData.toId, "temp") then tempInventory = true end
             --Player is transferring out of own inventory
@@ -1162,16 +1147,18 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                 SQL_RemoveItemFromCharacterInventory(plyChar.Id, transferData.fromSlot)
                 SQL_InsertItemToCharacterInventory(plyChar.Id, transferData.fromSlot, {id = plySlot.itemId, count = plySlot.count, quality = plySlot.quality, attachments = plySlot.attachments})
             end
-            TriggerClientEvent("fivez:PlayDroppedItemAnimation", source)
-            for k,v in pairs(openInventories[inventoryTransferringTo.identifier]) do
-                if v == source then
-                    --If the person transferring to this inventory, notify we transferred
-                    TriggerClientEvent("fivez:AddInventoryNotification", v, false, json.encode(inventoryTransferringTo.items[transferData.toSlot]))
-                    TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v, json.encode(plyChar.inventory.items), json.encode(inventoryTransferringTo.items))
-                else
-                    TriggerClientEvent("fivez:AddInventoryNotification", v, true, json.encode(inventoryTransferringTo.items[transferData.toSlot]))
-                    TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v, nil, json.encode(inventoryTransferringTo.items))
-                end
+        end
+
+        PlayAnimationOnPlayer(source, "pickup_object", "putdown_low")
+        TriggerClientEvent("fivez:PlayDroppedItemAnimation", source)
+        for k,v in pairs(openInventories[inventoryTransferringTo.identifier]) do
+            if v == source then
+                --If the person transferring to this inventory, notify we transferred
+                TriggerClientEvent("fivez:AddInventoryNotification", v, false, json.encode(inventoryTransferringTo.items[transferData.toSlot]))
+                TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v, json.encode(plyChar.inventory.items), json.encode(inventoryTransferringTo.items))
+            else
+                TriggerClientEvent("fivez:AddInventoryNotification", v, true, json.encode(inventoryTransferringTo.items[transferData.toSlot]))
+                TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v, nil, json.encode(inventoryTransferringTo.items))
             end
         end
     end

@@ -195,7 +195,6 @@ Citizen.CreateThread(function()
                         print("Respawning player", v.ply)
                         TriggerClientEvent("fivez:OpenSpawnMenu", v.ply, nil)
                         table.insert(wasDead, v.ply)
-                        --TriggerClientEvent("fivez:RespawnPlayer", v.ply, newGender)
                         playerData.characterData.health = 100
                         playerData.characterData.armor = 0
                         playerData.characterData.hunger = 100
@@ -226,7 +225,7 @@ RegisterNetEvent("fivez:DeathRespawnNow", function()
             if playerData then
                 if Config.LoseItemsOnDeath then
                     if Config.DropItemsOnDeath then
-                        local newInv = RegisterNewInventory("deadbody:"..v.ply, "inventory", "Dead Player", playerData.characterData.inventory.weight, playerData.characterData.inventory.maxweight, playerData.characterData.inventory.maxslots, playerData.characterData.inventory.items, GetEntityCoords(GetPlayerPed(v.ply)))
+                        local newInv = RegisterNewInventory("deadbody:"..v.ply, "inventory", "Dead Player", playerData.characterData.inventory.weight, playerData.characterData.inventory.maxweight, playerData.characterData.inventory.maxslots, playerData.characterData.inventory.items, GetEntityCoords(GetPlayerPed(v.ply)), GetPlayerRoutingBucket(source))
                         if newInv ~= nil then
                             AddInventoryMarker(GetEntityCoords(GetPlayerPed(v.ply)))
                         end
@@ -246,7 +245,6 @@ RegisterNetEvent("fivez:DeathRespawnNow", function()
                 
                 TriggerClientEvent("fivez:OpenSpawnMenu", source, nil)
                 table.insert(wasDead, v.ply)
-                --TriggerClientEvent("fivez:RespawnPlayer", v.ply, playerData.characterData.gender)
                 playerData.characterData.health = 100
                 playerData.characterData.armor = 0
                 playerData.characterData.hunger = 100
@@ -449,6 +447,7 @@ RegisterNetEvent("fivez:NUILoaded", function()
         --Disable population so we don't get spam for entity created
         SetRoutingBucketPopulationEnabled(#joinedPlayers+1, false)
     elseif not playerData.isNew then
+        SetPlayerRoutingBucket(source, 0)
         local charData = SQL_GetCrucialCharacterData(playerData.Id)
         TriggerClientEvent("fivez:OpenCharacterMenu", source, json.encode(charData))
         --TriggerClientEvent("fivez:SpawnAtLastLoc", source, playerData.characterData.gender, json.encode(playerData.characterData.lastposition))
@@ -468,6 +467,7 @@ RegisterNetEvent('fivez:SpawnLocation', function(spawnId)
         end
     end
     if plyWasDead then
+        SetPlayerRoutingBucket(source, 0)
         TriggerClientEvent("fivez:RespawnPlayer", source, joinedPly.characterData.gender, spawnId)
         return
     end

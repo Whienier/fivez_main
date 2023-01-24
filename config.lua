@@ -40,6 +40,7 @@ Config.SafeZones = {
         traders = {
             barber = {markerlabel = "Use Barber", position = vector3(-186.8689, -1533.475, 33.73635), heading = 0.0, pedId = -1, pedModel = GetHashKey("A_M_M_StudioParty_01")}, --Position of the trader
             clothes = {markerlabel = "Use Clothes Shop", position = vector3(-173.7581, -1529.785, 34.35387), heading = 0.0, pedId = -1, pedModel = GetHashKey("A_M_M_StudioParty_01")},
+            shop = {markerLabel = "Use Item Shop", position = vector3(-186.8689, -1533.475, 33.73635), heading = 0.0, pedId = -1, pedModel = "", stock = Config.ShopStock[1]}
             playerTrading = true --Allows for player trading through-out the zone
         }
     }
@@ -51,6 +52,48 @@ Config.DecayStatsInSafeZone = false
 
 --Safe zone protection radius, if a zombie is closer than this to a safezone it will be removed
 Config.ZombieProtectionRadius = 100
+
+Config.ShopStocks = {
+    [1] = {
+        identifier = "thelastholdshop",
+        type = "shop",
+        label = "The Last Hold Shop",
+        maxSlots = 30,
+        maxWeight = -1,
+        items = {
+            {
+                label = "Ice-Tea",
+                model = "icetea",
+                itemId = 28,
+                count = 1,
+                quality = 100,
+                price = {
+                    {
+                        label = "Zombie Ear",
+                        itemId = 103,
+                        count = 2
+                        quality = 1
+                    }
+                }
+            },
+            {
+                label = "Snickers",
+                model = "snickers",
+                itemId = 32,
+                count = 1,
+                quality = 100,
+                price = {
+                    {
+                        label = "Battery",
+                        itemId = 74,
+                        count = 2,
+                        quality = 50
+                    }
+                }
+            }
+        }
+    }
+}
 
 --Can be areas like military base
 Config.HighRiskZones = {
@@ -2423,7 +2466,7 @@ Config.Items = {
         model = "battery",
         description = "A crafting material",
         weight = 1,
-        maxcount = 1,
+        maxcount = 5,
         count = 0,
         quality = 100,
         spawnchance = 5,
@@ -3244,6 +3287,17 @@ Config.Items = {
                 return {false, "Can't put this suppressor onto "..itemMovedOnto.model}
             end
         end
+    },
+    [103] = {
+        itemId = 103,
+        label = "Zombie Ear",
+        model = "zombieear",
+        description = "Ear of a zombie",
+        weight = 1,
+        maxcount = 5,
+        count = 0,
+        quality = 100,
+        spawnchance = 0
     }
 }
 

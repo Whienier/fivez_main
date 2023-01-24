@@ -185,7 +185,8 @@ function Inventory(type,identifier,label,data) {
         }else{
         
         slotB.className = "money";
-        slotB.innerHTML = "You have <green-text>$${playerMoney}</green-text> to spend".replace('${playerMoney}',playerMoney);
+        slotB.innerHTML = "Browsing "+this.label+" Wares";
+        //slotB.innerHTML = "You have <green-text>$${playerMoney}</green-text> to spend".replace('${playerMoney}',playerMoney);
         }
     
     } else if (this.type == "crafting") {
@@ -632,7 +633,8 @@ function Inventory(type,identifier,label,data) {
             var itemPrice = document.createElement('SPAN');
 
             if (this.data.items[i].price) {
-                itemPrice.innerHTML = `<green-text>$${(this.data.items[i].price).toLocaleString('en')}</green-text>`;
+                itemPrice.innerHTML = `<green-text>${this.data.items[i].price[0].label}</green-text>`;
+                //itemPrice.innerHTML = `<green-text>$${(this.data.items[i].price).toLocaleString('en')}</green-text>`;
 
                 if (this.data.items[i].buyPrice) {
                 itemPrice.innerHTML += ` | <green-text>$${(this.data.items[i].buyPrice).toLocaleString('en')}</green-text>`;
@@ -664,6 +666,7 @@ function Inventory(type,identifier,label,data) {
             if (contextMenu) {
                 removeContextMenu();
             }
+            if (this.type == "shop" || this.type == "combining" || this.type == "crafting") {return}
             createContextMenu(this);
         }
 
@@ -1067,7 +1070,11 @@ function constructTooltip(slot,type,item) {
         if (item.buyPrice) {
         flexItem.innerHTML = `<b>`+translations["sell_price_text"]+`</b>: <green-text>$${(item.price).toLocaleString('en')}</green-text> | <b>`+translations["buy_price_text"]+`<b>: <green-text>$${(item.buyPrice).toLocaleString('en')}</green-text>`;        
         } else {
-        flexItem.innerHTML = `<b>price</b>: <green-text>$${(item.price).toLocaleString('en')}</green-text>`;               
+            var barterItems = "";
+            for (var key in item.price){
+                barterItems = barterItems +`<img src='assets/inventory/${item.price[key].model}.png' width='65' height='65'>`+ item.price[key].label+":"+item.price[key].count+"req:"+item.price[key].quality+"qual</br>";
+            }
+        flexItem.innerHTML = `<green-text>${(barterItems).toLocaleString('en')}</green-text>`;               
         }   
     } else  if (item.buyPrice) {
         flexItem.innerHTML = `<b>`+translations["buy_price"]+`</b>: <green-text>$${(item.buyPrice).toLocaleString('en')}</green-text>`;

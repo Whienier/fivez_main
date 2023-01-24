@@ -30,29 +30,6 @@ Config.RestrictedBuildingZones  = {
     }
 }
 
---REMEMBER TO UPDATE CARWRECKS AND CONTAINERS STREAM FILE
---Used mainly for a player hangout and customization
-Config.SafeZones = {
-    ["The Last Hold"] = {
-        position = vector3(-183.032776, -1548.34656, 34.4813),
-        color = vector4(0, 0, 255, 255),
-        radius = 100,
-        traders = {
-            barber = {markerlabel = "Use Barber", position = vector3(-186.8689, -1533.475, 33.73635), heading = 0.0, pedId = -1, pedModel = GetHashKey("A_M_M_StudioParty_01")}, --Position of the trader
-            clothes = {markerlabel = "Use Clothes Shop", position = vector3(-173.7581, -1529.785, 34.35387), heading = 0.0, pedId = -1, pedModel = GetHashKey("A_M_M_StudioParty_01")},
-            shop = {markerLabel = "Use Item Shop", position = vector3(-186.8689, -1533.475, 33.73635), heading = 0.0, pedId = -1, pedModel = "", stock = Config.ShopStocks[1]},
-            playerTrading = true --Allows for player trading through-out the zone
-        }
-    }
-}
-
-Config.DefaultSafeZoneRadius = 50
-
-Config.DecayStatsInSafeZone = false
-
---Safe zone protection radius, if a zombie is closer than this to a safezone it will be removed
-Config.ZombieProtectionRadius = 100
-
 Config.ShopStocks = {
     [1] = {
         identifier = "thelastholdshop",
@@ -94,6 +71,28 @@ Config.ShopStocks = {
         }
     }
 }
+--REMEMBER TO UPDATE CARWRECKS AND CONTAINERS STREAM FILE
+--Used mainly for a player hangout and customization
+Config.SafeZones = {
+    ["The Last Hold"] = {
+        position = vector3(-183.032776, -1548.34656, 34.4813),
+        color = vector4(0, 0, 255, 255),
+        radius = 100,
+        traders = {
+            barber = {markerlabel = "Use Barber", position = vector3(-186.8689, -1533.475, 33.73635), heading = 0.0, pedId = -1, pedModel = GetHashKey("A_M_M_StudioParty_01")}, --Position of the trader
+            clothes = {markerlabel = "Use Clothes Shop", position = vector3(-173.7581, -1529.785, 34.35387), heading = 0.0, pedId = -1, pedModel = GetHashKey("A_M_M_StudioParty_01")},
+            shop = {markerLabel = "Use Item Shop", position = vector3(-186.8689, -1533.475, 33.73635), heading = 0.0, pedId = -1, pedModel = "", stock = Config.ShopStocks[1]},
+            playerTrading = true --Allows for player trading through-out the zone
+        }
+    }
+}
+
+Config.DefaultSafeZoneRadius = 50
+
+Config.DecayStatsInSafeZone = false
+
+--Safe zone protection radius, if a zombie is closer than this to a safezone it will be removed
+Config.ZombieProtectionRadius = 100
 
 --Can be areas like military base
 Config.HighRiskZones = {

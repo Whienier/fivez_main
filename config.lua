@@ -2357,7 +2357,7 @@ Config.Items = {
         weight = 8,
         maxcount = 1,
         count = 0,
-        qualtity = 100,
+        quality = 100,
         spawnchance = 0,
         attachments = {["12ga"] = 0}
     },

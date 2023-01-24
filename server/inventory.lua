@@ -1167,10 +1167,11 @@ RegisterNetEvent("fivez:InventoryTransfer", function(transferData)
                 if v == source then
                     --If the person transferring to this inventory, notify we transferred
                     TriggerClientEvent("fivez:AddInventoryNotification", v, false, json.encode(inventoryTransferringTo.items[transferData.toSlot]))
+                    TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v, json.encode(plyChar.inventory.items), json.encode(inventoryTransferringTo.items))
                 else
                     TriggerClientEvent("fivez:AddInventoryNotification", v, true, json.encode(inventoryTransferringTo.items[transferData.toSlot]))
+                    TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v, nil, json.encode(inventoryTransferringTo.items))
                 end
-                TriggerClientEvent("fivez:UpdateCharacterInventoryItems", v, nil, json.encode(inventoryTransferringTo.items))
             end
         end
     end

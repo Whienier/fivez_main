@@ -40,7 +40,7 @@ Config.SafeZones = {
         traders = {
             barber = {markerlabel = "Use Barber", position = vector3(-186.8689, -1533.475, 33.73635), heading = 0.0, pedId = -1, pedModel = GetHashKey("A_M_M_StudioParty_01")}, --Position of the trader
             clothes = {markerlabel = "Use Clothes Shop", position = vector3(-173.7581, -1529.785, 34.35387), heading = 0.0, pedId = -1, pedModel = GetHashKey("A_M_M_StudioParty_01")},
-            shop = {markerLabel = "Use Item Shop", position = vector3(-186.8689, -1533.475, 33.73635), heading = 0.0, pedId = -1, pedModel = "", stock = Config.ShopStock[1]},
+            shop = {markerLabel = "Use Item Shop", position = vector3(-186.8689, -1533.475, 33.73635), heading = 0.0, pedId = -1, pedModel = "", stock = Config.ShopStocks[1]},
             playerTrading = true --Allows for player trading through-out the zone
         }
     }

@@ -97,6 +97,11 @@ RegisterNUICallback("inventory_removeattach", function(data, cb)
     cb('ok')
 end)
 
+RegisterNUICallback("inventory_purchase", function(data, cb)
+    TriggerServerEvent("fivez:InventoryPurchase", json.encode(data))
+    cb('ok')
+end)
+
 --Moving items inside inventory
 RegisterNUICallback("inventory_move", function(data, cb)
     local identifier = data.identifier

@@ -620,6 +620,55 @@ RegisterNetEvent("fivez:InventoryUse", function(identifier, itemId, fromSlot)
     end
 end)
 
+RegisterNetEvent("fivez:InventoryPurchase", function(transferData)
+    local source = source
+    transferData = json.decode(transferData)
+
+    if transferData then
+        local playerData = GetJoinedPlayer(source)
+        if playerData && playerData.characterData then
+            for k,v in pairs(Config.ShopStocks) do
+                if v.identifier == transferData.fromIdentifier then
+                    if v.items[transferData.fromIndex] then
+                        local playerHasItems = {}
+                        for k,v in pairs(v.items[transferData.fromIndex].price) do
+                            if v.itemId then
+                                local barterItemId = v.itemId
+                                local reqCount = v.count
+                                local reqQuality = v.quality
+                                for k,v in pairs(playerData.characterData.inventory.items) do
+                                    if v.itemId == barterItemId then
+                                        if v.count >= reqCount && v.quality >= reqQuality then
+                                            table.insert(playerHasItems, v.itemId)
+                                            break
+                                        else
+                                            TriggerClientEvent("fivez:AddNotification", source, "Barter requires "..reqCount.." "..v.label.." with "..reqQuality.." quality")
+                                        end
+                                    end
+                                end
+                            end
+                        end
+
+                        if #v.items[transferData.fromIndex].price == #playerHasItems then
+                            if playerData.characterData.inventory.items[transferData.toIndex].itemId == -1 then
+                                playerData.characterData.inventory.items[transferData.toIndex] = Config.CreateNewItemWithData(Config.Items[v.items[transferData.fromIndex]])
+                                playerData.characterData.inventory.items[transferData.toIndex].count = v.items[transferData.fromIndex].count
+                                playerData.characterData.inventory.items[transferData.toIndex].quality = v.items[transferData.fromIndex].quality
+
+                                SQL_InsertItemToCharacterInventory(playerData.characterData.Id, transferData.toIndex, playerData.characterData.inventory.items[transferData.toIndex])
+                            else
+                                TriggerClientEvent("fivez:AddNotification", source, "Please drop buyable item onto empty slot")
+                            end
+                        else
+                            TriggerClientEvent("fivez:AddNotification", source, "Missing required items")
+                        end
+                    end
+                end
+            end
+        end
+    end
+end)
+
 --Player trying to move item locally inside inventory
 RegisterNetEvent("fivez:InventoryMove", function(transferData)
     local source = source

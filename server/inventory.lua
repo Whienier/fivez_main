@@ -626,7 +626,7 @@ RegisterNetEvent("fivez:InventoryPurchase", function(transferData)
 
     if transferData then
         local playerData = GetJoinedPlayer(source)
-        if playerData && playerData.characterData then
+        if playerData and playerData.characterData then
             for k,v in pairs(Config.ShopStocks) do
                 if v.identifier == transferData.fromIdentifier then
                     if v.items[transferData.fromIndex] then

@@ -22,10 +22,10 @@ RegisterNetEvent("playerConnecting", function(plyName, setKickReason, deferrals)
         print("Player ", plyName, " didn't have steam open!")
     else
         deferrals.update("Checking for existing data!")
-        local playerData = SQL_GetPlayerData(ply, steamIdentifier)
+        local playerData = SQL_GetPlayerData(source, steamIdentifier)
         Citizen.Wait(500)
         if playerData then
-            local isBanned = SQL_GetPlayerBanData(ply, steamIdentifier)
+            local isBanned = SQL_GetPlayerBanData(source, steamIdentifier)
 
             if isBanned then
                 deferrals.done("You are banned")
@@ -34,6 +34,7 @@ RegisterNetEvent("playerConnecting", function(plyName, setKickReason, deferrals)
             table.insert(joinedPlayers, {
                 Id = playerData.Id,
                 steam = steamIdentifier,
+                donatorRank = playerData.donatorRank,
                 source = nil,
                 name = plyName,
                 characterData = playerData.characterData,
@@ -51,6 +52,7 @@ RegisterNetEvent("playerConnecting", function(plyName, setKickReason, deferrals)
             table.insert(joinedPlayers, {
                 Id = createdData.Id,
                 steam = steamIdentifier,
+                donatorRank = 1,
                 source = nil,
                 name = plyName,
                 characterData = createdData.characterData,

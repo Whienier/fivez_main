@@ -52,9 +52,20 @@ function SQL_GetPlayerData(ply, steamIdentifier)
             ["steamIdentifier"] = steamIdentifier
         }, function(result)
             if result[1] then
+                --TODO: Get their discord role id as a donator rank
+                local donatorRank = 1
+                local roles = exports.Badger_Discord_API:GetDiscordRoles(ply)
+                for k,plyRoles in pairs(roles) do
+                    for k,donatorRole in pairs(Config.DonatorRanks) do
+                        if plyRole == donatorRole then
+                            donatorRank = k
+                            break
+                        end
+                    end
+                end
                 local tempplayerData = {
                     Id = result[1].player_dataid,
-                    donatorRank = 0,
+                    donatorRank = donatorRank,
                     characterData = {},
                     playerSpawned = false
                 }

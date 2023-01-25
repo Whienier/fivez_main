@@ -740,8 +740,18 @@ Config.InteractWithPlayersDistance = 2.5
 
 --Distance that inventories can be opened
 Config.OpenInventoryDistance = 2.5
-Config.DefaultMaxSlots = 15
-Config.DefaultMaxWeight = 100
+Config.DefaultMaxSlots = {
+    [1] = 15,
+    [2] = 20,
+    [3] = 25,
+    [4] = 30
+}
+Config.DefaultMaxWeight = {
+    [1] = 100,
+    [2] = 110,
+    [3] = 125,
+    [4] = 150
+}
 
 --How long between each 'decay' timer for a players character
 Config.CharacterDecayTimer = 30000
@@ -3396,9 +3406,25 @@ Config.GetItemWithModel = function(itemModel)
     end
 end
 
+--TODO: Swap the string names for discord role ids
+Config.DonatorRanks = {
+    [1] = "Unpaid",
+    [2] = 925945108438876160, --Silver VIP
+    [3] = 925944905908518962, --Gold VIP
+    [4] = 925944805882757140 --Plat VIP
+}
+
+--How much exp is added on depending on donator rank
+Config.ExpRates = {
+    [1] = 1,
+    [2] = 2,
+    [3] = 4,
+    [4] = 8
+}
+--Difference kits for donator ranks
 Config.Kits = {
-    [0] = {},
-    [1] = {
+    [1] = {},
+    [2] = {
         {
             itemId = 43,
             count = 1,
@@ -3409,9 +3435,19 @@ Config.Kits = {
 
 --Items players will respawn with
 Config.StartingItems = {
-    [0] = {
-        slot = 1, --The slot the item should be spawned in
-        item = Config.CreateNewItemWithCountQual(Config.Items[43], 1, 100) --Bike kit
+    [1] = { --Donator rank required
+        [1] = { --Slot Id item will be placed in
+           --item = Config.CreateNewItemWithCountQual(Config.Items[43], 1, 100) --Bike kit
+           item = Config.Items[43]
+        }
+    },
+    [2] = {
+        [1] = {
+            item = Config.Items[43]
+        },
+        [2] = {
+            item = Config.Items[27]
+        }
     }
 }
 
@@ -4624,7 +4660,8 @@ Config.CustomSkills = {
                     local skills = playerData.characterData.skills
                     if skills[1] then
                         local xpToNextLvl = Config.CustomSkills[1].expperlevel * playerData.characterData.skills[1].Level
-                        playerData.characterData.skills[1].Xp = playerData.characterData.skills[1].Xp + (1 * (playerData.donatorRank + 1))
+                        local expGains = Config.ExpRates[playerData.donatorRank]
+                        playerData.characterData.skills[1].Xp = playerData.characterData.skills[1].Xp + expGains
                         if playerData.characterData.skills[1].Xp >= xpToNextLvl then
                             --Players level plus one is lower than skills max level
                             if playerData.characterData.skills[1].Level + 1 < Config.CustomSkills[1].maxlevel then

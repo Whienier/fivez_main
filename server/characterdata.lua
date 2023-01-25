@@ -148,22 +148,22 @@ function SQL_UpdateItemAttachmentsInCharacterInventory(playerId, slotId, newAtta
     return updatedAttachments
 end
 
-function SQL_CreateCharacterInventoryData(playerId)
+function SQL_CreateCharacterInventoryData(playerId, invMaxSlots, invMaxWeight)
     local createdInventoryData = nil
 
     MySQL.ready(function()
         MySQL.Async.insert("INSERT INTO character_inventory (character_player_dataid, inventory_maxslots, inventory_maxweight) VALUES (@playerId, @defaultSlots, @defaultWeight)", {
             ["playerId"] = playerId,
-            ["defaultSlots"] = Config.DefaultMaxSlots,
-            ["defaultWeight"] = Config.DefaultMaxWeight
+            ["defaultSlots"] = invMaxSlots,
+            ["defaultWeight"] = invMaxWeight
         }, function(result)
             if result then
                 local tempData = {
                     Id = playerId,
                     weight = 0,
-                    slots = Config.DefaultMaxSlots,
-                    maxweight = Config.DefaultMaxWeight,
-                    items = InventoryFillEmpty(Config.DefaultMaxSlots)
+                    slots = invMaxSlots,
+                    maxweight = invMaxWeight,
+                    items = InventoryFillEmpty(invMaxSlots)
                 }
                 createdInventoryData = tempData
             else
@@ -254,7 +254,8 @@ function SQL_GetCharacterInventoryData(playerId)
                     items = items
                 }
             else
-                gotInventoryData = SQL_CreateCharacterInventoryData(playerId)
+                local plyData = GetJoinedPlayerWithId(playerId)
+                gotInventoryData = SQL_CreateCharacterInventoryData(playerId, Config.DefaultMaxSlots[plyData.donatorRank], Config.DefaultMaxWeight[plyData.donatorRank])
             end
         end)
     end)
@@ -1075,7 +1076,9 @@ RegisterNetEvent("fivez:CreateCharacter", function(data)
     if joinedPly then
         local existingChar = SQL_GetCharacterData(joinedPly.Id)
         if existingChar ~= nil then return end
-        local createdChar = SQL_CreateCharacterData(joinedPly.Id, decodedData.firstname, decodedData.lastname, decodedData.gender)
+        local inventoryMaxSlots = Config.DefaultMaxSlots[joinedPly.donatorRank]
+        local inventoryMaxWeight = Config.DefaultMaxWeight[joinedPly.donatorRank]
+        local createdChar = SQL_CreateCharacterData(joinedPly.Id, decodedData.firstname, decodedData.lastname, decodedData.gender, inventoryMaxSlots, inventoryMaxWeight)
         if createdChar then
             local data = {
                 Id = joinedPly.Id,
@@ -1088,7 +1091,7 @@ RegisterNetEvent("fivez:CreateCharacter", function(data)
     end
 end)
 
-function SQL_CreateCharacterData(playerId, firstName, lastName, gender)
+function SQL_CreateCharacterData(playerId, firstName, lastName, gender, invMaxSlots, invMaxWeight)
     local createdChar = nil
     MySQL.ready(function()
         MySQL.Async.insert("INSERT INTO character_data (player_dataid, character_name, character_gender) VALUES (@playerId, @characterName, @gender)", {
@@ -1121,7 +1124,7 @@ function SQL_CreateCharacterData(playerId, firstName, lastName, gender)
                     skills = {},
                     lastposition = vector3(0,0,0)
                 }
-                tempcreatedChar.inventory = SQL_CreateCharacterInventoryData(playerId)
+                tempcreatedChar.inventory = SQL_CreateCharacterInventoryData(playerId, invMaxSlots, invMaxWeight)
                 while tempcreatedChar.inventory == nil do
                     Citizen.Wait(0)
                 end

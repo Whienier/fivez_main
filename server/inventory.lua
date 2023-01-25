@@ -638,7 +638,7 @@ RegisterNetEvent("fivez:InventoryPurchase", function(transferData)
                                 local reqQuality = v.quality
                                 for k,v in pairs(playerData.characterData.inventory.items) do
                                     if v.itemId == barterItemId then
-                                        if v.count >= reqCount && v.quality >= reqQuality then
+                                        if v.count >= reqCount and v.quality >= reqQuality then
                                             table.insert(playerHasItems, v.itemId)
                                             break
                                         else
